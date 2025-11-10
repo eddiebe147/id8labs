@@ -10,7 +10,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-[var(--bg-primary)]/80 border-b border-[var(--border)]/50 transition-all duration-200">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[var(--bg-primary)]/80 transition-all duration-200">
       <div className="container">
         <div className="flex items-center justify-between h-20">
           {/* Logo / Wordmark */}
