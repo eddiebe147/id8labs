@@ -10,21 +10,25 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'light',
+  theme: 'dark',
   toggleTheme: () => {},
 })
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setTheme] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
 
-  // Load theme from localStorage on mount
+  // Load theme from localStorage on mount, default to dark
   useEffect(() => {
     setMounted(true)
     const savedTheme = localStorage.getItem('id8labs-theme') as Theme | null
-    if (savedTheme) {
-      setTheme(savedTheme)
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark')
+    const initialTheme = savedTheme || 'dark'
+    setTheme(initialTheme)
+    document.documentElement.classList.toggle('dark', initialTheme === 'dark')
+
+    // Save dark as default if no preference exists
+    if (!savedTheme) {
+      localStorage.setItem('id8labs-theme', 'dark')
     }
   }, [])
 

@@ -8,7 +8,7 @@ import BrandName from './BrandName'
 export default function Hero() {
   return (
     <section className="relative flex flex-col justify-between min-h-[calc(100vh-5rem)] overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image with Edge Fade */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/hero-image.png"
@@ -16,6 +16,16 @@ export default function Hero() {
           fill
           className="object-cover"
           priority
+        />
+        {/* Gradient fade on edges */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)] pointer-events-none"
+             style={{
+               background: `linear-gradient(to bottom,
+                 var(--bg-primary) 0%,
+                 transparent 15%,
+                 transparent 85%,
+                 var(--bg-primary) 100%)`
+             }}
         />
       </div>
 
