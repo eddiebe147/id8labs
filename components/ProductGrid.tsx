@@ -48,7 +48,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
     >
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-2xl font-bold">{product.name}</h3>
-        <span className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
+        <span className={`text-xs uppercase tracking-wide ${
+          product.status === 'active' ? 'text-id8-orange font-medium' : 'text-[var(--text-secondary)]'
+        }`}>
           {product.status === 'active' ? '● Active' : '◐ Coming Soon'}
         </span>
       </div>
@@ -58,7 +60,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       </p>
 
       {product.link && (
-        <div className="flex items-center gap-2 text-sm group-hover:translate-x-1 transition-transform">
+        <div className="flex items-center gap-2 text-sm text-id8-orange group-hover:translate-x-1 transition-transform">
           Learn more
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="5" y1="12" x2="19" y2="12" />
