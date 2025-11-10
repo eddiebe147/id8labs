@@ -164,10 +164,10 @@ export default function LabPage() {
             <p>
               Email us at{' '}
               <a
-                href="mailto:hello@id8labs.com"
+                href="mailto:eb@id8composer.app"
                 className="border-b-2 border-id8-orange text-id8-orange hover:opacity-70 transition-opacity"
               >
-                hello@id8labs.com
+                eb@id8composer.app
               </a>
             </p>
           </div>

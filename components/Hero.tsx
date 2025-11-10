@@ -2,18 +2,42 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
+import BrandName from './BrandName'
 
 export default function Hero() {
   return (
-    <section className="flex items-center justify-center min-h-[calc(100vh-5rem)]">
+    <section className="relative flex flex-col justify-between min-h-[calc(100vh-5rem)] overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/hero-image.png"
+          alt="Mycelium network - interconnected systems"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      {/* Top Third - Title */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="container text-center"
+        className="container relative z-10 pt-32 md:pt-40"
       >
-        <h1 className="mb-6">ID8Labs</h1>
+        <h1 className="text-center">
+          <BrandName />
+        </h1>
+      </motion.div>
 
+      {/* Lower Third - Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+        className="container relative z-10 pb-20 md:pb-24 text-center"
+      >
         <p className="text-2xl md:text-3xl mb-8 text-[var(--text-secondary)]">
           Professional Tools for the <span className="text-id8-orange">AI Era</span>
         </p>

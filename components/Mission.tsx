@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import BrandName from './BrandName'
 
 export default function Mission() {
   return (
@@ -14,7 +15,7 @@ export default function Mission() {
         className="container"
       >
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="mb-12">Why ID8Labs Exists</h2>
+          <h2 className="mb-12">Why <BrandName /> Exists</h2>
 
           <div className="space-y-6 text-lg md:text-xl leading-relaxed mb-12">
             <p>

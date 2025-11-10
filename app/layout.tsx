@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Crimson_Pro } from 'next/font/google'
+import { Inter, Crimson_Pro, Fraunces } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
@@ -17,6 +17,13 @@ const crimsonPro = Crimson_Pro({
   variable: '--font-crimson',
 })
 
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['900'],
+  display: 'swap',
+  variable: '--font-fraunces',
+})
+
 export const metadata: Metadata = {
   title: 'ID8Labs - Professional Tools for the AI Era',
   description: 'ID8Labs builds category-defining professional tools for creative professionals in the AI era.',
@@ -29,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${crimsonPro.variable}`}>
+      <body className={`${inter.variable} ${crimsonPro.variable} ${fraunces.variable}`}>
         <ThemeProvider>
           <Header />
           <main className="min-h-screen">

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useTheme } from './ThemeProvider'
+import BrandName from './BrandName'
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme()
@@ -14,7 +15,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo / Wordmark */}
           <Link href="/" className="text-2xl font-bold tracking-tight hover:opacity-70 transition-opacity">
-            <span className="text-id8-orange">id8</span>Labs
+            <BrandName />
           </Link>
 
           {/* Desktop Navigation */}

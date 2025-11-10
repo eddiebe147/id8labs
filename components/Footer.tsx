@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import BrandName from './BrandName'
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           {/* Copyright */}
           <p className="text-sm text-[var(--text-secondary)]">
-            © 2025 ID8Labs. Professional tools for the AI era.
+            © 2025 <BrandName />. Professional tools for the AI era.
           </p>
 
           {/* Links */}
