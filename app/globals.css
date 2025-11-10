@@ -3,25 +3,32 @@
 @tailwind utilities;
 
 /* ============================================
-   ID8LABS DESIGN SYSTEM
-   White Paper / Research Lab Aesthetic
-   Monochromatic Only
+   ID8 DESIGN SYSTEM
+   Refined Lab Aesthetic with Signature Orange
    ============================================ */
 
 :root {
-  /* Light Mode - Pure White Paper */
-  --bg-primary: #FFFFFF;
-  --text-primary: #000000;
+  /* Light Mode - Warm Cream Lab */
+  --bg-primary: #FAF8F5;
+  --text-primary: #1A1A1A;
   --text-secondary: #666666;
-  --border: #E5E5E5;
+  --border: #E5E0D8;
+
+  /* ID8 Signature Orange - Use Sparingly */
+  --id8-orange: #FF6B35;
+  --id8-orange-hover: #E85A28;
 }
 
 .dark {
-  /* Dark Mode - Near Black Lab */
-  --bg-primary: #0A0A0A;
-  --text-primary: #FFFFFF;
-  --text-secondary: #999999;
-  --border: #2A2A2A;
+  /* Dark Mode - Dark Charcoal Lab */
+  --bg-primary: #1C1C1E;
+  --text-primary: #F5F5F7;
+  --text-secondary: #98989D;
+  --border: #38383A;
+
+  /* ID8 Signature Orange - Use Sparingly */
+  --id8-orange: #FF7A4D;
+  --id8-orange-hover: #FF6B35;
 }
 
 /* ============================================
@@ -36,71 +43,79 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  letter-spacing: -0.011em;
   transition: background-color 200ms ease, color 200ms ease;
 }
 
 /* ============================================
-   TYPOGRAPHY
+   TYPOGRAPHY - Academic Paper Style
    ============================================ */
 
-h1 {
-  font-size: 3.5rem;
-  font-weight: 700;
-  line-height: 1.1;
+h1, h2, h3 {
+  font-family: var(--font-crimson), Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   color: var(--text-primary);
+}
+
+h1 {
+  font-size: 4rem;
+  line-height: 1.05;
+  margin-bottom: 1rem;
 }
 
 h2 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--text-primary);
+  font-size: 2.75rem;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
 }
 
 h3 {
-  font-size: 1.875rem;
-  font-weight: 700;
+  font-size: 1.75rem;
   line-height: 1.3;
-  color: var(--text-primary);
+  margin-bottom: 0.5rem;
 }
 
 p {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--text-primary);
+  margin-bottom: 1.25rem;
 }
 
 a {
   color: var(--text-primary);
   text-decoration: none;
-  transition: color 200ms ease;
+  transition: opacity 200ms ease;
 }
 
 a:hover {
-  color: var(--text-secondary);
+  opacity: 0.65;
 }
 
 /* ============================================
-   LAYOUT
+   LAYOUT - Research Paper Structure
    ============================================ */
 
 .container {
-  max-width: 1200px;
+  max-width: 1140px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 .section-spacing {
-  padding: 6rem 0;
+  padding: 8rem 0;
 }
 
 /* ============================================
@@ -115,13 +130,45 @@ a:hover {
   border: 1px solid var(--border);
 }
 
+/* ID8 Orange Accent - Use Sparingly */
+.text-id8-orange {
+  color: var(--id8-orange);
+}
+
+.bg-id8-orange {
+  background-color: var(--id8-orange);
+}
+
+.border-id8-orange {
+  border-color: var(--id8-orange);
+}
+
+.hover-id8-orange:hover {
+  color: var(--id8-orange-hover);
+  transition: color 200ms ease;
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   h1 {
-    font-size: 2.5rem;
+    font-size: 3.25rem;
+  }
+
+  h2 {
+    font-size: 2.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  h1 {
+    font-size: 2.75rem;
   }
 
   h2 {
@@ -134,9 +181,14 @@ a:hover {
 
   p {
     font-size: 1rem;
+    line-height: 1.7;
   }
 
   .section-spacing {
-    padding: 4rem 0;
+    padding: 5rem 0;
+  }
+
+  .container {
+    padding: 0 1.5rem;
   }
 }

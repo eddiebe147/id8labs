@@ -14,13 +14,16 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo / Wordmark */}
           <Link href="/" className="text-2xl font-bold tracking-tight hover:opacity-70 transition-opacity">
-            ID8Labs
+            <span className="text-id8-orange">id8</span>Labs
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <Link href="/products" className="text-base hover:opacity-70 transition-opacity">
               Products
+            </Link>
+            <Link href="/essays" className="text-base hover:opacity-70 transition-opacity">
+              Essays
             </Link>
             <Link href="/lab" className="text-base hover:opacity-70 transition-opacity">
               Lab Story
@@ -85,6 +88,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Products
+            </Link>
+            <Link
+              href="/essays"
+              className="block text-lg hover:opacity-70 transition-opacity"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Essays
             </Link>
             <Link
               href="/lab"

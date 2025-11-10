@@ -9,7 +9,10 @@ interface ThemeContextType {
   toggleTheme: () => void
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+const ThemeContext = createContext<ThemeContextType>({
+  theme: 'light',
+  toggleTheme: () => {},
+})
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light')
@@ -17,12 +20,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Load theme from localStorage on mount
   useEffect(() => {
+    setMounted(true)
     const savedTheme = localStorage.getItem('id8labs-theme') as Theme | null
     if (savedTheme) {
       setTheme(savedTheme)
       document.documentElement.classList.toggle('dark', savedTheme === 'dark')
     }
-    setMounted(true)
   }, [])
 
   // Update theme
@@ -31,11 +34,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(newTheme)
     localStorage.setItem('id8labs-theme', newTheme)
     document.documentElement.classList.toggle('dark', newTheme === 'dark')
-  }
-
-  // Prevent flash of wrong theme
-  if (!mounted) {
-    return <div style={{ visibility: 'hidden' }}>{children}</div>
   }
 
   return (
@@ -47,8 +45,5 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useTheme() {
   const context = useContext(ThemeContext)
-  if (context === undefined) {
-    throw new Error('useTheme must be used within ThemeProvider')
-  }
   return context
 }
