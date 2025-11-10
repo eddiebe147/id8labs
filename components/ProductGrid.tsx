@@ -44,7 +44,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group p-8 border border-[var(--border)] bg-[var(--bg-primary)] hover:shadow-lg transition-all duration-200"
+      className="group p-8 border border-[var(--border)] bg-[var(--bg-primary)] hover:shadow-lg transition-all duration-200 rounded-soft"
     >
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-2xl font-bold">{product.name}</h3>

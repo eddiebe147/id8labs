@@ -13,7 +13,7 @@ export default function LabPage() {
         {/* Back Link */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] mb-12 transition-colors"
+          className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-id8-orange mb-12 transition-colors"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="19" y1="12" x2="5" y2="12" />
@@ -26,7 +26,7 @@ export default function LabPage() {
         <header className="mb-16">
           <h1 className="mb-6">The Lab Story</h1>
           <p className="text-xl text-[var(--text-secondary)]">
-            20 years in production. One simple philosophy: invent categories, don't improve them.
+            20 years in production. One simple philosophy: <span className="text-id8-orange font-medium">invent categories, don't improve them.</span>
           </p>
         </header>
 
@@ -53,7 +53,7 @@ export default function LabPage() {
         </section>
 
         {/* Philosophy */}
-        <section className="mb-16 py-12 border-t border-b border-[var(--border)]">
+        <section className="mb-16 py-12 border-t border-b border-[var(--border)] rounded-subtle">
           <blockquote className="text-2xl md:text-3xl font-bold text-center italic">
             "Life is non-linear. Your tools should be too."
           </blockquote>
@@ -68,17 +68,17 @@ export default function LabPage() {
               then build something completely different.
             </p>
             <p>
-              <strong>Category creation over iteration.</strong> ID8Composer isn't a better outlining tool—it's
+              <strong className="text-id8-orange">Category creation over iteration.</strong> ID8Composer isn't a better outlining tool—it's
               a timeline-based story development platform that treats narrative like the non-linear
               beast it actually is. Lexicon isn't a better glossary—it's a production-integrated
               terminology system that lives where your team works.
             </p>
             <p>
-              <strong>Battle-tested, not theoretical.</strong> Every product is used in real production
+              <strong className="text-id8-orange">Battle-tested, not theoretical.</strong> Every product is used in real production
               environments before it's released. If we wouldn't use it ourselves, we don't ship it.
             </p>
             <p>
-              <strong>AI as partner, not replacement.</strong> We build tools that treat AI as a creative
+              <strong className="text-id8-orange">AI as partner, not replacement.</strong> We build tools that treat AI as a creative
               collaborator. Not to replace human creativity, but to amplify it. The AI handles the grunt work.
               You do the thinking.
             </p>
@@ -91,7 +91,7 @@ export default function LabPage() {
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-bold mb-3">
-                ID8Composer <span className="text-sm font-normal text-[var(--text-secondary)]">● Active</span>
+                ID8Composer <span className="text-sm font-normal text-id8-orange">● Active</span>
               </h3>
               <p className="text-lg text-[var(--text-secondary)] mb-3">
                 Timeline-based AI story development platform. Built for writers, directors, and producers
@@ -101,7 +101,7 @@ export default function LabPage() {
                 href="https://id8composer.app"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:opacity-70 transition-opacity"
+                className="inline-flex items-center gap-2 text-id8-orange hover:opacity-70 transition-opacity"
               >
                 Visit ID8Composer
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -165,7 +165,7 @@ export default function LabPage() {
               Email us at{' '}
               <a
                 href="mailto:hello@id8labs.com"
-                className="border-b-2 border-[var(--text-primary)] hover:opacity-70 transition-opacity"
+                className="border-b-2 border-id8-orange text-id8-orange hover:opacity-70 transition-opacity"
               >
                 hello@id8labs.com
               </a>

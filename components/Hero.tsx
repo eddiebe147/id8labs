@@ -25,7 +25,7 @@ export default function Hero() {
 
         <Link
           href="/lab"
-          className="inline-flex items-center gap-2 text-lg px-8 py-4 border-2 border-id8-orange text-id8-orange hover:bg-id8-orange hover:text-[var(--bg-primary)] transition-all duration-200"
+          className="inline-flex items-center gap-2 text-lg px-8 py-4 border-2 border-id8-orange text-id8-orange hover:bg-id8-orange hover:text-[var(--bg-primary)] transition-all duration-200 rounded-soft"
         >
           Explore the Lab
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

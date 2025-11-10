@@ -12,19 +12,19 @@ export default function Footer() {
 
           {/* Links */}
           <nav className="flex flex-wrap gap-6 text-sm">
-            <Link href="/products" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            <Link href="/products" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
               Products
             </Link>
-            <Link href="/lab" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            <Link href="/lab" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
               Lab Story
             </Link>
-            <Link href="/lab#contact" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            <Link href="/lab#contact" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
               Contact
             </Link>
-            <Link href="/privacy" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            <Link href="/privacy" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
               Privacy
             </Link>
-            <Link href="/terms" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            <Link href="/terms" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
               Terms
             </Link>
           </nav>

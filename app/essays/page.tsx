@@ -46,8 +46,8 @@ export default function EssaysPage() {
               onClick={() => setFilter('all')}
               className={`pb-2 transition-all ${
                 filter === 'all'
-                  ? 'border-b-2 border-[var(--text-primary)] font-medium'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
+                  : 'text-[var(--text-secondary)] hover:text-id8-orange'
               }`}
             >
               All Writing
@@ -56,8 +56,8 @@ export default function EssaysPage() {
               onClick={() => setFilter('essay')}
               className={`pb-2 transition-all ${
                 filter === 'essay'
-                  ? 'border-b-2 border-[var(--text-primary)] font-medium'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
+                  : 'text-[var(--text-secondary)] hover:text-id8-orange'
               }`}
             >
               Essays
@@ -66,8 +66,8 @@ export default function EssaysPage() {
               onClick={() => setFilter('research')}
               className={`pb-2 transition-all ${
                 filter === 'research'
-                  ? 'border-b-2 border-[var(--text-primary)] font-medium'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
+                  : 'text-[var(--text-secondary)] hover:text-id8-orange'
               }`}
             >
               Research
@@ -76,8 +76,8 @@ export default function EssaysPage() {
               onClick={() => setFilter('release')}
               className={`pb-2 transition-all ${
                 filter === 'release'
-                  ? 'border-b-2 border-[var(--text-primary)] font-medium'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
+                  : 'text-[var(--text-secondary)] hover:text-id8-orange'
               }`}
             >
               Releases

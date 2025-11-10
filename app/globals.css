@@ -130,6 +130,19 @@ a:hover {
   border: 1px solid var(--border);
 }
 
+/* Rounded Corners - No 90 Degree Angles */
+.rounded-soft {
+  border-radius: 0.75rem;
+}
+
+.rounded-subtle {
+  border-radius: 0.5rem;
+}
+
+.rounded-gentle {
+  border-radius: 0.375rem;
+}
+
 /* ID8 Orange Accent - Use Sparingly */
 .text-id8-orange {
   color: var(--id8-orange);
@@ -146,6 +159,18 @@ a:hover {
 .hover-id8-orange:hover {
   color: var(--id8-orange-hover);
   transition: color 200ms ease;
+}
+
+.hover-bg-id8-orange:hover {
+  background-color: var(--id8-orange);
+  transition: background-color 200ms ease;
+}
+
+/* Subtle Orange Accents */
+.accent-dot-orange::before {
+  content: '•';
+  color: var(--id8-orange);
+  margin-right: 0.5rem;
 }
 
 /* ============================================
