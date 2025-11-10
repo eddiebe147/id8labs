@@ -24,7 +24,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="container relative z-10 pt-32 md:pt-40"
+        className="container relative z-10 pt-48 md:pt-56"
       >
         <h1 className="text-center">
           <BrandName />
@@ -36,15 +36,15 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-        className="container relative z-10 pb-20 md:pb-24 text-center"
+        className="container relative z-10 pb-32 md:pb-40 text-center"
       >
         <p className="text-2xl md:text-3xl mb-8 text-[var(--text-secondary)]">
-          Professional Tools for the <span className="text-id8-orange">AI Era</span>
+          Professional Tools for <span className="text-id8-orange">Today's Creators</span>
         </p>
 
         <p className="text-lg md:text-xl max-w-2xl mx-auto mb-12 text-[var(--text-secondary)]">
           We don't improve tools. We <span className="text-id8-orange font-medium">invent new categories</span>.
-          Every product starts with a real problem from 20 years in production.
+          Every product starts with a real problem from 20 years in TV/film production.
         </p>
 
         <Link
