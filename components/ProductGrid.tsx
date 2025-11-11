@@ -22,7 +22,7 @@ const products: Product[] = [
   {
     name: 'Lexicon',
     status: 'coming-soon',
-    description: 'Universal glossary management for production teams',
+    description: 'Wikipedia for your story universe',
     link: '/products/lexicon',
   },
   {

@@ -28,9 +28,9 @@ const products: Product[] = [
   {
     name: 'Lexicon',
     status: 'coming-soon',
-    tagline: 'Universal glossary management for production teams',
+    tagline: 'Wikipedia for your story universe',
     description:
-      'Stop managing terminology in spreadsheets. Lexicon integrates with your production pipeline, making glossaries a living part of your workflow instead of a separate document nobody updates. Built for teams working across multiple platforms and languages.',
+      "When you're 100 episodes deep, find any character, relationship, or plot thread instantly. Graph-powered search that understands your narrative universe—from character connections to timeline conflicts to thematic patterns.",
     link: '/products/lexicon',
   },
   {

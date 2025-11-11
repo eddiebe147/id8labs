@@ -33,7 +33,7 @@ export default function Mission() {
           </div>
 
           <Link
-            href="/lab"
+            href="/origin"
             className="inline-flex items-center gap-2 text-lg border-b-2 border-id8-orange text-id8-orange hover-id8-orange transition-all pb-1"
           >
             Read the full story

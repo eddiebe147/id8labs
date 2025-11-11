@@ -77,7 +77,7 @@ export function LabStoryPreview() {
           className="text-center"
         >
           <Link
-            href="/lab"
+            href="/origin"
             className="lab-story-cta inline-flex items-center gap-3 px-10 py-5 bg-accent text-bg-primary font-mono font-semibold text-base md:text-lg tracking-wide rounded-md transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-4 focus:ring-offset-bg-secondary group"
           >
             Read the Full Story
