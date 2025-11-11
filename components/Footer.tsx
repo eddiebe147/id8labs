@@ -16,6 +16,9 @@ export default function Footer() {
             <Link href="/products" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
               Products
             </Link>
+            <Link href="/origin" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+              Origin Story
+            </Link>
             <Link href="/lab" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
               Lab Story
             </Link>

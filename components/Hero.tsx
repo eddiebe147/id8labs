@@ -17,36 +17,38 @@ export default function Hero() {
           className="object-cover"
           priority
         />
-        {/* Gradient fade on edges */}
+        {/* Gradient fade on edges - stronger fade to protect readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)] pointer-events-none"
              style={{
                background: `linear-gradient(to bottom,
                  var(--bg-primary) 0%,
-                 transparent 15%,
-                 transparent 85%,
+                 rgba(var(--bg-primary-rgb), 0.3) 10%,
+                 transparent 25%,
+                 transparent 75%,
+                 rgba(var(--bg-primary-rgb), 0.3) 90%,
                  var(--bg-primary) 100%)`
              }}
         />
       </div>
 
-      {/* Top Third - Title */}
+      {/* Top Section - Title (much higher on tight screens) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="container relative z-10 pt-48 md:pt-56"
+        className="container relative z-10 pt-8 md:pt-56"
       >
         <h1 className="text-center">
           <BrandName />
         </h1>
       </motion.div>
 
-      {/* Lower Third - Content */}
+      {/* Bottom Section - Content (much lower to keep center clear) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-        className="container relative z-10 pb-32 md:pb-40 text-center"
+        className="container relative z-10 pb-8 md:pb-40 text-center"
       >
         <p className="text-2xl md:text-3xl mb-8 text-[var(--text-secondary)]">
           Professional Tools for <span className="text-id8-orange">Today's Creators</span>

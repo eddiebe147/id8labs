@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Lexicon - ID8Labs',
-  description: 'Universal glossary management for production teams. Coming soon.',
+  description: 'Wikipedia for your story universe. Graph-powered search for characters, relationships, and plot threads. Coming soon.',
 }
 
 export default function LexiconPage() {
@@ -31,21 +31,26 @@ export default function LexiconPage() {
             </span>
           </div>
           <p className="text-2xl text-[var(--text-secondary)] mb-8">
-            Universal glossary management for production teams
+            Wikipedia for your story universe
           </p>
         </header>
 
         {/* Description */}
         <section className="mb-16 space-y-6 text-lg leading-relaxed">
           <p>
-            Stop managing terminology in spreadsheets. Lexicon integrates with your production
-            pipeline, making glossaries a living part of your workflow instead of a separate
-            document nobody updates.
+            You're 100 episodes deep into your show. A writer asks: "What episode did Sarah's brother
+            first mention the inheritance?" Your script coordinator scrambles through spreadsheets and
+            PDFs for 20 minutes.
           </p>
           <p>
-            Built for teams working across multiple platforms and languages, Lexicon ensures
-            consistent terminology across scripts, production documents, subtitles, and marketing
-            materials.
+            <strong className="text-id8-orange">Lexicon is Wikipedia for your narrative universe.</strong> A graph-powered
+            knowledge platform that lets you search your entire story world the way you actually think
+            about it.
+          </p>
+          <p>
+            Find any character, relationship, or plot thread instantly. Query across timelines, track
+            thematic patterns, map character connections. Built for long-running shows where continuity
+            matters and memory isn't enough.
           </p>
           <p>
             Like all ID8Labs products, Lexicon is being battle-tested in real production
@@ -56,42 +61,55 @@ export default function LexiconPage() {
 
         {/* Key Features */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-8">Planned Features</h2>
+          <h2 className="text-3xl font-bold mb-8">What Lexicon Does</h2>
           <ul className="space-y-6 text-lg">
             <li className="flex gap-4">
-              <span className="text-2xl">●</span>
+              <span className="text-2xl text-id8-orange">●</span>
               <div>
-                <strong>Pipeline integration</strong> — Works where your team works, not in a
-                separate system
+                <strong>Semantic search</strong> — Ask questions in plain English. "Find all betrayals
+                involving family members" or "When did Marcus learn the truth?"
               </div>
             </li>
             <li className="flex gap-4">
-              <span className="text-2xl">●</span>
+              <span className="text-2xl text-id8-orange">●</span>
               <div>
-                <strong>Multi-language support</strong> — Manage translations and regional
-                variations
+                <strong>Relationship graphs</strong> — See how every character connects. Track alliances,
+                conflicts, family trees, and power dynamics across your entire narrative.
               </div>
             </li>
             <li className="flex gap-4">
-              <span className="text-2xl">●</span>
+              <span className="text-2xl text-id8-orange">●</span>
               <div>
-                <strong>Version control</strong> — Track terminology changes across production
-                phases
+                <strong>Timeline intelligence</strong> — Query across years of story. Find continuity
+                conflicts before they become script problems.
               </div>
             </li>
             <li className="flex gap-4">
-              <span className="text-2xl">●</span>
+              <span className="text-2xl text-id8-orange">●</span>
               <div>
-                <strong>Team collaboration</strong> — Everyone works from the same source of truth
+                <strong>Pattern recognition</strong> — Identify thematic threads, recurring motifs, and
+                narrative patterns across 100+ episodes.
               </div>
             </li>
             <li className="flex gap-4">
-              <span className="text-2xl">●</span>
+              <span className="text-2xl text-id8-orange">●</span>
               <div>
-                <strong>Export anywhere</strong> — Generate formatted glossaries for any platform
+                <strong>AI-powered queries</strong> — Ask your story universe questions and get answers
+                grounded in your actual canon.
               </div>
             </li>
           </ul>
+        </section>
+
+        {/* Use Case */}
+        <section className="mb-16 p-8 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-soft">
+          <h3 className="text-2xl font-bold mb-4 text-id8-orange">Built for Long-Running Narratives</h3>
+          <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
+            Lexicon is designed for shows, book series, and franchises where the universe grows faster
+            than any individual can track. When you need to know every time a character mentioned their
+            past, or map the political alliances across three seasons, or verify that your new plot
+            doesn't contradict episode 47—Lexicon has the answer in seconds.
+          </p>
         </section>
 
         {/* Status */}
