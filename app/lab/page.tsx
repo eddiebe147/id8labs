@@ -127,6 +127,9 @@ export default function LabPage() {
         <section className="mb-16">
           <h2 className="text-3xl font-bold mb-6">The Philosophy</h2>
           <div className="space-y-6 text-lg leading-relaxed">
+            <p className="text-2xl font-bold text-id8-orange mb-8">
+              Life is non-linear. Your tools should be too.
+            </p>
             <div>
               <p className="font-bold text-id8-orange mb-2">AI should augment thinking, not replace it.</p>
               <p>

@@ -26,9 +26,6 @@ export default function Header() {
             <Link href="/essays" className="text-base hover:opacity-70 transition-opacity">
               Essays
             </Link>
-            <Link href="/origin" className="text-base hover:opacity-70 transition-opacity">
-              Origin Story
-            </Link>
             <Link href="/lab" className="text-base hover:opacity-70 transition-opacity">
               Lab Story
             </Link>
@@ -99,13 +96,6 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Essays
-            </Link>
-            <Link
-              href="/origin"
-              className="block text-lg hover:opacity-70 transition-opacity"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Origin Story
             </Link>
             <Link
               href="/lab"
