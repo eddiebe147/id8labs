@@ -17,16 +17,16 @@ export default function Hero() {
           className="object-cover"
           priority
         />
-        {/* Gradient fade on edges - stronger fade to protect readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-primary)] via-transparent to-[var(--bg-primary)] pointer-events-none"
+        {/* Gradient fade on edges - blend image into background */}
+        <div className="absolute inset-0 pointer-events-none"
              style={{
                background: `linear-gradient(to bottom,
-                 var(--bg-primary) 0%,
-                 rgba(var(--bg-primary-rgb), 0.3) 10%,
-                 transparent 25%,
-                 transparent 75%,
-                 rgba(var(--bg-primary-rgb), 0.3) 90%,
-                 var(--bg-primary) 100%)`
+                 #1C1C1E 0%,
+                 rgba(28, 28, 30, 0.6) 15%,
+                 rgba(28, 28, 30, 0) 30%,
+                 rgba(28, 28, 30, 0) 70%,
+                 rgba(28, 28, 30, 0.6) 85%,
+                 #1C1C1E 100%)`
              }}
         />
       </div>
