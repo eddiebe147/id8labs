@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Clear - ID8Labs',
-  description: 'Remove background music from video clips. AI-powered audio separation. Coming soon.',
+  title: 'ID8 Clearance - ID8Labs',
+  description: 'Extract clean dialogue audio from clips with background music. Built because transcription services can\'t handle music interference.',
 }
 
 export default function ClearPage() {
@@ -25,9 +25,9 @@ export default function ClearPage() {
         {/* Header */}
         <header className="mb-16">
           <div className="flex items-center gap-3 mb-6">
-            <h1>Clear</h1>
-            <span className="text-sm uppercase tracking-wide text-[var(--text-secondary)]">
-              ◐ Coming Soon
+            <h1>ID8 Clearance</h1>
+            <span className="text-sm px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full">
+              Early exploration
             </span>
           </div>
           <p className="text-2xl text-[var(--text-secondary)] mb-8">
@@ -38,18 +38,19 @@ export default function ClearPage() {
         {/* Description */}
         <section className="mb-16 space-y-6 text-lg leading-relaxed">
           <p>
-            AI-powered audio separation for production environments. Clean up interviews, isolate
-            dialogue, remove music from archival footage. What used to take expensive
-            post-production now happens on set.
+            <strong className="text-id8-orange">Built because transcription services can't handle music interference.</strong>
           </p>
           <p>
-            Clear solves a problem we've faced for years: you find the perfect archival clip, but
-            it has background music you can't license. Or an interview subject has music playing in
-            the background. Or you need clean dialogue for ADR.
+            Extract clean dialogue audio from clips with background music. Makes transcripts actually usable.
           </p>
           <p>
-            Simple. Fast. Production-ready. No complex post workflows. No expensive third-party
-            services. Just clean audio when you need it.
+            You find the perfect archival clip, but it has background music you can't license. Or an interview 
+            subject has music playing in the background. Or you need clean dialogue for transcription but the 
+            service chokes on the music.
+          </p>
+          <p>
+            ID8 Clearance removes the music, isolates the dialogue, and gives you clean audio that transcription 
+            services can actually work with.
           </p>
         </section>
 
@@ -93,17 +94,17 @@ export default function ClearPage() {
 
         {/* Status */}
         <section className="pt-12 border-t border-[var(--border)]">
-          <p className="text-lg text-[var(--text-secondary)]">
-            Clear is currently in active development.
-            <br />
-            Want to be notified when it launches?{' '}
+          <div className="space-y-4">
+            <p className="text-lg text-[var(--text-secondary)]">
+              <strong>Status:</strong> Early exploration
+            </p>
             <a
-              href="mailto:hello@id8labs.com?subject=Clear%20Launch%20Notification"
-              className="border-b-2 border-[var(--text-primary)] hover:opacity-70 transition-opacity"
+              href="#clearance"
+              className="inline-flex items-center gap-2 text-lg px-8 py-4 border-2 border-purple-400 text-purple-400 rounded-soft cursor-not-allowed opacity-50"
             >
-              Email us
+              In development
             </a>
-          </p>
+          </div>
         </section>
       </article>
     </div>

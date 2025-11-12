@@ -5,33 +5,61 @@ export default function Footer() {
   return (
     <footer className="border-t border-[var(--border)] mt-24">
       <div className="container py-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          {/* Copyright */}
-          <p className="text-sm text-[var(--text-secondary)]">
-            © 2025 <BrandName />. Professional tools for the AI era.
-          </p>
+        {/* Three Column Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* Column 1: ID8Labs */}
+          <div>
+            <p className="text-sm font-bold mb-2">
+              <BrandName /> © 2025
+            </p>
+            <p className="text-sm text-[var(--text-secondary)] mb-1">
+              Built in Miami by Eddie Belaval
+            </p>
+            <p className="text-sm text-[var(--text-secondary)] mt-3">
+              Ideation tools for professionals.
+            </p>
+          </div>
 
-          {/* Links */}
-          <nav className="flex flex-wrap gap-6 text-sm">
-            <Link href="/products" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-              Products
-            </Link>
-            <Link href="/origin" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-              Origin Story
-            </Link>
-            <Link href="/lab" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-              Lab Story
-            </Link>
-            <Link href="/lab#contact" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-              Contact
-            </Link>
-            <Link href="/privacy" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-              Terms
-            </Link>
-          </nav>
+          {/* Column 2: Navigation */}
+          <div>
+            <h3 className="text-sm font-bold mb-3">Navigation</h3>
+            <nav className="flex flex-col gap-2 text-sm">
+              <Link href="/" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+                Home
+              </Link>
+              <Link href="/lab" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+                Lab Story
+              </Link>
+              <a 
+                href="https://id8composer.app" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors"
+              >
+                ID8Composer
+              </a>
+            </nav>
+          </div>
+
+          {/* Column 3: Connect */}
+          <div>
+            <h3 className="text-sm font-bold mb-3">Connect</h3>
+            <div className="flex flex-col gap-2 text-sm">
+              <a 
+                href="mailto:contact@id8labs.app" 
+                className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors"
+              >
+                contact@id8labs.app
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Bottom */}
+        <div className="pt-8 border-t border-[var(--border)]">
+          <p className="text-center text-sm text-[var(--text-secondary)] italic">
+            Products get personality. The lab stays focused.
+          </p>
         </div>
       </div>
     </footer>

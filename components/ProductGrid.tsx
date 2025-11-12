@@ -5,7 +5,8 @@ import { motion } from 'framer-motion'
 
 interface Product {
   name: string
-  status: 'active' | 'coming-soon'
+  status: 'shipping' | 'development' | 'exploration' | 'personal' | 'classified'
+  statusLabel: string
   description: string
   link?: string
   external?: boolean
@@ -14,31 +15,58 @@ interface Product {
 const products: Product[] = [
   {
     name: 'ID8Composer',
-    status: 'active',
-    description: 'Timeline-based AI story development platform',
+    status: 'shipping',
+    statusLabel: 'V1.1 in final testing',
+    description: 'Prevents context rot in AI-assisted writing through selective knowledge base management. Built for 90 Day Fiancé production, tested in the field. The AI finally remembers your story world across sessions.',
     link: 'https://id8composer.app',
     external: true,
   },
   {
     name: 'Lexicon',
-    status: 'coming-soon',
-    description: 'Wikipedia for your story universe',
+    status: 'development',
+    statusLabel: 'Technical architecture complete',
+    description: 'Replace your Excel story bibles with a living, searchable knowledge graph. Track characters, relationships, events, and continuity across years of content. Every connection instantly searchable.',
     link: '/products/lexicon',
   },
   {
-    name: 'Clear',
-    status: 'coming-soon',
-    description: 'Remove background music from video clips',
+    name: 'ID8 Clearance',
+    status: 'exploration',
+    statusLabel: 'Early exploration',
+    description: 'Extract clean dialogue audio from clips with background music. Built because transcription services can\'t handle music interference. Makes transcripts actually usable.',
     link: '/products/clear',
   },
   {
+    name: 'MILO',
+    status: 'personal',
+    statusLabel: 'Foundation sprint active',
+    description: 'Pip-Boy-style life dashboard. Context-aware task management that watches what you\'re doing.',
+  },
+  {
     name: '[Classified]',
-    status: 'coming-soon',
-    description: 'Something revolutionary brewing…',
+    status: 'classified',
+    statusLabel: 'Research phase',
+    description: '3D story tree visualization. Semantic versioning for narrative.',
   },
 ]
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
+  const getStatusColor = (status: Product['status']) => {
+    switch (status) {
+      case 'shipping':
+        return 'text-id8-orange font-medium'
+      case 'development':
+        return 'text-blue-400'
+      case 'exploration':
+        return 'text-purple-400'
+      case 'personal':
+        return 'text-green-400'
+      case 'classified':
+        return 'text-[var(--text-secondary)]'
+      default:
+        return 'text-[var(--text-secondary)]'
+    }
+  }
+
   const card = (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -46,14 +74,13 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group p-8 border border-[var(--border)] bg-[var(--bg-primary)] hover:shadow-lg transition-all duration-200 rounded-soft"
     >
-      <div className="flex items-start justify-between mb-4">
+      <div className="flex items-start justify-between mb-2">
         <h3 className="text-2xl font-bold">{product.name}</h3>
-        <span className={`text-xs uppercase tracking-wide ${
-          product.status === 'active' ? 'text-id8-orange font-medium' : 'text-[var(--text-secondary)]'
-        }`}>
-          {product.status === 'active' ? '● Active' : '◐ Coming Soon'}
-        </span>
       </div>
+      
+      <p className={`text-sm mb-4 ${getStatusColor(product.status)}`}>
+        {product.statusLabel}
+      </p>
 
       <p className="text-[var(--text-secondary)] mb-6">
         {product.description}
@@ -61,7 +88,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
       {product.link && (
         <div className="flex items-center gap-2 text-sm text-id8-orange group-hover:translate-x-1 transition-transform">
-          Learn more
+          {product.status === 'shipping' ? 'Launch' : 'Learn more'}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="12 5 19 12 12 19" />
@@ -92,6 +119,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 }
 
 export default function ProductGrid() {
+  const shippingProducts = products.filter(p => p.status === 'shipping')
+  const developmentProducts = products.filter(p => p.status !== 'shipping')
+
   return (
     <section className="section-spacing">
       <div className="container">
@@ -101,16 +131,27 @@ export default function ProductGrid() {
           transition={{ duration: 0.6 }}
           className="mb-12 text-center"
         >
-          <h2 className="mb-4">Our Products</h2>
-          <p className="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">
-            Category-defining tools built from 20 years in production
-          </p>
+          <h2 className="mb-4">What's Happening in the Lab</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {products.map((product, index) => (
-            <ProductCard key={product.name} product={product} index={index} />
-          ))}
+        {/* Shipping Now */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold mb-6 text-id8-orange">Shipping Now</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {shippingProducts.map((product, index) => (
+              <ProductCard key={product.name} product={product} index={index} />
+            ))}
+          </div>
+        </div>
+
+        {/* In Development */}
+        <div>
+          <h3 className="text-2xl font-bold mb-6">In Development</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {developmentProducts.map((product, index) => (
+              <ProductCard key={product.name} product={product} index={index + shippingProducts.length} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

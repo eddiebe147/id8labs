@@ -26,31 +26,27 @@ export default function LexiconPage() {
         <header className="mb-16">
           <div className="flex items-center gap-3 mb-6">
             <h1>Lexicon</h1>
-            <span className="text-sm uppercase tracking-wide text-[var(--text-secondary)]">
-              ◐ Coming Soon
+            <span className="text-sm px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full">
+              Technical architecture complete
             </span>
           </div>
           <p className="text-2xl text-[var(--text-secondary)] mb-8">
-            Wikipedia for your story universe
+            The GitHub for narrative universes
           </p>
         </header>
 
         {/* Description */}
         <section className="mb-16 space-y-6 text-lg leading-relaxed">
           <p>
-            You're 100 episodes deep into your show. A writer asks: "What episode did Sarah's brother
-            first mention the inheritance?" Your script coordinator scrambles through spreadsheets and
-            PDFs for 20 minutes.
+            Replace your Excel story bibles with a living, searchable knowledge graph.
           </p>
           <p>
-            <strong className="text-id8-orange">Lexicon is Wikipedia for your narrative universe.</strong> A graph-powered
-            knowledge platform that lets you search your entire story world the way you actually think
-            about it.
+            When you're 100 episodes deep, you need more than scattered documents. You need a system that 
+            understands relationships, tracks timelines, and remembers every detail across years of content.
           </p>
           <p>
-            Find any character, relationship, or plot thread instantly. Query across timelines, track
-            thematic patterns, map character connections. Built for long-running shows where continuity
-            matters and memory isn't enough.
+            <strong className="text-id8-orange">Lexicon is the GitHub for narrative universes.</strong> Version control 
+            for your story world. Maintain continuity across years of content. Every connection instantly searchable.
           </p>
           <p>
             Like all ID8Labs products, Lexicon is being battle-tested in real production
@@ -114,17 +110,17 @@ export default function LexiconPage() {
 
         {/* Status */}
         <section className="pt-12 border-t border-[var(--border)]">
-          <p className="text-lg text-[var(--text-secondary)]">
-            Lexicon is currently in active development.
-            <br />
-            Want to be notified when it launches?{' '}
+          <div className="space-y-4">
+            <p className="text-lg text-[var(--text-secondary)]">
+              <strong>Status:</strong> Technical architecture complete, Q4 2025 MVP
+            </p>
             <a
-              href="mailto:hello@id8labs.com?subject=Lexicon%20Launch%20Notification"
-              className="border-b-2 border-[var(--text-primary)] hover:opacity-70 transition-opacity"
+              href="#lexicon"
+              className="inline-flex items-center gap-2 text-lg px-8 py-4 border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[var(--bg-primary)] transition-all duration-200 rounded-soft"
             >
-              Email us
+              Coming Q4 2025
             </a>
-          </p>
+          </div>
         </section>
       </article>
     </div>
