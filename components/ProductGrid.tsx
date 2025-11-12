@@ -16,7 +16,7 @@ const products: Product[] = [
   {
     name: 'ID8Composer',
     status: 'shipping',
-    statusLabel: 'V1.1 in final testing',
+    statusLabel: 'v0.8.1 • Live',
     description: 'Prevents context rot in AI-assisted writing through selective knowledge base management. Built for 90 Day Fiancé production, tested in the field. The AI finally remembers your story world across sessions.',
     link: 'https://id8composer.app',
     external: true,

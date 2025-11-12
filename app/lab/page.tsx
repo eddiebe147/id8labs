@@ -197,7 +197,7 @@ export default function LabPage() {
               experiments. The ones that don't ship are the lessons learned.
             </p>
             <p>
-              ID8Composer is 99% complete. V1.1 launching soon. Twenty years of production work compressed 
+              ID8Composer v0.8.1 is live. Twenty years of production work compressed 
               into one tool that finally treats AI like a creative partner with memory.
             </p>
             <p className="font-bold">
