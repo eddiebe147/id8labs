@@ -45,7 +45,7 @@ export default function LabPage() {
           <div className="space-y-6 text-lg leading-relaxed">
             <p>
               AI showed up and everyone treated it like a magic content generator. Write me a script. 
-              Make me a story. Give me ten ideas.
+              Make me a story. Give me ten ideas. Make no mistakes.
             </p>
             <p>
               But nobody was building tools for how creative people actually work.
