@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Crimson_Pro, Fraunces } from 'next/font/google'
+import { Inter, Instrument_Serif, Fraunces } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
@@ -11,8 +11,9 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const crimsonPro = Crimson_Pro({
+const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
+  weight: ['400'],
   display: 'swap',
   variable: '--font-crimson',
 })
@@ -36,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${crimsonPro.variable} ${fraunces.variable}`}>
+      <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable}`}>
         <ThemeProvider>
           <Header />
           <main className="min-h-screen">
