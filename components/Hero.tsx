@@ -11,10 +11,10 @@ export default function Hero() {
       {/* Background Image with Edge Fade */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/hero-image.png"
-          alt="Mycelium network - interconnected systems"
+          src="/hero-laptop-v3.jpg"
+          alt="Person working on a laptop in a dark room"
           fill
-          className="object-cover"
+          className="object-cover object-[50%_30%]"
           priority
         />
         {/* Gradient fade on edges - blend image into background */}
@@ -29,64 +29,61 @@ export default function Hero() {
                  #1C1C1E 100%)`
              }}
         />
+        {/* Additional darkening overlay for mobile to avoid bright spots */}
+        <div className="absolute inset-0 pointer-events-none bg-black/20 md:bg-transparent" />
       </div>
 
-      {/* Top Section - Title (much higher on tight screens) */}
+      {/* Top Section - Logo (lifted higher) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="container relative z-10 pt-8 md:pt-56"
+        className="container relative z-10 pt-16 md:pt-32"
       >
         <h1 className="text-center">
           <BrandName />
         </h1>
       </motion.div>
 
-      {/* Bottom Section - Content (much lower to keep center clear) */}
+      {/* Bottom Section - Content positioned lower */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-        className="container relative z-10 pb-8 md:pb-40 text-center"
+        className="container relative z-10 pb-16 md:pb-32"
       >
-        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-[var(--text-primary)]">
-          Life is non-linear.
-          <br />
-          Your tools should be too.
-        </h2>
+        <div className="mx-auto max-w-3xl rounded-[24px] border border-white/15 bg-white/5 backdrop-blur-md px-6 py-10 text-center shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)] space-y-12">
+          {/* Headline moved down */}
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
+            Life is non-linear.
+            <br />
+            Your tools should be too.
+          </h2>
 
-        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-4 text-[var(--text-secondary)]">
-          Eddie Belaval's workshop for <span className="text-id8-orange">building ideation tools</span>.
-        </p>
+          {/* Copy moved to where buttons were */}
+          <div className="space-y-3">
+            <p className="text-base md:text-lg max-w-2xl mx-auto text-white/95 drop-shadow-[0_8px_20px_rgba(0,0,0,0.55)]">
+              A workshop for <span className="text-id8-orange">building ideation tools</span>.
+            </p>
 
-        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-12 text-[var(--text-secondary)]">
-          20 years in TV/film production. Now building <span className="text-id8-orange font-medium">professional tools for the AI era</span>.
-        </p>
+            <p className="text-base md:text-lg max-w-2xl mx-auto text-white/95 drop-shadow-[0_8px_20px_rgba(0,0,0,0.55)]">
+              From decades of in-field experience, we now make tools to <span className="text-id8-orange font-medium">bridge legacy filmmaking and the new possibilities of today</span>.
+            </p>
+          </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="https://id8composer.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 text-lg px-8 py-4 bg-id8-orange text-[var(--bg-primary)] hover:opacity-90 transition-all duration-200 rounded-soft font-medium"
-          >
-            Launch ID8Composer
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </a>
-          <a
-            href="/lab"
-            className="inline-flex items-center justify-center gap-2 text-lg px-8 py-4 border-2 border-id8-orange text-id8-orange hover:bg-id8-orange hover:text-[var(--bg-primary)] transition-all duration-200 rounded-soft font-medium"
-          >
-            Read the Lab Story
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </a>
+          {/* Button moved further down, Launch ID8Composer removed */}
+          <div className="flex justify-center pt-3 md:pt-5">
+            <a
+              href="/lab"
+              className="inline-flex items-center justify-center gap-2 text-sm md:text-base px-6 py-3 border-2 border-id8-orange text-id8-orange hover:bg-id8-orange hover:text-[var(--bg-primary)] transition-all duration-200 rounded-soft font-medium"
+            >
+              Read the Lab Story
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+          </div>
         </div>
       </motion.div>
     </section>
