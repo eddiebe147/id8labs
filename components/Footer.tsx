@@ -3,8 +3,10 @@ import BrandName from './BrandName'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[var(--border)] mt-24">
-      <div className="container py-12">
+    <footer className="border-t border-[var(--border)] mt-24 relative overflow-hidden">
+      {/* Subtle tropical texture in footer */}
+      <div className="absolute inset-0 texture-tropical-dots opacity-50" />
+      <div className="container py-12 relative z-10">
         {/* Three Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Column 1: ID8Labs */}

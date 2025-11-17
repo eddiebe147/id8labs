@@ -3,32 +3,78 @@
 @tailwind utilities;
 
 /* ============================================
-   ID8 DESIGN SYSTEM
-   Refined Lab Aesthetic with Signature Orange
+   ID8 DESIGN SYSTEM v2.0
+   Bold, Modern, Anti-Generic
    ============================================ */
 
 :root {
-  /* Light Mode - Warm Cream Lab */
-  --bg-primary: #FAF8F5;
-  --text-primary: #1A1A1A;
-  --text-secondary: #666666;
-  --border: #E5E0D8;
+  /* Light Mode - Crisp & Clean */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #FAFAFA;
+  --bg-tertiary: #F5F5F5;
+  --text-primary: #0A0A0A;
+  --text-secondary: #737373;
+  --text-tertiary: #A3A3A3;
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
 
-  /* ID8 Signature Orange - Use Sparingly */
+  /* ID8 Signature Orange - Bold & Confident */
   --id8-orange: #FF6B35;
   --id8-orange-hover: #E85A28;
+  --id8-orange-light: #FFE8DF;
+  --id8-orange-dark: #D14D1F;
+
+  /* Supporting Accents */
+  --accent-blue: #3B82F6;
+  --accent-purple: #A855F7;
+  --accent-green: #10B981;
+  --accent-amber: #F59E0B;
+
+  /* Shadows - Multi-layer depth */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+
+  /* Glow effects for hover states */
+  --glow-orange: 0 0 20px rgba(255, 107, 53, 0.3), 0 0 40px rgba(255, 107, 53, 0.15);
+  --glow-blue: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.15);
 }
 
 .dark {
-  /* Dark Mode - Dark Charcoal Lab */
-  --bg-primary: #1C1C1E;
-  --text-primary: #F5F5F7;
-  --text-secondary: #98989D;
-  --border: #38383A;
+  /* Dark Mode - Deep & Dramatic */
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #151515;
+  --bg-tertiary: #1F1F1F;
+  --text-primary: #FAFAFA;
+  --text-secondary: #A3A3A3;
+  --text-tertiary: #737373;
+  --border: #262626;
+  --border-light: #1F1F1F;
 
-  /* ID8 Signature Orange - Use Sparingly */
+  /* ID8 Signature Orange - Vibrant in dark */
   --id8-orange: #FF7A4D;
-  --id8-orange-hover: #FF6B35;
+  --id8-orange-hover: #FF9166;
+  --id8-orange-light: #2A1710;
+  --id8-orange-dark: #FF5722;
+
+  /* Supporting Accents - Enhanced for dark */
+  --accent-blue: #60A5FA;
+  --accent-purple: #C084FC;
+  --accent-green: #34D399;
+  --accent-amber: #FBBF24;
+
+  /* Shadows - Deeper for dark mode */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+
+  /* Glow effects - Brighter in dark */
+  --glow-orange: 0 0 30px rgba(255, 122, 77, 0.4), 0 0 60px rgba(255, 122, 77, 0.2);
+  --glow-blue: 0 0 30px rgba(96, 165, 250, 0.4), 0 0 60px rgba(96, 165, 250, 0.2);
 }
 
 /* ============================================
@@ -58,64 +104,169 @@ body {
 }
 
 /* ============================================
-   TYPOGRAPHY - Academic Paper Style
+   TYPOGRAPHY - Bold & Dramatic
    ============================================ */
 
 h1, h2, h3 {
   font-family: var(--font-crimson), Georgia, serif;
-  font-weight: 600;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.04em;
   color: var(--text-primary);
 }
 
 h1 {
-  font-size: 4rem;
-  line-height: 1.05;
-  margin-bottom: 1rem;
+  font-size: clamp(3rem, 8vw, 8rem);
+  line-height: 0.95;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
 }
 
 h2 {
-  font-size: 2.75rem;
-  line-height: 1.15;
-  margin-bottom: 0.75rem;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  line-height: 1.05;
+  margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 h3 {
-  font-size: 1.75rem;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
 }
 
 p {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.7;
   color: var(--text-primary);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 a {
   color: var(--text-primary);
   text-decoration: none;
-  transition: opacity 200ms ease;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 a:hover {
-  opacity: 0.65;
+  color: var(--id8-orange);
+}
+
+/* Typography Utilities */
+.text-gradient-orange {
+  background: linear-gradient(135deg, var(--id8-orange) 0%, var(--id8-orange-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-multi {
+  background: linear-gradient(135deg, var(--id8-orange) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-outline {
+  -webkit-text-stroke: 2px var(--text-primary);
+  -webkit-text-fill-color: transparent;
+}
+
+.text-shadow-sm {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.text-shadow-md {
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.text-shadow-lg {
+  text-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* ============================================
-   LAYOUT - Research Paper Structure
+   LAYOUT - Asymmetric & Bold
    ============================================ */
 
 .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container-narrow {
   max-width: 1140px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
 .section-spacing {
-  padding: 8rem 0;
+  padding: clamp(5rem, 12vw, 10rem) 0;
+}
+
+.section-spacing-sm {
+  padding: clamp(3rem, 8vw, 6rem) 0;
+}
+
+.section-spacing-lg {
+  padding: clamp(8rem, 15vw, 15rem) 0;
+}
+
+/* ============================================
+   MODERN CARD SYSTEM - Multi-layer Shadows
+   ============================================ */
+
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.card-featured {
+  background: var(--bg-primary);
+  border: 2px solid var(--id8-orange);
+  border-radius: 1.5rem;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-featured::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--id8-orange), var(--id8-orange-dark));
+}
+
+.card-featured:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-2xl), var(--glow-orange);
+  border-color: var(--id8-orange-hover);
+}
+
+.card-interactive {
+  cursor: pointer;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-interactive:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-interactive:active {
+  transform: scale(0.98);
 }
 
 /* ============================================
@@ -126,30 +277,42 @@ a:hover {
   color: var(--text-secondary);
 }
 
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
 .border-standard {
   border: 1px solid var(--border);
 }
 
-/* Rounded Corners - No 90 Degree Angles */
+.border-light {
+  border: 1px solid var(--border-light);
+}
+
+/* Modern Rounded Corners */
 .rounded-soft {
-  border-radius: 0.75rem;
+  border-radius: 1rem;
 }
 
 .rounded-subtle {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 }
 
 .rounded-gentle {
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
 }
 
-/* ID8 Orange Accent - Use Sparingly */
+/* ID8 Orange System */
 .text-id8-orange {
   color: var(--id8-orange);
 }
 
 .bg-id8-orange {
   background-color: var(--id8-orange);
+}
+
+.bg-id8-orange-light {
+  background-color: var(--id8-orange-light);
 }
 
 .border-id8-orange {
@@ -166,11 +329,91 @@ a:hover {
   transition: background-color 200ms ease;
 }
 
-/* Subtle Orange Accents */
-.accent-dot-orange::before {
-  content: '•';
+/* Status Badge System */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.badge-shipping {
+  background: var(--id8-orange-light);
+  color: var(--id8-orange-dark);
+  border: 1px solid var(--id8-orange);
+}
+
+.badge-development {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-blue);
+  border: 1px solid var(--accent-blue);
+}
+
+.badge-exploration {
+  background: rgba(168, 85, 247, 0.1);
+  color: var(--accent-purple);
+  border: 1px solid var(--accent-purple);
+}
+
+.badge-personal {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-green);
+  border: 1px solid var(--accent-green);
+}
+
+/* Button System */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 0.75rem;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--id8-orange);
+  color: white;
+  border: 2px solid var(--id8-orange);
+}
+
+.btn-primary:hover {
+  background: var(--id8-orange-hover);
+  border-color: var(--id8-orange-hover);
+  box-shadow: var(--glow-orange);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
   color: var(--id8-orange);
-  margin-right: 0.5rem;
+  border: 2px solid var(--id8-orange);
+}
+
+.btn-secondary:hover {
+  background: var(--id8-orange);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+  border: 2px solid var(--border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
 }
 
 /* ============================================
@@ -178,12 +421,12 @@ a:hover {
    ============================================ */
 
 @media (max-width: 1024px) {
-  h1 {
-    font-size: 3.25rem;
+  .container {
+    padding: 0 1.5rem;
   }
 
-  h2 {
-    font-size: 2.25rem;
+  .card-featured {
+    padding: 2rem;
   }
 }
 
@@ -192,28 +435,163 @@ a:hover {
     font-size: 16px;
   }
 
-  h1 {
-    font-size: 2.75rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.7;
-  }
-
-  .section-spacing {
-    padding: 5rem 0;
-  }
-
   .container {
-    padding: 0 1.5rem;
+    padding: 0 1.25rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .card-featured {
+    padding: 1.75rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9375rem;
+  }
+}
+
+/* ============================================
+   ANIMATIONS & MICRO-INTERACTIONS
+   ============================================ */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: var(--shadow-md);
+  }
+  50% {
+    box-shadow: var(--shadow-xl), var(--glow-orange);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Magnetic cursor effect for CTAs */
+.magnetic {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scale on hover */
+.hover-scale {
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* ============================================
+   DITHERED ARTWORK - UTILITY CLASSES
+   Visible decorative elements, not background textures
+   Miami Lab Aesthetic - Tropical meets Retro Tech
+   ============================================ */
+
+/* Halftone Border Effect - For cards and containers */
+.border-halftone {
+  border: 2px dashed var(--id8-orange);
+  border-image: repeating-linear-gradient(
+    90deg,
+    var(--id8-orange) 0px,
+    var(--id8-orange) 4px,
+    transparent 4px,
+    transparent 8px
+  ) 1;
+}
+
+.border-halftone-dots {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--bg-primary), var(--bg-primary)) padding-box,
+    repeating-conic-gradient(
+      var(--id8-orange) 0% 25%,
+      transparent 0% 50%
+    ) 0 0/8px 8px border-box;
+}
+
+/* Visible dithered pattern overlay - Use sparingly on featured elements */
+.dither-accent-overlay {
+  position: relative;
+}
+
+.dither-accent-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, var(--id8-orange) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.15;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.dark .dither-accent-overlay::before {
+  mix-blend-mode: screen;
+  opacity: 0.1;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid var(--id8-orange);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -1,91 +1,99 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
-import Image from 'next/image'
-import BrandName from './BrandName'
 
 export default function Hero() {
   return (
-    <section className="relative flex flex-col justify-between min-h-[calc(100vh-5rem)] overflow-hidden">
-      {/* Background Image with Edge Fade */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/hero-laptop-v3.jpg"
-          alt="Person working on a laptop in a dark room"
-          fill
-          className="object-cover object-[50%_30%]"
-          priority
-        />
-        {/* Gradient fade on edges - blend image into background */}
-        <div className="absolute inset-0 pointer-events-none"
-             style={{
-               background: `linear-gradient(to bottom,
-                 #1C1C1E 0%,
-                 rgba(28, 28, 30, 0.6) 15%,
-                 rgba(28, 28, 30, 0) 30%,
-                 rgba(28, 28, 30, 0) 70%,
-                 rgba(28, 28, 30, 0.6) 85%,
-                 #1C1C1E 100%)`
-             }}
-        />
-        {/* Additional darkening overlay for mobile to avoid bright spots */}
-        <div className="absolute inset-0 pointer-events-none bg-black/20 md:bg-transparent" />
-      </div>
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      {/* Clean gradient background */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-[var(--bg-primary)] via-[var(--bg-secondary)] to-[var(--bg-tertiary)]" />
 
-      {/* Top Section - Logo (lifted higher) */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="container relative z-10 pt-16 md:pt-32"
-      >
-        <h1 className="text-center">
-          <BrandName />
-        </h1>
-      </motion.div>
+      <div className="container relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="max-w-5xl mx-auto text-center space-y-8"
+        >
+          {/* Main Headline - BOLD & DRAMATIC */}
+          <h1 className="text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] font-extrabold tracking-tight">
+            <span className="block text-gradient-orange mb-2">
+              id8Labs
+            </span>
+            <span className="block text-[clamp(2rem,5vw,3.5rem)] font-bold text-[var(--text-primary)]">
+              Building tools for
+            </span>
+            <span className="block text-[clamp(2rem,5vw,3.5rem)] font-bold text-[var(--text-primary)]">
+              non-linear thinking
+            </span>
+          </h1>
 
-      {/* Bottom Section - Content positioned lower */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-        className="container relative z-10 pb-16 md:pb-32"
-      >
-        <div className="mx-auto max-w-3xl rounded-[24px] border border-white/15 bg-white/5 backdrop-blur-md px-6 py-10 text-center shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)] space-y-12">
-          {/* Headline moved down */}
-          <h2 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)]">
-            Life is non-linear.
-            <br />
-            Your tools should be too.
-          </h2>
+          {/* Subheadline */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto font-medium leading-relaxed"
+          >
+            A workshop for ideation tools that treat AI as a creative partner with functional memory.
+          </motion.p>
 
-          {/* Copy moved to where buttons were */}
-          <div className="space-y-3">
-            <p className="text-base md:text-lg max-w-2xl mx-auto text-white/95 drop-shadow-[0_8px_20px_rgba(0,0,0,0.55)]">
-              A workshop for <span className="text-id8-orange">building ideation tools</span>.
-            </p>
-
-            <p className="text-base md:text-lg max-w-2xl mx-auto text-white/95 drop-shadow-[0_8px_20px_rgba(0,0,0,0.55)]">
-              From decades of in-field experience, we now make tools to <span className="text-id8-orange font-medium">bridge legacy filmmaking and the new possibilities of today</span>.
-            </p>
-          </div>
-
-          {/* Button moved further down, Launch ID8Composer removed */}
-          <div className="flex justify-center pt-3 md:pt-5">
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
+          >
             <a
-              href="/lab"
-              className="inline-flex items-center justify-center gap-2 text-sm md:text-base px-6 py-3 border-2 border-id8-orange text-id8-orange hover:bg-id8-orange hover:text-[var(--bg-primary)] transition-all duration-200 rounded-soft font-medium"
+              href="https://id8composer.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary hover-lift group"
             >
-              Read the Lab Story
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              Launch ID8Composer
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="transition-transform group-hover:translate-x-1"
+              >
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
               </svg>
             </a>
-          </div>
-        </div>
-      </motion.div>
+            <a
+              href="/lab"
+              className="btn btn-secondary hover-lift"
+            >
+              Read the Lab Story
+            </a>
+          </motion.div>
+
+          {/* Social Proof / Status */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex items-center justify-center gap-8 pt-12 text-sm text-[var(--text-tertiary)]"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full animate-pulse" />
+              <span>ID8Composer v0.8.1 Live</span>
+            </div>
+            <div className="hidden sm:block w-1 h-1 bg-[var(--border)] rounded-full" />
+            <div className="hidden sm:flex items-center gap-2">
+              <span>Built in Miami</span>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Decorative elements - Subtle depth */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
     </section>
   )
 }
