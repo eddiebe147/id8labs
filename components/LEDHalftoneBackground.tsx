@@ -104,40 +104,6 @@ export default function LEDHalftoneBackground({ className = '' }: LEDHalftoneBac
     const animationSpeed = prefersReducedMotion ? 0 : 0.0003; // Slow, swooning movement
 
     /**
-     * Check if a point is inside a text zone
-     */
-    const isInTextZone = (x: number, y: number): boolean => {
-      return textZonesRef.current.some((zone) => {
-        return (
-          x >= zone.left &&
-          x <= zone.right &&
-          y >= zone.top &&
-          y <= zone.bottom
-        );
-      });
-    };
-
-    /**
-     * Calculate distance from viewport edges
-     * Returns a value 0-1 where 0 = at edge, 1 = center of screen
-     */
-    const getDistanceFromEdge = (x: number, y: number, width: number, height: number): number => {
-      // Calculate distance from nearest edge (normalized 0-1)
-      const distanceFromLeft = x / width;
-      const distanceFromRight = (width - x) / width;
-      const distanceFromTop = y / height;
-      const distanceFromBottom = (height - y) / height;
-
-      // Get minimum distance from any edge
-      const minDistanceX = Math.min(distanceFromLeft, distanceFromRight);
-      const minDistanceY = Math.min(distanceFromTop, distanceFromBottom);
-      const edgeDistance = Math.min(minDistanceX, minDistanceY);
-
-      // Square it for smoother falloff toward center
-      return edgeDistance * edgeDistance * 2;
-    };
-
-    /**
      * Get color based on diagonal position with structured gradient bands
      * Strategy: Diagonal sweep from lower-left to upper-right
      * Center stays dark/black for text readability
@@ -156,7 +122,7 @@ export default function LEDHalftoneBackground({ className = '' }: LEDHalftoneBac
 
       // Calculate distance from center for masking
       const centerX = 0.5;
-      const centerY = 0.4; // Slightly higher for hero section
+      const centerY = 0.45; // Balanced for hero and other sections
       const distanceFromCenter = Math.sqrt(
         Math.pow(normalizedX - centerX, 2) +
         Math.pow(normalizedY - centerY, 2)

@@ -14,8 +14,8 @@ export default function Hero() {
         >
           {/* Main Headline - BOLD & DRAMATIC */}
           <h1 className="text-[clamp(3.5rem,10vw,7rem)] leading-[0.9] font-extrabold tracking-tight">
-            <span className="block text-gradient-orange mb-2">
-              id8Labs
+            <span className="block mb-2">
+              <span className="text-gradient-orange">id8</span>Labs
             </span>
             <span className="block text-[clamp(2rem,5vw,3.5rem)] font-bold text-[var(--text-primary)]">
               Building tools for
