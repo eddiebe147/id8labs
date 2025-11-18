@@ -16,9 +16,12 @@ export default function Builder() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4">
-              The <span className="text-gradient-orange">Builder</span>
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+              The
+              <br />
+              <span className="text-gradient-orange">Builder</span>
             </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent" />
           </motion.div>
 
           {/* Two Column Layout - Asymmetric */}
