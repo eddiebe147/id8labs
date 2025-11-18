@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '../styles/background-zones.css';
+
 /* ============================================
    ID8 DESIGN SYSTEM v2.0
    Bold, Modern, Anti-Generic

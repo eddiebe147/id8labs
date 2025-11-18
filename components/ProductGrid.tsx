@@ -220,7 +220,7 @@ export default function ProductGrid() {
   const otherProducts = products.filter(p => p.status !== 'shipping')
 
   return (
-    <section className="section-spacing">
+    <section className="section-spacing bg-zone-text">
       <div className="container">
         {/* Section Header */}
         <motion.div

@@ -4,6 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import LEDHalftoneBackground from '@/components/LEDHalftoneBackground'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,12 +39,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable}`}>
+        {/* LED Halftone Background - Fixed layer behind all content */}
+        <LEDHalftoneBackground />
+
         <ThemeProvider>
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
+          <div className="relative" style={{ zIndex: 1 }}>
+            <Header />
+            <main className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>

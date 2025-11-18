@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function Mission() {
   return (
-    <section className="section-spacing bg-[var(--bg-secondary)]">
+    <section className="section-spacing bg-zone-text">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left - Headline (Asymmetric) */}

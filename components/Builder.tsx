@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function Builder() {
   return (
-    <section className="section-spacing">
+    <section className="section-spacing bg-zone-text">
 
       <div className="container pt-8">
         <div className="max-w-5xl mx-auto">

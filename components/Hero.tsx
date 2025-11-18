@@ -4,10 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-      {/* Clean gradient background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-[var(--bg-primary)] via-[var(--bg-secondary)] to-[var(--bg-tertiary)]" />
-
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-zone-text">
       <div className="container relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

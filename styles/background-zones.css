@@ -1,0 +1,242 @@
+/**
+ * Background Opacity Zones
+ *
+ * Content-aware opacity utilities for the LED halftone background.
+ * Apply these classes to containers to control background visibility:
+ * - Lower opacity for text-heavy areas (readability)
+ * - Higher opacity for design-focused areas (visual impact)
+ */
+
+/* ========================================
+   Text Zone - Maximum Readability
+   ======================================== */
+
+/**
+ * For text-heavy content areas
+ * Background is subtle to not interfere with reading
+ * REMOVED BLACK OVERLAY - just dims the dots behind text
+ */
+.bg-zone-text {
+  position: relative;
+}
+
+/* Text zones now handled by dynamic LED color changes - no overlay needed */
+.bg-zone-text {
+  position: relative;
+}
+
+.bg-zone-text > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Navigation Zone - Moderate Presence
+   ======================================== */
+
+/**
+ * For navigation bars and sidebars
+ * Background visible but not distracting
+ */
+.bg-zone-nav {
+  position: relative;
+}
+
+.bg-zone-nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 10, 0.7) 0%,
+    rgba(26, 26, 26, 0.6) 100%
+  );
+  backdrop-filter: blur(4px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-zone-nav > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Hero Zone - Bold Visual Impact
+   ======================================== */
+
+/**
+ * For hero sections and landing areas
+ * Background prominent for visual drama
+ */
+.bg-zone-hero {
+  position: relative;
+}
+
+.bg-zone-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 10, 0.4) 0%,
+    rgba(26, 26, 26, 0.2) 100%
+  );
+  backdrop-filter: blur(2px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-zone-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Full Zone - Maximum Background Intensity
+   ======================================== */
+
+/**
+ * For pure design areas with minimal text
+ * Background fully visible for maximum visual impact
+ */
+.bg-zone-full {
+  position: relative;
+}
+
+.bg-zone-full::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-zone-full > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Accessibility Overrides
+   ======================================== */
+
+/**
+ * For users who prefer reduced transparency
+ * Ensure text remains readable
+ */
+@media (prefers-contrast: high) {
+  .bg-zone-text::before,
+  .bg-zone-nav::before {
+    background: rgba(10, 10, 10, 0.95);
+  }
+
+  .bg-zone-hero::before {
+    background: rgba(10, 10, 10, 0.75);
+  }
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
+
+/**
+ * Mobile devices get stronger overlays for better readability
+ * on smaller screens
+ */
+@media (max-width: 768px) {
+  .bg-zone-text::before {
+    background: linear-gradient(
+      135deg,
+      rgba(10, 10, 10, 0.9) 0%,
+      rgba(26, 26, 26, 0.85) 100%
+    );
+  }
+
+  .bg-zone-nav::before {
+    background: linear-gradient(
+      135deg,
+      rgba(10, 10, 10, 0.8) 0%,
+      rgba(26, 26, 26, 0.75) 100%
+    );
+  }
+
+  .bg-zone-hero::before {
+    background: linear-gradient(
+      135deg,
+      rgba(10, 10, 10, 0.6) 0%,
+      rgba(26, 26, 26, 0.5) 100%
+    );
+  }
+}
+
+/* ========================================
+   Utility Variants
+   ======================================== */
+
+/**
+ * Gradient overlays for smooth transitions
+ * between zones
+ */
+.bg-zone-gradient-top {
+  position: relative;
+}
+
+.bg-zone-gradient-top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.9) 0%,
+    transparent 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-zone-gradient-bottom {
+  position: relative;
+}
+
+.bg-zone-gradient-bottom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.9) 0%,
+    transparent 100%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ========================================
+   Glass Morphism Effects
+   ======================================== */
+
+/**
+ * Modern glass effect for floating panels
+ * Works beautifully with the LED background
+ */
+.bg-zone-glass {
+  position: relative;
+  background: rgba(26, 26, 26, 0.3);
+  backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 107, 26, 0.1);
+}
+
+.bg-zone-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 26, 0.05) 0%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+}
