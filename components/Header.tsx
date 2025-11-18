@@ -84,15 +84,6 @@ export default function Header() {
             >
               Contact
             </Link>
-            <button
-              onClick={() => {
-                toggleTheme()
-                setMobileMenuOpen(false)
-              }}
-              className="flex items-center gap-2 text-lg hover:opacity-70 transition-opacity"
-            >
-              {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-            </button>
           </nav>
         )}
       </div>
