@@ -6,15 +6,15 @@ export default function Builder() {
   return (
     <section className="section-spacing bg-zone-text">
 
-      <div className="container pt-8">
-        <div className="max-w-5xl mx-auto">
-          {/* Header - Off-center */}
+      <div className="container">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          {/* Left - Headline (Asymmetric) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-16"
+            transition={{ duration: 0.7 }}
+            className="lg:sticky lg:top-24"
           >
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
               The
@@ -24,16 +24,16 @@ export default function Builder() {
             <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent" />
           </motion.div>
 
-          {/* Two Column Layout - Asymmetric */}
-          <div className="grid lg:grid-cols-[2fr_3fr] gap-12 lg:gap-16">
-            {/* Left - Name & Location */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-6"
-            >
+          {/* Right - Content */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="space-y-8"
+          >
+            {/* Name & Location */}
+            <div className="space-y-6">
               <div>
                 <h3 className="text-4xl md:text-5xl font-bold mb-2">
                   Eddie Belaval
@@ -50,22 +50,16 @@ export default function Builder() {
                 <div className="w-1 h-1 bg-[var(--id8-orange)]/30 rounded-full" />
               </div>
 
-              {/* Contact/Links could go here */}
-              <div className="pt-8 space-y-3 text-sm text-[var(--text-tertiary)]">
+              {/* Contact/Links */}
+              <div className="pt-4 space-y-3 text-sm text-[var(--text-tertiary)]">
                 <p>Filmmaker turned Product Builder</p>
                 <p>Pattern Recognition Specialist</p>
                 <p>Complex Systems Thinker</p>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Right - Bio Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="space-y-6 text-lg md:text-xl leading-relaxed"
-            >
+            {/* Bio Content */}
+            <div className="space-y-6 text-lg md:text-xl leading-relaxed">
               <p>
                 Started as a cameraman on <span className="text-[var(--id8-orange)] font-semibold">First 48</span>,
                 Orange County Choppers, 90 Day Fiancé. Worked from hands-on production into{' '}
@@ -95,8 +89,8 @@ export default function Builder() {
                   <p className="text-sm text-[var(--text-tertiary)]">Active Projects</p>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>
