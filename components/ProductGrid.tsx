@@ -39,7 +39,7 @@ const products: Product[] = [
     name: 'ID8 Clearance',
     status: 'exploration',
     statusLabel: 'Early exploration',
-    description: 'Extract clean dialogue audio from clips with background music. Built because transcription services can\'t handle music interference. Makes transcripts actually usable.',
+    description: 'Protect creators from copyright strikes by removing background music from footage. Save re-shoot costs, avoid takedowns, keep your content monetized.',
     link: '/products/clear',
   },
   {

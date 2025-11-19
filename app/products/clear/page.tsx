@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'ID8 Clearance - ID8Labs',
-  description: 'Extract clean dialogue audio from clips with background music. Built because transcription services can\'t handle music interference.',
+  description: 'Protect creators from copyright strikes by removing background music from footage. Save re-shoot costs, avoid takedowns, keep your content monetized.',
 }
 
 export default function ClearPage() {
@@ -31,26 +31,27 @@ export default function ClearPage() {
             </span>
           </div>
           <p className="text-2xl text-[var(--text-secondary)] mb-8">
-            Remove background music from video clips
+            Protect your content from copyright strikes
           </p>
         </header>
 
         {/* Description */}
         <section className="mb-16 space-y-6 text-lg leading-relaxed">
           <p>
-            <strong className="text-id8-orange">Built because transcription services can't handle music interference.</strong>
+            <strong className="text-id8-orange">Built to save creators and producers from copyright strikes.</strong>
           </p>
           <p>
-            Extract clean dialogue audio from clips with background music. Makes transcripts actually usable.
+            Remove background music from your footage before it gets flagged. Keep your content monetized, avoid
+            takedowns, and skip expensive re-shoots.
           </p>
           <p>
-            You find the perfect archival clip, but it has background music you can't license. Or an interview 
-            subject has music playing in the background. Or you need clean dialogue for transcription but the 
-            service chokes on the music.
+            You've got great footage but there's copyrighted music in the background. Maybe someone walked past
+            a store playing music. Maybe your subject had their TV on. Maybe you're in a location with ambient
+            music you didn't notice until post.
           </p>
           <p>
-            ID8 Clearance removes the music, isolates the dialogue, and gives you clean audio that transcription 
-            services can actually work with.
+            ID8 Clearance strips the music while preserving your dialogue and natural ambience. No more worrying
+            about copyright claims destroying your content's revenue or getting your video taken down.
           </p>
         </section>
 
@@ -61,32 +62,35 @@ export default function ClearPage() {
             <li className="flex gap-4">
               <span className="text-2xl">●</span>
               <div>
-                <strong>Music removal</strong> — Extract clean dialogue from clips with background
-                music
+                <strong>Copyright strike prevention</strong> — Remove copyrighted music before platforms
+                flag your content
               </div>
             </li>
             <li className="flex gap-4">
               <span className="text-2xl">●</span>
               <div>
-                <strong>Dialogue isolation</strong> — Separate voice from ambient sounds and music
+                <strong>Preserve dialogue</strong> — Strip music while keeping voices and natural
+                ambience intact
               </div>
             </li>
             <li className="flex gap-4">
               <span className="text-2xl">●</span>
               <div>
-                <strong>Batch processing</strong> — Process multiple clips at once
+                <strong>Save re-shoot costs</strong> — Rescue footage that would otherwise require
+                expensive re-shoots
               </div>
             </li>
             <li className="flex gap-4">
               <span className="text-2xl">●</span>
               <div>
-                <strong>On-set ready</strong> — No internet required, works locally
+                <strong>Batch processing</strong> — Process entire projects at once
               </div>
             </li>
             <li className="flex gap-4">
               <span className="text-2xl">●</span>
               <div>
-                <strong>Production formats</strong> — Supports all standard video and audio formats
+                <strong>Keep revenue flowing</strong> — Maintain monetization on content that would
+                otherwise be demonetized or blocked
               </div>
             </li>
           </ul>
