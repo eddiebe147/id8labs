@@ -104,25 +104,19 @@ export default function LEDHalftoneBackground({ className = '' }: LEDHalftoneBac
     const animationSpeed = prefersReducedMotion ? 0 : 0.0003; // Slow, swooning movement
 
     /**
-     * Get color based on diagonal position with structured gradient bands
-     * Strategy: Diagonal sweep from lower-left to upper-right
-     * Center stays dark/black for text readability
-     * Fiery colors in bottom-right portion
+     * Get color based on smooth flowing blob shapes
+     * Strategy: Multiple large blob shapes with internal gradients
+     * Creates layered, cloud-like forms with clean edges
+     * Inspired by the BG sample - smooth blobs, not noise texture
      */
     const getColorAtPosition = (x: number, y: number, time: number, width: number, height: number): string => {
       // Normalize coordinates to 0-1 range
       const normalizedX = x / width;
       const normalizedY = y / height;
 
-      // Calculate diagonal distance from top-left to bottom-right
-      // This creates diagonal gradient bands
-      // Add time-based subtle drift for breathing effect
-      const timeOffset = Math.sin(time * 0.5) * 0.1; // Subtle breathing
-      const diagonalPosition = (normalizedX + (1 - normalizedY)) / 2 + timeOffset;
-
       // Calculate distance from center for masking
       const centerX = 0.5;
-      const centerY = 0.45; // Balanced for hero and other sections
+      const centerY = 0.45;
       const distanceFromCenter = Math.sqrt(
         Math.pow(normalizedX - centerX, 2) +
         Math.pow(normalizedY - centerY, 2)
@@ -133,7 +127,6 @@ export default function LEDHalftoneBackground({ className = '' }: LEDHalftoneBac
 
       // If we're in the center zone, force dark colors
       if (distanceFromCenter < centerRadius) {
-        // Gradient within center zone from deep black to charcoal
         const centerGradient = distanceFromCenter / centerRadius;
         if (centerGradient < 0.5) {
           return darkColors.deepBlack;
@@ -142,29 +135,71 @@ export default function LEDHalftoneBackground({ className = '' }: LEDHalftoneBac
         }
       }
 
-      // Outside center: use diagonal position for gradient bands
-      // Add subtle Perlin noise for organic variation within bands
-      const noiseVariation = perlinNoise.noise2D(x * 0.001, y * 0.001) * 0.1;
-      const bandPosition = diagonalPosition + noiseVariation;
+      // HORIZONTAL WAVE LAYERS - like ocean waves flowing left to right
+      // Stretch noise horizontally (lower x scale) for banded appearance
+      const xScale = 0.0002; // Very stretched horizontally
+      const yScale = 0.0006; // Tighter vertically = horizontal bands
 
-      // Create distinct color bands sweeping diagonally
-      // Black → Charcoal → Dark Red → Red → Orange → Yellow
-      if (bandPosition < 0.3) {
+      // Layer 1 - Primary horizontal wave (NO horizontal drift - only vertical breathing)
+      const wave1 = (perlinNoise.noise2D(
+        x * xScale,
+        y * yScale + time * 0.008
+      ) + 1) / 2;
+
+      // Layer 2 - Secondary wave
+      const wave2 = (perlinNoise.noise2D(
+        x * xScale * 1.2,
+        y * yScale * 0.8 + time * 0.006
+      ) + 1) / 2;
+
+      // Layer 3 - Slower, larger wave for depth
+      const wave3 = (perlinNoise.noise2D(
+        x * xScale * 0.6,
+        y * yScale * 1.3 + time * 0.004
+      ) + 1) / 2;
+
+      // Layer 4 - Detail wave
+      const wave4 = (perlinNoise.noise2D(
+        x * xScale * 1.5,
+        y * yScale * 1.1 + time * 0.005
+      ) + 1) / 2;
+
+      // Combine waves - use max for more coverage, then add layers for depth
+      // This creates bold overlapping bands
+      const maxWave = Math.max(wave1, wave2, wave3, wave4);
+      const combined = maxWave * 0.7 + (wave1 + wave2 + wave3) / 3 * 0.3;
+
+      // Lower thresholds - more fire coverage
+      if (combined < 0.2) {
         return darkColors.deepBlack;
-      } else if (bandPosition < 0.45) {
+      } else if (combined < 0.28) {
         return darkColors.charcoal;
-      } else if (bandPosition < 0.55) {
-        return '#4a1a1a'; // Dark red-brown
-      } else if (bandPosition < 0.65) {
-        return '#8b1a1a'; // Medium dark red
-      } else if (bandPosition < 0.75) {
-        return fireColors.redOrange; // Bright red
-      } else if (bandPosition < 0.85) {
-        return fireColors.brightOrange; // Orange
-      } else if (bandPosition < 0.95) {
-        return fireColors.vhsOrange; // VHS orange
+      }
+
+      // Calculate intensity within the lit area
+      const intensity = (combined - 0.28) / 0.72;
+
+      // Color gradient - smooth transitions with lighter orange highlights
+      if (intensity < 0.1) {
+        return '#2a1a1a'; // Very dark red-brown edge
+      } else if (intensity < 0.2) {
+        return '#3a1a1a'; // Dark red-brown
+      } else if (intensity < 0.32) {
+        return '#4a1a1a'; // Medium dark red-brown
+      } else if (intensity < 0.44) {
+        return '#6a1a1a'; // Medium dark red
+      } else if (intensity < 0.55) {
+        return '#8b1a1a'; // Medium red
+      } else if (intensity < 0.65) {
+        return '#aa2200'; // Bright red
+      } else if (intensity < 0.75) {
+        return '#cc3300'; // Red-orange
+      } else if (intensity < 0.85) {
+        return fireColors.redOrange; // Red-orange
+      } else if (intensity < 0.93) {
+        return fireColors.brightOrange; // Bright orange
       } else {
-        return fireColors.yellow; // Yellow highlights
+        return '#ff8844'; // Light orange highlights
       }
     };
 
@@ -206,9 +241,8 @@ export default function LEDHalftoneBackground({ className = '' }: LEDHalftoneBac
           // Get color based on position relative to edges
           const color = getColorAtPosition(x, y, time, width, height);
 
-          // Dot size varies slightly with noise for organic feel - BIGGER RADIUS
-          const noiseVariation = perlinNoise.noise2D(x * 0.01, y * 0.01) * 0.5 + 0.5;
-          const radius = (dotSpacing / 2.2) * noiseVariation; // Increased from /3 to /2.2 for bigger dots
+          // UNIFORM DOT SIZE - all dots equal, no variation
+          const radius = dotSpacing / 2.5; // Clean, equal-sized dots
 
           // Draw dot
           drawDot(x, y, radius, color);
