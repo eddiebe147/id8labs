@@ -72,12 +72,13 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
         <section className="border-b border-[var(--border)]">
           <div className="container">
             <div className="max-w-4xl mx-auto py-8">
-              <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden border border-[var(--border)]">
+              <div className="relative w-full rounded-lg overflow-hidden border border-[var(--border)]">
                 <Image
                   src={essay.heroImage}
                   alt={essay.title}
-                  fill
-                  className="object-cover"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto"
                   priority
                 />
               </div>
