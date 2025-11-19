@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import { getEssayBySlug, getAllEssays } from '@/lib/essays'
 
@@ -65,6 +66,25 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
           </div>
         </div>
       </section>
+
+      {/* Hero Image */}
+      {essay.heroImage && (
+        <section className="border-b border-[var(--border)]">
+          <div className="container">
+            <div className="max-w-4xl mx-auto py-8">
+              <div className="relative w-full aspect-[16/10] rounded-lg overflow-hidden border border-[var(--border)]">
+                <Image
+                  src={essay.heroImage}
+                  alt={essay.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Content */}
       <section className="section-spacing">
