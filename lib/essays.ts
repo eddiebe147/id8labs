@@ -12,6 +12,184 @@ export interface Essay {
 
 export const essays: Essay[] = [
   {
+    slug: 'whats-next-north-star-and-scene-builder',
+    title: 'What\'s Next: North Star and Scene Builder',
+    subtitle: 'The two features that make switching impossible',
+    date: '2025-11-18',
+    category: 'essay',
+    readTime: '8 min read',
+    excerpt: 'We\'re an A-. Production-ready. Zero critical issues. 98% test coverage. Now we build the shit that makes switching impossible. North Star and Scene Builder aren\'t polish. They\'re the moat.',
+    content: `# What's Next: North Star and Scene Builder
+
+We're an A-. Production-ready. Zero critical issues. 98% test coverage.
+
+Now we build the shit that makes switching impossible.
+
+## The Two Features That Matter
+
+North Star and Scene Builder aren't polish. They're the moat.
+
+Everything else in the MVP proves we can execute. These two prove we're building something nobody else can copy.
+
+## North Star: From Tourist to Native (With a Plan)
+
+Right now, Knowledge Base gives Claude access to your world. Characters, conflicts, themes – it's all there.
+
+North Star makes Claude **understand** it. And helps you actually finish what you're building.
+
+Think about someone who memorized facts about your hometown versus someone who grew up there. Facts versus understanding. That's the difference.
+
+### What It Actually Does
+
+When you're on Episode 47, North Star tracks:
+
+- **Relationship arcs** - Not just "Sarah and Mike are dating" but where they are in the full trajectory
+- **Character momentum** - Who's building toward crisis, who's ready for growth, who needs space
+- **Thematic threads** - Which themes are ready to pay off, which are still building
+- **Story structure** - What beats are climaxing, what's setup for later
+
+This isn't better memory. It's comprehension.
+
+### Plan Mode: The Deadline Keeper
+
+But understanding your universe doesn't help if you never finish.
+
+That's where Plan Mode comes in.
+
+**Plan Mode lets you:**
+- Set goal posts for your project (finish Act 1 by Friday, deliver Episode 3 by end of month)
+- Build a structured to-do list that breaks big goals into actual work
+- Get North Star to help you stay on task and hit your deadlines
+- Track progress against real production schedules
+
+It's for the writer who knows exactly what they need to build but needs help staying disciplined. Or the one who's never had a deadline and needs to give themselves one.
+
+You tell North Star "I need to deliver three episodes by December 1st" and it helps you backwards-plan the work. What needs to happen this week. What beats need outlining. What scenes need drafting.
+
+It's not just project management. It's project management that understands story structure.
+
+### Why It's a Moat
+
+Once Claude understands your universe this deeply AND keeps you on track to finish, switching means losing a creative partner who knows your world as well as you do and keeps you honest about shipping.
+
+You're not locked in by contracts. You're locked in by value.
+
+## Scene Builder: Structure Before Prose
+
+Even with perfect context and a solid plan, creators still face the blank page.
+
+You know your world. You know your characters. You know what you need to finish today. You still don't know what happens **next**.
+
+Scene Builder solves that.
+
+### The Real Problem
+
+Most AI tools assume you already know what you want:
+- "Just describe the scene"
+- "Tell me what happens"
+- "Give me the beats"
+
+But creators don't start with answers. They start with questions:
+- What if Sarah confronts Mike now instead of later?
+- What if this happens at the wedding instead of the office?
+- What if we flip who has power?
+
+They need to **explore** before they **commit**.
+
+### How It Works
+
+Eight exploration methods. Four-phase workflow:
+
+**Phase 1 - Discovery**: Generate possibilities with Story Spark, What-If Engine, Conflict Matrix. Not writing yet. Just exploring.
+
+**Phase 2 - Structure**: Pick the best direction. Break it into beats.
+
+**Phase 3 - Refinement**: Define objectives, emotional turns, power shifts for each beat. Understand mechanics before writing dialogue.
+
+**Phase 4 - Composition**: Now you write. But you're executing structure you've already tested, not inventing from nothing.
+
+### Why It Changes Everything
+
+You're not waiting for inspiration. You're systematically exploring your story space.
+
+You're not writing into corners. You're testing structure before committing.
+
+You're not in revision hell. You're refining at the beat level where changes are cheap.
+
+It's architecture instead of prayer.
+
+## Why This Order
+
+North Star first, then Scene Builder.
+
+Context enables structure.
+
+Scene Builder's exploration works exponentially better when Claude deeply understands your universe. What-If Engine generates better alternatives when it knows your themes. Conflict Matrix finds richer tensions when it understands your dynamics.
+
+And Plan Mode keeps you shipping while you're exploring possibilities.
+
+They compound.
+
+## What Users Get
+
+Right now: Escape session hell, compose in dual-panel, never lose context.
+
+With these two:
+- Creative partner who structurally understands your universe
+- Deadline tracking that understands story structure
+- Systematic discovery instead of waiting for lightning to strike
+- Tools that get smarter as you use them
+- Real switching costs from accumulated value, not lock-in
+
+## What We Get
+
+Category creation.
+
+Nobody else is building persistent story universe understanding. Nobody else combines project management with story comprehension. Nobody else separates discovery from writing. Nobody else treats narrative like a world to explore instead of text to generate.
+
+This isn't iterating on "AI writing assistant." This is building the world-building platform for storytellers.
+
+You build your universe once. North Star helps you plan the work and stay on deadline. Scene Builder helps you discover and structure what you're building. Then you compose.
+
+That's not a feature. That's a moat.
+
+## The Work
+
+**North Star needs:**
+- Relationship tracking across episodes
+- Character arc analysis
+- Thematic thread ID
+- Story momentum assessment
+- KB integration
+- UI that surfaces insights when they matter
+- Plan Mode: Goal setting, to-do lists, deadline tracking
+- Plan Mode: Progress tracking against story structure
+
+**Scene Builder needs:**
+- Eight exploration methods refined
+- Four-phase workflow
+- Beat-level editing
+- North Star integration
+- Transport controls at beat level
+- Structure-to-prose flow
+
+6-8 weeks. Maybe 10 with unknowns.
+
+But we're not guessing anymore. The A- MVP proved the foundation works. Now we build on solid ground.
+
+## Why Now
+
+We could polish the MVP. Refactor large files. Optimize bundle size. Clear those 46 TODOs.
+
+That's maintenance pretending to be progress.
+
+North Star and Scene Builder are what make users say "I can't go back" instead of "this is nice."
+
+The A- earned us the right to be ambitious.
+
+Now we use it.`
+  },
+  {
     slug: 'memmon-making-the-invisible-visible',
     title: 'Memmon: Making the Invisible Visible',
     subtitle: 'Building a RAM monitor for AI development workflows',
