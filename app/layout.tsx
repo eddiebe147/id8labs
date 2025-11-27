@@ -4,7 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import LEDHalftoneBackground from '@/components/LEDHalftoneBackground'
+import { NeuralNetworkBg } from '@/components/foundation/neural-network-bg'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,8 +39,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable}`}>
-        {/* LED Halftone Background - Fixed layer behind all content */}
-        <LEDHalftoneBackground />
+        {/* Neural Network Background - "Thoughtful Brain" settings */}
+        <NeuralNetworkBg
+          neuronCount={120}
+          connectionDensity={79}
+          rotationSpeed={0.0015}
+          fireRate={6}
+          orangeIntensity={100}
+          parallaxFactor={0.04}
+        />
 
         <ThemeProvider>
           <div className="relative" style={{ zIndex: 1 }}>
