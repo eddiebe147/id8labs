@@ -126,20 +126,37 @@ export function NeuralNetworkBg({
     if (!ctx) return
 
     let width = window.innerWidth
-    let height = window.innerHeight
+    let viewportHeight = window.innerHeight  // For centering neurons
+    let canvasHeight = window.innerHeight    // Extended for parallax
+
+    // Calculate extra height needed for parallax scrolling
+    // This ensures the background never runs out as we scroll
+    const getCanvasHeight = () => {
+      const pageHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        window.innerHeight
+      )
+      const maxScroll = pageHeight - window.innerHeight
+      const maxParallaxOffset = maxScroll * parallaxFactor
+      // Add extra buffer to ensure we never see the edge
+      return window.innerHeight + maxParallaxOffset + 200
+    }
 
     const resize = () => {
       width = window.innerWidth
-      height = window.innerHeight
+      viewportHeight = window.innerHeight  // Actual viewport for centering
+      canvasHeight = getCanvasHeight()     // Extended height for parallax
       canvas.width = width
-      canvas.height = height
+      canvas.height = canvasHeight
     }
 
     // Initialize neurons in a 3D sphere/ellipsoid
     const initializeNeurons = () => {
       neuronsRef.current = []
       signalsRef.current = [] // Clear any existing signals
-      const spread = Math.min(width, height) * 0.4
+      // Use viewportHeight for spread calculation so neurons stay in visible area
+      const spread = Math.min(width, viewportHeight) * 0.4
 
       for (let i = 0; i < neuronCount; i++) {
         // Distribute in a sphere using fibonacci sphere
@@ -210,9 +227,9 @@ export function NeuralNetworkBg({
     const animate = () => {
       frameCount++
 
-      // Clear canvas
+      // Clear canvas (use full canvasHeight for extended parallax area)
       ctx.fillStyle = COLORS.background
-      ctx.fillRect(0, 0, width, height)
+      ctx.fillRect(0, 0, width, canvasHeight)
 
       // Slowly rotate
       rotationRef.current.y += rotationSpeed
@@ -224,12 +241,13 @@ export function NeuralNetworkBg({
       }
 
       // Transform all neuron positions
+      // Use viewportHeight for projection centering so neurons stay in visible viewport
       const transformedNeurons = neuronsRef.current.map(n => {
         let rotated = rotateY(n.pos, rotationRef.current.y)
         rotated = rotateX(rotated, rotationRef.current.x)
         return {
           ...n,
-          projected: project(rotated, width, height),
+          projected: project(rotated, width, viewportHeight),
           rotated,
         }
       })
