@@ -242,7 +242,8 @@ export default function LEDHalftoneBackground({ className = '' }: LEDHalftoneBac
           const color = getColorAtPosition(x, y, time, width, height);
 
           // UNIFORM DOT SIZE - all dots equal, no variation
-          const radius = dotSpacing / 2.5; // Clean, equal-sized dots
+          // Ensure radius is never negative to prevent IndexSizeError in canvas arc()
+          const radius = Math.max(0.1, dotSpacing / 2.5); // Clean, equal-sized dots
 
           // Draw dot
           drawDot(x, y, radius, color);

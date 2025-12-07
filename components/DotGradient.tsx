@@ -37,6 +37,9 @@ export default function DotGradient() {
     const canvas = canvasRef.current
     if (!canvas || !isMounted) return
 
+    // Skip render if dimensions not set yet
+    if (dimensions.width <= 0 || dimensions.height <= 0) return
+
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
@@ -74,10 +77,11 @@ export default function DotGradient() {
           const posY = baseY + flowY
 
           // Varying dot sizes - gradient from top to bottom
-          const gradientFactor = (y / rows)
+          const gradientFactor = rows > 0 ? (y / rows) : 0
           const sizeVariation = Math.sin(x * 0.2 + y * 0.3 + timeRef.current) * 0.5 + 1
           const baseSize = 1 + (gradientFactor * 1.5) // Larger dots toward bottom
-          const dotRadius = baseSize * sizeVariation
+          // Ensure radius is always positive to prevent IndexSizeError
+          const dotRadius = Math.max(0.1, baseSize * sizeVariation)
 
           // Opacity gradient - fades at top
           const opacityGradient = 0.3 + (gradientFactor * 0.4)
