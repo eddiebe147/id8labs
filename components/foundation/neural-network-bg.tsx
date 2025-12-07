@@ -73,7 +73,10 @@ function rotateX(point: Vector3, angle: number): Vector3 {
 
 // Project 3D to 2D with perspective
 function project(point: Vector3, width: number, height: number, fov: number = 500): { x: number; y: number; scale: number } {
-  const scale = fov / (fov + point.z)
+  // Ensure scale is always positive to prevent negative radius in canvas arc()
+  // When point.z < -fov, the object is "behind the camera" - clamp to small positive value
+  const rawScale = fov / (fov + point.z)
+  const scale = Math.max(0.01, rawScale)
   return {
     x: point.x * scale + width / 2,
     y: point.y * scale + height / 2,
@@ -324,7 +327,7 @@ export function NeuralNetworkBg({
           const intensity = orangeIntensity / 100
 
           // Draw glowing signal
-          const glowSize = 8 * scale * intensity
+          const glowSize = Math.max(0.1, 8 * scale * intensity)
           const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowSize)
           gradient.addColorStop(0, `rgba(255, 200, 180, ${0.9 * intensity})`)
           gradient.addColorStop(0.3, `rgba(255, 122, 77, ${0.6 * intensity})`)
@@ -336,7 +339,7 @@ export function NeuralNetworkBg({
 
           // Draw signal core
           ctx.beginPath()
-          ctx.arc(x, y, 2 * scale, 0, Math.PI * 2)
+          ctx.arc(x, y, Math.max(0.1, 2 * scale), 0, Math.PI * 2)
           ctx.fillStyle = COLORS.fireOrange
           ctx.fill()
 
@@ -365,7 +368,7 @@ export function NeuralNetworkBg({
 
         // Draw glow if bright
         if (neuron.brightness > 0.2) {
-          const glowSize = size * 4 * neuron.brightness * (orangeIntensity / 100)
+          const glowSize = Math.max(0.1, size * 4 * neuron.brightness * (orangeIntensity / 100))
           const gradient = ctx.createRadialGradient(t.projected.x, t.projected.y, 0, t.projected.x, t.projected.y, glowSize)
           gradient.addColorStop(0, `rgba(255, 122, 77, ${neuron.brightness * 0.5 * depthAlpha})`)
           gradient.addColorStop(1, 'transparent')
@@ -376,8 +379,9 @@ export function NeuralNetworkBg({
         }
 
         // Draw neuron body
+        const safeSize = Math.max(0.1, size)
         ctx.beginPath()
-        ctx.arc(t.projected.x, t.projected.y, size, 0, Math.PI * 2)
+        ctx.arc(t.projected.x, t.projected.y, safeSize, 0, Math.PI * 2)
 
         if (neuron.brightness > 0.3) {
           // Orange when firing
