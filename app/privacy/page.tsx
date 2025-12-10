@@ -56,10 +56,10 @@ export default function PrivacyPage() {
           <p>
             Questions about this Privacy Policy? Contact us at{' '}
             <a
-              href="mailto:hello@id8labs.com"
+              href="mailto:eb@id8composer.app"
               className="border-b-2 border-[var(--text-primary)] hover:opacity-70 transition-opacity"
             >
-              hello@id8labs.com
+              eb@id8composer.app
             </a>
           </p>
         </div>

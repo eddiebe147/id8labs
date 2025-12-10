@@ -17,6 +17,14 @@ interface Product {
 
 const products: Product[] = [
   {
+    name: 'DeepStack.Trade',
+    status: 'active',
+    tagline: 'Institutional-grade crypto trading terminal',
+    description: 'Advanced charting, real-time data, and lightning-fast execution for professional traders. DeepStack.Trade provides the tools you need to analyze the market and execute your strategy with precision.',
+    link: 'https://deepstack.trade',
+    external: true,
+  },
+  {
     name: 'ID8Composer',
     status: 'active',
     tagline: 'Timeline-based AI story development platform',
