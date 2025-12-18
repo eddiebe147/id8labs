@@ -59,6 +59,14 @@ const products: Product[] = [
     link: '/products/clear',
   },
   {
+    name: 'X-Place',
+    status: 'coming-soon',
+    tagline: 'Collaborative pixel canvas for the X ecosystem',
+    description:
+      'r/place meets Twitter. A 500x500 shared canvas where thousands of users create pixel art together—one pixel at a time, with cooldowns that force collaboration. X OAuth login, spectator mode for new accounts (anti-bot), real-time updates via WebSocket.',
+    link: '/products/xplace',
+  },
+  {
     name: '[Classified]',
     status: 'coming-soon',
     tagline: 'Something revolutionary brewing…',
