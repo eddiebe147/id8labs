@@ -27,11 +27,12 @@ const products: Product[] = [
   },
   {
     name: 'DeepStack',
-    status: 'coming-soon',
-    tagline: 'Autonomous AI-powered trading system',
+    status: 'active',
+    tagline: 'AI-powered trading research platform',
     description:
-      'Sophisticated algorithmic trading combining deep value investing with Claude AI integration. Multi-strategy framework, advanced risk management, and beautiful PipBoy-inspired CLI. Built for disciplined, systematic trading with multiple layers of protection. Paper trading first, then live when ready.',
-    link: '/products/deepstack',
+      'Think of it as having a research analyst in your pocket. Claude-powered analysis with 30+ tools, professional charts, thesis tracking, trade journaling with emotion monitoring, prediction markets integration, and an emotional firewall that blocks revenge trading. Research only—we never execute trades.',
+    link: 'https://deepstack.trade',
+    external: true,
   },
   {
     name: 'Lexicon',
