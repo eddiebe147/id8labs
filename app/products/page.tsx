@@ -35,6 +35,14 @@ const products: Product[] = [
     external: true,
   },
   {
+    name: 'ID8Factory',
+    status: 'coming-soon',
+    tagline: 'AI creative production pipeline',
+    description:
+      'Orchestrates Midjourney, Grok, Gemini and other AI image tools into a single tracked workflow. Browser automation handles the tab-switching. State management remembers which prompt made what. Human gates keep you in control of creative decisions. The AI handles logistics, you handle taste.',
+    link: '/products/factory',
+  },
+  {
     name: 'Lexicon',
     status: 'coming-soon',
     tagline: 'Wikipedia for your story universe',
