@@ -30,6 +30,13 @@ const products: Product[] = [
     external: true,
   },
   {
+    name: 'ID8Factory',
+    status: 'development',
+    statusLabel: 'Field testing',
+    description: 'Orchestrates Midjourney, Grok, Gemini into a single tracked workflow. Browser automation handles the tab-switching. State management remembers which prompt made what. The AI handles logistics, you handle taste.',
+    link: '/products/factory',
+  },
+  {
     name: 'Lexicon',
     status: 'development',
     statusLabel: 'Technical architecture complete',
