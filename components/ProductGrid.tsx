@@ -51,6 +51,13 @@ const products: Product[] = [
     link: '/products/clear',
   },
   {
+    name: 'X-Place',
+    status: 'exploration',
+    statusLabel: 'Building in public',
+    description: 'r/place meets Twitter. 500x500 shared pixel canvas with X OAuth, cooldown timers, and real-time updates. A social experiment for the X ecosystem.',
+    link: '/products/xplace',
+  },
+  {
     name: 'MILO',
     status: 'personal',
     statusLabel: 'Foundation sprint active',
