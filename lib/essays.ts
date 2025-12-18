@@ -12,6 +12,66 @@ export interface Essay {
 
 export const essays: Essay[] = [
   {
+    slug: 'building-deepstack-emotional-firewall',
+    title: 'I Built an AI Trading Research Platform with an Emotional Firewall',
+    subtitle: 'Your biggest edge might be knowing when not to act',
+    date: '2025-12-12',
+    category: 'essay',
+    readTime: '5 min read',
+    excerpt: 'Most retail traders don\'t lose because they can\'t read a chart. They lose because they can\'t read themselves. FOMO hits. Fear takes over. Revenge trading kicks in. So I built a tool that treats discipline as a feature.',
+    content: `# I Built an AI Trading Research Platform with an Emotional Firewall
+
+I've spent 20+ years in television production, building systems that track complex narratives across hundreds of hours of footage. Pattern recognition is the job — figuring out what's actually happening beneath the surface of what people say and do.
+
+Turns out that skillset transfers to markets. Understanding them, anyway. Trading them profitably? Different story.
+
+Most retail traders don't lose because they can't read a chart. They lose because they can't read themselves. FOMO hits. Fear takes over. Revenge trading kicks in. The analysis was right, but you didn't follow it because something *felt* different in the moment.
+
+I've been there enough times to know I needed a different approach.
+
+So I built Deepstack — a research platform that treats your emotional state as seriously as your technical analysis.
+
+## The Core Idea: An Emotional Firewall
+
+This is the part that actually matters. The system tracks your journal entries, your trade logs, the patterns in how you describe your mental state over time. When it detects you're operating from a high-emotion place — based on *your own* historical patterns — it activates.
+
+The AI doesn't lock you out. It just gets more careful. Asks harder questions. Slows things down before you do something you'll be staring at the ceiling about at 2am.
+
+## What Else It Does
+
+**Research assistant with full context** — Ask it anything about your positions, your theses, sector analysis. It knows what you're tracking and why.
+
+**Thesis engine** — Document your investment hypotheses with specific entry and exit conditions. Stop trading on vibes. Write down what you believe and why, then see if you were right.
+
+**Trade journal** — Log every trade, but more importantly, log how you felt making it. Fearful? Overconfident? Bored? Over time, you start seeing which emotional states predict your worst decisions.
+
+**Market data and prediction markets** — Charts, watchlists, options chains via Alpaca. Polymarket and Kalshi integration so you can see what the crowd thinks about macro events that might move your positions.
+
+## What It's Not
+
+It won't execute trades for you. It won't tell you what to buy. It won't pretend it knows the future.
+
+It's a research tool that respects the fact that you're a human being making decisions under uncertainty — and that your biggest edge might be knowing when *not* to act.
+
+## Why I Built It
+
+Eight months ago I couldn't write a line of code. I learned by building things I actually needed.
+
+I needed something that would protect me from myself. The best traders I've studied aren't the ones with the most sophisticated analysis — they're the ones with the most discipline. So I built a tool that treats discipline as a feature, not an afterthought.
+
+## Try It
+
+[deepstack.trade](https://deepstack.trade)
+
+It's free to try. If you've ever made a trading decision you regretted five minutes later, this might be useful.
+
+I'm building based on what real traders actually need, so feedback is welcome.
+
+---
+
+*Originally published on X, December 12, 2025*`
+  },
+  {
     slug: 'whats-next-north-star-and-scene-builder',
     title: 'What\'s Next: North Star and Scene Builder',
     subtitle: 'The two features that make switching impossible',
