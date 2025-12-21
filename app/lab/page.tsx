@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Lab Story - ID8Labs',
-  description: 'From cameraman to systems architect. Twenty years in production, now building tools for the AI era.',
+  description: 'From cameraman to systems architect. Twenty years in production, now building tools for creators and infrastructure for builders.',
 }
 
 export default function LabPage() {
@@ -28,12 +28,12 @@ export default function LabPage() {
           <div className="space-y-6 text-lg leading-relaxed">
             <p>I started as a cameraman.</p>
             <p>
-              First 48. Orange County Choppers. 90 Day Fiancé. Twenty years of production work taught me to see 
+              First 48. Orange County Choppers. 90 Day Fiancé. Twenty years of production work taught me to see
               the machinery behind stories—not just what's on screen, but the systems that make them possible.
             </p>
             <p>
-              Somewhere along the way, I stopped being the person who captures the footage and became the person 
-              who architects the whole thing. Story development. Production logistics. Cast management. The invisible 
+              Somewhere along the way, I stopped being the person who captures the footage and became the person
+              who architects the whole thing. Story development. Production logistics. Cast management. The invisible
               infrastructure that turns chaos into narrative.
             </p>
           </div>
@@ -44,18 +44,18 @@ export default function LabPage() {
           <h2 className="text-3xl font-bold mb-6">The Problem I Couldn't Ignore</h2>
           <div className="space-y-6 text-lg leading-relaxed">
             <p>
-              AI showed up and everyone treated it like a magic content generator. Write me a script. 
+              AI showed up and everyone treated it like a magic content generator. Write me a script.
               Make me a story. Give me ten ideas. Make no mistakes.
             </p>
             <p>
               But nobody was building tools for how creative people actually work.
             </p>
             <p>
-              We don't generate and move on. We iterate. We build context over weeks and months. We refine. 
+              We don't generate and move on. We iterate. We build context over weeks and months. We refine.
               We return to old ideas with new understanding. We need our tools to remember what we've already figured out.
             </p>
             <p>
-              Every AI session started the same way: re-uploading documents, re-explaining characters, 
+              Every AI session started the same way: re-uploading documents, re-explaining characters,
               rebuilding context from scratch. By the third revision, the AI had forgotten half the story world.
             </p>
             <p className="text-2xl font-bold text-id8-orange">
@@ -65,7 +65,7 @@ export default function LabPage() {
               It was killing momentum and wasting creative energy on repetition instead of development.
             </p>
             <p>
-              So I built ID8Composer to solve it.
+              So I built ID8Composer to solve it. That was the first product. It wasn't the last.
             </p>
           </div>
         </section>
@@ -78,17 +78,16 @@ export default function LabPage() {
               I don't build from whiteboards. I build from the field.
             </p>
             <p>
-              Every feature in ID8Composer exists because I personally hit a wall and needed a solution right then. 
-              Battle-tested in real production environments on 90 Day Fiancé. Refined through actual creative work, 
-              not focus groups.
+              Every feature in every tool exists because I personally hit a wall and needed a solution right then.
+              Battle-tested in real production environments. Refined through actual creative work, not focus groups.
             </p>
             <p className="font-bold">
               That's the ID8Labs difference.
             </p>
             <p>
-              I see patterns across domains that other people miss. Filmmaking and mycology have more in common 
-              than you'd think—both are about understanding how systems grow, how networks form, how small changes 
-              cascade. Wildlife biology teaches you to observe without interfering. Trading systems teach you to 
+              I see patterns across domains that other people miss. Filmmaking and mycology have more in common
+              than you'd think—both are about understanding how systems grow, how networks form, how small changes
+              cascade. Wildlife biology teaches you to observe without interfering. Trading systems teach you to
               build guardrails against your own worst instincts.
             </p>
             <p>
@@ -97,26 +96,33 @@ export default function LabPage() {
           </div>
         </section>
 
-        {/* What This Lab Actually Is */}
+        {/* What This Lab Has Become */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold mb-6">What This Lab Actually Is</h2>
+          <h2 className="text-3xl font-bold mb-6">What This Lab Has Become</h2>
           <div className="space-y-6 text-lg leading-relaxed">
             <p>
-              ID8Labs isn't a company pretending to have a product pipeline. It's my workshop where I solve 
-              problems that tools ignore.
+              ID8Labs started as a workshop where I solved problems that tools ignored.
+              It's grown into something more structured.
             </p>
             <p>
-              Some projects ship fast because the problem is urgent (ID8Composer).
+              Now there are three lanes:
             </p>
-            <p>
-              Some are long explorations because the solution isn't obvious yet (Lexicon, the GitHub for narrative universes).
-            </p>
-            <p>
-              Some are personal experiments that might become products if they work (MILO, my Pip-Boy-style life dashboard).
-            </p>
-            <p>
-              Some are just ideas I'm chewing on in the background (3D story trees, semantic versioning for narrative).
-            </p>
+            <div className="pl-6 border-l-4 border-id8-orange space-y-4">
+              <p>
+                <span className="font-bold text-id8-orange">For Creators</span> — Tools that treat AI as a creative partner
+                with memory. ID8Composer is the flagship: context management, knowledge bases, writing assistance
+                that actually remembers your story world.
+              </p>
+              <p>
+                <span className="font-bold text-[#A855F7]">For Builders</span> — Developer infrastructure. DeepStack for
+                multi-model AI orchestration. Pipeline CLI for visual project management. The tools I build to
+                build everything else.
+              </p>
+              <p>
+                <span className="font-bold text-[#06B6D4]">For Fun</span> — Experiments. The weird stuff that might become
+                products or might just be interesting. Because not everything needs a business case to be worth building.
+              </p>
+            </div>
             <p className="text-[var(--text-secondary)] font-medium italic">
               Products get personality. The lab stays focused.
             </p>
@@ -128,12 +134,12 @@ export default function LabPage() {
           <h2 className="text-3xl font-bold mb-6">The Philosophy</h2>
           <div className="space-y-6 text-lg leading-relaxed">
             <p className="text-2xl font-bold text-id8-orange mb-8">
-              Life is non-linear. Your tools should be too.
+              Tools for creators. Infrastructure for builders.
             </p>
             <div>
               <p className="font-bold text-id8-orange mb-2">AI should augment thinking, not replace it.</p>
               <p>
-                These tools treat AI as a creative partner with functional memory—not a black box that 
+                These tools treat AI as a creative partner with functional memory—not a black box that
                 forgets everything between sessions.
               </p>
             </div>
@@ -146,14 +152,14 @@ export default function LabPage() {
             <div>
               <p className="font-bold text-id8-orange mb-2">Learn by building, not by theorizing.</p>
               <p>
-                I'm not interested in the hypothetical best way to do something. I'm interested in what 
+                I'm not interested in the hypothetical best way to do something. I'm interested in what
                 actually works when you're under deadline pressure with real stakes.
               </p>
             </div>
             <div>
               <p className="font-bold text-id8-orange mb-2">See the connections other people miss.</p>
               <p>
-                Multidisciplinary thinking isn't a nice-to-have. It's the entire point. The innovations 
+                Multidisciplinary thinking isn't a nice-to-have. It's the entire point. The innovations
                 happen at the intersections.
               </p>
             </div>
@@ -165,41 +171,54 @@ export default function LabPage() {
           <h2 className="text-3xl font-bold mb-6">The Shift</h2>
           <div className="space-y-6 text-lg leading-relaxed">
             <p>
-              Television is changing. The industry I spent twenty years in is transforming in ways that 
+              Television is changing. The industry I spent twenty years in is transforming in ways that
               make this the right moment to transition.
             </p>
             <p>
-              But more importantly: tools like Claude Code have arrived. For the first time, someone with 
-              deep domain expertise can actually build professional software without needing to become a 
+              But more importantly: tools like Claude Code have arrived. For the first time, someone with
+              deep domain expertise can actually build professional software without needing to become a
               full-time engineer first.
             </p>
             <p>
-              I can take everything I learned in two decades of production—the problems nobody's solving, 
+              I can take everything I learned in two decades of production—the problems nobody's solving,
               the workflows nobody's optimizing, the tools that should exist but don't—and actually build them myself.
             </p>
             <p className="font-bold">
-              That's what this lab is. The convergence of twenty years of knowing what's broken and the 
+              That's what this lab is. The convergence of twenty years of knowing what's broken and the
               tools to finally fix it.
             </p>
             <p>
-              ID8Composer is just the beginning. It proves the model works: identify a real problem from 
-              the field, build the solution that should exist, ship it to the people who need it.
+              ID8Composer proved the model works. DeepStack proved it scales. Pipeline CLI proved I can
+              build the tools I need to build the tools I ship. The flywheel is spinning.
             </p>
           </div>
         </section>
 
-        {/* What You're Watching */}
+        {/* What's Shipping */}
         <section className="mb-16 py-12 border-t border-b border-[var(--border)] rounded-subtle">
-          <h2 className="text-3xl font-bold mb-6">What You're Watching</h2>
+          <h2 className="text-3xl font-bold mb-6">What's Shipping</h2>
           <div className="space-y-6 text-lg leading-relaxed">
             <p>
-              This lab is where I figure things out in public. The products that ship are the successful 
+              This lab is where I figure things out in public. The products that ship are the successful
               experiments. The ones that don't ship are the lessons learned.
             </p>
-            <p>
-              ID8Composer v0.8.1 is live. Twenty years of production work compressed 
-              into one tool that finally treats AI like a creative partner with memory.
-            </p>
+            <div className="grid gap-4 my-8">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
+                <span className="font-bold">ID8Composer v0.8.1</span>
+                <span className="text-[var(--text-secondary)]">— AI writing with memory</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
+                <span className="font-bold">DeepStack v2.5.0</span>
+                <span className="text-[var(--text-secondary)]">— Multi-model orchestration</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
+                <span className="font-bold">Pipeline CLI</span>
+                <span className="text-[var(--text-secondary)]">— Visual project dashboard</span>
+              </div>
+            </div>
             <p className="font-bold">
               If you're here, you're early. Stick around. It gets interesting.
             </p>
