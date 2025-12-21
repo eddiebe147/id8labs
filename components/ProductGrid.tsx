@@ -5,14 +5,16 @@ import { motion } from 'framer-motion'
 
 interface Product {
   name: string
-  status: 'shipping' | 'development' | 'exploration' | 'personal' | 'classified'
+  status: 'shipping' | 'development' | 'exploration' | 'internal'
   statusLabel: string
   description: string
   link?: string
   external?: boolean
+  category: 'creators' | 'builders' | 'fun'
 }
 
 const products: Product[] = [
+  // FOR CREATORS
   {
     name: 'Composer',
     status: 'shipping',
@@ -20,6 +22,7 @@ const products: Product[] = [
     description: 'Prevents context rot in AI-assisted writing through selective knowledge base management. Built for 90 Day Fiancé production, tested in the field. The AI finally remembers your story world across sessions.',
     link: 'https://id8composer.app',
     external: true,
+    category: 'creators',
   },
   {
     name: 'DeepStack',
@@ -28,6 +31,16 @@ const products: Product[] = [
     description: 'AI-powered trading research platform. Claude-powered analysis with 30+ tools, professional charts, thesis tracking, trade journaling with emotion monitoring, and an emotional firewall that blocks revenge trading. Research only—we never execute trades.',
     link: 'https://deepstack.trade',
     external: true,
+    category: 'creators',
+  },
+  // FOR BUILDERS
+  {
+    name: 'Pipeline',
+    status: 'internal',
+    statusLabel: 'Internal tooling',
+    description: 'Complete idea-to-exit lifecycle management. 8 interconnected AI agents handle validation, architecture, launch, growth, ops, and exit prep. Decay mechanics keep projects moving. Stage gates prevent premature advancement.',
+    link: '/products/pipeline',
+    category: 'builders',
   },
   {
     name: 'Factory',
@@ -35,46 +48,39 @@ const products: Product[] = [
     statusLabel: 'Field testing',
     description: 'Orchestrates Midjourney, Grok, Gemini into a single tracked workflow. Browser automation handles the tab-switching. State management remembers which prompt made what. The AI handles logistics, you handle taste.',
     link: '/products/factory',
+    category: 'builders',
   },
   {
-    name: 'Pipeline',
-    status: 'development',
-    statusLabel: 'Internal tooling',
-    description: 'Complete idea-to-exit lifecycle management. 8 interconnected AI agents handle validation, architecture, launch, growth, ops, and exit prep. Decay mechanics keep projects moving. Stage gates prevent premature advancement. Built for solo builders who want structure without bureaucracy.',
-    link: '/products/pipeline',
+    name: 'Pipeline CLI',
+    status: 'internal',
+    statusLabel: 'Just shipped',
+    description: 'Visual terminal dashboard for your entire product portfolio. Live updating display with decay bars, sparklines, health indicators. Built with Python + Rich for that control room aesthetic.',
+    link: '/essays/building-pipeline-cli',
+    category: 'builders',
   },
   {
     name: 'Lexicon',
     status: 'development',
-    statusLabel: 'Technical architecture complete',
+    statusLabel: 'Architecture complete',
     description: 'Replace your Excel story bibles with a living, searchable knowledge graph. Track characters, relationships, events, and continuity across years of content. Every connection instantly searchable.',
     link: '/products/lexicon',
+    category: 'creators',
   },
-  {
-    name: 'Clearance',
-    status: 'exploration',
-    statusLabel: 'Early exploration',
-    description: 'Protect creators from copyright strikes by removing background music from footage. Save re-shoot costs, avoid takedowns, keep your content monetized.',
-    link: '/products/clear',
-  },
+  // FOR FUN
   {
     name: 'X-Place',
     status: 'exploration',
     statusLabel: 'Building in public',
     description: 'r/place meets Twitter. 500x500 shared pixel canvas with X OAuth, cooldown timers, and real-time updates. A social experiment for the X ecosystem.',
     link: '/products/xplace',
-  },
-  {
-    name: 'MILO',
-    status: 'personal',
-    statusLabel: 'Foundation sprint active',
-    description: 'Pip-Boy-style life dashboard. Context-aware task management that watches what you\'re doing.',
+    category: 'fun',
   },
   {
     name: '[Classified]',
-    status: 'classified',
+    status: 'exploration',
     statusLabel: 'Research phase',
     description: '3D story tree visualization. Semantic versioning for narrative.',
+    category: 'fun',
   },
 ]
 
@@ -152,7 +158,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         return 'badge-development'
       case 'exploration':
         return 'badge-exploration'
-      case 'personal':
+      case 'internal':
         return 'badge-personal'
       default:
         return 'badge-development'
@@ -246,7 +252,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
 export default function ProductGrid() {
   const shippingProducts = products.filter(p => p.status === 'shipping')
-  const otherProducts = products.filter(p => p.status !== 'shipping')
+  const builderProducts = products.filter(p => p.category === 'builders')
+  const creatorProducts = products.filter(p => p.category === 'creators' && p.status !== 'shipping')
+  const funProducts = products.filter(p => p.category === 'fun')
 
   return (
     <section className="section-spacing bg-zone-text">
@@ -265,24 +273,50 @@ export default function ProductGrid() {
             <span className="text-gradient-orange">in the Lab</span>
           </h2>
           <p className="text-xl text-[var(--text-secondary)]">
-            From production-tested tools to early experiments
+            Tools for creators. Infrastructure for builders. Experiments for fun.
           </p>
         </motion.div>
 
-        {/* Featured Product - ID8Composer (2x size) */}
+        {/* Featured Products - Shipping Now */}
         <div className="mb-16">
           {shippingProducts.map((product, index) => (
             <FeaturedCard key={product.name} product={product} index={index} />
           ))}
         </div>
 
-        {/* Other Products Grid */}
-        <div>
-          <h3 className="text-2xl font-bold mb-8 text-[var(--text-secondary)]">
-            In Development
+        {/* For Builders */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold mb-8 text-purple-400">
+            For Builders
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {otherProducts.map((product, index) => (
+            {builderProducts.map((product, index) => (
+              <ProductCard key={product.name} product={product} index={index} />
+            ))}
+          </div>
+        </div>
+
+        {/* For Creators (non-shipping) */}
+        {creatorProducts.length > 0 && (
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold mb-8 text-[var(--id8-orange)]">
+              For Creators
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {creatorProducts.map((product, index) => (
+                <ProductCard key={product.name} product={product} index={index} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* For Fun */}
+        <div>
+          <h3 className="text-2xl font-bold mb-8 text-cyan-400">
+            For Fun
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {funProducts.map((product, index) => (
               <ProductCard key={product.name} product={product} index={index} />
             ))}
           </div>

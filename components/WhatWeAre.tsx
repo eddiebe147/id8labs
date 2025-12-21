@@ -20,15 +20,15 @@ export default function WhatWeAre() {
         >
           {/* Main Statement */}
           <p className="text-2xl md:text-3xl font-medium leading-relaxed text-[var(--text-primary)]">
-            Most AI tools are calculators for words.{' '}
+            Every tool here started as a real problem.{' '}
             <span className="text-gradient-orange font-bold">
-              We're building instruments for ideas.
+              The solutions became products.
             </span>
           </p>
 
           {/* Supporting Detail */}
           <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed">
-            id8Labs creates tools that think <span className="italic">with</span> you, not <span className="italic">for</span> you — starting with ID8Composer, where your thoughts become living, evolving things.
+            <span className="text-[var(--id8-orange)]">For Creators</span> — AI writing partners with memory that lasts. <span className="text-purple-400">For Builders</span> — orchestration that turns tab-switching into workflows. <span className="text-cyan-400">For Fun</span> — experiments we couldn't resist building.
           </p>
         </motion.div>
       </div>

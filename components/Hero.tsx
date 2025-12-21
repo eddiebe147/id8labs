@@ -18,10 +18,10 @@ export default function Hero() {
               <span className="text-gradient-orange">id8</span>Labs
             </span>
             <span className="block text-[clamp(2rem,5vw,3.5rem)] font-bold text-[var(--text-primary)]">
-              Building tools for
+              Tools for creators.
             </span>
             <span className="block text-[clamp(2rem,5vw,3.5rem)] font-bold text-[var(--text-primary)]">
-              non-linear thinking
+              Infrastructure for builders.
             </span>
           </h1>
 
@@ -32,7 +32,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto font-medium leading-relaxed"
           >
-            A workshop for ideation tools that treat AI as a creative partner with functional memory.
+            Professional tools that treat AI as a creative partner. CLI dashboards. Browser automation. And experiments because we can't help ourselves.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -75,11 +75,16 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex items-center justify-center gap-8 pt-12 text-sm text-[var(--text-tertiary)]"
+            className="flex flex-wrap items-center justify-center gap-6 pt-12 text-sm text-[var(--text-tertiary)]"
           >
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full animate-pulse" />
-              <span>ID8Composer v0.8.1 Live</span>
+              <span>Composer v0.8.1</span>
+            </div>
+            <div className="hidden sm:block w-1 h-1 bg-[var(--border)] rounded-full" />
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full animate-pulse" />
+              <span>DeepStack v2.5.0</span>
             </div>
             <div className="hidden sm:block w-1 h-1 bg-[var(--border)] rounded-full" />
             <div className="hidden sm:flex items-center gap-2">
