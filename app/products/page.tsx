@@ -259,7 +259,7 @@ export default function ProductsPage() {
           to stop fighting your tools and start shipping.
         </p>
         <a
-          href="https://x.com/eddiebelaval"
+          href="https://x.com/eddiebe"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-3 text-lg px-8 py-4 bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-colors"

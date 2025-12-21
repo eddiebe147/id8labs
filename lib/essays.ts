@@ -400,7 +400,7 @@ Your problem is different. Your solution will be too.
 
 CLI dashboards. AI orchestration. Production tools. Browser automation. If you've got a workflow that's held together by duct tape and browser tabs, I can probably build something better.
 
-**Reach out on [X @eddiebelaval](https://x.com/eddiebelaval) and let's talk.**
+**Reach out on [X @eddiebe](https://x.com/eddiebe) and let's talk.**
 
 ---
 
