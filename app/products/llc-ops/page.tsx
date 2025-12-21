@@ -262,7 +262,7 @@ export default function LLCOpsPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://x.com/eddiebelaval"
+              href="https://x.com/eddiebe"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[var(--id8-orange)] text-white font-bold rounded-soft hover:bg-[var(--id8-orange)]/90 transition-colors"
