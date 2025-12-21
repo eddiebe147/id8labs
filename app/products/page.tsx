@@ -72,6 +72,14 @@ const builderProducts: Product[] = [
     link: '/products/factory',
   },
   {
+    name: 'LLC Ops',
+    status: 'internal',
+    tagline: 'Custom AI agent systems for business operations',
+    description:
+      '9 specialized agents providing PhD-level guidance on tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain. Replace a $50k back office with agents.',
+    link: '/products/llc-ops',
+  },
+  {
     name: 'Pipeline CLI',
     status: 'internal',
     tagline: 'Visual terminal dashboard for Pipeline',
