@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'ID8 Clearance - ID8Labs',
+  title: 'Clearance - ID8Labs',
   description: 'Protect creators from copyright strikes by removing background music from footage. Save re-shoot costs, avoid takedowns, keep your content monetized.',
 }
 
@@ -25,7 +25,7 @@ export default function ClearPage() {
         {/* Header */}
         <header className="mb-16">
           <div className="flex items-center gap-3 mb-6">
-            <h1>ID8 Clearance</h1>
+            <h1>Clearance</h1>
             <span className="text-sm px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full">
               Early exploration
             </span>
@@ -50,7 +50,7 @@ export default function ClearPage() {
             music you didn't notice until post.
           </p>
           <p>
-            ID8 Clearance strips the music while preserving your dialogue and natural ambience. No more worrying
+            Clearance strips the music while preserving your dialogue and natural ambience. No more worrying
             about copyright claims destroying your content's revenue or getting your video taken down.
           </p>
         </section>

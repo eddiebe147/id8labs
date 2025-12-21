@@ -14,7 +14,7 @@ interface Product {
 
 const products: Product[] = [
   {
-    name: 'ID8Composer',
+    name: 'Composer',
     status: 'shipping',
     statusLabel: 'v0.8.1 • Live',
     description: 'Prevents context rot in AI-assisted writing through selective knowledge base management. Built for 90 Day Fiancé production, tested in the field. The AI finally remembers your story world across sessions.',
@@ -30,14 +30,14 @@ const products: Product[] = [
     external: true,
   },
   {
-    name: 'ID8Factory',
+    name: 'Factory',
     status: 'development',
     statusLabel: 'Field testing',
     description: 'Orchestrates Midjourney, Grok, Gemini into a single tracked workflow. Browser automation handles the tab-switching. State management remembers which prompt made what. The AI handles logistics, you handle taste.',
     link: '/products/factory',
   },
   {
-    name: 'ID8Pipeline',
+    name: 'Pipeline',
     status: 'development',
     statusLabel: 'Internal tooling',
     description: 'Complete idea-to-exit lifecycle management. 8 interconnected AI agents handle validation, architecture, launch, growth, ops, and exit prep. Decay mechanics keep projects moving. Stage gates prevent premature advancement. Built for solo builders who want structure without bureaucracy.',
@@ -51,7 +51,7 @@ const products: Product[] = [
     link: '/products/lexicon',
   },
   {
-    name: 'ID8 Clearance',
+    name: 'Clearance',
     status: 'exploration',
     statusLabel: 'Early exploration',
     description: 'Protect creators from copyright strikes by removing background music from footage. Save re-shoot costs, avoid takedowns, keep your content monetized.',

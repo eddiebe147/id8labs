@@ -2,48 +2,48 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'ID8Pipeline - ID8Labs',
+  title: 'Pipeline - ID8Labs',
   description: 'Complete idea-to-exit lifecycle management for solo builders. 8 interconnected AI agents handle validation, architecture, launch, growth, ops, and exit prep with decay mechanics and stage gates.',
 }
 
 const skills = [
   {
-    name: 'ID8Tracker',
+    name: 'Tracker',
     purpose: 'Pipeline Heartbeat',
     description: 'Tracks all projects through lifecycle states, enforces quality gates, calculates decay, generates dashboards',
   },
   {
-    name: 'ID8Scout',
+    name: 'Scout',
     purpose: 'Market Validation',
     description: 'TAM/SAM/SOM analysis, competitive teardowns, community signal mining. Delivers BUILD/PIVOT/KILL verdicts',
   },
   {
-    name: 'ID8Architect',
+    name: 'Architect',
     purpose: 'Technical Design',
     description: 'System architecture, stack selection, database patterns, API design. Outputs build roadmaps in phases',
   },
   {
-    name: 'ID8Launch',
+    name: 'Launch',
     purpose: 'Go-to-Market',
     description: 'Positioning, pricing, messaging, launch sequencing. Platform playbooks for Product Hunt, HN, Reddit',
   },
   {
-    name: 'ID8Growth',
+    name: 'Growth',
     purpose: 'Scale Engine',
     description: 'Growth loops, analytics frameworks, acquisition channels, retention optimization, A/B testing',
   },
   {
-    name: 'ID8Ops',
+    name: 'Ops',
     purpose: 'Operations Systems',
     description: 'SOP creation, delegation frameworks, customer success, team building. If twice, document. If ten times, automate',
   },
   {
-    name: 'ID8Exit',
+    name: 'Exit',
     purpose: 'Exit Preparation',
     description: 'Valuation methods, due diligence prep, data room checklists, term sheet analysis',
   },
   {
-    name: 'ID8Today',
+    name: 'Today',
     purpose: 'Daily Operations',
     description: '14 productivity methods with context-aware suggestions. Manages tasks across projects, TV production, and life',
   },
@@ -98,7 +98,7 @@ export default function PipelinePage() {
         {/* Header */}
         <header className="mb-16">
           <div className="flex items-center gap-3 mb-6 flex-wrap">
-            <h1>ID8Pipeline</h1>
+            <h1>Pipeline</h1>
             <span className="text-sm px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full">
               Internal Tooling
             </span>
@@ -208,11 +208,11 @@ export default function PipelinePage() {
           </ul>
         </section>
 
-        {/* ID8Today */}
+        {/* Today */}
         <section className="mb-16">
           <h2 className="text-3xl font-bold mb-6">Daily Operations: 14 Productivity Methods</h2>
           <p className="text-lg text-[var(--text-secondary)] mb-6">
-            ID8Today manages tasks across three domains—ID8 projects, TV production, and life admin.
+            Today manages tasks across three domains—projects, TV production, and life admin.
             It suggests the right productivity method based on your current context: energy level,
             task volume, and resistance patterns.
           </p>

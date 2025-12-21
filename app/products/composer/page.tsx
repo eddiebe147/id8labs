@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'ID8Composer - ID8Labs',
+  title: 'Composer - ID8Labs',
   description: 'Timeline-based AI story development platform for writers, directors, and producers.',
 }
 
@@ -25,7 +25,7 @@ export default function ComposerPage() {
         {/* Header */}
         <header className="mb-16">
           <div className="flex items-center gap-3 mb-6">
-            <h1>ID8Composer</h1>
+            <h1>Composer</h1>
             <span className="text-sm uppercase tracking-wide text-[var(--text-secondary)]">● Active</span>
           </div>
           <p className="text-2xl text-[var(--text-secondary)] mb-8">
@@ -36,17 +36,17 @@ export default function ComposerPage() {
         {/* Description */}
         <section className="mb-16 space-y-6 text-lg leading-relaxed">
           <p>
-            ID8Composer is a timeline-based story development platform built for writers, directors,
+            Composer is a timeline-based story development platform built for writers, directors,
             and producers who think visually and work non-linearly.
           </p>
           <p>
-            Unlike traditional outlining tools that force you into a linear structure, ID8Composer
+            Unlike traditional outlining tools that force you into a linear structure, Composer
             treats story development like the messy, iterative process it actually is. Build your
             narrative on a visual timeline. Rearrange scenes. Experiment with structure. Work with
             AI as a collaborative partner, not a replacement.
           </p>
           <p>
-            Born from 20 years of production experience, ID8Composer solves the problems we faced
+            Born from 20 years of production experience, Composer solves the problems we faced
             daily as storytellers working in television and film.
           </p>
         </section>
@@ -100,7 +100,7 @@ export default function ComposerPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 text-xl px-8 py-4 border-2 border-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] transition-all duration-200"
           >
-            Visit ID8Composer
+            Visit Composer
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
               <polyline points="15 3 21 3 21 9" />

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'ID8Factory - ID8Labs',
+  title: 'Factory - ID8Labs',
   description: 'AI creative production pipeline. Orchestrates Midjourney, Grok, Gemini and other AI tools into a single tracked workflow. The AI handles logistics, you handle taste.',
 }
 
@@ -54,7 +54,7 @@ export default function FactoryPage() {
         {/* Header */}
         <header className="mb-16">
           <div className="flex items-center gap-3 mb-6 flex-wrap">
-            <h1>ID8Factory</h1>
+            <h1>Factory</h1>
             <span className="text-sm px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full">
               Field Testing
             </span>
