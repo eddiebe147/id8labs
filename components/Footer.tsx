@@ -47,11 +47,16 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-bold mb-3">Connect</h3>
             <div className="flex flex-col gap-2 text-sm">
+              <Link href="/contact" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+                Contact
+              </Link>
               <a
-                href="mailto:eb@id8labs.tech"
+                href="https://x.com/eddiebe"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors"
               >
-                eb@id8labs.tech
+                @eddiebe
               </a>
             </div>
           </div>
