@@ -27,7 +27,7 @@ export default function Header() {
             <Link href="/lab" className="text-base hover:opacity-70 transition-opacity">
               Lab Story
             </Link>
-            <Link href="/lab#contact" className="text-base hover:opacity-70 transition-opacity">
+            <Link href="/contact" className="text-base hover:opacity-70 transition-opacity">
               Contact
             </Link>
           </nav>
@@ -78,7 +78,7 @@ export default function Header() {
               Lab Story
             </Link>
             <Link
-              href="/lab#contact"
+              href="/contact"
               className="block text-lg hover:opacity-70 transition-opacity"
               onClick={() => setMobileMenuOpen(false)}
             >
