@@ -114,9 +114,9 @@ export default function LabPage() {
                 that actually remembers your story world.
               </p>
               <p>
-                <span className="font-bold text-[#A855F7]">For Builders</span> — Developer infrastructure. DeepStack for
-                multi-model AI orchestration. Pipeline CLI for visual project management. The tools I build to
-                build everything else.
+                <span className="font-bold text-[#A855F7]">For Builders</span> — Developer infrastructure and research tools.
+                DeepStack for trading and predictive market research. Pipeline CLI for visual project management.
+                The tools I build to build everything else.
               </p>
               <p>
                 <span className="font-bold text-[#06B6D4]">For Fun</span> — Experiments. The weird stuff that might become
@@ -188,8 +188,8 @@ export default function LabPage() {
               tools to finally fix it.
             </p>
             <p>
-              ID8Composer proved the model works. DeepStack proved it scales. Pipeline CLI proved I can
-              build the tools I need to build the tools I ship. The flywheel is spinning.
+              ID8Composer proved the model works. DeepStack proved the lab can serve different domains.
+              Pipeline CLI proved I can build the tools I need to build the tools I ship. The flywheel is spinning.
             </p>
           </div>
         </section>
@@ -211,7 +211,7 @@ export default function LabPage() {
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
                 <span className="font-bold">DeepStack v2.5.0</span>
-                <span className="text-[var(--text-secondary)]">— Multi-model orchestration</span>
+                <span className="text-[var(--text-secondary)]">— Trading & predictive market research</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
