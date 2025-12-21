@@ -48,10 +48,10 @@ export default function Footer() {
             <h3 className="text-sm font-bold mb-3">Connect</h3>
             <div className="flex flex-col gap-2 text-sm">
               <a
-                href="mailto:eb@id8composer.app"
+                href="mailto:eb@id8labs.tech"
                 className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors"
               >
-                eb@id8composer.app
+                eb@id8labs.tech
               </a>
             </div>
           </div>

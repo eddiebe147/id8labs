@@ -222,10 +222,10 @@ export default function LabPage() {
             <p>
               Email me at{' '}
               <a
-                href="mailto:eb@id8composer.app"
+                href="mailto:eb@id8labs.tech"
                 className="border-b-2 border-id8-orange text-id8-orange hover:opacity-70 transition-opacity"
               >
-                eb@id8composer.app
+                eb@id8labs.tech
               </a>
             </p>
           </div>
