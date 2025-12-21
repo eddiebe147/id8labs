@@ -37,6 +37,13 @@ const products: Product[] = [
     link: '/products/factory',
   },
   {
+    name: 'ID8Pipeline',
+    status: 'development',
+    statusLabel: 'Internal tooling',
+    description: 'Complete idea-to-exit lifecycle management. 8 interconnected AI agents handle validation, architecture, launch, growth, ops, and exit prep. Decay mechanics keep projects moving. Stage gates prevent premature advancement. Built for solo builders who want structure without bureaucracy.',
+    link: '/products/pipeline',
+  },
+  {
     name: 'Lexicon',
     status: 'development',
     statusLabel: 'Technical architecture complete',
