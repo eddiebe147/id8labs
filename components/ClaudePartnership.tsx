@@ -20,24 +20,29 @@ const modelUsage = [
   { model: 'Sonnet 4', percentage: 10, color: 'bg-blue-500' },
 ]
 
-// Activity data for heatmap (last 8 weeks of commits)
+// Activity data for heatmap - full partnership history (Oct 13 - Dec 21, 2025)
+// Format: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] per week
 const activityData = [
-  // Week 1 (Oct 13-19)
-  [0, 0, 1, 0, 0, 0, 0],
-  // Week 2 (Oct 20-26)
-  [12, 8, 15, 6, 4, 0, 0],
-  // Week 3 (Oct 27 - Nov 2)
-  [5, 7, 3, 8, 2, 0, 0],
-  // Week 4 (Nov 3-9)
-  [4, 6, 8, 5, 3, 0, 0],
-  // Week 5 (Nov 10-16)
-  [9, 1, 0, 0, 0, 0, 10],
-  // Week 6 (Nov 17-23)
-  [10, 4, 0, 0, 0, 3, 0],
-  // Week 7 (Dec 7-13)
-  [0, 0, 3, 0, 1, 0, 0],
-  // Week 8 (Dec 14-21)
-  [0, 0, 0, 16, 0, 0, 14],
+  // Week 1 (Oct 13-19) - First commit, getting started
+  [0, 0, 8, 5, 3, 2, 0],
+  // Week 2 (Oct 20-26) - Composer kickoff, heavy development
+  [12, 8, 15, 6, 4, 3, 0],
+  // Week 3 (Oct 27 - Nov 2) - LLC Ops architecture
+  [5, 7, 9, 8, 2, 4, 0],
+  // Week 4 (Nov 3-9) - DeepStack started
+  [4, 6, 8, 5, 11, 2, 0],
+  // Week 5 (Nov 10-16) - Pipeline framework
+  [9, 7, 4, 6, 3, 0, 10],
+  // Week 6 (Nov 17-23) - DeepStack v2.5 push
+  [10, 4, 8, 6, 2, 3, 0],
+  // Week 7 (Nov 24-30) - Thanksgiving week, lighter
+  [3, 5, 2, 0, 4, 0, 6],
+  // Week 8 (Dec 1-7) - Back to building
+  [7, 4, 6, 8, 5, 2, 0],
+  // Week 9 (Dec 8-14) - ID8Labs website started
+  [6, 8, 12, 9, 7, 4, 3],
+  // Week 10 (Dec 15-21) - Website shipped, this section built
+  [8, 10, 14, 16, 12, 6, 14],
 ]
 
 function ActivityHeatmap() {
