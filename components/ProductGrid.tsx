@@ -17,51 +17,51 @@ interface Product {
 // Abstract product preview mockups
 function ComposerPreview() {
   return (
-    <div className="relative w-full h-48 md:h-56 rounded-lg overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 border border-[var(--border)]">
+    <div className="relative w-full h-48 md:h-56 rounded-lg overflow-hidden bg-gray-700 border-2 border-gray-500">
       {/* Dual panel layout representing Canvas/Sandbox */}
-      <div className="absolute inset-2 flex gap-2">
+      <div className="absolute inset-3 flex gap-3">
         {/* Left panel - Canvas */}
-        <div className="flex-1 bg-gray-950/50 rounded-md p-3 border border-gray-700/50">
-          <div className="h-2 w-16 bg-[var(--id8-orange)]/30 rounded mb-2" />
-          <div className="space-y-1.5">
-            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
-            <div className="h-1.5 w-4/5 bg-gray-700/50 rounded" />
-            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
-            <div className="h-1.5 w-3/4 bg-gray-700/50 rounded" />
+        <div className="flex-1 bg-gray-800 rounded-md p-3 border border-gray-500">
+          <div className="h-2.5 w-16 bg-[var(--id8-orange)] rounded mb-3" />
+          <div className="space-y-2">
+            <div className="h-2 w-full bg-gray-500 rounded" />
+            <div className="h-2 w-4/5 bg-gray-500 rounded" />
+            <div className="h-2 w-full bg-gray-500 rounded" />
+            <div className="h-2 w-3/4 bg-gray-500 rounded" />
           </div>
         </div>
         {/* Right panel - Sandbox */}
-        <div className="flex-1 bg-gray-950/50 rounded-md p-3 border border-gray-700/50">
-          <div className="h-2 w-12 bg-purple-500/30 rounded mb-2" />
-          <div className="space-y-1.5">
-            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
-            <div className="h-1.5 w-5/6 bg-gray-700/50 rounded" />
-            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
+        <div className="flex-1 bg-gray-800 rounded-md p-3 border border-gray-500">
+          <div className="h-2.5 w-12 bg-purple-500 rounded mb-3" />
+          <div className="space-y-2">
+            <div className="h-2 w-full bg-gray-500 rounded" />
+            <div className="h-2 w-5/6 bg-gray-500 rounded" />
+            <div className="h-2 w-full bg-gray-500 rounded" />
           </div>
         </div>
       </div>
       {/* Floating memory indicator */}
-      <div className="absolute bottom-3 right-3 px-2 py-1 bg-[var(--id8-orange)]/20 rounded text-xs text-[var(--id8-orange)] font-mono">
+      <div className="absolute bottom-3 right-3 px-2.5 py-1.5 bg-[var(--id8-orange)]/40 border border-[var(--id8-orange)] rounded text-xs text-[var(--id8-orange)] font-mono font-semibold">
         Memory: Active
       </div>
       {/* Subtle glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--id8-orange)]/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--id8-orange)]/15 to-transparent pointer-events-none" />
     </div>
   )
 }
 
 function DeepStackPreview() {
   return (
-    <div className="relative w-full h-48 md:h-56 rounded-lg overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 border border-[var(--border)]">
+    <div className="relative w-full h-48 md:h-56 rounded-lg overflow-hidden bg-gray-700 border-2 border-gray-500">
       {/* Chart area */}
-      <div className="absolute inset-2">
-        <div className="h-full bg-gray-950/50 rounded-md p-3 border border-gray-700/50">
+      <div className="absolute inset-3">
+        <div className="h-full bg-gray-800 rounded-md p-3 border border-gray-500">
           {/* Mini candlestick chart */}
-          <div className="flex items-end justify-between h-24 gap-1 mb-3">
+          <div className="flex items-end justify-between h-24 gap-1.5 mb-3">
             {[40, 55, 45, 60, 50, 70, 65, 75, 60, 80, 70, 85].map((h, i) => (
               <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
                 <div
-                  className={`w-full rounded-sm ${i % 2 === 0 ? 'bg-green-500/60' : 'bg-red-500/60'}`}
+                  className={`w-full rounded-sm ${i % 2 === 0 ? 'bg-green-500' : 'bg-red-500'}`}
                   style={{ height: `${h}%` }}
                 />
               </div>
@@ -69,19 +69,19 @@ function DeepStackPreview() {
           </div>
           {/* Analysis tools indicator */}
           <div className="flex gap-2">
-            <div className="px-2 py-0.5 bg-green-500/20 rounded text-xs text-green-400 font-mono">RSI</div>
-            <div className="px-2 py-0.5 bg-blue-500/20 rounded text-xs text-blue-400 font-mono">MACD</div>
-            <div className="px-2 py-0.5 bg-purple-500/20 rounded text-xs text-purple-400 font-mono">VOL</div>
+            <div className="px-2 py-1 bg-green-500/40 border border-green-500 rounded text-xs text-green-400 font-mono font-semibold">RSI</div>
+            <div className="px-2 py-1 bg-blue-500/40 border border-blue-500 rounded text-xs text-blue-400 font-mono font-semibold">MACD</div>
+            <div className="px-2 py-1 bg-purple-500/40 border border-purple-500 rounded text-xs text-purple-400 font-mono font-semibold">VOL</div>
           </div>
         </div>
       </div>
       {/* Emotion guard indicator */}
-      <div className="absolute bottom-3 right-3 px-2 py-1 bg-green-500/20 rounded text-xs text-green-400 font-mono flex items-center gap-1.5">
-        <div className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+      <div className="absolute bottom-3 right-3 px-2.5 py-1.5 bg-green-500/40 border border-green-500 rounded text-xs text-green-400 font-mono font-semibold flex items-center gap-1.5">
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
         Emotion Guard
       </div>
       {/* Subtle glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-green-500/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-green-500/15 to-transparent pointer-events-none" />
     </div>
   )
 }
