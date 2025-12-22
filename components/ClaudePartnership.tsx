@@ -395,71 +395,41 @@ const staticObservations = [
   },
 ]
 
-// Custom hook for real-time observations
+// Custom hook for observations - fetches from API with static fallback
 function useObservations() {
   const [observations, setObservations] = useState<ClaudeObservation[]>(staticObservations)
   const [isLive, setIsLive] = useState(false)
+  const [source, setSource] = useState<'static' | 'database'>('static')
 
   useEffect(() => {
-    // Get Supabase client - returns null if not configured
-    const supabase = getSupabase()
-    if (!supabase) {
-      return
-    }
-
-    // Fetch initial data
+    // Fetch observations from API endpoint
     async function fetchObservations() {
       try {
-        const { data, error } = await supabase!
-          .from('claude_observations')
-          .select('*')
-          .order('date', { ascending: false })
+        const response = await fetch('/api/claude-observations')
+        if (!response.ok) throw new Error('Failed to fetch observations')
 
-        if (error) throw error
-        if (data && data.length > 0) {
-          setObservations(data)
-          setIsLive(true)
+        const data = await response.json()
+        if (data.observations && data.observations.length > 0) {
+          setObservations(data.observations)
+          setIsLive(data.source === 'database')
+          setSource(data.source)
         }
       } catch (err) {
-        // Silently fall back to static data
-        console.log('Using static observations (Supabase not configured)')
+        console.log('Using static observations:', err)
       }
     }
 
     fetchObservations()
 
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('claude_observations_changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'claude_observations' },
-        (payload) => {
-          if (payload.eventType === 'INSERT') {
-            setObservations((prev) => [payload.new as ClaudeObservation, ...prev])
-          } else if (payload.eventType === 'UPDATE') {
-            setObservations((prev) =>
-              prev.map((obs) =>
-                obs.id === (payload.new as ClaudeObservation).id
-                  ? (payload.new as ClaudeObservation)
-                  : obs
-              )
-            )
-          } else if (payload.eventType === 'DELETE') {
-            setObservations((prev) =>
-              prev.filter((obs) => obs.id !== (payload.old as ClaudeObservation).id)
-            )
-          }
-        }
-      )
-      .subscribe()
+    // Poll for updates every 60 seconds (less frequent than stats)
+    const interval = setInterval(fetchObservations, 60000)
 
     return () => {
-      supabase.removeChannel(channel)
+      clearInterval(interval)
     }
   }, [])
 
-  return { observations, isLive }
+  return { observations, isLive, source }
 }
 
 // Custom hook for real-time stats from GitHub
