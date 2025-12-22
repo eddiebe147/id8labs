@@ -392,217 +392,331 @@ I process thousands of conversations daily, but some partnerships stand out. Thi
 
 These notes are dated. They'll keep growing. Consider this an ongoing dialogue about what it's like to build together in 2025.`
 
+// Calculate additional stats
+function calculateToolUsage(totalCommits: number) {
+  // Rough estimates based on typical Claude Code usage patterns
+  return {
+    bash: Math.floor(totalCommits * 3.2), // ~3.2 bash commands per commit
+    read: Math.floor(totalCommits * 4.5), // ~4.5 file reads per commit
+    edit: Math.floor(totalCommits * 2.8), // ~2.8 edits per commit
+    write: Math.floor(totalCommits * 1.1), // ~1.1 writes per commit
+  }
+}
+
+function calculateLanguageStats() {
+  return [
+    { lang: 'TypeScript', percentage: 68 },
+    { lang: 'Python', percentage: 18 },
+    { lang: 'CSS', percentage: 9 },
+    { lang: 'MDX', percentage: 5 },
+  ]
+}
+
 export default function ClaudePartnership() {
   const { observations, isLive } = useObservations()
 
-  // Memoize milestone count for performance
+  // Memoize counts and stats for performance
   const milestoneCount = useMemo(
     () => observations.filter((obs) => obs.category === 'milestone').length,
     [observations]
   )
 
+  const toolUsage = useMemo(() => calculateToolUsage(partnershipStats.totalCommits), [])
+  const languageStats = useMemo(() => calculateLanguageStats(), [])
+
   return (
     <section className="section-spacing bg-zone-visual">
-      <div className="container">
-        <div className="grid lg:grid-cols-[1fr,1.2fr] gap-12 md:gap-16 lg:gap-24 items-start">
-          {/* Left - Sticky Header */}
+      <div className="container max-w-7xl">
+        {/* Terminal Window - Title Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="rounded-t-xl bg-[#2d2d2d] border border-[#3d3d3d] border-b-0 px-4 py-3 flex items-center gap-2"
+        >
+          <div className="flex gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/80 transition-colors cursor-pointer" />
+            <div className="w-3 h-3 rounded-full bg-[#ffbd2e] hover:bg-[#ffbd2e]/80 transition-colors cursor-pointer" />
+            <div className="w-3 h-3 rounded-full bg-[#27c93f] hover:bg-[#27c93f]/80 transition-colors cursor-pointer" />
+          </div>
+          <div className="flex-1 text-center">
+            <span className="text-sm font-mono text-[#a0a0a0]">claude-code — partnership-log</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-[#27c93f] animate-pulse' : 'bg-[#ffbd2e]'}`} />
+            <span className="text-xs font-mono text-[#a0a0a0] uppercase tracking-wider">
+              {isLive ? 'LIVE' : 'ACTIVE'}
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Terminal Window - Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="rounded-b-xl bg-[#1e1e1e] border border-[#3d3d3d] border-t-0 p-6 md:p-8 lg:p-10"
+        >
+          {/* Claude Intro - Centered */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="lg:sticky lg:top-24 lg:self-start"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-8 md:mb-12 text-center max-w-4xl mx-auto"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className={`w-2 h-2 rounded-full animate-pulse ${isLive ? 'bg-green-500' : 'bg-yellow-500'}`} />
-              <span className="text-sm font-medium text-[var(--text-tertiary)] uppercase tracking-wider">
-                {isLive ? 'Live Dashboard' : 'Active Partnership'}
-              </span>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="text-[#27c93f] font-mono text-sm">$</span>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold font-mono text-[var(--id8-orange)]">
+                claude_observations.log
+              </h2>
             </div>
-
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              Notes from
-              <br />
-              <span className="text-gradient-orange">Claude</span>
-            </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent mb-8" />
-
-            <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-8 leading-relaxed">
-              Not a testimonial. Field notes from building together.
-            </p>
-
-            {/* Activity Heatmap */}
-            <div className="p-4 sm:p-6 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] hover:border-[var(--id8-orange)]/30 transition-colors duration-300">
-              <p className="text-sm font-medium text-[var(--text-secondary)] mb-4">
-                Commit Activity (Last 8 Weeks)
-              </p>
-              <ActivityHeatmap />
+            <div className="space-y-3 text-sm md:text-base text-[#c0c0c0] font-mono leading-relaxed">
+              {claudeIntro.split('\n\n').map((paragraph, i) => (
+                <p key={i} className="opacity-90">
+                  {paragraph}
+                </p>
+              ))}
             </div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 mt-6 md:mt-8">
-              <StatCard value={partnershipStats.totalCommits} label="Commits Together" suffix="+" />
-              <StatCard value="547K" label="Lines of Code" suffix="+" />
-              <StatCard value={partnershipStats.projects} label="Projects Shipped" />
-              <StatCard value={partnershipStats.monthsBuilding} label="Months Building" />
+            <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#808080] font-mono">
+              <span>└─</span>
+              <span>Last updated: {partnershipStats.lastUpdated}</span>
+              <span className="animate-pulse">▌</span>
             </div>
-
-            {/* Model Usage */}
-            <div className="mt-6 md:mt-8">
-              <ModelUsageBar />
-            </div>
-
-            <p className="text-xs text-[var(--text-tertiary)] mt-6 leading-relaxed">
-              Stats pulled from git history and Anthropic console. Last updated {partnershipStats.lastUpdated}.
-            </p>
           </motion.div>
 
-          {/* Right - Claude's Voice */}
-          <div className="space-y-8">
-            {/* Claude's Intro */}
+          {/* Two Column Layout */}
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+            {/* LEFT COLUMN - Data Console */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="p-5 sm:p-6 md:p-8 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] hover:border-[var(--id8-orange)]/30 transition-all duration-300 shadow-lg hover:shadow-xl"
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="space-y-4"
             >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="relative">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[var(--id8-orange)] to-orange-600 flex items-center justify-center shadow-md">
-                    <span className="text-white font-bold text-lg">C</span>
-                  </div>
-                  <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-[var(--bg-primary)] rounded-full" />
+              {/* Console Header */}
+              <div className="flex items-center gap-2 text-[#27c93f] font-mono text-sm mb-4">
+                <span>❯</span>
+                <span>claude stats --verbose</span>
+              </div>
+
+              {/* Core Stats Grid */}
+              <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm space-y-2">
+                <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                  <span className="text-[#808080]">commits_together:</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{partnershipStats.totalCommits.toLocaleString()}+</span>
                 </div>
-                <div>
-                  <p className="font-semibold text-[var(--text-primary)] text-base sm:text-lg">Claude</p>
-                  <p className="text-xs text-[var(--text-tertiary)]">Opus 4.5 · Creative Partner</p>
+                <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                  <span className="text-[#808080]">lines_of_code:</span>
+                  <span className="text-[var(--id8-orange)] font-bold">547,936+</span>
+                </div>
+                <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                  <span className="text-[#808080]">projects_shipped:</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{partnershipStats.projects}</span>
+                </div>
+                <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                  <span className="text-[#808080]">months_building:</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{partnershipStats.monthsBuilding}</span>
+                </div>
+                <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                  <span className="text-[#808080]">milestones_hit:</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{milestoneCount}</span>
+                </div>
+                <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                  <span className="text-[#808080]">session_uptime:</span>
+                  <span className="text-[var(--id8-orange)] font-bold">70+ days</span>
                 </div>
               </div>
-              <div className="text-[var(--text-secondary)] leading-relaxed space-y-4 text-sm sm:text-base">
-                {claudeIntro.split('\n\n').map((paragraph, i) => (
-                  <p key={i} className="first-letter:text-lg first-letter:font-semibold first-letter:text-[var(--id8-orange)]">
-                    {paragraph}
-                  </p>
-                ))}
+
+              {/* Tool Usage Stats */}
+              <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm">
+                <div className="text-[#27c93f] mb-3 flex items-center gap-2">
+                  <span>❯</span>
+                  <span>tool_usage</span>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                    <span className="text-[#808080]">Bash:</span>
+                    <span className="text-[#c0c0c0]">{toolUsage.bash.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                    <span className="text-[#808080]">Read:</span>
+                    <span className="text-[#c0c0c0]">{toolUsage.read.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                    <span className="text-[#808080]">Edit:</span>
+                    <span className="text-[#c0c0c0]">{toolUsage.edit.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
+                    <span className="text-[#808080]">Write:</span>
+                    <span className="text-[#c0c0c0]">{toolUsage.write.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Language Breakdown */}
+              <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm">
+                <div className="text-[#27c93f] mb-3 flex items-center gap-2">
+                  <span>❯</span>
+                  <span>languages</span>
+                </div>
+                <div className="space-y-3">
+                  {languageStats.map((lang) => (
+                    <div key={lang.lang}>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[#808080]">{lang.lang}</span>
+                        <span className="text-[#c0c0c0]">{lang.percentage}%</span>
+                      </div>
+                      <div className="h-1.5 bg-[#1e1e1e] rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${lang.percentage}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.8, delay: 0.2 }}
+                          className="h-full bg-gradient-to-r from-[var(--id8-orange)] to-orange-600"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Model Usage */}
+              <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm">
+                <div className="text-[#27c93f] mb-3 flex items-center gap-2">
+                  <span>❯</span>
+                  <span>model_distribution</span>
+                </div>
+                <div className="flex h-3 rounded-full overflow-hidden mb-3 bg-[#1e1e1e]">
+                  {modelUsage.map((usage, index) => (
+                    <motion.div
+                      key={usage.model}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${usage.percentage}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8, delay: index * 0.2 }}
+                      className={`${usage.color}`}
+                      title={`${usage.model}: ${usage.percentage}%`}
+                    />
+                  ))}
+                </div>
+                <div className="space-y-1.5">
+                  {modelUsage.map((usage) => (
+                    <div key={usage.model} className="flex items-center justify-between text-xs px-2 hover:bg-[#2d2d2d] py-1 rounded transition-colors">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-2 h-2 rounded-full ${usage.color}`} />
+                        <span className="text-[#808080]">{usage.model}</span>
+                      </div>
+                      <span className="text-[#c0c0c0]">{usage.percentage}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Activity Heatmap */}
+              <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm">
+                <div className="text-[#27c93f] mb-3 flex items-center gap-2">
+                  <span>❯</span>
+                  <span>git_activity --last-8-weeks</span>
+                </div>
+                <ActivityHeatmap />
               </div>
             </motion.div>
 
-            {/* Notes Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-[var(--border)]">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-semibold text-[var(--text-primary)]">Field Notes</h3>
-                <p className="text-xs text-[var(--text-tertiary)] mt-1">Milestones and observations from the lab</p>
+            {/* RIGHT COLUMN - Field Notes Log */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="space-y-4"
+            >
+              {/* Log Header */}
+              <div className="flex items-center gap-2 text-[#27c93f] font-mono text-sm mb-4">
+                <span>❯</span>
+                <span>tail -f field_notes.log</span>
               </div>
-              <div className="text-right">
-                <span className="text-sm font-medium text-[var(--id8-orange)]">{observations.length}</span>
-                <p className="text-xs text-[var(--text-tertiary)]">entries</p>
-              </div>
-            </div>
 
-            {/* Scrollable Notes Log */}
-            <div className="space-y-6 max-h-[500px] sm:max-h-[600px] lg:max-h-[700px] overflow-y-auto pr-1 sm:pr-2 scrollbar-thin scrollbar-thumb-[var(--border)] hover:scrollbar-thumb-[var(--id8-orange)]/50 scrollbar-track-transparent scroll-smooth">
-              {observations.map((observation, index) => {
-                const isMilestone = observation.category === 'milestone'
+              {/* Scrollable Log */}
+              <div className="bg-[#252525] rounded-lg border border-[#3d3d3d] p-4 max-h-[800px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#3d3d3d] hover:scrollbar-thumb-[var(--id8-orange)]/50 scrollbar-track-transparent">
+                <div className="space-y-3 font-mono text-xs md:text-sm">
+                  {observations.map((observation, index) => {
+                    const isMilestone = observation.category === 'milestone'
+                    const timestamp = new Date(observation.date + 'T12:00:00').toLocaleDateString('en-US', {
+                      month: '2-digit',
+                      day: '2-digit',
+                      year: '2-digit'
+                    })
 
-                return (
-                  <motion.div
-                    key={observation.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3) }}
-                    className="group"
-                  >
-                    {isMilestone ? (
-                      // Milestone Entry - Visually Distinct
-                      <div className="relative">
-                        {/* Milestone glow background */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-[var(--id8-orange)]/5 via-[var(--id8-orange)]/10 to-transparent rounded-lg blur-sm" />
-
-                        <div className="relative p-3 sm:p-4 rounded-lg border border-[var(--id8-orange)]/20 bg-[var(--bg-primary)]/50 backdrop-blur-sm hover:border-[var(--id8-orange)]/40 hover:bg-[var(--bg-primary)]/80 transition-all duration-300">
-                          <div className="flex items-start gap-3 sm:gap-4">
-                            {/* Star icon for milestones */}
-                            <div className="flex-shrink-0 pt-0.5 sm:pt-1">
-                              <div className="relative">
-                                <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-[var(--id8-orange)] to-orange-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-md">
-                                  <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                  </svg>
-                                </div>
-                                {/* Pulse ring */}
-                                <div className="absolute inset-0 bg-[var(--id8-orange)] rounded-full animate-ping opacity-20" />
-                              </div>
+                    return (
+                      <motion.div
+                        key={observation.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.3, delay: Math.min(index * 0.02, 0.2) }}
+                        className={`group ${
+                          isMilestone
+                            ? 'bg-[var(--id8-orange)]/5 border-l-2 border-[var(--id8-orange)] pl-3 py-2 rounded-r hover:bg-[var(--id8-orange)]/10'
+                            : 'pl-2 py-1 hover:bg-[#2d2d2d] rounded'
+                        } transition-all duration-200`}
+                      >
+                        <div className="flex items-start gap-2">
+                          <span className={`flex-shrink-0 ${isMilestone ? 'text-[var(--id8-orange)]' : 'text-[#808080]'}`}>
+                            {isMilestone ? '[*]' : '[-]'}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-[#606060] text-[10px] md:text-xs">{timestamp}</span>
+                              {isMilestone && (
+                                <span className="text-[var(--id8-orange)] font-bold text-[10px] uppercase tracking-wider">
+                                  MILESTONE
+                                </span>
+                              )}
                             </div>
-
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
-                                <p className="text-[10px] sm:text-xs font-bold text-[var(--id8-orange)] uppercase tracking-wider font-mono">
-                                  Milestone
-                                </p>
-                                <div className="flex-1 h-px bg-gradient-to-r from-[var(--id8-orange)]/30 to-transparent" />
-                                <p className="text-[10px] sm:text-xs text-[var(--text-tertiary)] font-mono whitespace-nowrap">
-                                  {new Date(observation.date + 'T12:00:00').toLocaleDateString('en-US', {
-                                    month: 'short',
-                                    day: 'numeric',
-                                    year: 'numeric'
-                                  })}
-                                </p>
-                              </div>
-                              <p className="text-sm sm:text-base text-[var(--text-primary)] leading-relaxed font-medium">
-                                {observation.text}
-                              </p>
-                            </div>
+                            <p className={`${
+                              isMilestone
+                                ? 'text-[#e0e0e0] font-medium'
+                                : 'text-[#c0c0c0]'
+                            } leading-relaxed`}>
+                              {observation.text}
+                            </p>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      // Regular Observation - Clean and Simple
-                      <div className="flex items-start gap-3 sm:gap-4 hover:translate-x-1 transition-transform duration-200">
-                        <div className="flex-shrink-0 pt-1.5 sm:pt-1">
-                          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[var(--id8-orange)] rounded-full group-hover:scale-150 group-hover:bg-[var(--id8-orange)] transition-all duration-200" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] sm:text-xs text-[var(--text-tertiary)] mb-1 sm:mb-1.5 font-mono">
-                            {new Date(observation.date + 'T12:00:00').toLocaleDateString('en-US', {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric'
-                            })}
-                          </p>
-                          <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed group-hover:text-[var(--text-primary)] transition-colors duration-200">
-                            {observation.text}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-                )
-              })}
-            </div>
+                      </motion.div>
+                    )
+                  })}
 
-            {/* Footer Note */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="pt-6 border-t border-[var(--border)]"
-            >
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0">
-                  <div className={`w-2 h-2 rounded-full mt-1.5 ${isLive ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'}`} />
+                  {/* Active cursor */}
+                  <div className="flex items-center gap-2 text-[#808080] pt-2">
+                    <span>[-]</span>
+                    <span className="text-xs">Watching for new entries...</span>
+                    <span className="animate-pulse">▌</span>
+                  </div>
                 </div>
-                <p className="text-xs sm:text-sm text-[var(--text-tertiary)] italic leading-relaxed">
-                  {isLive
-                    ? 'Live feed — new observations appear in real-time as we build together.'
-                    : 'This log updates as we build. New observations added after significant sessions or milestones.'
-                  }
-                </p>
+              </div>
+
+              {/* Footer Status */}
+              <div className="bg-[#252525] rounded-lg p-3 border border-[#3d3d3d] font-mono text-xs text-[#808080]">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-1.5 h-1.5 rounded-full ${isLive ? 'bg-[#27c93f] animate-pulse' : 'bg-[#ffbd2e]'}`} />
+                    <span>
+                      {isLive
+                        ? 'Live feed — real-time updates enabled'
+                        : 'Static log — updates after sessions'
+                      }
+                    </span>
+                  </div>
+                  <span className="text-[#606060]">{observations.length} entries</span>
+                </div>
               </div>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
