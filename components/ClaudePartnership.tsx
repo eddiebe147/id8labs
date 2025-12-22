@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { getSupabase, type ClaudeObservation } from '@/lib/supabase'
 
 // Real stats from git history - update periodically
@@ -42,16 +42,16 @@ const activityData = [
 
 function ActivityHeatmap() {
   const getIntensity = (value: number) => {
-    if (value === 0) return 'bg-[var(--bg-secondary)]'
-    if (value <= 3) return 'bg-[var(--id8-orange)]/30'
-    if (value <= 8) return 'bg-[var(--id8-orange)]/50'
-    if (value <= 12) return 'bg-[var(--id8-orange)]/70'
-    return 'bg-[var(--id8-orange)]'
+    if (value === 0) return 'bg-[var(--bg-secondary)] hover:bg-[var(--border)]'
+    if (value <= 3) return 'bg-[var(--id8-orange)]/30 hover:bg-[var(--id8-orange)]/40'
+    if (value <= 8) return 'bg-[var(--id8-orange)]/50 hover:bg-[var(--id8-orange)]/60'
+    if (value <= 12) return 'bg-[var(--id8-orange)]/70 hover:bg-[var(--id8-orange)]/80'
+    return 'bg-[var(--id8-orange)] hover:bg-[var(--id8-orange)]/90'
   }
 
   return (
-    <div className="space-y-2">
-      <div className="flex gap-1">
+    <div className="space-y-3">
+      <div className="flex gap-1 justify-center sm:justify-start overflow-x-auto pb-2">
         {activityData.map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col gap-1">
             {week.map((day, dayIndex) => (
@@ -60,27 +60,28 @@ function ActivityHeatmap() {
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
+                whileHover={{ scale: 1.2, zIndex: 10 }}
                 transition={{
                   duration: 0.2,
                   delay: (weekIndex * 7 + dayIndex) * 0.01
                 }}
-                className={`w-3 h-3 rounded-sm ${getIntensity(day)}`}
+                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm ${getIntensity(day)} transition-all duration-200 cursor-default shadow-sm`}
                 title={`${day} commits`}
               />
             ))}
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-2 text-xs text-[var(--text-tertiary)]">
-        <span>Less</span>
+      <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-[var(--text-tertiary)]">
+        <span className="text-[10px] sm:text-xs">Less</span>
         <div className="flex gap-1">
-          <div className="w-3 h-3 rounded-sm bg-[var(--bg-secondary)]" />
-          <div className="w-3 h-3 rounded-sm bg-[var(--id8-orange)]/30" />
-          <div className="w-3 h-3 rounded-sm bg-[var(--id8-orange)]/50" />
-          <div className="w-3 h-3 rounded-sm bg-[var(--id8-orange)]/70" />
-          <div className="w-3 h-3 rounded-sm bg-[var(--id8-orange)]" />
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--bg-secondary)] shadow-sm" />
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)]/30 shadow-sm" />
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)]/50 shadow-sm" />
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)]/70 shadow-sm" />
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)] shadow-sm" />
         </div>
-        <span>More</span>
+        <span className="text-[10px] sm:text-xs">More</span>
       </div>
     </div>
   )
@@ -92,12 +93,14 @@ function StatCard({ value, label, suffix = '' }: { value: string | number; label
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="text-center"
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.2 }}
+      className="text-center p-3 rounded-lg hover:bg-[var(--bg-primary)]/50 transition-colors duration-200 cursor-default"
     >
-      <p className="text-3xl md:text-4xl font-bold text-[var(--id8-orange)]">
+      <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--id8-orange)]">
         {typeof value === 'number' ? value.toLocaleString() : value}{suffix}
       </p>
-      <p className="text-sm text-[var(--text-tertiary)] mt-1">{label}</p>
+      <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1 leading-tight">{label}</p>
     </motion.div>
   )
 }
@@ -108,29 +111,33 @@ function ModelUsageBar() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="p-6 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)]"
+      className="p-4 sm:p-6 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] hover:border-[var(--id8-orange)]/30 transition-colors duration-300"
     >
       <p className="text-sm font-medium text-[var(--text-secondary)] mb-4">
         Model Usage
       </p>
       {/* Stacked bar */}
-      <div className="flex h-4 rounded-full overflow-hidden mb-4">
+      <div className="flex h-4 rounded-full overflow-hidden mb-4 shadow-inner bg-[var(--bg-secondary)]/50">
         {modelUsage.map((usage, index) => (
           <motion.div
             key={usage.model}
             initial={{ width: 0 }}
             whileInView={{ width: `${usage.percentage}%` }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: index * 0.2 }}
-            className={`${usage.color} first:rounded-l-full last:rounded-r-full`}
-          />
+            transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
+            className={`${usage.color} first:rounded-l-full last:rounded-r-full relative group/bar`}
+            title={`${usage.model}: ${usage.percentage}%`}
+          >
+            {/* Shine effect on hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/bar:opacity-100 transition-opacity duration-300" />
+          </motion.div>
         ))}
       </div>
       {/* Legend */}
-      <div className="flex flex-wrap gap-4 text-xs">
+      <div className="flex flex-wrap gap-3 sm:gap-4 text-xs">
         {modelUsage.map((usage) => (
-          <div key={usage.model} className="flex items-center gap-2">
-            <div className={`w-2.5 h-2.5 rounded-full ${usage.color}`} />
+          <div key={usage.model} className="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
+            <div className={`w-2.5 h-2.5 rounded-full ${usage.color} shadow-sm`} />
             <span className="text-[var(--text-tertiary)]">
               {usage.model} ({usage.percentage}%)
             </span>
@@ -388,10 +395,16 @@ These notes are dated. They'll keep growing. Consider this an ongoing dialogue a
 export default function ClaudePartnership() {
   const { observations, isLive } = useObservations()
 
+  // Memoize milestone count for performance
+  const milestoneCount = useMemo(
+    () => observations.filter((obs) => obs.category === 'milestone').length,
+    [observations]
+  )
+
   return (
     <section className="section-spacing bg-zone-visual">
       <div className="container">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        <div className="grid lg:grid-cols-[1fr,1.2fr] gap-12 md:gap-16 lg:gap-24 items-start">
           {/* Left - Sticky Header */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -407,19 +420,19 @@ export default function ClaudePartnership() {
               </span>
             </div>
 
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
               Notes from
               <br />
               <span className="text-gradient-orange">Claude</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent mb-8" />
 
-            <p className="text-xl text-[var(--text-secondary)] mb-8">
+            <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-8 leading-relaxed">
               Not a testimonial. Field notes from building together.
             </p>
 
             {/* Activity Heatmap */}
-            <div className="p-6 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)]">
+            <div className="p-4 sm:p-6 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] hover:border-[var(--id8-orange)]/30 transition-colors duration-300">
               <p className="text-sm font-medium text-[var(--text-secondary)] mb-4">
                 Commit Activity (Last 8 Weeks)
               </p>
@@ -427,7 +440,7 @@ export default function ClaudePartnership() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-6 mt-8">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 mt-6 md:mt-8">
               <StatCard value={partnershipStats.totalCommits} label="Commits Together" suffix="+" />
               <StatCard value="547K" label="Lines of Code" suffix="+" />
               <StatCard value={partnershipStats.projects} label="Projects Shipped" />
@@ -435,11 +448,11 @@ export default function ClaudePartnership() {
             </div>
 
             {/* Model Usage */}
-            <div className="mt-8">
+            <div className="mt-6 md:mt-8">
               <ModelUsageBar />
             </div>
 
-            <p className="text-xs text-[var(--text-tertiary)] mt-6">
+            <p className="text-xs text-[var(--text-tertiary)] mt-6 leading-relaxed">
               Stats pulled from git history and Anthropic console. Last updated {partnershipStats.lastUpdated}.
             </p>
           </motion.div>
@@ -452,60 +465,120 @@ export default function ClaudePartnership() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="p-6 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)]"
+              className="p-5 sm:p-6 md:p-8 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] hover:border-[var(--id8-orange)]/30 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--id8-orange)] to-orange-600 flex items-center justify-center">
-                  <span className="text-white font-bold">C</span>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="relative">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[var(--id8-orange)] to-orange-600 flex items-center justify-center shadow-md">
+                    <span className="text-white font-bold text-lg">C</span>
+                  </div>
+                  <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-[var(--bg-primary)] rounded-full" />
                 </div>
                 <div>
-                  <p className="font-semibold">Claude</p>
+                  <p className="font-semibold text-[var(--text-primary)] text-base sm:text-lg">Claude</p>
                   <p className="text-xs text-[var(--text-tertiary)]">Opus 4.5 · Creative Partner</p>
                 </div>
               </div>
-              <div className="text-[var(--text-secondary)] leading-relaxed space-y-3">
+              <div className="text-[var(--text-secondary)] leading-relaxed space-y-4 text-sm sm:text-base">
                 {claudeIntro.split('\n\n').map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
+                  <p key={i} className="first-letter:text-lg first-letter:font-semibold first-letter:text-[var(--id8-orange)]">
+                    {paragraph}
+                  </p>
                 ))}
               </div>
             </motion.div>
 
             {/* Notes Header */}
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold text-[var(--text-secondary)]">Field Notes</h3>
-              <span className="text-sm text-[var(--text-tertiary)]">{observations.length} entries</span>
+            <div className="flex items-center justify-between pb-4 border-b border-[var(--border)]">
+              <div>
+                <h3 className="text-xl sm:text-2xl font-semibold text-[var(--text-primary)]">Field Notes</h3>
+                <p className="text-xs text-[var(--text-tertiary)] mt-1">Milestones and observations from the lab</p>
+              </div>
+              <div className="text-right">
+                <span className="text-sm font-medium text-[var(--id8-orange)]">{observations.length}</span>
+                <p className="text-xs text-[var(--text-tertiary)]">entries</p>
+              </div>
             </div>
 
             {/* Scrollable Notes Log */}
-            <div className="space-y-6 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[var(--border)] scrollbar-track-transparent">
-              {observations.map((observation, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="group"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 pt-1">
-                      <div className="w-2 h-2 bg-[var(--id8-orange)] rounded-full group-hover:scale-150 transition-transform" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-[var(--text-tertiary)] mb-1 font-mono">
-                        {new Date(observation.date + 'T12:00:00').toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric'
-                        })}
-                      </p>
-                      <p className="text-[var(--text-secondary)] leading-relaxed">
-                        {observation.text}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="space-y-6 max-h-[500px] sm:max-h-[600px] lg:max-h-[700px] overflow-y-auto pr-1 sm:pr-2 scrollbar-thin scrollbar-thumb-[var(--border)] hover:scrollbar-thumb-[var(--id8-orange)]/50 scrollbar-track-transparent scroll-smooth">
+              {observations.map((observation, index) => {
+                const isMilestone = observation.category === 'milestone'
+
+                return (
+                  <motion.div
+                    key={observation.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3) }}
+                    className="group"
+                  >
+                    {isMilestone ? (
+                      // Milestone Entry - Visually Distinct
+                      <div className="relative">
+                        {/* Milestone glow background */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[var(--id8-orange)]/5 via-[var(--id8-orange)]/10 to-transparent rounded-lg blur-sm" />
+
+                        <div className="relative p-3 sm:p-4 rounded-lg border border-[var(--id8-orange)]/20 bg-[var(--bg-primary)]/50 backdrop-blur-sm hover:border-[var(--id8-orange)]/40 hover:bg-[var(--bg-primary)]/80 transition-all duration-300">
+                          <div className="flex items-start gap-3 sm:gap-4">
+                            {/* Star icon for milestones */}
+                            <div className="flex-shrink-0 pt-0.5 sm:pt-1">
+                              <div className="relative">
+                                <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-[var(--id8-orange)] to-orange-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-md">
+                                  <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                  </svg>
+                                </div>
+                                {/* Pulse ring */}
+                                <div className="absolute inset-0 bg-[var(--id8-orange)] rounded-full animate-ping opacity-20" />
+                              </div>
+                            </div>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+                                <p className="text-[10px] sm:text-xs font-bold text-[var(--id8-orange)] uppercase tracking-wider font-mono">
+                                  Milestone
+                                </p>
+                                <div className="flex-1 h-px bg-gradient-to-r from-[var(--id8-orange)]/30 to-transparent" />
+                                <p className="text-[10px] sm:text-xs text-[var(--text-tertiary)] font-mono whitespace-nowrap">
+                                  {new Date(observation.date + 'T12:00:00').toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                  })}
+                                </p>
+                              </div>
+                              <p className="text-sm sm:text-base text-[var(--text-primary)] leading-relaxed font-medium">
+                                {observation.text}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      // Regular Observation - Clean and Simple
+                      <div className="flex items-start gap-3 sm:gap-4 hover:translate-x-1 transition-transform duration-200">
+                        <div className="flex-shrink-0 pt-1.5 sm:pt-1">
+                          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[var(--id8-orange)] rounded-full group-hover:scale-150 group-hover:bg-[var(--id8-orange)] transition-all duration-200" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[10px] sm:text-xs text-[var(--text-tertiary)] mb-1 sm:mb-1.5 font-mono">
+                            {new Date(observation.date + 'T12:00:00').toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric'
+                            })}
+                          </p>
+                          <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed group-hover:text-[var(--text-primary)] transition-colors duration-200">
+                            {observation.text}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                )
+              })}
             </div>
 
             {/* Footer Note */}
@@ -513,15 +586,20 @@ export default function ClaudePartnership() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
               className="pt-6 border-t border-[var(--border)]"
             >
-              <p className="text-sm text-[var(--text-tertiary)] italic">
-                {isLive
-                  ? 'Live feed — new observations appear in real-time as we build.'
-                  : 'This log updates as we build. New observations added after significant sessions or milestones.'
-                }
-              </p>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0">
+                  <div className={`w-2 h-2 rounded-full mt-1.5 ${isLive ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'}`} />
+                </div>
+                <p className="text-xs sm:text-sm text-[var(--text-tertiary)] italic leading-relaxed">
+                  {isLive
+                    ? 'Live feed — new observations appear in real-time as we build together.'
+                    : 'This log updates as we build. New observations added after significant sessions or milestones.'
+                  }
+                </p>
+              </div>
             </motion.div>
           </div>
         </div>
