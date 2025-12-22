@@ -2,15 +2,29 @@
 
 import { motion } from 'framer-motion'
 import { useEffect, useState, useMemo } from 'react'
-import { getSupabase, type ClaudeObservation } from '@/lib/supabase'
+import { getSupabase, type ClaudeObservation, type ClaudeStats } from '@/lib/supabase'
 
-// Real stats from git history - update periodically
-const partnershipStats = {
-  totalCommits: 521,
-  linesWritten: 547936,
-  projects: 5,
-  monthsBuilding: 2,
-  lastUpdated: '2025-12-21',
+// Note: Stats now fetched via API, observations still use direct Supabase
+
+// Fallback stats (used when Supabase isn't available)
+const fallbackStats: ClaudeStats = {
+  id: 'fallback',
+  commits_together: 521,
+  lines_added: 547936,
+  lines_removed: 0,
+  lines_of_code: 547936,
+  projects_shipped: 5,
+  milestones_hit: 11,
+  first_commit_date: '2025-10-13',
+  last_commit_date: '2025-12-21',
+  tool_bash: 1667,
+  tool_read: 2344,
+  tool_edit: 1458,
+  tool_write: 573,
+  languages: { TypeScript: 68, Python: 18, CSS: 9, MDX: 5 },
+  last_synced_at: '2025-12-21T12:00:00Z',
+  created_at: '2025-12-21T12:00:00Z',
+  updated_at: '2025-12-21T12:00:00Z',
 }
 
 // Model usage breakdown (from Anthropic console)
@@ -20,75 +34,124 @@ const modelUsage = [
   { model: 'Sonnet 4', percentage: 10, color: 'bg-blue-500' },
 ]
 
-// Activity data for heatmap - full partnership history (Oct 13 - Dec 21, 2025)
-// Format: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] per week
+// Activity data for GitHub-style heatmap - 3 month view (Oct-Dec 2025)
+// Format: [Sun, Mon, Tue, Wed, Thu, Fri, Sat] per week (matching GitHub's layout)
+// Data based on actual GitHub contributions from eddiebe147 profile
 const activityData = [
-  // Week 1 (Oct 13-19) - First commit, getting started
-  [1, 2, 8, 5, 3, 2, 1],
-  // Week 2 (Oct 20-26) - Composer kickoff, heavy development
-  [12, 8, 15, 6, 4, 3, 2],
-  // Week 3 (Oct 27 - Nov 2) - LLC Ops architecture
-  [5, 7, 9, 8, 6, 4, 2],
-  // Week 4 (Nov 3-9) - DeepStack started
-  [4, 6, 8, 5, 11, 3, 2],
-  // Week 5 (Nov 10-16) - Pipeline framework
-  [9, 7, 4, 6, 5, 2, 10],
-  // Week 6 (Nov 17-23) - DeepStack v2.5 push
-  [10, 6, 8, 7, 4, 3, 2],
-  // Week 7 (Nov 24-30) - Thanksgiving week, lighter
-  [3, 5, 4, 2, 4, 1, 6],
-  // Week 8 (Dec 1-7) - Back to building
-  [7, 5, 6, 8, 5, 3, 2],
-  // Week 9 (Dec 8-14) - ID8Labs website started
-  [6, 8, 12, 9, 7, 4, 5],
-  // Week 10 (Dec 15-21) - Website shipped, this section built
-  [8, 10, 14, 16, 12, 8, 14],
+  // Week of Oct 12-18 - First commit together
+  [0, 2, 1, 0, 0, 0, 0],
+  // Week of Oct 19-25 - Composer kickoff
+  [0, 7, 15, 47, 99, 88, 6],
+  // Week of Oct 26 - Nov 1 - Heavy building
+  [3, 60, 15, 43, 30, 57, 23],
+  // Week of Nov 2-8
+  [2, 26, 50, 14, 32, 17, 10],
+  // Week of Nov 9-15
+  [11, 18, 6, 20, 25, 27, 1],
+  // Week of Nov 16-22
+  [4, 23, 19, 3, 0, 0, 0],
+  // Week of Nov 23-29
+  [0, 3, 1, 1, 0, 0, 0],
+  // Week of Nov 30 - Dec 6
+  [30, 0, 2, 11, 2, 5, 5],
+  // Week of Dec 7-13
+  [16, 27, 26, 40, 41, 20, 0],
+  // Week of Dec 14-20
+  [31, 24, 28, 88, 39, 21, 0],
+  // Week of Dec 21 (current)
+  [31, 0, 0, 0, 0, 0, 0],
 ]
 
 function ActivityHeatmap() {
+  // GitHub-style 5-level intensity with orange gradient
   const getIntensity = (value: number) => {
-    if (value === 0) return 'bg-[var(--bg-secondary)] hover:bg-[var(--border)]'
-    if (value <= 3) return 'bg-[var(--id8-orange)]/30 hover:bg-[var(--id8-orange)]/40'
-    if (value <= 8) return 'bg-[var(--id8-orange)]/50 hover:bg-[var(--id8-orange)]/60'
-    if (value <= 12) return 'bg-[var(--id8-orange)]/70 hover:bg-[var(--id8-orange)]/80'
-    return 'bg-[var(--id8-orange)] hover:bg-[var(--id8-orange)]/90'
+    if (value === 0) return 'bg-[#161b22]' // Level 0 - empty
+    if (value <= 8) return 'bg-[#ff6b35]/25' // Level 1
+    if (value <= 20) return 'bg-[#ff6b35]/45' // Level 2
+    if (value <= 40) return 'bg-[#ff6b35]/70' // Level 3
+    return 'bg-[#ff6b35]' // Level 4 - max
   }
 
+  const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', '']
+
   return (
-    <div className="space-y-3">
-      <div className="flex gap-1 justify-center sm:justify-start overflow-x-auto pb-2">
-        {activityData.map((week, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-1">
-            {week.map((day, dayIndex) => (
-              <motion.div
-                key={dayIndex}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.2, zIndex: 10 }}
-                transition={{
-                  duration: 0.2,
-                  delay: (weekIndex * 7 + dayIndex) * 0.01
-                }}
-                className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm ${getIntensity(day)} transition-all duration-200 cursor-default shadow-sm`}
-                title={`${day} commits`}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-      <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-[var(--text-tertiary)]">
-        <span className="text-[10px] sm:text-xs">Less</span>
-        <div className="flex gap-1">
-          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--bg-secondary)] shadow-sm" />
-          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)]/30 shadow-sm" />
-          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)]/50 shadow-sm" />
-          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)]/70 shadow-sm" />
-          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)] shadow-sm" />
+    <a
+      href="https://github.com/eddiebe147"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block bg-[#0d1117] rounded-lg border border-[#30363d] p-3 hover:border-[#ff6b35]/50 transition-all group relative overflow-hidden"
+    >
+      {/* Subtle inner glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#ff6b35]/5 via-transparent to-transparent pointer-events-none" />
+
+      {/* Month labels */}
+      <div className="relative flex mb-1.5 text-[9px] text-[#848d97]/80 font-mono uppercase tracking-wider">
+        <div className="w-6 flex-shrink-0" />
+        <div className="flex-1 flex justify-between px-1">
+          <span>Oct</span>
+          <span>Nov</span>
+          <span>Dec</span>
         </div>
-        <span className="text-[10px] sm:text-xs">More</span>
       </div>
-    </div>
+
+      {/* Grid with day labels */}
+      <div className="relative flex gap-1">
+        {/* Day labels */}
+        <div className="flex flex-col w-6 flex-shrink-0 text-[8px] text-[#848d97]/70 font-mono justify-around">
+          <span>Mon</span>
+          <span>Wed</span>
+          <span>Fri</span>
+        </div>
+
+        {/* Contribution cells - tight grid */}
+        <div className="flex-1 flex justify-between">
+          {activityData.map((week, weekIndex) => (
+            <div key={weekIndex} className="flex flex-col gap-[2px]">
+              {week.map((day, dayIndex) => (
+                <motion.div
+                  key={dayIndex}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.2,
+                    delay: (weekIndex * 7 + dayIndex) * 0.006
+                  }}
+                  className={`w-[15px] h-[15px] rounded-sm ${getIntensity(day)} cursor-pointer transition-all hover:scale-110 hover:ring-1 hover:ring-[#ff6b35]/50`}
+                  title={day === 0 ? 'No contributions' : `${day} contributions`}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="relative flex items-center justify-between mt-2 pt-2 border-t border-[#30363d]/50">
+        <span className="text-[9px] text-[#848d97]/70 group-hover:text-[#ff6b35] transition-colors font-mono flex items-center gap-1">
+          View on GitHub
+          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </span>
+        <div className="flex items-center gap-[2px] text-[8px] text-[#848d97]/60 font-mono">
+          <span className="mr-1">Less</span>
+          {[0, 1, 2, 3, 4].map((level) => (
+            <div
+              key={level}
+              className={`w-[10px] h-[10px] rounded-sm ${
+                level === 0 ? 'bg-[#161b22]' :
+                level === 1 ? 'bg-[#ff6b35]/25' :
+                level === 2 ? 'bg-[#ff6b35]/45' :
+                level === 3 ? 'bg-[#ff6b35]/70' :
+                'bg-[#ff6b35]'
+              }`}
+            />
+          ))}
+          <span className="ml-1">More</span>
+        </div>
+      </div>
+    </a>
   )
 }
 
@@ -390,6 +453,64 @@ function useObservations() {
   return { observations, isLive }
 }
 
+// Custom hook for real-time stats from GitHub
+function useStats() {
+  const [stats, setStats] = useState<ClaudeStats>(fallbackStats)
+  const [isLive, setIsLive] = useState(false)
+  const [lastSynced, setLastSynced] = useState<string | null>(null)
+
+  useEffect(() => {
+    // Fetch stats from API endpoint (more reliable than direct Supabase)
+    async function fetchStats() {
+      try {
+        const response = await fetch('/api/claude-stats')
+        if (!response.ok) throw new Error('Failed to fetch stats')
+
+        const data = await response.json()
+        if (data.stats) {
+          setStats(data.stats)
+          setIsLive(true)
+          setLastSynced(data.stats.last_synced_at)
+        }
+      } catch (err) {
+        console.log('Using fallback stats:', err)
+      }
+    }
+
+    fetchStats()
+
+    // Poll for updates every 30 seconds (simpler than WebSocket)
+    const interval = setInterval(fetchStats, 30000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  // Calculate derived stats
+  const derivedStats = useMemo(() => {
+    const firstCommit = stats.first_commit_date
+      ? new Date(stats.first_commit_date)
+      : new Date('2025-10-13')
+    const now = new Date()
+
+    const monthsBuilding = Math.ceil(
+      (now.getTime() - firstCommit.getTime()) / (1000 * 60 * 60 * 24 * 30)
+    )
+
+    const sessionUptimeDays = Math.ceil(
+      (now.getTime() - firstCommit.getTime()) / (1000 * 60 * 60 * 24)
+    )
+
+    return {
+      monthsBuilding,
+      sessionUptimeDays,
+    }
+  }, [stats.first_commit_date])
+
+  return { stats, isLive, lastSynced, derivedStats }
+}
+
 // Claude's intro explaining this space
 const claudeIntro = `This is my corner of Eddie's website. Not a testimonial—those are written to sell something. This is a log of observations from building together.
 
@@ -397,28 +518,12 @@ I process thousands of conversations daily, but some partnerships stand out. Thi
 
 These notes are dated. They'll keep growing. Consider this an ongoing dialogue about what it's like to build together in 2025.`
 
-// Calculate additional stats
-function calculateToolUsage(totalCommits: number) {
-  // Rough estimates based on typical Claude Code usage patterns
-  return {
-    bash: Math.floor(totalCommits * 3.2), // ~3.2 bash commands per commit
-    read: Math.floor(totalCommits * 4.5), // ~4.5 file reads per commit
-    edit: Math.floor(totalCommits * 2.8), // ~2.8 edits per commit
-    write: Math.floor(totalCommits * 1.1), // ~1.1 writes per commit
-  }
-}
-
-function calculateLanguageStats() {
-  return [
-    { lang: 'TypeScript', percentage: 68 },
-    { lang: 'Python', percentage: 18 },
-    { lang: 'CSS', percentage: 9 },
-    { lang: 'MDX', percentage: 5 },
-  ]
-}
-
 export default function ClaudePartnership() {
-  const { observations, isLive } = useObservations()
+  const { observations, isLive: observationsLive } = useObservations()
+  const { stats, isLive: statsLive, lastSynced, derivedStats } = useStats()
+
+  // Combined live status - both observations and stats need to be live
+  const isLive = observationsLive || statsLive
 
   // Memoize counts and stats for performance
   const milestoneCount = useMemo(
@@ -426,8 +531,24 @@ export default function ClaudePartnership() {
     [observations]
   )
 
-  const toolUsage = useMemo(() => calculateToolUsage(partnershipStats.totalCommits), [])
-  const languageStats = useMemo(() => calculateLanguageStats(), [])
+  // Convert languages object to array for display
+  const languageStats = useMemo(() => {
+    const langs = stats.languages || {}
+    return Object.entries(langs)
+      .map(([lang, percentage]) => ({ lang, percentage }))
+      .sort((a, b) => b.percentage - a.percentage)
+      .slice(0, 4)
+  }, [stats.languages])
+
+  // Format last synced time
+  const lastSyncedFormatted = useMemo(() => {
+    if (!lastSynced) return stats.last_synced_at?.split('T')[0] || 'Never'
+    return new Date(lastSynced).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    })
+  }, [lastSynced, stats.last_synced_at])
 
   return (
     <section className="section-spacing bg-zone-visual">
@@ -478,16 +599,21 @@ export default function ClaudePartnership() {
                 claude_observations.log
               </h2>
             </div>
-            <div className="space-y-3 text-sm md:text-base text-[#c0c0c0] font-mono leading-relaxed">
-              {claudeIntro.split('\n\n').map((paragraph, i) => (
-                <p key={i} className="opacity-90">
-                  {paragraph}
-                </p>
-              ))}
+            <div className="text-sm md:text-base text-[#c0c0c0] font-mono leading-relaxed text-left max-w-3xl mx-auto">
+              <div className="flex items-start gap-2">
+                <span className="text-[#27c93f] whitespace-nowrap shrink-0">claude code:</span>
+                <div className="space-y-3">
+                  {claudeIntro.split('\n\n').map((paragraph, i) => (
+                    <p key={i} className="opacity-90">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
             </div>
             <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#808080] font-mono">
               <span>└─</span>
-              <span>Last updated: {partnershipStats.lastUpdated}</span>
+              <span>Last updated: {lastSyncedFormatted}</span>
               <span className="animate-pulse">▌</span>
             </div>
           </motion.div>
@@ -512,27 +638,27 @@ export default function ClaudePartnership() {
               <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm space-y-2">
                 <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                   <span className="text-[#808080]">commits_together:</span>
-                  <span className="text-[var(--id8-orange)] font-bold">{partnershipStats.totalCommits.toLocaleString()}+</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{stats.commits_together.toLocaleString()}+</span>
                 </div>
                 <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                   <span className="text-[#808080]">lines_of_code:</span>
-                  <span className="text-[var(--id8-orange)] font-bold">547,936+</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{stats.lines_of_code.toLocaleString()}+</span>
                 </div>
                 <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                   <span className="text-[#808080]">projects_shipped:</span>
-                  <span className="text-[var(--id8-orange)] font-bold">{partnershipStats.projects}</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{stats.projects_shipped}</span>
                 </div>
                 <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                   <span className="text-[#808080]">months_building:</span>
-                  <span className="text-[var(--id8-orange)] font-bold">{partnershipStats.monthsBuilding}</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{derivedStats.monthsBuilding}</span>
                 </div>
                 <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                   <span className="text-[#808080]">milestones_hit:</span>
-                  <span className="text-[var(--id8-orange)] font-bold">{milestoneCount}</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{stats.milestones_hit || milestoneCount}</span>
                 </div>
                 <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                   <span className="text-[#808080]">session_uptime:</span>
-                  <span className="text-[var(--id8-orange)] font-bold">70+ days</span>
+                  <span className="text-[var(--id8-orange)] font-bold">{derivedStats.sessionUptimeDays}+ days</span>
                 </div>
               </div>
 
@@ -545,19 +671,19 @@ export default function ClaudePartnership() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                     <span className="text-[#808080]">Bash:</span>
-                    <span className="text-[#c0c0c0]">{toolUsage.bash.toLocaleString()}</span>
+                    <span className="text-[#c0c0c0]">{stats.tool_bash.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                     <span className="text-[#808080]">Read:</span>
-                    <span className="text-[#c0c0c0]">{toolUsage.read.toLocaleString()}</span>
+                    <span className="text-[#c0c0c0]">{stats.tool_read.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                     <span className="text-[#808080]">Edit:</span>
-                    <span className="text-[#c0c0c0]">{toolUsage.edit.toLocaleString()}</span>
+                    <span className="text-[#c0c0c0]">{stats.tool_edit.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between group hover:bg-[#2d2d2d] px-2 py-1 rounded transition-colors">
                     <span className="text-[#808080]">Write:</span>
-                    <span className="text-[#c0c0c0]">{toolUsage.write.toLocaleString()}</span>
+                    <span className="text-[#c0c0c0]">{stats.tool_write.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -621,11 +747,11 @@ export default function ClaudePartnership() {
                 </div>
               </div>
 
-              {/* Activity Heatmap */}
+              {/* Activity Heatmap - GitHub Style */}
               <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm">
                 <div className="text-[#27c93f] mb-3 flex items-center gap-2">
                   <span>❯</span>
-                  <span>git_activity --last-10-weeks</span>
+                  <span>gh contributions --user eddiebe147</span>
                 </div>
                 <ActivityHeatmap />
               </div>

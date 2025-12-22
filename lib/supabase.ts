@@ -30,3 +30,24 @@ export interface ClaudeObservation {
   created_at: string
   updated_at: string
 }
+
+// Types for Claude stats (live from GitHub)
+export interface ClaudeStats {
+  id: string
+  commits_together: number
+  lines_added: number
+  lines_removed: number
+  lines_of_code: number
+  projects_shipped: number
+  milestones_hit: number
+  first_commit_date: string | null
+  last_commit_date: string | null
+  tool_bash: number
+  tool_read: number
+  tool_edit: number
+  tool_write: number
+  languages: Record<string, number>
+  last_synced_at: string
+  created_at: string
+  updated_at: string
+}
