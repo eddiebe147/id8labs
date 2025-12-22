@@ -31,9 +31,17 @@ const products: Product[] = [
     description: 'AI-powered trading research platform. Claude-powered analysis with 30+ tools, professional charts, thesis tracking, trade journaling with emotion monitoring, and an emotional firewall that blocks revenge trading. Research only—we never execute trades.',
     link: 'https://deepstack.trade',
     external: true,
-    category: 'creators',
+    category: 'builders',
   },
   // FOR BUILDERS
+  {
+    name: 'LLC Ops',
+    status: 'internal',
+    statusLabel: 'Internal tooling',
+    description: '9 specialized AI agents providing PhD-level guidance on tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain.',
+    link: '/products/llc-ops',
+    category: 'builders',
+  },
   {
     name: 'Pipeline',
     status: 'internal',
@@ -253,7 +261,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 export default function ProductGrid() {
   const shippingProducts = products.filter(p => p.status === 'shipping')
   const builderProducts = products.filter(p => p.category === 'builders')
-  const creatorProducts = products.filter(p => p.category === 'creators' && p.status !== 'shipping')
+  const creatorProducts = products.filter(p => p.category === 'creators')
   const funProducts = products.filter(p => p.category === 'fun')
 
   return (
