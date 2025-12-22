@@ -11,6 +11,79 @@ interface Product {
   link?: string
   external?: boolean
   category: 'creators' | 'builders' | 'fun'
+  previewImage?: string
+}
+
+// Abstract product preview mockups
+function ComposerPreview() {
+  return (
+    <div className="relative w-full h-48 md:h-56 rounded-lg overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 border border-[var(--border)]">
+      {/* Dual panel layout representing Canvas/Sandbox */}
+      <div className="absolute inset-2 flex gap-2">
+        {/* Left panel - Canvas */}
+        <div className="flex-1 bg-gray-950/50 rounded-md p-3 border border-gray-700/50">
+          <div className="h-2 w-16 bg-[var(--id8-orange)]/30 rounded mb-2" />
+          <div className="space-y-1.5">
+            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
+            <div className="h-1.5 w-4/5 bg-gray-700/50 rounded" />
+            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
+            <div className="h-1.5 w-3/4 bg-gray-700/50 rounded" />
+          </div>
+        </div>
+        {/* Right panel - Sandbox */}
+        <div className="flex-1 bg-gray-950/50 rounded-md p-3 border border-gray-700/50">
+          <div className="h-2 w-12 bg-purple-500/30 rounded mb-2" />
+          <div className="space-y-1.5">
+            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
+            <div className="h-1.5 w-5/6 bg-gray-700/50 rounded" />
+            <div className="h-1.5 w-full bg-gray-700/50 rounded" />
+          </div>
+        </div>
+      </div>
+      {/* Floating memory indicator */}
+      <div className="absolute bottom-3 right-3 px-2 py-1 bg-[var(--id8-orange)]/20 rounded text-xs text-[var(--id8-orange)] font-mono">
+        Memory: Active
+      </div>
+      {/* Subtle glow */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--id8-orange)]/5 to-transparent pointer-events-none" />
+    </div>
+  )
+}
+
+function DeepStackPreview() {
+  return (
+    <div className="relative w-full h-48 md:h-56 rounded-lg overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 border border-[var(--border)]">
+      {/* Chart area */}
+      <div className="absolute inset-2">
+        <div className="h-full bg-gray-950/50 rounded-md p-3 border border-gray-700/50">
+          {/* Mini candlestick chart */}
+          <div className="flex items-end justify-between h-24 gap-1 mb-3">
+            {[40, 55, 45, 60, 50, 70, 65, 75, 60, 80, 70, 85].map((h, i) => (
+              <div key={i} className="flex-1 flex flex-col items-center gap-0.5">
+                <div
+                  className={`w-full rounded-sm ${i % 2 === 0 ? 'bg-green-500/60' : 'bg-red-500/60'}`}
+                  style={{ height: `${h}%` }}
+                />
+              </div>
+            ))}
+          </div>
+          {/* Analysis tools indicator */}
+          <div className="flex gap-2">
+            <div className="px-2 py-0.5 bg-green-500/20 rounded text-xs text-green-400 font-mono">RSI</div>
+            <div className="px-2 py-0.5 bg-blue-500/20 rounded text-xs text-blue-400 font-mono">MACD</div>
+            <div className="px-2 py-0.5 bg-purple-500/20 rounded text-xs text-purple-400 font-mono">VOL</div>
+          </div>
+        </div>
+      </div>
+      {/* Emotion guard indicator */}
+      <div className="absolute bottom-3 right-3 px-2 py-1 bg-green-500/20 rounded text-xs text-green-400 font-mono flex items-center gap-1.5">
+        <div className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+        Emotion Guard
+      </div>
+      {/* Subtle glow */}
+      <div className="absolute inset-0 bg-gradient-to-t from-green-500/5 to-transparent pointer-events-none" />
+    </div>
+  )
 }
 
 const products: Product[] = [
@@ -86,52 +159,76 @@ const products: Product[] = [
 ]
 
 function FeaturedCard({ product, index }: { product: Product; index: number }) {
+  const getPreview = () => {
+    switch (product.name) {
+      case 'Composer':
+        return <ComposerPreview />
+      case 'DeepStack':
+        return <DeepStackPreview />
+      default:
+        return null
+    }
+  }
+
   const content = (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
       className="card-featured group cursor-pointer"
     >
-      <div>
-      {/* Status Badge */}
-      <div className="flex items-center gap-3 mb-6">
-        <span className="badge badge-shipping">
-          <div className="w-1.5 h-1.5 bg-[var(--id8-orange)] rounded-full animate-pulse" />
-          {product.statusLabel}
-        </span>
-        <span className="text-sm font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
-          Shipping Now
-        </span>
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        {/* Left - Content */}
+        <div>
+          {/* Status Badge */}
+          <div className="flex items-center gap-3 mb-6">
+            <span className="badge badge-shipping">
+              <div className="w-1.5 h-1.5 bg-[var(--id8-orange)] rounded-full animate-pulse" />
+              {product.statusLabel}
+            </span>
+            <span className="text-sm font-semibold text-[var(--text-tertiary)] uppercase tracking-wider">
+              Shipping Now
+            </span>
+          </div>
 
-      {/* Product Name */}
-      <h3 className="text-4xl md:text-5xl font-bold mb-6 text-gradient-orange">
-        {product.name}
-      </h3>
+          {/* Product Name */}
+          <h3 className="text-4xl md:text-5xl font-bold mb-6 text-gradient-orange">
+            {product.name}
+          </h3>
 
-      {/* Description */}
-      <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed mb-8">
-        {product.description}
-      </p>
+          {/* Description */}
+          <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed mb-8">
+            {product.description}
+          </p>
 
-      {/* CTA */}
-      <div className="flex items-center gap-3 text-[var(--id8-orange)] font-semibold text-lg group-hover:gap-4 transition-all">
-        Launch App
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          className="transition-transform group-hover:translate-x-1"
+          {/* CTA */}
+          <div className="flex items-center gap-3 text-[var(--id8-orange)] font-semibold text-lg group-hover:gap-4 transition-all">
+            Launch App
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              className="transition-transform group-hover:translate-x-1"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Right - Product Preview */}
+        <motion.div
+          className="order-first lg:order-last"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
         >
-          <line x1="5" y1="12" x2="19" y2="12" />
-          <polyline points="12 5 19 12 12 19" />
-        </svg>
-      </div>
+          {getPreview()}
+        </motion.div>
       </div>
     </motion.div>
   )
@@ -185,6 +282,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -3, transition: { duration: 0.15 } }}
       className={`card group cursor-pointer h-full flex flex-col relative ${getCardStyle(product.status)}`}
     >
       {/* Subtle dithered corner accent on hover */}
