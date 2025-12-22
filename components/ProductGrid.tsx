@@ -38,7 +38,7 @@ const products: Product[] = [
     name: 'LLC Ops',
     status: 'internal',
     statusLabel: 'Internal tooling',
-    description: '9 specialized AI agents providing PhD-level guidance on tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain.',
+    description: '9 specialized AI agents for tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain.',
     link: '/products/llc-ops',
     category: 'builders',
   },
@@ -81,13 +81,6 @@ const products: Product[] = [
     statusLabel: 'Building in public',
     description: 'r/place meets Twitter. 500x500 shared pixel canvas with X OAuth, cooldown timers, and real-time updates. A social experiment for the X ecosystem.',
     link: '/products/xplace',
-    category: 'fun',
-  },
-  {
-    name: '[Classified]',
-    status: 'exploration',
-    statusLabel: 'Research phase',
-    description: '3D story tree visualization. Semantic versioning for narrative.',
     category: 'fun',
   },
 ]
@@ -173,13 +166,26 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
     }
   }
 
+  const getCardStyle = (status: Product['status']) => {
+    switch (status) {
+      case 'shipping':
+        return 'border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] hover:shadow-[0_0_30px_rgba(34,197,94,0.15)]'
+      case 'internal':
+        return 'border-purple-500/30 shadow-[0_0_15px_rgba(139,92,246,0.08)]'
+      case 'development':
+      case 'exploration':
+      default:
+        return 'border-[var(--border)] opacity-90'
+    }
+  }
+
   const content = (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="card group cursor-pointer h-full flex flex-col relative"
+      className={`card group cursor-pointer h-full flex flex-col relative ${getCardStyle(product.status)}`}
     >
       {/* Subtle dithered corner accent on hover */}
       <div className="absolute top-2 right-2 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

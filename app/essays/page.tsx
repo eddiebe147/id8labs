@@ -104,8 +104,8 @@ export default function EssaysPage() {
                       {categoryLabels[essay.category]}
                     </span>
                     <span>·</span>
-                    <time dateTime={essay.date}>
-                      {new Date(essay.date).toLocaleDateString('en-US', {
+                    <time dateTime={essay.date} suppressHydrationWarning>
+                      {new Date(essay.date + 'T00:00:00').toLocaleDateString('en-US', {
                         month: 'long',
                         day: 'numeric',
                         year: 'numeric'

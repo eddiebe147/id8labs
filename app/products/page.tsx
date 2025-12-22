@@ -76,7 +76,7 @@ const builderProducts: Product[] = [
     status: 'internal',
     tagline: 'Custom AI agent systems for business operations',
     description:
-      '9 specialized agents providing PhD-level guidance on tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain. Replace a $50k back office with agents.',
+      '9 specialized agents for tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain. Replace a $50k back office with agents.',
     link: '/products/llc-ops',
   },
   {
@@ -107,13 +107,6 @@ const funProducts: Product[] = [
       'A simple dashboard with colored bars and a kill button. Green means work. Yellow means pay attention. Red means kill something now. Built because AI agents kept crashing my computer.',
     link: '/essays/memmon-making-the-invisible-visible',
   },
-  {
-    name: '[Classified]',
-    status: 'coming-soon',
-    tagline: 'Something revolutionary brewing…',
-    description:
-      "We're building a tool that solves a problem every creative team has but doesn't know how to articulate. It's ambitious. It's different. We'll talk about it when it's ready.",
-  },
 ]
 
 function ProductCard({ product }: { product: Product }) {
@@ -123,8 +116,14 @@ function ProductCard({ product }: { product: Product }) {
     'internal': '◆ Internal Tool',
   }
 
+  const cardStyles = {
+    'active': 'border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] hover:shadow-[0_0_30px_rgba(34,197,94,0.15)]',
+    'coming-soon': 'border-[var(--border)] opacity-90',
+    'internal': 'border-purple-500/30 shadow-[0_0_20px_rgba(139,92,246,0.1)]',
+  }
+
   const card = (
-    <div className="group p-8 border border-[var(--border)] bg-[var(--bg-primary)] hover:shadow-lg transition-all duration-200">
+    <div className={`group p-8 border bg-[var(--bg-primary)] hover:shadow-lg transition-all duration-200 ${cardStyles[product.status]}`}>
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-2xl font-bold">{product.name}</h3>
         <span className={`text-xs uppercase tracking-wide ${
