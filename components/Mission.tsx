@@ -46,7 +46,7 @@ export default function Mission() {
                 <div className="flex items-start gap-4">
                   <div className="w-2 h-2 bg-[var(--id8-orange)] rounded-full mt-3 flex-shrink-0 group-hover:scale-150 transition-transform" />
                   <p className="text-xl md:text-2xl leading-relaxed">
-                    I see patterns across domains—filmmaking, mycology, wildlife biology, trading systems, complex systems analysis.
+                    Filmmaking, mycology, trading systems, complex systems.
                     The <span className="text-[var(--id8-orange)] font-semibold">connections between fields</span> reveal what's missing.
                   </p>
                 </div>

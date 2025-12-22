@@ -19,7 +19,7 @@ const products: Product[] = [
     name: 'Composer',
     status: 'shipping',
     statusLabel: 'v0.8.1 • Live',
-    description: 'Prevents context rot in AI-assisted writing through selective knowledge base management. Built for 90 Day Fiancé production, tested in the field. The AI finally remembers your story world across sessions.',
+    description: 'AI writing partner that actually remembers your story world. Built for 90 Day Fiancé production—context rot solved.',
     link: 'https://id8composer.app',
     external: true,
     category: 'creators',
@@ -28,7 +28,7 @@ const products: Product[] = [
     name: 'DeepStack',
     status: 'shipping',
     statusLabel: 'v2.5.0 • Live',
-    description: 'AI-powered trading research platform. Claude-powered analysis with 30+ tools, professional charts, thesis tracking, trade journaling with emotion monitoring, and an emotional firewall that blocks revenge trading. Research only—we never execute trades.',
+    description: 'Trading research with Claude. 30+ analysis tools, thesis tracking, emotion-aware journaling. Blocks revenge trades. Research only.',
     link: 'https://deepstack.trade',
     external: true,
     category: 'builders',
@@ -38,7 +38,7 @@ const products: Product[] = [
     name: 'LLC Ops',
     status: 'internal',
     statusLabel: 'Internal tooling',
-    description: '9 specialized AI agents for tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain.',
+    description: '9 AI agents for taxes, compliance, asset protection. Replace a $50k back office.',
     link: '/products/llc-ops',
     category: 'builders',
   },
@@ -46,7 +46,7 @@ const products: Product[] = [
     name: 'Pipeline',
     status: 'internal',
     statusLabel: 'Internal tooling',
-    description: 'Complete idea-to-exit lifecycle management. 8 interconnected AI agents handle validation, architecture, launch, growth, ops, and exit prep. Decay mechanics keep projects moving. Stage gates prevent premature advancement.',
+    description: 'Idea-to-exit in 11 stages. 8 AI agents handle validation through exit prep. Decay mechanics keep projects moving.',
     link: '/products/pipeline',
     category: 'builders',
   },
@@ -54,7 +54,7 @@ const products: Product[] = [
     name: 'Factory',
     status: 'development',
     statusLabel: 'Field testing',
-    description: 'Orchestrates Midjourney, Grok, Gemini into a single tracked workflow. Browser automation handles the tab-switching. State management remembers which prompt made what. The AI handles logistics, you handle taste.',
+    description: 'Midjourney + Grok + Gemini in one tracked workflow. Browser automation handles the tabs. You handle taste.',
     link: '/products/factory',
     category: 'builders',
   },
@@ -62,7 +62,7 @@ const products: Product[] = [
     name: 'Pipeline CLI',
     status: 'internal',
     statusLabel: 'Just shipped',
-    description: 'Visual terminal dashboard for your entire product portfolio. Live updating display with decay bars, sparklines, health indicators. Built with Python + Rich for that control room aesthetic.',
+    description: 'Terminal dashboard for your product portfolio. Decay bars, sparklines, health indicators. Control room aesthetic.',
     link: '/essays/building-pipeline-cli',
     category: 'builders',
   },
@@ -70,7 +70,7 @@ const products: Product[] = [
     name: 'Lexicon',
     status: 'development',
     statusLabel: 'Architecture complete',
-    description: 'Replace your Excel story bibles with a living, searchable knowledge graph. Track characters, relationships, events, and continuity across years of content. Every connection instantly searchable.',
+    description: 'Story bible as knowledge graph. Characters, relationships, timelines—100 episodes deep, instantly searchable.',
     link: '/products/lexicon',
     category: 'creators',
   },
@@ -79,7 +79,7 @@ const products: Product[] = [
     name: 'X-Place',
     status: 'exploration',
     statusLabel: 'Building in public',
-    description: 'r/place meets Twitter. 500x500 shared pixel canvas with X OAuth, cooldown timers, and real-time updates. A social experiment for the X ecosystem.',
+    description: 'r/place meets X. Shared pixel canvas, cooldown timers, real-time chaos. A social experiment.',
     link: '/products/xplace',
     category: 'fun',
   },
@@ -266,8 +266,9 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 
 export default function ProductGrid() {
   const shippingProducts = products.filter(p => p.status === 'shipping')
-  const builderProducts = products.filter(p => p.category === 'builders')
-  const creatorProducts = products.filter(p => p.category === 'creators')
+  // Exclude shipping products from category sections (they're already featured)
+  const builderProducts = products.filter(p => p.category === 'builders' && p.status !== 'shipping')
+  const creatorProducts = products.filter(p => p.category === 'creators' && p.status !== 'shipping')
   const funProducts = products.filter(p => p.category === 'fun')
 
   return (

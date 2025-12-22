@@ -20,36 +20,28 @@ const creatorProducts: Product[] = [
   {
     name: 'Composer',
     status: 'active',
-    tagline: 'Timeline-based AI story development platform',
+    tagline: 'AI writing partner with memory',
     description:
-      'Built for writers, directors, and producers who think visually and work non-linearly. Composer treats story development like the messy, iterative process it actually is. Work with AI as a collaborative partner, not a replacement.',
+      'AI writing partner that actually remembers your story world. Built for 90 Day Fiancé production—context rot solved.',
     link: 'https://id8composer.app',
     external: true,
   },
   {
     name: 'DeepStack',
     status: 'active',
-    tagline: 'AI-powered trading research platform',
+    tagline: 'Trading research with Claude',
     description:
-      'Think of it as having a research analyst in your pocket. Claude-powered analysis with 30+ tools, professional charts, thesis tracking, trade journaling with emotion monitoring, and an emotional firewall that blocks revenge trading. Research only—we never execute trades.',
+      '30+ analysis tools, thesis tracking, emotion-aware journaling. Blocks revenge trades. Research only.',
     link: 'https://deepstack.trade',
     external: true,
   },
   {
     name: 'Lexicon',
     status: 'coming-soon',
-    tagline: 'Wikipedia for your story universe',
+    tagline: 'Story bible as knowledge graph',
     description:
-      "When you're 100 episodes deep, find any character, relationship, or plot thread instantly. Graph-powered search that understands your narrative universe—from character connections to timeline conflicts to thematic patterns.",
+      'Characters, relationships, timelines—100 episodes deep, instantly searchable.',
     link: '/products/lexicon',
-  },
-  {
-    name: 'Clearance',
-    status: 'coming-soon',
-    tagline: 'Remove background music from video clips',
-    description:
-      'AI-powered audio separation for production environments. Clean up interviews, isolate dialogue, remove music from archival footage. What used to take expensive post-production now happens on set.',
-    link: '/products/clear',
   },
 ]
 
@@ -58,9 +50,9 @@ const builderProducts: Product[] = [
   {
     name: 'Pipeline',
     status: 'internal',
-    tagline: 'Complete idea-to-exit lifecycle management',
+    tagline: 'Idea-to-exit in 11 stages',
     description:
-      '8 interconnected AI agents handle validation, architecture, launch, growth, ops, and exit prep. Decay mechanics keep projects moving. Stage gates prevent premature advancement. Built for solo builders who want structure without bureaucracy.',
+      '8 AI agents handle validation through exit prep. Decay mechanics keep projects moving.',
     link: '/products/pipeline',
   },
   {
@@ -68,23 +60,23 @@ const builderProducts: Product[] = [
     status: 'coming-soon',
     tagline: 'AI creative production pipeline',
     description:
-      'Orchestrates Midjourney, Grok, Gemini and other AI image tools into a single tracked workflow. Browser automation handles the tab-switching. State management remembers which prompt made what. The AI handles logistics, you handle taste.',
+      'Midjourney + Grok + Gemini in one tracked workflow. Browser automation handles the tabs. You handle taste.',
     link: '/products/factory',
   },
   {
     name: 'LLC Ops',
     status: 'internal',
-    tagline: 'Custom AI agent systems for business operations',
+    tagline: 'AI agents for business ops',
     description:
-      '9 specialized agents for tax strategy, compliance, asset protection, and financial management. Built for ID8Labs, now a framework for any business domain. Replace a $50k back office with agents.',
+      '9 AI agents for taxes, compliance, asset protection. Replace a $50k back office.',
     link: '/products/llc-ops',
   },
   {
     name: 'Pipeline CLI',
     status: 'internal',
-    tagline: 'Visual terminal dashboard for Pipeline',
+    tagline: 'Terminal dashboard',
     description:
-      'A stunning CLI dashboard that shows your entire product portfolio at a glance. Live updating display with decay bars, sparklines, health indicators, and stage distribution. Built with Python + Rich for that control room aesthetic.',
+      'Decay bars, sparklines, health indicators. Control room aesthetic.',
     link: '/essays/building-pipeline-cli',
   },
 ]
@@ -94,17 +86,17 @@ const funProducts: Product[] = [
   {
     name: 'X-Place',
     status: 'coming-soon',
-    tagline: 'Collaborative pixel canvas for the X ecosystem',
+    tagline: 'r/place meets X',
     description:
-      'r/place meets Twitter. A 500x500 shared canvas where thousands of users create pixel art together—one pixel at a time, with cooldowns that force collaboration. X OAuth login, spectator mode for new accounts (anti-bot), real-time updates via WebSocket.',
+      'Shared pixel canvas, cooldown timers, real-time chaos. A social experiment.',
     link: '/products/xplace',
   },
   {
     name: 'Memmon',
     status: 'internal',
-    tagline: 'RAM monitor for AI development',
+    tagline: 'RAM monitor for AI dev',
     description:
-      'A simple dashboard with colored bars and a kill button. Green means work. Yellow means pay attention. Red means kill something now. Built because AI agents kept crashing my computer.',
+      'Green means work. Yellow means attention. Red means kill something. Built because AI agents kept crashing my Mac.',
     link: '/essays/memmon-making-the-invisible-visible',
   },
 ]
