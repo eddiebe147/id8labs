@@ -24,25 +24,25 @@ const modelUsage = [
 // Format: [Mon, Tue, Wed, Thu, Fri, Sat, Sun] per week
 const activityData = [
   // Week 1 (Oct 13-19) - First commit, getting started
-  [0, 0, 8, 5, 3, 2, 0],
+  [1, 2, 8, 5, 3, 2, 1],
   // Week 2 (Oct 20-26) - Composer kickoff, heavy development
-  [12, 8, 15, 6, 4, 3, 0],
+  [12, 8, 15, 6, 4, 3, 2],
   // Week 3 (Oct 27 - Nov 2) - LLC Ops architecture
-  [5, 7, 9, 8, 2, 4, 0],
+  [5, 7, 9, 8, 6, 4, 2],
   // Week 4 (Nov 3-9) - DeepStack started
-  [4, 6, 8, 5, 11, 2, 0],
+  [4, 6, 8, 5, 11, 3, 2],
   // Week 5 (Nov 10-16) - Pipeline framework
-  [9, 7, 4, 6, 3, 0, 10],
+  [9, 7, 4, 6, 5, 2, 10],
   // Week 6 (Nov 17-23) - DeepStack v2.5 push
-  [10, 4, 8, 6, 2, 3, 0],
+  [10, 6, 8, 7, 4, 3, 2],
   // Week 7 (Nov 24-30) - Thanksgiving week, lighter
-  [3, 5, 2, 0, 4, 0, 6],
+  [3, 5, 4, 2, 4, 1, 6],
   // Week 8 (Dec 1-7) - Back to building
-  [7, 4, 6, 8, 5, 2, 0],
+  [7, 5, 6, 8, 5, 3, 2],
   // Week 9 (Dec 8-14) - ID8Labs website started
-  [6, 8, 12, 9, 7, 4, 3],
+  [6, 8, 12, 9, 7, 4, 5],
   // Week 10 (Dec 15-21) - Website shipped, this section built
-  [8, 10, 14, 16, 12, 6, 14],
+  [8, 10, 14, 16, 12, 8, 14],
 ]
 
 function ActivityHeatmap() {
@@ -70,7 +70,7 @@ function ActivityHeatmap() {
                   duration: 0.2,
                   delay: (weekIndex * 7 + dayIndex) * 0.01
                 }}
-                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm ${getIntensity(day)} transition-all duration-200 cursor-default shadow-sm`}
+                className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm ${getIntensity(day)} transition-all duration-200 cursor-default shadow-sm`}
                 title={`${day} commits`}
               />
             ))}
@@ -80,11 +80,11 @@ function ActivityHeatmap() {
       <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-[var(--text-tertiary)]">
         <span className="text-[10px] sm:text-xs">Less</span>
         <div className="flex gap-1">
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--bg-secondary)] shadow-sm" />
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)]/30 shadow-sm" />
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)]/50 shadow-sm" />
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)]/70 shadow-sm" />
-          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-sm bg-[var(--id8-orange)] shadow-sm" />
+          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--bg-secondary)] shadow-sm" />
+          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)]/30 shadow-sm" />
+          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)]/50 shadow-sm" />
+          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)]/70 shadow-sm" />
+          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-sm bg-[var(--id8-orange)] shadow-sm" />
         </div>
         <span className="text-[10px] sm:text-xs">More</span>
       </div>
@@ -625,7 +625,7 @@ export default function ClaudePartnership() {
               <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] font-mono text-sm">
                 <div className="text-[#27c93f] mb-3 flex items-center gap-2">
                   <span>❯</span>
-                  <span>git_activity --last-8-weeks</span>
+                  <span>git_activity --last-10-weeks</span>
                 </div>
                 <ActivityHeatmap />
               </div>
