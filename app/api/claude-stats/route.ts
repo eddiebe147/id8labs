@@ -115,9 +115,10 @@ export async function POST(request: Request) {
         .single()
 
       if (current) {
+        const currentValue = (current as Record<string, number>)[column] || 0
         const { data: updated, error: updateError } = await client
           .from('claude_stats')
-          .update({ [column]: (current[column] || 0) + increment })
+          .update({ [column]: currentValue + increment })
           .select()
           .single()
 
