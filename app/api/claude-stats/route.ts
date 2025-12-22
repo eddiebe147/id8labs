@@ -115,7 +115,8 @@ export async function POST(request: Request) {
         .single()
 
       if (current) {
-        const currentValue = (current as Record<string, number>)[column] || 0
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const currentValue = ((current as any)[column] as number) || 0
         const { data: updated, error: updateError } = await client
           .from('claude_stats')
           .update({ [column]: currentValue + increment })
