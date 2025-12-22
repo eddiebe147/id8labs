@@ -336,66 +336,73 @@ export default function ProductGrid() {
   return (
     <section className="section-spacing bg-zone-text">
       <div className="container">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16 max-w-3xl"
-        >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            What's Happening
-            <br />
-            <span className="text-gradient-orange">in the Lab</span>
-          </h2>
-          <p className="text-xl text-[var(--text-secondary)]">
-            Tools for creators. Infrastructure for builders. Experiments for fun.
-          </p>
-        </motion.div>
+        {/* Two Column Layout - Sticky Header + Products */}
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-16 lg:gap-24">
+          {/* Left - Sticky Section Header */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="lg:sticky lg:top-24 lg:self-start"
+          >
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+              What's Happening
+              <br />
+              <span className="text-gradient-orange">in the Lab</span>
+            </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent mb-6" />
+            <p className="text-xl text-[var(--text-secondary)]">
+              Tools for creators. Infrastructure for builders. Experiments for fun.
+            </p>
+          </motion.div>
 
-        {/* Featured Products - Shipping Now */}
-        <div className="mb-16">
-          {shippingProducts.map((product, index) => (
-            <FeaturedCard key={product.name} product={product} index={index} />
-          ))}
-        </div>
-
-        {/* For Builders */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-bold mb-8 text-purple-400">
-            For Builders
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {builderProducts.map((product, index) => (
-              <ProductCard key={product.name} product={product} index={index} />
-            ))}
-          </div>
-        </div>
-
-        {/* For Creators (non-shipping) */}
-        {creatorProducts.length > 0 && (
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold mb-8 text-[var(--id8-orange)]">
-              For Creators
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {creatorProducts.map((product, index) => (
-                <ProductCard key={product.name} product={product} index={index} />
+          {/* Right - Products Content */}
+          <div className="space-y-12">
+            {/* Featured Products - Shipping Now */}
+            <div>
+              {shippingProducts.map((product, index) => (
+                <FeaturedCard key={product.name} product={product} index={index} />
               ))}
             </div>
-          </div>
-        )}
 
-        {/* For Fun */}
-        <div>
-          <h3 className="text-2xl font-bold mb-8 text-cyan-400">
-            For Fun
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {funProducts.map((product, index) => (
-              <ProductCard key={product.name} product={product} index={index} />
-            ))}
+            {/* For Builders */}
+            <div>
+              <h3 className="text-2xl font-bold mb-8 text-purple-400">
+                For Builders
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {builderProducts.map((product, index) => (
+                  <ProductCard key={product.name} product={product} index={index} />
+                ))}
+              </div>
+            </div>
+
+            {/* For Creators (non-shipping) */}
+            {creatorProducts.length > 0 && (
+              <div>
+                <h3 className="text-2xl font-bold mb-8 text-[var(--id8-orange)]">
+                  For Creators
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {creatorProducts.map((product, index) => (
+                    <ProductCard key={product.name} product={product} index={index} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* For Fun */}
+            <div>
+              <h3 className="text-2xl font-bold mb-8 text-cyan-400">
+                For Fun
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {funProducts.map((product, index) => (
+                  <ProductCard key={product.name} product={product} index={index} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
