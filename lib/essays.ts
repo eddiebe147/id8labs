@@ -12,6 +12,153 @@ export interface Essay {
 
 export const essays: Essay[] = [
   {
+    slug: 'ive-filmed-a-thousand-fights',
+    title: 'I\'ve Filmed a Thousand Fights. Here\'s What I Learned.',
+    subtitle: 'Why I built Pause—a communication translator for conflict',
+    date: '2025-12-22',
+    category: 'essay',
+    readTime: '8 min read',
+    excerpt: 'For twenty years, I\'ve pointed a camera at people in conflict. After a while, you start to see it: they\'re saying the same thing. They just can\'t hear each other.',
+    content: `# I've Filmed a Thousand Fights. Here's What I Learned.
+
+*By Eddie Belaval*
+*Founder, Pause*
+
+---
+
+For twenty years, I've pointed a camera at people in conflict.
+
+Teenagers screaming at their parents. Couples on the edge of divorce. Business partners dissolving decades of friendship over money. Strangers forced into proximity, grinding against each other until something breaks.
+
+I've worked on shows you've seen. *90 Day Fiancé*—which is, let's be honest, nothing but fighting. *The First 48*—where the stakes are life and death. *Teen Mom*—where kids are raising kids and nobody taught anyone how to talk. Documentary after documentary, reality show after reality show. Always conflict. Always the same patterns underneath.
+
+After a while, you start to see it.
+
+---
+
+## The Pattern
+
+Here's what happens in almost every fight I've ever filmed:
+
+**Person A says something.**
+
+They're trying to express a feeling. A need. A fear. Something real and vulnerable underneath.
+
+**Person B hears something else entirely.**
+
+Not what was said. What they *think* was said. Filtered through their own history, their own triggers, their own defenses.
+
+**Then it escalates.**
+
+Attack. Defend. Counterattack. Withdraw. The same loop, over and over, until someone shuts down or someone walks away or—in the worst cases—someone gets hurt.
+
+And the whole time, I'm behind the camera thinking: *They're saying the same thing. They just can't hear each other.*
+
+---
+
+## The Space Between
+
+There's a gap between what you say and what they hear.
+
+That gap is where relationships go to die. Not because people don't love each other. Not because they don't want to work it out. But because the noise—the history, the hurt, the patterns—drowns out the signal.
+
+I've watched it happen hundreds of times. And I've lived it myself.
+
+My own relationship has dynamics that don't allow for constructive communication. We love each other, but when things get heated, we can't hear each other. We need someone to stand in the middle. A translator. Not a therapist—we're not broken. Not a judge—nobody needs to be right. Just someone to catch what I'm actually trying to say and deliver it in a way she can actually hear.
+
+That person doesn't exist.
+
+Or didn't.
+
+---
+
+## Why I Built Pause
+
+I built Pause because I've spent two decades watching people fail to communicate—and I finally understood why.
+
+It's not that people are bad at talking. It's that conflict creates noise. Emotional static. And the more you care, the louder the static gets.
+
+What people need in that moment isn't advice. It's not someone telling them what they're doing wrong. It's not a quiz or a prompt or a daily relationship tip.
+
+What they need is a translator.
+
+Someone to receive the raw, messy, emotional thing they're trying to say—and find the signal underneath. The actual feeling. The actual need. The actual request.
+
+Then confirm it: *"Is this what you mean?"*
+
+And only then—only when the speaker says yes—deliver it to the other person in a form they can actually hear.
+
+That's Pause.
+
+---
+
+## Not Therapy. Not Judgment. Translation.
+
+I want to be clear about what this is and isn't.
+
+Pause is not therapy. I'm not a therapist. The app doesn't diagnose or treat or heal. If you need therapy, you should get therapy—and Pause will help you find it.
+
+Pause is not a judge. It doesn't decide who's right. It doesn't take sides. It doesn't have opinions about your relationship.
+
+Pause is a translator.
+
+It sits in the space between what you said and what they heard. It cleans the signal. It slows things down. And it makes sure that if your relationship fails, it won't be because you couldn't understand each other.
+
+---
+
+## Who This Is For
+
+This is for me.
+
+It's for the version of me who's in the middle of a fight with someone I love, and I can feel myself being misunderstood, and I can feel myself misunderstanding, and I just want someone to help us *hear each other* before it's too late.
+
+It's for every person who's ever said something and watched it land wrong.
+
+Every person who's ever been accused of saying something they didn't say.
+
+Every person who's ever walked away from a conversation thinking: *Why can't they just understand what I'm trying to tell them?*
+
+It's for couples. But also friends. Business partners. Families. Anyone who needs to say something important and needs to be heard.
+
+---
+
+## The Name
+
+We called it Pause because that's the whole intervention.
+
+Not speed. Not efficiency. Not "communicate better in 5 minutes a day."
+
+A pause.
+
+The space to breathe. The space to be understood before you respond. The space between what you said and what they heard.
+
+That's where we live.
+
+---
+
+## What Happens Next
+
+I'm building this now. The landing page is up at [justpause.partners](https://justpause.partners). The product requirements are written. The technical design is done. The research is solid—built on Gottman's Four Horsemen, Marshall Rosenberg's Nonviolent Communication, and the same ethical standards professional mediators use.
+
+Now I ship.
+
+If you've ever felt unheard—if you've ever watched a conversation spiral because nobody could find the signal underneath the noise—I'm building this for you.
+
+Get on the waitlist. Be one of the first to try it.
+
+Because everyone deserves to be heard.
+
+---
+
+*Eddie Belaval is a documentary filmmaker, cinematographer, and the founder of ID8Labs. He's spent 20+ years working on shows including 90 Day Fiancé, The First 48, High on the Hog (Netflix), Teen Mom, and MTV productions. Pause is his first product.*
+
+---
+
+**[justpause.partners](https://justpause.partners)**
+
+*Slower is the point.*`
+  },
+  {
     slug: 'building-llc-ops',
     title: 'Building LLC Ops: How We Created a 9-Agent AI Operations Team',
     subtitle: 'A case study in building domain-specific AI agents that actually work',

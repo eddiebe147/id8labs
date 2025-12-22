@@ -43,6 +43,14 @@ const creatorProducts: Product[] = [
       'Characters, relationships, timelines—100 episodes deep, instantly searchable.',
     link: '/products/lexicon',
   },
+  {
+    name: 'Pause',
+    status: 'coming-soon',
+    tagline: 'Communication translator for conflict',
+    description:
+      'When emotions run high, people stop hearing each other. Pause sits between what you said and what they heard. Not therapy. Not judgment. Translation.',
+    link: '/products/pause',
+  },
 ]
 
 // FOR BUILDERS - AI orchestration for solo builders
