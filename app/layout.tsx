@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { NeuralNetworkBg } from '@/components/foundation/neural-network-bg'
+import { GoogleAnalytics } from '@/components/Analytics'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -86,6 +87,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable}`}>
+        <GoogleAnalytics />
         {/* Neural Network Background - "Thoughtful Brain" settings */}
         <NeuralNetworkBg
           neuronCount={120}

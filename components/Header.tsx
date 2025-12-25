@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[var(--bg-primary)]/70 border-b border-white/10 shadow-lg transition-all duration-200">
       <div className="container">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo / Wordmark */}
           <Link href="/" className="text-3xl font-bold tracking-tight hover:opacity-70 transition-opacity">
             <BrandName />

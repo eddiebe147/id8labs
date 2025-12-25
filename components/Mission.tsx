@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function Mission() {
@@ -41,8 +42,10 @@ export default function Mission() {
                       <span className="text-[var(--id8-orange)] font-semibold">Problem-First, Always</span>
                     </p>
                     <p className="text-[var(--text-secondary)] leading-relaxed">
-                      Every tool starts with friction I hit in production. Context rot on 90 Day scripts became Composer.
-                      Revenge trades bleeding my account became DeepStack's emotion detection. Problems are never abstract—they're personally painful.
+                      Every tool starts with friction I hit in production. Context rot on 90 Day scripts became{' '}
+                      <a href="https://id8composer.app" target="_blank" rel="noopener noreferrer" className="text-[var(--id8-orange)] hover:underline">Composer</a>.
+                      Revenge trades bleeding my account became{' '}
+                      <a href="https://deepstack.trade" target="_blank" rel="noopener noreferrer" className="text-[var(--id8-orange)] hover:underline">DeepStack's emotion detection</a>. Problems are never abstract—they're personally painful.
                     </p>
                   </div>
                 </div>
@@ -56,8 +59,9 @@ export default function Mission() {
                       <span className="text-[var(--id8-orange)] font-semibold">Systems Over Features</span>
                     </p>
                     <p className="text-[var(--text-secondary)] leading-relaxed">
-                      Most builders add features. I add systems. LLC Ops isn't tax tools—it's 9 agents working together.
-                      Pipeline isn't a tracker—it's decay mechanics that create urgency. Connections matter more than components.
+                      Most builders add features. I add systems.{' '}
+                      <Link href="/products/llc-ops" className="text-[var(--id8-orange)] hover:underline">LLC Ops</Link> isn't tax tools—it's 9 agents working together.{' '}
+                      <Link href="/products/pipeline" className="text-[var(--id8-orange)] hover:underline">Pipeline</Link> isn't a tracker—it's decay mechanics that create urgency. Connections matter more than components.
                     </p>
                   </div>
                 </div>
@@ -131,6 +135,18 @@ export default function Mission() {
                 <br />
                 The lab stays focused."
               </blockquote>
+              <div className="mt-8">
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2 text-[var(--id8-orange)] font-semibold hover:gap-3 transition-all"
+                >
+                  Learn how I can help you build
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+              </div>
             </div>
           </motion.div>
         </div>
