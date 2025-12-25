@@ -62,10 +62,10 @@ export default function TermsPage() {
           <p>
             Questions about these Terms? Contact us at{' '}
             <a
-              href="mailto:hello@id8labs.com"
+              href="mailto:eb@id8labs.tech"
               className="border-b-2 border-[var(--text-primary)] hover:opacity-70 transition-opacity"
             >
-              hello@id8labs.com
+              eb@id8labs.tech
             </a>
           </p>
         </div>

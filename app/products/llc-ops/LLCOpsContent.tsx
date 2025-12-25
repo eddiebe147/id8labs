@@ -402,7 +402,7 @@ export default function LLCOpsContent() {
                 Talk to Eddie on X
               </a>
               <a
-                href="mailto:eddie@id8labs.app?subject=Custom%20Agent%20System%20Inquiry"
+                href="mailto:eb@id8labs.tech?subject=Custom%20Agent%20System%20Inquiry"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-[var(--id8-orange)] text-[var(--id8-orange)] font-bold rounded-soft hover:bg-[var(--id8-orange)]/10 transition-colors"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

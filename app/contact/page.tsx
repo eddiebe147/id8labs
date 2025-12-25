@@ -33,7 +33,7 @@ const intents = [
     title: 'Collaborate',
     description: 'Partnership ideas, joint ventures, or consulting opportunities. I read every email.',
     cta: 'Send Email',
-    href: 'mailto:eddie@id8labs.app?subject=Collaboration%20Inquiry',
+    href: 'mailto:eb@id8labs.tech?subject=Collaboration%20Inquiry',
     color: '#A855F7',
   },
   {
@@ -145,14 +145,14 @@ export default function ContactPage() {
               @eddiebe
             </a>
             <a
-              href="mailto:eddie@id8labs.app"
+              href="mailto:eb@id8labs.tech"
               className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-id8-orange transition-colors"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
               </svg>
-              eddie@id8labs.app
+              eb@id8labs.tech
             </a>
           </div>
         </section>
