@@ -138,7 +138,7 @@ const credentials = [
 ]
 
 export default function ServicesPage() {
-  const contactEmail = "eddie.belaval@gmail.com"
+  const contactEmail = "eb@id8labs.tech"
   const bookingUrl = `mailto:${contactEmail}?subject=AI%20Implementation%20-%20Let's%20Talk&body=Hey%20Eddie%2C%0A%0AI'm%20interested%20in%20learning%20more%20about%20your%20AI%20implementation%20services.%0A%0AA%20bit%20about%20me%3A%0A-%20What%20I%20do%3A%20%0A-%20Biggest%20time%20sink%3A%20%0A-%20What%20I'm%20hoping%20AI%20can%20help%20with%3A%20%0A%0ALet's%20find%20a%20time%20to%20chat.`
 
   return (
