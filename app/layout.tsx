@@ -27,8 +27,55 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: 'ID8Labs - Professional Tools for the AI Era',
-  description: 'ID8Labs builds category-defining professional tools for creative professionals in the AI era.',
+  title: {
+    default: 'ID8Labs - Professional Tools for the AI Era',
+    template: '%s | ID8Labs',
+  },
+  description: 'ID8Labs builds professional AI tools and offers Claude Code training. Products include Composer (AI writing partner), DeepStack (trading research), and live training for hooks, MCP servers, and production workflows.',
+  keywords: [
+    'AI tools',
+    'Claude Code',
+    'AI writing assistant',
+    'Claude Code training',
+    'MCP servers',
+    'AI workflow automation',
+    'professional AI tools',
+    'ID8Labs',
+    'DeepStack trading',
+    'AI for creators',
+  ],
+  authors: [{ name: 'Eddie Belaval', url: 'https://id8labs.app' }],
+  creator: 'Eddie Belaval',
+  metadataBase: new URL('https://id8labs.app'),
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://id8labs.app',
+    siteName: 'ID8Labs',
+    title: 'ID8Labs - Professional Tools for the AI Era',
+    description: 'AI tools for creators and builders. Claude Code training, Composer, DeepStack, and more.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ID8Labs - Professional Tools for the AI Era',
+    description: 'AI tools for creators and builders. Claude Code training, Composer, DeepStack, and more.',
+    creator: '@eddiebe147',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    // Add these when you have them:
+    // google: 'your-google-verification-code',
+  },
 }
 
 export default function RootLayout({
