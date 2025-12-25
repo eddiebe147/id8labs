@@ -45,8 +45,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Send welcome email with resources
+    // Using mail.deepstack.trade since it's verified in Resend (free plan allows 1 domain)
     const { data, error } = await getResend().emails.send({
-      from: 'ID8Labs <hello@id8labs.app>',
+      from: 'ID8Labs <hello@mail.deepstack.trade>',
       to: email,
       subject: `Your AI Readiness Results: ${readinessLevel} Level`,
       html: generateWelcomeEmail(name, readinessLevel, score, recommendations),
