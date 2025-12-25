@@ -284,19 +284,28 @@ async function syncGitHubStats() {
     }
   }
 
+  // Build update object - only update LOC if we got valid data (GitHub API sometimes returns 0)
+  const updateData: Record<string, unknown> = {
+    commits_together: claudeCommits,
+    first_commit_date: firstCommitDate,
+    last_commit_date: lastCommitDate,
+    languages: languagePercentages,
+    last_synced_at: new Date().toISOString(),
+  }
+
+  // Only update LOC stats if GitHub returned non-zero values
+  if (totalAdditions > 0) {
+    updateData.lines_added = totalAdditions
+    updateData.lines_of_code = totalAdditions
+  }
+  if (totalDeletions > 0) {
+    updateData.lines_removed = totalDeletions
+  }
+
   // Update the existing row with WHERE clause
   const { data, error } = await client
     .from('claude_stats')
-    .update({
-      commits_together: claudeCommits,
-      lines_added: totalAdditions,
-      lines_removed: totalDeletions,
-      lines_of_code: totalAdditions,
-      first_commit_date: firstCommitDate,
-      last_commit_date: lastCommitDate,
-      languages: languagePercentages,
-      last_synced_at: new Date().toISOString(),
-    })
+    .update(updateData)
     .eq('id', existingStats.id)
     .select()
     .single()
