@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/eddiebelaval/Development/id8labs/.claude/hooks/post-tool-observe.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/eddiebelaval/Development/id8labs/.claude/hooks/session-end-observe.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
