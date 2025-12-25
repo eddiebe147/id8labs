@@ -78,6 +78,7 @@ const services = [
       "30 days follow-up support",
     ],
     popular: false,
+    category: "ai-implementation",
   },
   {
     tier: "Tier 2",
@@ -92,6 +93,7 @@ const services = [
       "Recorded sessions for reference",
     ],
     popular: true,
+    category: "ai-implementation",
   },
   {
     tier: "Tier 3",
@@ -104,6 +106,54 @@ const services = [
       "Custom AI systems built for your operation",
       "Team training + full documentation",
       "90 days of hands-on support",
+    ],
+    popular: false,
+    category: "ai-implementation",
+  },
+]
+
+const claudeCodeCourses = [
+  {
+    tier: "Fundamentals",
+    name: "Claude Code Basics",
+    price: "$149",
+    description: "90-minute live session. Get set up, learn the commands, and start building with Claude Code the right way.",
+    features: [
+      "Live Zoom session (1:1 or small group)",
+      "Installation & configuration walkthrough",
+      "Core commands and workflows",
+      "Prompt patterns that actually work",
+      "Cheat sheet PDF included",
+    ],
+    popular: false,
+  },
+  {
+    tier: "Builder",
+    name: "Claude Code for Builders",
+    price: "$497",
+    description: "3 live sessions over 2 weeks. Build real projects with hooks, MCP servers, plugins, and context systems.",
+    features: [
+      "Three 90-min live sessions",
+      "Hooks & automation setup",
+      "MCP server integration",
+      "Custom plugin development",
+      "Context systems that persist",
+      "Your own project as the curriculum",
+    ],
+    popular: true,
+  },
+  {
+    tier: "Partner",
+    name: "Build With Claude",
+    price: "$1,497",
+    description: "6-week live cohort. We build a production app together from scratch. You ship something real.",
+    features: [
+      "Weekly 2-hour live build sessions",
+      "Full project from idea to deployment",
+      "Subagents, pipelines, and orchestration",
+      "Code review and architecture guidance",
+      "Small cohort (max 6 people)",
+      "Private Discord/Slack access",
     ],
     popular: false,
   },
@@ -293,6 +343,82 @@ export default function ServicesPage() {
                     </li>
                   ))}
                 </ul>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Claude Code Courses Section */}
+      <section className="section-spacing border-t border-[var(--border)]" id="claude-code">
+        <div className="container">
+          <div className="text-center mb-16">
+            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
+              Claude Code Training
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              Learn to build with Claude Code
+            </h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+              Live sessions, not recorded tutorials. Learn hooks, MCP servers, plugins, and production workflows from someone who ships with Claude Code daily.
+            </p>
+          </div>
+
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={stagger}
+            className="grid md:grid-cols-3 gap-6"
+          >
+            {claudeCodeCourses.map((course, index) => (
+              <motion.div
+                key={index}
+                variants={fadeUp}
+                className={`relative overflow-hidden flex flex-col ${
+                  course.popular ? 'card-featured' : 'card'
+                }`}
+              >
+                {course.popular && (
+                  <span className="absolute top-4 right-4 text-xs font-mono uppercase tracking-wider text-id8-orange bg-[var(--id8-orange-light)] px-3 py-1.5 rounded-md">
+                    Most Popular
+                  </span>
+                )}
+
+                <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-tertiary)] mb-3">
+                  {course.tier}
+                </p>
+                <h3 className="text-2xl font-bold mb-2 tracking-tight">
+                  {course.name}
+                </h3>
+                <p className="text-3xl font-bold text-id8-orange font-mono mb-5">
+                  {course.price}
+                </p>
+                <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
+                  {course.description}
+                </p>
+
+                <ul className="space-y-3 mb-8 flex-grow">
+                  {course.features.map((feature, featureIndex) => (
+                    <li
+                      key={featureIndex}
+                      className="flex items-start gap-3 text-[var(--text-secondary)]"
+                    >
+                      <span className="text-id8-orange flex-shrink-0 mt-1">
+                        <CheckIcon />
+                      </span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href={`mailto:eb@id8labs.tech?subject=Claude%20Code%20Training%20-%20${encodeURIComponent(course.name)}&body=Hey%20Eddie%2C%0A%0AI'm%20interested%20in%20the%20${encodeURIComponent(course.name)}%20course.%0A%0AA%20bit%20about%20me%3A%0A-%20Current%20experience%20with%20Claude%20Code%3A%20%0A-%20What%20I'm%20hoping%20to%20build%3A%20%0A%0ALet's%20find%20a%20time%20that%20works.`}
+                  className="btn btn-primary w-full text-center group inline-flex items-center justify-center gap-2"
+                >
+                  Schedule Session
+                  <ArrowRightIcon />
+                </a>
               </motion.div>
             ))}
           </motion.div>
