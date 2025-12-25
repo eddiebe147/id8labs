@@ -194,21 +194,21 @@ export default function LeadMagnetFunnel() {
           setIsOpen(true)
           trackEvent('assessment_opened', 'lead_funnel', 'floating_button')
         }}
-        className="fixed bottom-6 right-6 z-40 bg-[var(--id8-orange)] text-white px-6 py-3 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center gap-2 group"
+        className="fixed bottom-6 right-6 z-40 bg-[var(--id8-orange)] text-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group text-sm"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M9 12l2 2 4-4" />
           <circle cx="12" cy="12" r="10" />
         </svg>
-        <span className="font-semibold">Free AI Readiness Check</span>
+        <span className="font-medium">Free Readiness Check</span>
         <svg
-          width="16"
-          height="16"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -384,7 +384,7 @@ export default function LeadMagnetFunnel() {
                             </div>
                             <div>
                               <div className="font-medium text-[var(--text-primary)]">MCP Security Checklist</div>
-                              <div className="text-sm text-[var(--text-secondary)]">PDF guide to avoid the "Wild West" of AI integration</div>
+                              <div className="text-sm text-[var(--text-secondary)]">Comprehensive security guide for AI integrations</div>
                             </div>
                           </div>
 
@@ -396,7 +396,7 @@ export default function LeadMagnetFunnel() {
                             </div>
                             <div>
                               <div className="font-medium text-[var(--text-primary)]">Claude Code Hooks Starter Kit</div>
-                              <div className="text-sm text-[var(--text-secondary)]">GitHub repo with production-ready hook templates</div>
+                              <div className="text-sm text-[var(--text-secondary)]">GitHub repo with production-ready hooks you can clone</div>
                             </div>
                           </div>
 
@@ -408,7 +408,7 @@ export default function LeadMagnetFunnel() {
                             </div>
                             <div>
                               <div className="font-medium text-[var(--text-primary)]">Personalized Action Plan</div>
-                              <div className="text-sm text-[var(--text-secondary)]">Based on your "{readiness.level}" readiness level</div>
+                              <div className="text-sm text-[var(--text-secondary)]">30-day roadmap tailored to your {readiness.level} level</div>
                             </div>
                           </div>
                         </div>

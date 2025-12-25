@@ -88,6 +88,16 @@ export async function POST(request: NextRequest) {
   }
 }
 
+function getActionPlanUrl(level: string): string {
+  const actionPlans: Record<string, string> = {
+    Explorer: 'https://id8labs.app/resources/action-plans/explorer-action-plan.md',
+    Adopter: 'https://id8labs.app/resources/action-plans/adopter-action-plan.md',
+    Practitioner: 'https://id8labs.app/resources/action-plans/practitioner-action-plan.md',
+    Pioneer: 'https://id8labs.app/resources/action-plans/pioneer-action-plan.md',
+  }
+  return actionPlans[level] || actionPlans.Explorer
+}
+
 function generateWelcomeEmail(
   name: string,
   level: string,
@@ -102,6 +112,7 @@ function generateWelcomeEmail(
   }
 
   const color = levelColors[level] || '#FF6B35'
+  const actionPlanUrl = getActionPlanUrl(level)
 
   return `
 <!DOCTYPE html>
@@ -178,7 +189,35 @@ function generateWelcomeEmail(
           Your Free Resources:
         </h3>
 
-        <!-- Resource 1: MCP Checklist -->
+        <!-- Resource 1: Personalized Action Plan -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #ECFDF5; border-radius: 12px; margin-bottom: 15px;">
+          <tr>
+            <td style="padding: 20px;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 15px;">
+                    <div style="width: 40px; height: 40px; background-color: #D1FAE5; border-radius: 8px; text-align: center; line-height: 40px;">
+                      <span style="font-size: 20px;">🎯</span>
+                    </div>
+                  </td>
+                  <td>
+                    <h4 style="margin: 0 0 5px; color: #0A0A0A; font-size: 16px; font-weight: 600;">
+                      Your ${level} Action Plan
+                    </h4>
+                    <p style="margin: 0 0 10px; color: #737373; font-size: 14px;">
+                      30-day roadmap tailored specifically to your readiness level.
+                    </p>
+                    <a href="${actionPlanUrl}" style="color: #10B981; font-size: 14px; font-weight: 600; text-decoration: none;">
+                      View Your Action Plan →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Resource 2: MCP Checklist -->
         <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FFF5F0; border-radius: 12px; margin-bottom: 15px;">
           <tr>
             <td style="padding: 20px;">
@@ -194,10 +233,10 @@ function generateWelcomeEmail(
                       MCP Security Checklist
                     </h4>
                     <p style="margin: 0 0 10px; color: #737373; font-size: 14px;">
-                      Avoid the "Wild West" of AI integration with our security audit guide.
+                      Comprehensive security guide for AI integrations.
                     </p>
                     <a href="https://id8labs.app/resources/MCP_Security_Checklist.md" style="color: #FF6B35; font-size: 14px; font-weight: 600; text-decoration: none;">
-                      Download Checklist →
+                      View Checklist →
                     </a>
                   </td>
                 </tr>
@@ -206,7 +245,7 @@ function generateWelcomeEmail(
           </tr>
         </table>
 
-        <!-- Resource 2: Hooks Starter Kit -->
+        <!-- Resource 3: Hooks Starter Kit -->
         <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F0F7FF; border-radius: 12px; margin-bottom: 30px;">
           <tr>
             <td style="padding: 20px;">
@@ -222,10 +261,10 @@ function generateWelcomeEmail(
                       Claude Code Hooks Starter Kit
                     </h4>
                     <p style="margin: 0 0 10px; color: #737373; font-size: 14px;">
-                      Production-ready hook templates for your Claude Code workflows.
+                      Production-ready hooks you can clone and customize.
                     </p>
-                    <a href="https://id8labs.app/resources/claude-code-hooks-starter/README.md" style="color: #3B82F6; font-size: 14px; font-weight: 600; text-decoration: none;">
-                      View Starter Kit →
+                    <a href="https://github.com/eddiebe147/id8labs-starter" style="color: #3B82F6; font-size: 14px; font-weight: 600; text-decoration: none;">
+                      Clone from GitHub →
                     </a>
                   </td>
                 </tr>
