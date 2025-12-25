@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { NeuralNetworkBg } from '@/components/foundation/neural-network-bg'
 import { GoogleAnalytics } from '@/components/Analytics'
+import LeadMagnetFunnel from '@/components/LeadMagnetFunnel'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -106,6 +107,7 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
+          <LeadMagnetFunnel />
         </ThemeProvider>
       </body>
     </html>
