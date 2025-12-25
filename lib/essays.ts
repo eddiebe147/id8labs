@@ -968,7 +968,7 @@ Now we use it.`
     category: 'essay',
     readTime: '6 min read',
     excerpt: 'My computer kept crashing from AI agents consuming all my RAM. Activity Monitor wasn\'t cutting it. So I built Memmon—a simple dashboard with colored bars and a kill button.',
-    heroImage: '/essays/memmon-hero.png',
+    heroImage: '/essays/memmon-hero.webp',
     content: `# Memmon: Making the Invisible Visible
 
 My computer kept crashing.

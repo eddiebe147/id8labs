@@ -20,7 +20,7 @@ function ComposerPreview() {
   return (
     <div className="relative w-full h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden border-2 border-[var(--id8-orange)]/30 shadow-[0_0_30px_rgba(255,107,0,0.15)]">
       <Image
-        src="/images/composer-preview.png"
+        src="/images/composer-preview.webp"
         alt="id8Composer - AI Writing Partner with Knowledge Base, Canvas, and Sandbox"
         fill
         className="object-cover object-top"
@@ -37,7 +37,7 @@ function DeepStackPreview() {
   return (
     <div className="relative w-full h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden border-2 border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.15)]">
       <Image
-        src="/images/deepstack-preview.png"
+        src="/images/deepstack-preview.webp"
         alt="DeepStack - Trading Research Platform with AI Analysis and Process Integrity"
         fill
         className="object-cover object-top"
