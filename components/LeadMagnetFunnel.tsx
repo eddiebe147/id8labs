@@ -139,17 +139,43 @@ export default function LeadMagnetFunnel() {
     }
   }
 
+  const [submitError, setSubmitError] = useState<string | null>(null)
+
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitError(null)
 
-    trackEvent('lead_captured', 'conversion', readiness.level, totalScore)
+    try {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          readinessLevel: readiness.level,
+          score: totalScore,
+          recommendations: readiness.recommendations,
+        }),
+      })
 
-    // Simulate API call - replace with actual email service
-    await new Promise(resolve => setTimeout(resolve, 1000))
+      const data = await response.json()
 
-    setStep('success')
-    setIsSubmitting(false)
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email')
+      }
+
+      trackEvent('lead_captured', 'conversion', readiness.level, totalScore)
+      setStep('success')
+    } catch (error) {
+      console.error('Email submission error:', error)
+      setSubmitError(error instanceof Error ? error.message : 'Something went wrong. Please try again.')
+      trackEvent('lead_capture_failed', 'error', readiness.level)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const resetAssessment = () => {
@@ -439,6 +465,11 @@ export default function LeadMagnetFunnel() {
                             </>
                           )}
                         </button>
+                        {submitError && (
+                          <p className="text-sm text-center text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+                            {submitError}
+                          </p>
+                        )}
                         <p className="text-xs text-center text-[var(--text-tertiary)]">
                           No spam. Unsubscribe anytime. We respect your privacy.
                         </p>

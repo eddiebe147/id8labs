@@ -16,6 +16,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-markdown": "^10.1.0",
+    "resend": "^6.6.0",
     "simplex-noise": "^4.0.3"
   },
   "devDependencies": {
