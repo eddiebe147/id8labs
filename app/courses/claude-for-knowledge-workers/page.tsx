@@ -1,7 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import CheckoutButton from '@/components/CheckoutButton'
 
 // Animation variants
 const fadeUp = {
@@ -61,6 +63,12 @@ const SettingsIcon = () => (
 const XIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M18 6L6 18M6 6l12 12"/>
+  </svg>
+)
+
+const ChevronDownIcon = () => (
+  <svg className="w-5 h-5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M6 9l6 6 6-6"/>
   </svg>
 )
 
@@ -155,6 +163,29 @@ const notFor = [
   "Developers (you have plenty of resources)",
   "Complete beginners who've never used AI",
   "People who want to build software",
+]
+
+const faqs = [
+  {
+    question: "Do I need programming experience?",
+    answer: "No. This course is specifically designed for non-developers. You'll describe what you want in plain English, and Claude will do the technical work. If you can write an email, you can use Claude Code."
+  },
+  {
+    question: "What if I get stuck?",
+    answer: "Email support is included with the full course. Send your question to support@id8labs.io and we'll help you troubleshoot. Most students find the step-by-step video walkthroughs answer 95% of questions."
+  },
+  {
+    question: "Is there a refund policy?",
+    answer: "Yes. 30-day money-back guarantee, no questions asked. If the course isn't what you expected, just email within 30 days of purchase for a full refund."
+  },
+  {
+    question: "How long do I have access?",
+    answer: "Lifetime access. Buy once, access forever. You'll also get all future updates and new modules as they're released at no additional cost."
+  },
+  {
+    question: "What's the difference from Claude's official tutorials?",
+    answer: "Anthropic's tutorials are great—but they're written for developers. This course assumes zero coding background and focuses on real-world knowledge work: file processing, writing workflows, research synthesis, and recurring tasks. We speak your language, not code."
+  }
 ]
 
 export default function ClaudeForKnowledgeWorkersPage() {
@@ -509,13 +540,12 @@ export default function ClaudeForKnowledgeWorkersPage() {
                   </li>
                 </ul>
 
-                <a
-                  href="https://buy.stripe.com/placeholder"
-                  className="btn btn-primary w-full text-lg py-4 inline-flex items-center justify-center gap-2"
+                <CheckoutButton
+                  productId="claude-for-knowledge-workers"
+                  className="text-lg py-4"
                 >
                   Get Full Course
-                  <ArrowRightIcon />
-                </a>
+                </CheckoutButton>
               </div>
             </div>
 
@@ -535,6 +565,64 @@ export default function ClaudeForKnowledgeWorkersPage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="text-center mb-16">
+            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
+              FAQ
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              Common questions
+            </h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            {faqs.map((faq, index) => (
+              <FAQItem key={index} question={faq.question} answer={faq.answer} />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
+  )
+}
+
+// FAQ Accordion Component
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="border border-[var(--border)] rounded-lg overflow-hidden bg-[var(--bg-primary)]"
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-5 text-left hover:bg-[var(--bg-secondary)] transition-colors"
+      >
+        <span className="font-bold text-lg pr-4">{question}</span>
+        <span className={`text-id8-orange flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}>
+          <ChevronDownIcon />
+        </span>
+      </button>
+
+      <motion.div
+        initial={false}
+        animate={{
+          height: isOpen ? 'auto' : 0,
+          opacity: isOpen ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="overflow-hidden"
+      >
+        <div className="px-5 pb-5 pt-0 text-[var(--text-secondary)] leading-relaxed">
+          {answer}
+        </div>
+      </motion.div>
+    </motion.div>
   )
 }
