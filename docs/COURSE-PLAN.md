@@ -22,7 +22,7 @@ A 6-module course teaching non-programmers how to use Claude Code for everyday k
 | 0 | The Mental Model Shift | 30 min | ✅ Complete | Installation + first win (Downloads cleanup) |
 | 1 | Your First Delegation | 45 min | ✅ Complete | 10 Quick Wins, confidence building |
 | 2 | Working With Your Files | 60 min | ✅ Complete | Document processing at scale |
-| 3 | Writing With Claude | 60 min | 🔜 Planned | Drafting, editing, voice development |
+| 3 | Writing With Claude | 60 min | ✅ Complete | Drafting, editing, voice development |
 | 4 | Research & Analysis | 60 min | 🔜 Planned | Web research, competitive analysis |
 | 5 | Building Workflows | 60 min | 🔜 Planned | Automation, recurring tasks |
 
@@ -134,24 +134,31 @@ Run the Downloads cleanup delegation.
 
 ## Module 3: Writing With Claude
 
-**Status:** 🔜 Planned
+**Status:** ✅ Complete
 **Duration:** 60 minutes
+**Source:** `docs/module-3-notebooklm-source.md`
 
-### Planned Content
-- First drafts and iteration
-- Voice development and style matching
-- Email drafting workflows
-- Report generation
-- Blog/content writing
-- Editing and refinement passes
+### What It Covers
+- The Writing Partnership Model (Claude as collaborator, not replacement)
+- Voice-to-Draft Workflow (voice notes → structured drafts)
+- Editing Workflows (clarity, audience, tone, structure)
+- Voice Training (teaching Claude your writing style)
+- Beating Blank Page Syndrome (brainstorming, ugly first drafts)
+- Email Workflows (replies, difficult messages, batch processing)
 
 ### Key Concepts
-- Claude as writing partner, not replacement
-- Preserving your voice
-- Iterative refinement
+- **Writing WITH Claude** — Your ideas, Claude's structure
+- **Voice profiles** — Train Claude on your existing writing
+- **Specific editing requests** — "Make it better" vs. "The opening is too long"
+
+### Assets
+- Video: `module-3-writing-with-claude.mp4`
+- Audio: `module-3-writing-with-claude.m4a`
+- PDF: `module-3-writing-with-claude.pdf`
+- Mindmap: `module-3-mindmap.png`
 
 ### Challenge
-Write and refine a substantial piece (email, report, or blog post).
+**The Voice Note Draft:** Record 3-5 minutes about something you need to write, transcribe it, delegate the transformation, and edit the result.
 
 ---
 
@@ -276,7 +283,7 @@ app/courses/claude-for-knowledge-workers/
 1. ✅ Module 0 complete
 2. ✅ Module 1 complete
 3. ✅ Module 2 complete
-4. 📝 Write Module 3 source document
+4. ✅ Module 3 complete
 5. 📝 Write Module 4 source document
 6. 📝 Write Module 5 source document
 

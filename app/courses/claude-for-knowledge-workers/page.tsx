@@ -105,7 +105,7 @@ const modules = [
     duration: "60 min",
     description: "Voice notes → drafts, editing workflows, finding and preserving your voice.",
     free: false,
-    available: false,
+    available: true,
     href: "/courses/claude-for-knowledge-workers/module-3",
   },
   {
