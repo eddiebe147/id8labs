@@ -114,7 +114,7 @@ const modules = [
     duration: "60 min",
     description: "Web research, competitive analysis, synthesizing sources into actionable insights.",
     free: false,
-    available: false,
+    available: true,
     href: "/courses/claude-for-knowledge-workers/module-4",
   },
   {

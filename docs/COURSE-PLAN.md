@@ -23,7 +23,7 @@ A 6-module course teaching non-programmers how to use Claude Code for everyday k
 | 1 | Your First Delegation | 45 min | ✅ Complete | 10 Quick Wins, confidence building |
 | 2 | Working With Your Files | 60 min | ✅ Complete | Document processing at scale |
 | 3 | Writing With Claude | 60 min | ✅ Complete | Drafting, editing, voice development |
-| 4 | Research & Analysis | 60 min | 🔜 Planned | Web research, competitive analysis |
+| 4 | Research & Analysis | 60 min | ✅ Complete | Web research, competitive analysis |
 | 5 | Building Workflows | 60 min | 🔜 Planned | Automation, recurring tasks |
 
 ---
@@ -164,24 +164,37 @@ Run the Downloads cleanup delegation.
 
 ## Module 4: Research & Analysis
 
-**Status:** 🔜 Planned
+**Status:** ✅ Complete
 **Duration:** 60 minutes
+**Source:** `docs/module-4-notebooklm-source.md`
 
-### Planned Content
-- Web research with Claude
-- Competitive analysis
-- Market research
-- Summarizing long documents
-- Creating briefings
-- Citation and source management
+### What It Covers
+- What Claude can research (web and document)
+- The Research Briefing Workflow
+- Competitive Analysis (company deep dives, landscape overviews)
+- Market Research (trends, customer profiles, sentiment)
+- Synthesizing Long Documents (contracts, reports, meeting notes)
+- Research + Action (recommendations, comparisons, outreach drafts)
+- Verification and Fact-Checking
+
+### Real Examples
+- Cast research briefings for reality TV production
+- AI tools competitive landscape analysis
+- Industry report digest workflow
 
 ### Key Concepts
-- Claude as research assistant
-- Synthesis vs. summarization
-- Verification and fact-checking
+- Claude researches AND synthesizes — not just finding, but organizing
+- The shift from "help me search" to "research this and give me actionable insights"
+- Verification matters — build fact-checking into your workflow
+
+### Assets
+- Video: `module-4-research-and-analysis.mp4`
+- Audio: `module-4-research-and-analysis.m4a`
+- PDF: `module-4-research-and-analysis.pdf`
+- Mindmap: `module-4-mindmap.png`
 
 ### Challenge
-Complete a research briefing on a topic relevant to your work.
+**The Competitive Briefing:** Complete a real research project on a competitor, partner, market, or trend relevant to your work.
 
 ---
 
@@ -284,7 +297,7 @@ app/courses/claude-for-knowledge-workers/
 2. ✅ Module 1 complete
 3. ✅ Module 2 complete
 4. ✅ Module 3 complete
-5. 📝 Write Module 4 source document
+5. ✅ Module 4 complete
 6. 📝 Write Module 5 source document
 
 ---
