@@ -32,7 +32,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto font-medium leading-relaxed"
           >
-            Professional tools that treat AI as a creative partner. CLI dashboards. Browser automation. And experiments because we can't help ourselves.
+            AI as thinking partner, not chatbot. Every tool here started with a problem that needed solving.
           </motion.p>
 
           {/* CTA Buttons */}
