@@ -187,10 +187,13 @@ const credentials = [
   { highlight: "ID8Labs", role: "— Founder, building AI tools for creators" },
 ]
 
-const freeCourseModules = [
-  { number: 0, title: "The Mental Model Shift", duration: "30 min", description: "Installation + your first delegation (Downloads cleanup)" },
-  { number: 1, title: "Your First Delegation", duration: "45 min", description: "10 Quick Wins to build confidence and master the formula" },
-  { number: 2, title: "Working With Your Files", duration: "60 min", description: "Document processing, invoices, and semantic search" },
+const courseModules = [
+  { number: 0, title: "The Mental Model Shift", duration: "30 min", description: "Installation + your first delegation (Downloads cleanup)", free: true },
+  { number: 1, title: "Your First Delegation", duration: "45 min", description: "10 Quick Wins to build confidence and master the formula", free: false },
+  { number: 2, title: "Working With Your Files", duration: "60 min", description: "Document processing, invoices, and semantic search", free: false },
+  { number: 3, title: "Writing With Claude", duration: "60 min", description: "Voice notes to drafts, editing, finding your voice", free: false },
+  { number: 4, title: "Research & Analysis", duration: "60 min", description: "Web research, competitive analysis, synthesis", free: false },
+  { number: 5, title: "Building Workflows", duration: "60 min", description: "Automation, recurring tasks, your operating system", free: false },
 ]
 
 export default function ServicesPage() {
@@ -247,22 +250,22 @@ export default function ServicesPage() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
       </section>
 
-      {/* Free Course CTA Banner */}
+      {/* Free Module CTA Banner */}
       <section className="py-6 bg-id8-orange/10 border-y border-id8-orange/20">
         <div className="container">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🎓</span>
               <div>
-                <p className="font-semibold text-[var(--text-primary)]">New: Free Course Available</p>
+                <p className="font-semibold text-[var(--text-primary)]">Try Module 0 Free</p>
                 <p className="text-sm text-[var(--text-secondary)]">Claude Code for Knowledge Workers — No programming required</p>
               </div>
             </div>
             <Link
-              href="/courses/claude-for-knowledge-workers"
+              href="/courses/claude-for-knowledge-workers/module-0"
               className="btn bg-id8-orange text-white hover:bg-id8-orange/90 whitespace-nowrap group inline-flex items-center gap-2"
             >
-              Start Free Course
+              Start Free Module
               <ArrowRightIcon />
             </Link>
           </div>
@@ -377,18 +380,18 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Free Course Section */}
-      <section className="section-spacing border-t border-[var(--border)]" id="free-course">
+      {/* Course Section */}
+      <section className="section-spacing border-t border-[var(--border)]" id="course">
         <div className="container">
           <div className="text-center mb-12">
             <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Start Here — Free
+              Self-Paced Course
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
               Claude Code for Knowledge Workers
             </h2>
             <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-              A complete free course teaching non-programmers how to use Claude Code for everyday work. No coding required — just delegation.
+              A complete course teaching non-programmers how to use Claude Code for everyday work. No coding required — just delegation.
             </p>
           </div>
 
@@ -407,49 +410,61 @@ export default function ServicesPage() {
                   </p>
                   <h3 className="text-2xl font-bold">Complete Curriculum</h3>
                 </div>
-                <span className="text-3xl font-bold text-id8-orange font-mono">FREE</span>
+                <div className="text-right">
+                  <span className="text-3xl font-bold text-id8-orange font-mono">$197</span>
+                  <p className="text-xs text-[var(--text-tertiary)]">Module 0 free</p>
+                </div>
               </div>
 
-              <div className="space-y-4 mb-8">
-                {freeCourseModules.map((module, index) => (
+              <div className="space-y-3 mb-8">
+                {courseModules.map((module, index) => (
                   <motion.div
                     key={index}
                     variants={fadeUp}
-                    className="flex items-start gap-4 p-4 bg-[var(--bg-primary)] rounded-lg border border-[var(--border)]"
+                    className={`flex items-start gap-4 p-4 rounded-lg border ${
+                      module.free
+                        ? 'bg-id8-orange/5 border-id8-orange/20'
+                        : 'bg-[var(--bg-primary)] border-[var(--border)]'
+                    }`}
                   >
-                    <span className="flex-shrink-0 w-8 h-8 bg-id8-orange/10 text-id8-orange rounded-full flex items-center justify-center font-mono font-bold text-sm">
+                    <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-mono font-bold text-sm ${
+                      module.free
+                        ? 'bg-id8-orange text-white'
+                        : 'bg-id8-orange/10 text-id8-orange'
+                    }`}>
                       {module.number}
                     </span>
                     <div className="flex-grow">
                       <div className="flex items-center justify-between mb-1">
-                        <h4 className="font-semibold">{module.title}</h4>
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-semibold">{module.title}</h4>
+                          {module.free && (
+                            <span className="text-xs font-mono uppercase tracking-wider text-id8-orange bg-id8-orange/10 px-2 py-0.5 rounded">
+                              Free
+                            </span>
+                          )}
+                        </div>
                         <span className="text-xs font-mono text-[var(--text-tertiary)]">{module.duration}</span>
                       </div>
                       <p className="text-sm text-[var(--text-secondary)]">{module.description}</p>
                     </div>
                   </motion.div>
                 ))}
-                <div className="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] rounded-lg border border-dashed border-[var(--border)]">
-                  <span className="flex-shrink-0 w-8 h-8 bg-[var(--bg-tertiary)] text-[var(--text-tertiary)] rounded-full flex items-center justify-center font-mono text-sm">
-                    +3
-                  </span>
-                  <p className="text-sm text-[var(--text-tertiary)]">More modules coming: Writing, Research, Workflows</p>
-                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
+                  href="/courses/claude-for-knowledge-workers/module-0"
+                  className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 flex-1 text-center"
+                >
+                  Try Module 0 Free
+                </Link>
+                <Link
                   href="/courses/claude-for-knowledge-workers"
                   className="btn btn-primary flex-1 text-center group inline-flex items-center justify-center gap-2"
                 >
-                  Start Module 0
+                  Get Full Course — $197
                   <ArrowRightIcon />
-                </Link>
-                <Link
-                  href="/courses/claude-for-knowledge-workers#curriculum"
-                  className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 flex-1 text-center"
-                >
-                  View Full Curriculum
                 </Link>
               </div>
             </div>
@@ -460,14 +475,18 @@ export default function ServicesPage() {
       {/* Claude Code Courses Section */}
       <section className="section-spacing bg-[var(--bg-secondary)]" id="claude-code">
         <div className="container">
-          {/* Callout for free course */}
+          {/* Callout for course */}
           <div className="mb-12 p-4 bg-id8-orange/5 border border-id8-orange/20 rounded-xl max-w-2xl mx-auto">
             <p className="text-center text-[var(--text-secondary)]">
-              <span className="font-semibold text-[var(--text-primary)]">New to Claude Code?</span> Start with our{' '}
-              <Link href="/courses/claude-for-knowledge-workers" className="text-id8-orange hover:underline font-medium">
-                free course
+              <span className="font-semibold text-[var(--text-primary)]">New to Claude Code?</span> Try{' '}
+              <Link href="/courses/claude-for-knowledge-workers/module-0" className="text-id8-orange hover:underline font-medium">
+                Module 0 free
               </Link>{' '}
-              first. The training below is for those ready to go deeper.
+              or get the{' '}
+              <Link href="/courses/claude-for-knowledge-workers" className="text-id8-orange hover:underline font-medium">
+                full course
+              </Link>
+              . The training below is for developers ready to go deeper.
             </p>
           </div>
 

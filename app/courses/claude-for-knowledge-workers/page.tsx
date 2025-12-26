@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
 import Link from 'next/link'
 
 // Animation variants
@@ -76,51 +75,56 @@ const modules = [
   {
     number: "0",
     title: "The Mental Model Shift",
-    duration: "15 min",
-    description: "Forget 'Code' — think 'Local Agent.' The 3 superpowers and your first delegation.",
+    duration: "30 min",
+    description: "Installation + your first delegation (Downloads cleanup). The mindset shift from chatbot to agent.",
     free: true,
+    available: true,
+    href: "/courses/claude-for-knowledge-workers/module-0",
   },
   {
     number: "1",
     title: "Your First Delegation",
     duration: "45 min",
-    description: "File organization tasks that build confidence. Low-risk, high-value wins.",
+    description: "10 Quick Wins to build confidence. Low-risk, high-value delegations you can undo in 30 seconds.",
     free: false,
+    available: true,
+    href: "/courses/claude-for-knowledge-workers/module-1",
   },
   {
     number: "2",
     title: "Working With Your Files",
     duration: "60 min",
-    description: "Document processing, invoice organization, finding things across your computer.",
+    description: "Document processing, invoice organization, semantic search. Find anything by meaning.",
     free: false,
+    available: true,
+    href: "/courses/claude-for-knowledge-workers/module-2",
   },
   {
     number: "3",
-    title: "The Writer's Workflow",
+    title: "Writing With Claude",
     duration: "60 min",
-    description: "Voice notes → organized content → polished drafts in your voice.",
+    description: "Voice notes → drafts, editing workflows, finding and preserving your voice.",
     free: false,
+    available: false,
+    href: "/courses/claude-for-knowledge-workers/module-3",
   },
   {
     number: "4",
     title: "Research & Analysis",
     duration: "60 min",
-    description: "Competitive research, customer call synthesis, data analysis without code.",
+    description: "Web research, competitive analysis, synthesizing sources into actionable insights.",
     free: false,
+    available: false,
+    href: "/courses/claude-for-knowledge-workers/module-4",
   },
   {
     number: "5",
-    title: "Personal Operations System",
+    title: "Building Workflows",
     duration: "60 min",
-    description: "CLAUDE.md, recurring workflows, email automation, building your second brain.",
+    description: "Recurring tasks, reusable prompts, automation. Your personal operating system.",
     free: false,
-  },
-  {
-    number: "6",
-    title: "Power User Patterns",
-    duration: "45 min",
-    description: "MCP servers, long-running tasks, multi-step projects, troubleshooting.",
-    free: false,
+    available: false,
+    href: "/courses/claude-for-knowledge-workers/module-5",
   },
 ]
 
@@ -154,37 +158,6 @@ const notFor = [
 ]
 
 export default function ClaudeForKnowledgeWorkersPage() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email) return
-
-    setStatus('loading')
-
-    try {
-      const res = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          source: 'claude-for-knowledge-workers-waitlist',
-          metadata: { course: 'claude-for-knowledge-workers' }
-        }),
-      })
-
-      if (res.ok) {
-        setStatus('success')
-        setEmail('')
-      } else {
-        setStatus('error')
-      }
-    } catch {
-      setStatus('error')
-    }
-  }
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -200,7 +173,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
               variants={fadeUp}
               className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-6"
             >
-              Coming Soon
+              6-Module Course • ~5 Hours
             </motion.p>
 
             <motion.h1
@@ -225,40 +198,25 @@ export default function ClaudeForKnowledgeWorkersPage() {
               Stop asking questions. Start delegating tasks. A structured course for writers, researchers, and operators who want to use Claude Code without writing code.
             </motion.p>
 
-            {/* Waitlist Form */}
-            <motion.div variants={fadeUp}>
-              {status === 'success' ? (
-                <div className="inline-flex items-center gap-3 px-6 py-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-                  <CheckIcon />
-                  <span className="text-green-400">You're on the waitlist! Check your email for next steps.</span>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    className="flex-1 px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-id8-orange transition-colors"
-                  />
-                  <button
-                    type="submit"
-                    disabled={status === 'loading'}
-                    className="btn btn-primary group inline-flex items-center justify-center gap-2 whitespace-nowrap"
-                  >
-                    {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
-                    <ArrowRightIcon />
-                  </button>
-                </form>
-              )}
-              {status === 'error' && (
-                <p className="mt-3 text-red-400 text-sm">Something went wrong. Please try again.</p>
-              )}
-              <p className="mt-4 text-sm text-[var(--text-tertiary)]">
-                Get early access + Module 0 free when we launch.
-              </p>
+            {/* CTA Buttons */}
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/courses/claude-for-knowledge-workers/module-0"
+                className="btn btn-primary group inline-flex items-center justify-center gap-2"
+              >
+                Start Free Module
+                <ArrowRightIcon />
+              </Link>
+              <a
+                href="#pricing"
+                className="btn btn-secondary group inline-flex items-center justify-center gap-2"
+              >
+                Get Full Course — $197
+              </a>
             </motion.div>
+            <motion.p variants={fadeUp} className="mt-4 text-sm text-[var(--text-tertiary)]">
+              Module 0 is completely free. No credit card required.
+            </motion.p>
           </motion.div>
         </div>
 
@@ -389,7 +347,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
               Curriculum
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              6 modules. Zero code required.
+              6 modules. ~5 hours. Zero code required.
             </h2>
             <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
               Each module builds on the last. By the end, you'll have a personal operating system that handles the work you used to do manually.
@@ -403,35 +361,56 @@ export default function ClaudeForKnowledgeWorkersPage() {
             variants={stagger}
             className="max-w-3xl mx-auto space-y-4"
           >
-            {modules.map((module, index) => (
-              <motion.div
-                key={index}
-                variants={fadeUp}
-                className={`flex items-start gap-4 p-5 rounded-xl border transition-colors ${
-                  module.free
-                    ? 'bg-id8-orange/5 border-id8-orange/30'
-                    : 'bg-[var(--bg-secondary)] border-[var(--border)] hover:border-[var(--border-light)]'
-                }`}
-              >
-                <span className={`text-2xl font-mono font-bold ${module.free ? 'text-id8-orange' : 'text-[var(--text-tertiary)]'}`}>
-                  {module.number}
-                </span>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-lg font-bold">{module.title}</h3>
-                    {module.free && (
-                      <span className="text-xs font-mono uppercase tracking-wider text-id8-orange bg-id8-orange/10 px-2 py-0.5 rounded">
-                        Free
-                      </span>
-                    )}
+            {modules.map((module, index) => {
+              const cardContent = (
+                <>
+                  <span className={`text-2xl font-mono font-bold ${module.free ? 'text-id8-orange' : 'text-[var(--text-tertiary)]'}`}>
+                    {module.number}
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-1">
+                      <h3 className="text-lg font-bold">{module.title}</h3>
+                      {module.free && (
+                        <span className="text-xs font-mono uppercase tracking-wider text-id8-orange bg-id8-orange/10 px-2 py-0.5 rounded">
+                          Free
+                        </span>
+                      )}
+                      {!module.available && (
+                        <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-tertiary)] bg-[var(--bg-primary)] px-2 py-0.5 rounded">
+                          Coming Soon
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[var(--text-secondary)] text-sm">{module.description}</p>
                   </div>
-                  <p className="text-[var(--text-secondary)] text-sm">{module.description}</p>
-                </div>
-                <span className="text-sm font-mono text-[var(--text-tertiary)] whitespace-nowrap">
-                  {module.duration}
-                </span>
-              </motion.div>
-            ))}
+                  <span className="text-sm font-mono text-[var(--text-tertiary)] whitespace-nowrap">
+                    {module.duration}
+                  </span>
+                </>
+              )
+
+              const cardClass = `flex items-start gap-4 p-5 rounded-xl border transition-colors ${
+                module.free
+                  ? 'bg-id8-orange/5 border-id8-orange/30 hover:border-id8-orange/50'
+                  : module.available
+                  ? 'bg-[var(--bg-secondary)] border-[var(--border)] hover:border-id8-orange/30'
+                  : 'bg-[var(--bg-secondary)] border-[var(--border)] opacity-60'
+              }`
+
+              return (
+                <motion.div key={index} variants={fadeUp}>
+                  {module.available ? (
+                    <Link href={module.href} className={cardClass}>
+                      {cardContent}
+                    </Link>
+                  ) : (
+                    <div className={cardClass}>
+                      {cardContent}
+                    </div>
+                  )}
+                </motion.div>
+              )
+            })}
           </motion.div>
         </div>
       </section>
@@ -478,50 +457,81 @@ export default function ClaudeForKnowledgeWorkersPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section-spacing-lg relative">
+      {/* Pricing Section */}
+      <section className="section-spacing-lg relative" id="pricing">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,var(--id8-orange-light)_0%,transparent_70%)] opacity-30 pointer-events-none" />
 
         <div className="container relative">
-          <div className="text-center max-w-2xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
+              Pricing
+            </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               Stop asking.{' '}
               <span className="text-gradient-orange">Start delegating.</span>
             </h2>
-            <p className="text-xl text-[var(--text-secondary)] mb-10">
-              Join the waitlist for early access and get Module 0 free when we launch.
-            </p>
+          </div>
 
-            {/* Waitlist Form (Repeated) */}
-            {status === 'success' ? (
-              <div className="inline-flex items-center gap-3 px-6 py-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-                <CheckIcon />
-                <span className="text-green-400">You're on the waitlist!</span>
+          <div className="max-w-lg mx-auto">
+            {/* Full Course Card */}
+            <div className="card bg-[var(--bg-secondary)] border-2 border-id8-orange/30 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-id8-orange text-zone-text text-xs font-mono uppercase tracking-wider px-3 py-1">
+                Full Access
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  required
-                  className="flex-1 px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-id8-orange transition-colors"
-                />
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="btn btn-primary group inline-flex items-center justify-center gap-2 whitespace-nowrap text-lg px-8 py-4"
-                >
-                  {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
-                  <ArrowRightIcon />
-                </button>
-              </form>
-            )}
 
-            <p className="mt-6 text-sm font-mono text-[var(--text-tertiary)]">
-              No spam. Just updates about the course launch.
-            </p>
+              <div className="text-center pt-4">
+                <h3 className="text-2xl font-bold mb-2">Complete Course</h3>
+                <p className="text-[var(--text-secondary)] mb-6">
+                  All 6 modules + lifetime updates
+                </p>
+
+                <div className="mb-6">
+                  <span className="text-5xl font-bold">$197</span>
+                  <span className="text-[var(--text-tertiary)] ml-2">one-time</span>
+                </div>
+
+                <ul className="text-left space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
+                    <span>All 6 modules (~5 hours of content)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
+                    <span>Video, podcast, PDF, and mindmap for each module</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
+                    <span>Lifetime access + future updates</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
+                    <span>Real-world delegation templates</span>
+                  </li>
+                </ul>
+
+                <a
+                  href="https://buy.stripe.com/placeholder"
+                  className="btn btn-primary w-full text-lg py-4 inline-flex items-center justify-center gap-2"
+                >
+                  Get Full Course
+                  <ArrowRightIcon />
+                </a>
+              </div>
+            </div>
+
+            {/* Free Module CTA */}
+            <div className="text-center mt-8">
+              <p className="text-[var(--text-secondary)] mb-4">
+                Not ready to commit? Try Module 0 for free.
+              </p>
+              <Link
+                href="/courses/claude-for-knowledge-workers/module-0"
+                className="text-id8-orange hover:underline inline-flex items-center gap-2 group"
+              >
+                Start Free Module
+                <ArrowRightIcon />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
