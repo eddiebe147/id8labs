@@ -123,7 +123,7 @@ const modules = [
     duration: "60 min",
     description: "Recurring tasks, reusable prompts, automation. Your personal operating system.",
     free: false,
-    available: false,
+    available: true,
     href: "/courses/claude-for-knowledge-workers/module-5",
   },
 ]

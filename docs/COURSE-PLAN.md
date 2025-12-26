@@ -24,7 +24,7 @@ A 6-module course teaching non-programmers how to use Claude Code for everyday k
 | 2 | Working With Your Files | 60 min | ✅ Complete | Document processing at scale |
 | 3 | Writing With Claude | 60 min | ✅ Complete | Drafting, editing, voice development |
 | 4 | Research & Analysis | 60 min | ✅ Complete | Web research, competitive analysis |
-| 5 | Building Workflows | 60 min | 🔜 Planned | Automation, recurring tasks |
+| 5 | Building Workflows | 60 min | ✅ Complete | Automation, recurring tasks |
 
 ---
 
@@ -200,24 +200,37 @@ Run the Downloads cleanup delegation.
 
 ## Module 5: Building Workflows
 
-**Status:** 🔜 Planned
+**Status:** ✅ Complete
 **Duration:** 60 minutes
+**Source:** `docs/module-5-notebooklm-source.md`
 
-### Planned Content
-- Identifying recurring tasks
-- Creating reusable prompts
-- Chaining delegations together
-- Automation opportunities
-- Weekly/monthly workflow design
-- Advanced Claude Code features
+### What It Covers
+- The problem with one-off delegations
+- Workflow building blocks (templates, triggers, chains, context files)
+- Building your first workflow (step-by-step invoice processing example)
+- Six workflows every knowledge worker needs
+- Advanced workflow patterns (context stacks, quality loops, escalation paths, learning loops)
+- Building your personal operating system
+
+### Real Examples
+- Eddie's 15-workflow operating system
+- Invoice processing workflow (2 hours → 10 minutes)
+- Weekly review and meeting prep systems
 
 ### Key Concepts
-- Systems thinking
-- Template development
-- Sustainable AI integration
+- Templates beat prompts — reusable patterns with blanks to fill
+- Chains multiply power — connect delegations together
+- Context files reduce explaining — persistent information Claude can reference
+- Systems compound — past outputs inform future inputs
+
+### Assets
+- Video: `module-5-building-workflows.mp4`
+- Audio: `module-5-building-workflows.m4a`
+- PDF: `module-5-building-workflows.pdf`
+- Mindmap: `module-5-mindmap.png`
 
 ### Challenge
-Design and implement one recurring workflow.
+**Build Three Workflows:** One weekly, one monthly, one situational. Document each with trigger, template, and notes.
 
 ---
 
@@ -298,7 +311,9 @@ app/courses/claude-for-knowledge-workers/
 3. ✅ Module 2 complete
 4. ✅ Module 3 complete
 5. ✅ Module 4 complete
-6. 📝 Write Module 5 source document
+6. ✅ Module 5 complete
+
+**🎉 COURSE COMPLETE!**
 
 ---
 
