@@ -90,10 +90,10 @@ export async function POST(request: NextRequest) {
 
 function getActionPlanUrl(level: string): string {
   const actionPlans: Record<string, string> = {
-    Explorer: 'https://id8labs.app/resources/action-plans/explorer-action-plan.md',
-    Adopter: 'https://id8labs.app/resources/action-plans/adopter-action-plan.md',
-    Practitioner: 'https://id8labs.app/resources/action-plans/practitioner-action-plan.md',
-    Pioneer: 'https://id8labs.app/resources/action-plans/pioneer-action-plan.md',
+    Explorer: 'https://id8labs.app/resources/action-plans/explorer',
+    Adopter: 'https://id8labs.app/resources/action-plans/adopter',
+    Practitioner: 'https://id8labs.app/resources/action-plans/practitioner',
+    Pioneer: 'https://id8labs.app/resources/action-plans/pioneer',
   }
   return actionPlans[level] || actionPlans.Explorer
 }
