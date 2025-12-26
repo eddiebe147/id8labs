@@ -40,6 +40,32 @@ const ArrowRightIcon = () => (
   </svg>
 )
 
+// Icons for challenges
+const RocketIcon = () => (
+  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+  </svg>
+)
+
+const ShareIcon = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="18" cy="5" r="3" />
+    <circle cx="6" cy="12" r="3" />
+    <circle cx="18" cy="19" r="3" />
+    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+  </svg>
+)
+
+const DeepDiveIcon = () => (
+  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2v20M2 12h20M12 2a10 10 0 0 1 10 10M12 2a10 10 0 0 0-10 10" />
+  </svg>
+)
+
 // Action Plan Data
 const actionPlans: Record<string, {
   level: string
@@ -49,6 +75,17 @@ const actionPlans: Record<string, {
   colorLight: string
   insight: string
   insightExamples?: { wrong: string; right: string }
+  firstChallenge: {
+    time: string
+    task: string
+    sharePrompt: string
+  }
+  deeperChallenge: {
+    time: string
+    task: string
+    outcome: string
+    sharePrompt: string
+  }
   weeks: { title: string; tasks: string[] }[]
   readyChecklist: string[]
   ctaTitle: string
@@ -67,6 +104,17 @@ const actionPlans: Record<string, {
     insightExamples: {
       wrong: '"How do I parse JSON in Node.js?"',
       right: '"Parse data.json and extract all email addresses into a CSV"'
+    },
+    firstChallenge: {
+      time: '5 min',
+      task: 'Open any project folder. Ask Claude: "Find all TODO comments in this project and create a markdown checklist I can work through." Watch it navigate, search, and format without you touching the keyboard.',
+      sharePrompt: 'Just had Claude scan my entire codebase for TODOs in 30 seconds. Found 23 I forgot about. #id8labs #ClaudeCode'
+    },
+    deeperChallenge: {
+      time: '30 min',
+      task: 'Build a "Morning Standup" script. Ask Claude: "Create a shell script that shows me: git changes from yesterday, any new TODO comments, and failed tests. Save it to scripts/standup.sh"',
+      outcome: 'A reusable script you\'ll actually run every morning. This is building WITH Claude, not just asking questions.',
+      sharePrompt: 'Built my own standup automation with Claude. No copy-pasting. Just "do this" and it did. Here\'s what I learned: #id8labs #BuildInPublic'
     },
     weeks: [
       {
@@ -124,6 +172,17 @@ const actionPlans: Record<string, {
     color: '#F59E0B',
     colorLight: 'rgba(245, 158, 11, 0.1)',
     insight: 'The shift from assistance to delegation is the shift from "help me with X" to "do X and show me the result."',
+    firstChallenge: {
+      time: '10 min',
+      task: 'Find a pattern you repeat in Claude conversations (like "use TypeScript" or "add error handling"). Create a CLAUDE.md file in your project with that rule. Test it by starting a fresh conversation - does Claude follow it without being told?',
+      sharePrompt: 'Finally codified my coding preferences in CLAUDE.md. No more repeating myself. This is how context should work. #id8labs #ClaudeCode'
+    },
+    deeperChallenge: {
+      time: '1 hour',
+      task: 'Build a "Code Review Agent" workflow: Create a CLAUDE.md that defines how you want PRs reviewed - what to check, what to ignore, your team\'s patterns. Then ask Claude to review your last 3 commits using those rules.',
+      outcome: 'A reusable code review system that knows your standards. Your context file becomes institutional knowledge.',
+      sharePrompt: 'Turned my code review checklist into a Claude workflow. Same standards, every time, without me nagging. Here\'s the CLAUDE.md: #id8labs #BuildInPublic'
+    },
     weeks: [
       {
         title: 'Fix Context Rot',
@@ -180,6 +239,17 @@ const actionPlans: Record<string, {
     color: '#10B981',
     colorLight: 'rgba(16, 185, 129, 0.1)',
     insight: "Multi-agent isn't about more agents - it's about specialized agents with clear handoffs.",
+    firstChallenge: {
+      time: '15 min',
+      task: 'Create two agent profiles in separate CLAUDE.md files: a "Builder" (optimizes for speed, accepts reasonable risk) and an "Auditor" (paranoid, checks everything, assumes code is wrong). Run the same task with each. Notice how the same prompt produces different results.',
+      sharePrompt: 'Split my Claude workflow into Builder + Auditor profiles. Same prompt, wildly different outputs. This is how you get speed AND safety. #id8labs #AgenticAI'
+    },
+    deeperChallenge: {
+      time: '2 hours',
+      task: 'Build a "Security Gate" hook that runs before any git commit. It should: scan for API keys/secrets, check for console.log statements, verify no TODO comments in critical files. Use the ID8Labs Hooks Starter as a base. Open source it.',
+      outcome: 'A production-ready security hook others can use. Your first contribution to the agentic ecosystem.',
+      sharePrompt: 'Just open-sourced my pre-commit security hook for Claude Code. Catches secrets, debug logs, and unfinished TODOs. Link in thread. #id8labs #OpenSource'
+    },
     weeks: [
       {
         title: 'Define Agent Roles',
@@ -236,6 +306,17 @@ const actionPlans: Record<string, {
     color: '#FF6B35',
     colorLight: 'rgba(255, 107, 53, 0.1)',
     insight: "The bottleneck isn't technology - it's shared knowledge.",
+    firstChallenge: {
+      time: '30 min',
+      task: 'Write down one pattern you\'ve discovered that isn\'t documented anywhere. Could be an orchestration trick, a cost optimization, a security pattern. 500 words. Post it publicly.',
+      sharePrompt: 'Documenting an agentic pattern I discovered that I haven\'t seen written up anywhere. Thread: #id8labs #AgenticAI'
+    },
+    deeperChallenge: {
+      time: '1 week',
+      task: 'Build and open-source something the ecosystem needs: an MCP server for a service that doesn\'t have one, a hook pattern that solves a common problem, or a monitoring solution for agent costs. Ship it, document it, share it.',
+      outcome: 'A genuine contribution to the agentic ecosystem. At Pioneer level, the best way to learn is to build what doesn\'t exist yet.',
+      sharePrompt: 'Just shipped [tool name] - an open-source [description]. Built because I needed it and couldn\'t find it. Hope it helps others. #id8labs #OpenSource'
+    },
     weeks: [
       {
         title: 'Identify Your Bottleneck',
@@ -394,8 +475,47 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
         </div>
       </section>
 
+      {/* Your First Challenge */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="max-w-3xl mx-auto"
+          >
+            <motion.div variants={fadeUp} className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ backgroundColor: plan.colorLight }}>
+                <span style={{ color: plan.color }}><RocketIcon /></span>
+                <span className="text-sm font-mono" style={{ color: plan.color }}>{plan.firstChallenge.time}</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+                Your First Challenge
+              </h2>
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="card border-2" style={{ borderColor: plan.colorLight }}>
+              <p className="text-lg text-[var(--text-secondary)] leading-relaxed mb-6">
+                {plan.firstChallenge.task}
+              </p>
+
+              <div className="p-4 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)]">
+                <div className="flex items-start gap-3">
+                  <span style={{ color: plan.color }} className="mt-1 flex-shrink-0"><ShareIcon /></span>
+                  <div>
+                    <p className="text-sm font-mono text-[var(--text-tertiary)] mb-2">Share your win:</p>
+                    <p className="text-sm text-[var(--text-secondary)] italic">"{plan.firstChallenge.sharePrompt}"</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* 30-Day Roadmap */}
-      <section id="roadmap" className="section-spacing bg-[var(--bg-secondary)]">
+      <section id="roadmap" className="section-spacing border-t border-[var(--border)]">
         <div className="container">
           <div className="text-center mb-12">
             <p className="text-sm font-mono uppercase tracking-widest mb-4" style={{ color: plan.color }}>
@@ -438,6 +558,55 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
                 </ul>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Want to Go Deeper? */}
+      <section className="section-spacing border-t border-[var(--border)]">
+        <div className="container">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="max-w-3xl mx-auto"
+          >
+            <motion.div variants={fadeUp} className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ backgroundColor: plan.colorLight }}>
+                <span style={{ color: plan.color }}><DeepDiveIcon /></span>
+                <span className="text-sm font-mono" style={{ color: plan.color }}>{plan.deeperChallenge.time}</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+                Want to Go Deeper?
+              </h2>
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="card">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-3">The Challenge</h3>
+                <p className="text-[var(--text-secondary)] leading-relaxed">
+                  {plan.deeperChallenge.task}
+                </p>
+              </div>
+
+              <div className="p-4 rounded-lg mb-6" style={{ backgroundColor: plan.colorLight }}>
+                <h4 className="text-sm font-mono mb-2" style={{ color: plan.color }}>What You'll Build</h4>
+                <p className="text-[var(--text-primary)]">
+                  {plan.deeperChallenge.outcome}
+                </p>
+              </div>
+
+              <div className="p-4 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)]">
+                <div className="flex items-start gap-3">
+                  <span style={{ color: plan.color }} className="mt-1 flex-shrink-0"><ShareIcon /></span>
+                  <div>
+                    <p className="text-sm font-mono text-[var(--text-tertiary)] mb-2">Share your work:</p>
+                    <p className="text-sm text-[var(--text-secondary)] italic">"{plan.deeperChallenge.sharePrompt}"</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
