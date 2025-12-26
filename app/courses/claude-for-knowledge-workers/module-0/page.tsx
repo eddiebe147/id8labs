@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
+import EmailCapture from '@/components/EmailCapture'
 
 // Animation variants
 const fadeUp = {
@@ -311,11 +312,19 @@ export default function Module0Page() {
 
             <Link
               href="/courses/claude-for-knowledge-workers"
-              className="btn btn-primary group inline-flex items-center gap-2"
+              className="btn btn-primary group inline-flex items-center gap-2 mb-12"
             >
               View Full Course
               <ArrowRightIcon />
             </Link>
+
+            {/* Email Capture */}
+            <div className="pt-8 border-t border-[var(--border)]">
+              <EmailCapture
+                source="module-0-cta"
+                title="Get notified about new modules and tips"
+              />
+            </div>
           </div>
         </div>
       </section>

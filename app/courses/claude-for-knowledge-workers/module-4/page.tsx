@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
+import { PurchaseGate } from '@/components/PurchaseGate'
 
 // Animation variants
 const fadeUp = {
@@ -136,6 +137,7 @@ const actionPatterns = [
 
 export default function Module4Page() {
   return (
+    <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 4: Automation & Efficiency">
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
@@ -639,5 +641,6 @@ export default function Module4Page() {
         </div>
       </section>
     </div>
+    </PurchaseGate>
   )
 }
