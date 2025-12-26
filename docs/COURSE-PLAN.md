@@ -21,7 +21,7 @@ A 6-module course teaching non-programmers how to use Claude Code for everyday k
 |--------|-------|----------|--------|-----------|
 | 0 | The Mental Model Shift | 30 min | ✅ Complete | Installation + first win (Downloads cleanup) |
 | 1 | Your First Delegation | 45 min | ✅ Complete | 10 Quick Wins, confidence building |
-| 2 | Working With Your Files | 60 min | 📝 Content Ready | Document processing at scale |
+| 2 | Working With Your Files | 60 min | ✅ Complete | Document processing at scale |
 | 3 | Writing With Claude | 60 min | 🔜 Planned | Drafting, editing, voice development |
 | 4 | Research & Analysis | 60 min | 🔜 Planned | Web research, competitive analysis |
 | 5 | Building Workflows | 60 min | 🔜 Planned | Automation, recurring tasks |
@@ -100,7 +100,7 @@ Run the Downloads cleanup delegation.
 
 ## Module 2: Working With Your Files
 
-**Status:** 📝 Content Ready (needs NotebookLM generation)
+**Status:** ✅ Complete
 **Duration:** 60 minutes
 **Source:** `docs/module-2-notebooklm-source.md`
 
@@ -120,6 +120,12 @@ Run the Downloads cleanup delegation.
 - **Claude reads files** — PDFs, Word docs, text, images
 - **Batch processing** — Same operation across many files
 - **Semantic search** — Find by meaning, not just filename
+
+### Assets
+- Video: `module-2-working-with-your-files.mp4`
+- Audio: `module-2-working-with-your-files.m4a`
+- PDF: `module-2-working-with-your-files.pdf`
+- Mindmap: `module-2-mindmap.png`
 
 ### Challenge
 **The Invoice Cleanup:** Process one month of receipts or invoices.
@@ -236,7 +242,11 @@ public/courses/
 │   │   └── module-1-mindmap.png
 │   └── module-1-your-first-delegation.pdf
 └── module-2/
-    └── (pending)
+    ├── media/
+    │   ├── module-2-working-with-your-files.mp4
+    │   ├── module-2-working-with-your-files.m4a
+    │   └── module-2-mindmap.png
+    └── module-2-working-with-your-files.pdf
 
 app/courses/claude-for-knowledge-workers/
 ├── page.tsx (course landing page)
@@ -245,7 +255,7 @@ app/courses/claude-for-knowledge-workers/
 ├── module-1/
 │   └── page.tsx
 └── module-2/
-    └── page.tsx (pending)
+    └── page.tsx
 ```
 
 ---
@@ -265,11 +275,10 @@ app/courses/claude-for-knowledge-workers/
 
 1. ✅ Module 0 complete
 2. ✅ Module 1 complete
-3. ⏳ Generate Module 2 NotebookLM assets
-4. ⏳ Build Module 2 page
-5. 📝 Write Module 3 source document
-6. 📝 Write Module 4 source document
-7. 📝 Write Module 5 source document
+3. ✅ Module 2 complete
+4. 📝 Write Module 3 source document
+5. 📝 Write Module 4 source document
+6. 📝 Write Module 5 source document
 
 ---
 
