@@ -117,8 +117,8 @@ export default function Module0Page() {
 
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
               <a
-                href="/courses/module-0/mental-model-shift-guide.md"
-                download
+                href="/courses/module-0/module-0-mental-model-shift.pdf"
+                download="Module-0-Mental-Model-Shift.pdf"
                 className="btn btn-primary group inline-flex items-center gap-2"
               >
                 <DownloadIcon />

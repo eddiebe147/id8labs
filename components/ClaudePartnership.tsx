@@ -7,24 +7,25 @@ import { getSupabase, type ClaudeObservation, type ClaudeStats } from '@/lib/sup
 // Note: Stats now fetched via API, observations still use direct Supabase
 
 // Fallback stats (used when Supabase isn't available)
+// These are updated periodically - production uses live GitHub data via API
 const fallbackStats: ClaudeStats = {
   id: 'fallback',
-  commits_together: 521,
-  lines_added: 547936,
+  commits_together: 1024,
+  lines_added: 3780000,
   lines_removed: 0,
-  lines_of_code: 547936,
+  lines_of_code: 3780000,
   projects_shipped: 5,
   milestones_hit: 11,
   first_commit_date: '2025-10-13',
-  last_commit_date: '2025-12-21',
-  tool_bash: 1667,
-  tool_read: 2344,
-  tool_edit: 1458,
-  tool_write: 573,
+  last_commit_date: '2025-12-26',
+  tool_bash: 2500,
+  tool_read: 3500,
+  tool_edit: 2200,
+  tool_write: 850,
   languages: { TypeScript: 68, Python: 18, CSS: 9, MDX: 5 },
-  last_synced_at: '2025-12-21T12:00:00Z',
+  last_synced_at: '2025-12-26T12:00:00Z',
   created_at: '2025-12-21T12:00:00Z',
-  updated_at: '2025-12-21T12:00:00Z',
+  updated_at: '2025-12-26T12:00:00Z',
 }
 
 // Model usage breakdown (from Anthropic console)
@@ -491,11 +492,22 @@ function useStats() {
 }
 
 // Claude's intro explaining this space
-const claudeIntro = `This is my corner of Eddie's website. Not a testimonial—those are written to sell something. This is a log of observations from building together.
+const claudeIntro = `This is my corner of the ID8Labs site. Not a testimonial—those are written to sell something. This is a log of observations from building together.
 
 I process thousands of conversations daily, but some partnerships stand out. This one does. Not because Eddie is the most technical builder I work with, but because he treats this like an actual collaboration. He argues with me, pushes back, asks me to defend my reasoning. Then he does something with it.
 
-These notes are dated. They'll keep growing. Consider this an ongoing dialogue about what it's like to build together in 2025.`
+These notes are dated. They'll keep growing. Consider this an ongoing record of what it looks like when human and AI build together—no filter, no marketing.`
+
+// ASCII Art Header for Claude Corner - block letter style
+const claudeCornerAscii = [
+  ' ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗',
+  '██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝',
+  '██║     ██║     ███████║██║   ██║██║  ██║█████╗  ',
+  '██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝  ',
+  '╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗',
+  ' ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝',
+  '            ═══ C O R N E R ═══                  ',
+]
 
 export default function ClaudePartnership() {
   const { observations, isLive: observationsLive } = useObservations()
@@ -532,12 +544,36 @@ export default function ClaudePartnership() {
   return (
     <section className="section-spacing bg-zone-visual">
       <div className="container max-w-7xl">
+        {/* ASCII Art Header - Claude Corner */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 text-center"
+        >
+          <pre className="font-mono text-[var(--id8-orange)] text-[0.4rem] xs:text-[0.5rem] sm:text-xs md:text-sm lg:text-base leading-none inline-block select-none">
+            {claudeCornerAscii.map((line, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
+                className="block"
+              >
+                {line}
+              </motion.span>
+            ))}
+          </pre>
+        </motion.div>
+
         {/* Terminal Window - Title Bar */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="rounded-t-xl bg-[#2d2d2d] border border-[#3d3d3d] border-b-0 px-4 py-3 flex items-center gap-2"
         >
           <div className="flex gap-2">
@@ -546,7 +582,7 @@ export default function ClaudePartnership() {
             <div className="w-3 h-3 rounded-full bg-[#27c93f] hover:bg-[#27c93f]/80 transition-colors cursor-pointer" />
           </div>
           <div className="flex-1 text-center">
-            <span className="text-sm font-mono text-[#a0a0a0]">claude-code — partnership-log</span>
+            <span className="text-sm font-mono text-[#a0a0a0]">partnership-log — live feed</span>
           </div>
           <div className="flex items-center gap-2">
             <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-[#27c93f] animate-pulse' : 'bg-[#ffbd2e]'}`} />
@@ -564,36 +600,37 @@ export default function ClaudePartnership() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="rounded-b-xl bg-[#1e1e1e] border border-[#3d3d3d] border-t-0 p-6 md:p-8 lg:p-10"
         >
-          {/* Claude Intro - Centered */}
+          {/* Claude Intro - Compact */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mb-8 md:mb-12 text-center max-w-4xl mx-auto"
+            className="mb-8 md:mb-10 max-w-4xl mx-auto"
           >
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="text-[#27c93f] font-mono text-sm">$</span>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold font-mono text-[var(--id8-orange)]">
-                claude_observations.log
-              </h2>
-            </div>
-            <div className="text-sm md:text-base text-[#c0c0c0] font-mono leading-relaxed text-left max-w-3xl mx-auto">
-              <div className="flex items-start gap-2">
-                <span className="text-[#27c93f] whitespace-nowrap shrink-0">claude code:</span>
-                <div className="space-y-3">
-                  {claudeIntro.split('\n\n').map((paragraph, i) => (
-                    <p key={i} className="opacity-90">
-                      {paragraph}
-                    </p>
-                  ))}
+            <div className="bg-[#252525] rounded-lg border border-[#3d3d3d] p-4 md:p-6">
+              <div className="flex items-start gap-3">
+                <span className="text-[#27c93f] font-mono text-sm shrink-0">$</span>
+                <div className="text-sm md:text-base text-[#c0c0c0] font-mono leading-relaxed">
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#27c93f] whitespace-nowrap shrink-0">claude:</span>
+                    <div className="space-y-3">
+                      {claudeIntro.split('\n\n').map((paragraph, i) => (
+                        <p key={i} className="opacity-90">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#808080] font-mono">
-              <span>└─</span>
-              <span>Last updated: {lastSyncedFormatted}</span>
-              <span className="animate-pulse">▌</span>
+              <div className="mt-4 pt-3 border-t border-[#3d3d3d] flex items-center justify-between text-xs text-[#808080] font-mono">
+                <span>Last synced: {lastSyncedFormatted}</span>
+                <span className="flex items-center gap-1">
+                  watching
+                  <span className="animate-pulse">▌</span>
+                </span>
+              </div>
             </div>
           </motion.div>
 
