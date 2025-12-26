@@ -14,7 +14,7 @@ function getResend(): Resend {
   return resend
 }
 
-interface LeadPayload {
+interface ReadinessLeadPayload {
   name: string
   email: string
   readinessLevel: string
@@ -22,62 +22,28 @@ interface LeadPayload {
   recommendations: string[]
 }
 
+interface WaitlistLeadPayload {
+  email: string
+  source: string
+  metadata?: Record<string, string>
+}
+
+type LeadPayload = ReadinessLeadPayload | WaitlistLeadPayload
+
+function isReadinessLead(payload: LeadPayload): payload is ReadinessLeadPayload {
+  return 'readinessLevel' in payload && 'name' in payload
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body: LeadPayload = await request.json()
-    const { name, email, readinessLevel, score, recommendations } = body
 
-    // Validate required fields
-    if (!name || !email || !readinessLevel) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
+    // Handle different lead types
+    if (isReadinessLead(body)) {
+      return handleReadinessLead(body)
+    } else {
+      return handleWaitlistLead(body)
     }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      )
-    }
-
-    // Send welcome email with resources
-    // Using mail.deepstack.trade since it's verified in Resend (free plan allows 1 domain)
-    const { data, error } = await getResend().emails.send({
-      from: 'ID8Labs <hello@mail.deepstack.trade>',
-      to: email,
-      subject: `Your AI Readiness Results: ${readinessLevel} Level`,
-      html: generateWelcomeEmail(name, readinessLevel, score, recommendations),
-    })
-
-    if (error) {
-      console.error('Resend error:', error)
-      return NextResponse.json(
-        { error: 'Failed to send email' },
-        { status: 500 }
-      )
-    }
-
-    // Also add to audience for future emails (optional)
-    try {
-      await getResend().contacts.create({
-        email,
-        firstName: name,
-        unsubscribed: false,
-        audienceId: process.env.RESEND_AUDIENCE_ID || '',
-      })
-    } catch (contactError) {
-      // Non-critical - log but don't fail
-      console.log('Could not add to audience:', contactError)
-    }
-
-    return NextResponse.json({
-      success: true,
-      messageId: data?.id,
-    })
 
   } catch (error) {
     console.error('Lead capture error:', error)
@@ -86,6 +52,125 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
+}
+
+async function handleReadinessLead(body: ReadinessLeadPayload) {
+  const { name, email, readinessLevel, score, recommendations } = body
+
+  // Validate required fields
+  if (!name || !email || !readinessLevel) {
+    return NextResponse.json(
+      { error: 'Missing required fields' },
+      { status: 400 }
+    )
+  }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email)) {
+    return NextResponse.json(
+      { error: 'Invalid email format' },
+      { status: 400 }
+    )
+  }
+
+  // Send welcome email with resources
+  const { data, error } = await getResend().emails.send({
+    from: 'ID8Labs <hello@mail.deepstack.trade>',
+    to: email,
+    subject: `Your AI Readiness Results: ${readinessLevel} Level`,
+    html: generateWelcomeEmail(name, readinessLevel, score, recommendations),
+  })
+
+  if (error) {
+    console.error('Resend error:', error)
+    return NextResponse.json(
+      { error: 'Failed to send email' },
+      { status: 500 }
+    )
+  }
+
+  // Also add to audience for future emails
+  try {
+    await getResend().contacts.create({
+      email,
+      firstName: name,
+      unsubscribed: false,
+      audienceId: process.env.RESEND_AUDIENCE_ID || '',
+    })
+  } catch (contactError) {
+    console.log('Could not add to audience:', contactError)
+  }
+
+  return NextResponse.json({
+    success: true,
+    messageId: data?.id,
+  })
+}
+
+async function handleWaitlistLead(body: WaitlistLeadPayload) {
+  const { email, source, metadata } = body
+
+  // Validate required fields
+  if (!email || !source) {
+    return NextResponse.json(
+      { error: 'Missing required fields' },
+      { status: 400 }
+    )
+  }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email)) {
+    return NextResponse.json(
+      { error: 'Invalid email format' },
+      { status: 400 }
+    )
+  }
+
+  // Determine which email to send based on source
+  let emailContent: { subject: string; html: string }
+
+  if (source === 'claude-for-knowledge-workers-waitlist') {
+    emailContent = generateCourseWaitlistEmail(email)
+  } else {
+    // Generic waitlist email
+    emailContent = generateGenericWaitlistEmail(email, source)
+  }
+
+  // Send welcome email
+  const { data, error } = await getResend().emails.send({
+    from: 'ID8Labs <hello@mail.deepstack.trade>',
+    to: email,
+    subject: emailContent.subject,
+    html: emailContent.html,
+  })
+
+  if (error) {
+    console.error('Resend error:', error)
+    return NextResponse.json(
+      { error: 'Failed to send email' },
+      { status: 500 }
+    )
+  }
+
+  // Add to audience
+  try {
+    await getResend().contacts.create({
+      email,
+      unsubscribed: false,
+      audienceId: process.env.RESEND_AUDIENCE_ID || '',
+    })
+  } catch (contactError) {
+    console.log('Could not add to audience:', contactError)
+  }
+
+  return NextResponse.json({
+    success: true,
+    messageId: data?.id,
+    source,
+    metadata,
+  })
 }
 
 function getActionPlanUrl(level: string): string {
@@ -309,4 +394,248 @@ function generateWelcomeEmail(
 </body>
 </html>
 `
+}
+
+function generateCourseWaitlistEmail(email: string): { subject: string; html: string } {
+  return {
+    subject: "You're on the waitlist: Claude Code for Knowledge Workers",
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're on the Waitlist</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <!-- Header -->
+    <tr>
+      <td style="padding: 40px 30px; text-align: center; background-color: #0A0A0A;">
+        <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">
+          <span style="color: #FF6B35;">id8</span>Labs
+        </h1>
+      </td>
+    </tr>
+
+    <!-- Main Content -->
+    <tr>
+      <td style="padding: 40px 30px;">
+        <h2 style="margin: 0 0 20px; color: #0A0A0A; font-size: 24px;">
+          You're on the list!
+        </h2>
+
+        <p style="margin: 0 0 20px; color: #737373; font-size: 16px; line-height: 1.6;">
+          Thanks for joining the waitlist for <strong>Claude Code for Knowledge Workers</strong>. You'll be among the first to know when we launch.
+        </p>
+
+        <p style="margin: 0 0 30px; color: #737373; font-size: 16px; line-height: 1.6;">
+          In the meantime, here's your first taste of what's coming:
+        </p>
+
+        <!-- Module 0 Card -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #FFF5F0; border-radius: 12px; margin-bottom: 30px; border: 2px solid #FF6B35;">
+          <tr>
+            <td style="padding: 25px;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 15px;">
+                    <div style="width: 50px; height: 50px; background-color: #FF6B35; border-radius: 10px; text-align: center; line-height: 50px;">
+                      <span style="font-size: 24px; color: #ffffff;">0</span>
+                    </div>
+                  </td>
+                  <td>
+                    <p style="margin: 0 0 5px; color: #FF6B35; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                      FREE MODULE
+                    </p>
+                    <h3 style="margin: 0 0 8px; color: #0A0A0A; font-size: 20px; font-weight: 700;">
+                      The Mental Model Shift
+                    </h3>
+                    <p style="margin: 0 0 15px; color: #737373; font-size: 14px; line-height: 1.5;">
+                      15 minutes to understand what Claude Code actually is — and complete your first real delegation.
+                    </p>
+                    <a href="https://id8labs.app/courses/claude-for-knowledge-workers/module-0" style="display: inline-block; padding: 12px 24px; background-color: #FF6B35; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; border-radius: 6px;">
+                      Start Module 0 →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <!-- What's Coming -->
+        <h3 style="margin: 0 0 15px; color: #0A0A0A; font-size: 18px;">
+          What's in the full course:
+        </h3>
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
+          <tr>
+            <td style="padding: 8px 0;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 10px;">
+                    <span style="color: #FF6B35; font-size: 14px;">1.</span>
+                  </td>
+                  <td style="color: #737373; font-size: 15px;">
+                    <strong>Your First Delegation</strong> — Low-risk, high-value file tasks
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 10px;">
+                    <span style="color: #FF6B35; font-size: 14px;">2.</span>
+                  </td>
+                  <td style="color: #737373; font-size: 15px;">
+                    <strong>Working With Your Files</strong> — Document processing, invoices, finding things
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 10px;">
+                    <span style="color: #FF6B35; font-size: 14px;">3.</span>
+                  </td>
+                  <td style="color: #737373; font-size: 15px;">
+                    <strong>The Writer's Workflow</strong> — Voice notes to polished drafts
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 10px;">
+                    <span style="color: #FF6B35; font-size: 14px;">4.</span>
+                  </td>
+                  <td style="color: #737373; font-size: 15px;">
+                    <strong>Research & Analysis</strong> — Competitive research, synthesis, patterns
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 10px;">
+                    <span style="color: #FF6B35; font-size: 14px;">5.</span>
+                  </td>
+                  <td style="color: #737373; font-size: 15px;">
+                    <strong>Personal Operations System</strong> — CLAUDE.md, recurring workflows
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0;">
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="vertical-align: top; padding-right: 10px;">
+                    <span style="color: #FF6B35; font-size: 14px;">6.</span>
+                  </td>
+                  <td style="color: #737373; font-size: 15px;">
+                    <strong>Power User Patterns</strong> — MCP servers, long tasks, troubleshooting
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Essay CTA -->
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; border-radius: 12px; margin-bottom: 20px;">
+          <tr>
+            <td style="padding: 20px;">
+              <p style="margin: 0 0 10px; color: #737373; font-size: 14px;">
+                Want the backstory? Read how I use Claude Code to run a TV production company and an LLC:
+              </p>
+              <a href="https://id8labs.app/essays/claude-code-isnt-for-coders" style="color: #FF6B35; font-size: 14px; font-weight: 600; text-decoration: none;">
+                Claude Code Isn't For Coders →
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+      <td style="padding: 30px; background-color: #f5f5f5; text-align: center;">
+        <p style="margin: 0 0 10px; color: #737373; font-size: 14px;">
+          ID8Labs - Professional Tools for the AI Era
+        </p>
+        <p style="margin: 0; color: #A3A3A3; font-size: 12px;">
+          Miami, FL • <a href="https://id8labs.app" style="color: #A3A3A3;">id8labs.app</a>
+        </p>
+        <p style="margin: 15px 0 0; color: #A3A3A3; font-size: 11px;">
+          You received this email because you joined the Claude Code for Knowledge Workers waitlist.
+          <br>
+          <a href="{{{unsubscribe}}}" style="color: #A3A3A3;">Unsubscribe</a>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+  }
+}
+
+function generateGenericWaitlistEmail(email: string, source: string): { subject: string; html: string } {
+  return {
+    subject: "You're on the ID8Labs waitlist",
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <tr>
+      <td style="padding: 40px 30px; text-align: center; background-color: #0A0A0A;">
+        <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">
+          <span style="color: #FF6B35;">id8</span>Labs
+        </h1>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 40px 30px;">
+        <h2 style="margin: 0 0 20px; color: #0A0A0A; font-size: 24px;">
+          You're on the list!
+        </h2>
+        <p style="margin: 0 0 20px; color: #737373; font-size: 16px; line-height: 1.6;">
+          Thanks for your interest in ID8Labs. We'll keep you updated on new tools, courses, and resources.
+        </p>
+        <a href="https://id8labs.app" style="display: inline-block; padding: 14px 28px; background-color: #FF6B35; color: #ffffff; font-size: 16px; font-weight: 600; text-decoration: none; border-radius: 8px;">
+          Explore ID8Labs
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 30px; background-color: #f5f5f5; text-align: center;">
+        <p style="margin: 0; color: #A3A3A3; font-size: 12px;">
+          Miami, FL • <a href="https://id8labs.app" style="color: #A3A3A3;">id8labs.app</a>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+  }
 }
