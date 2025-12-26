@@ -119,8 +119,8 @@ export default function Module0Page() {
 
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
               <a
-                href="/courses/module-0/module-0-mental-model-shift.pdf"
-                download="Module-0-Mental-Model-Shift.pdf"
+                href="/courses/module-0/module-0-the-mental-model-shift.pdf"
+                download="Module-0-The-Mental-Model-Shift.pdf"
                 className="btn btn-primary group inline-flex items-center gap-2"
               >
                 <DownloadIcon />
@@ -157,9 +157,9 @@ export default function Module0Page() {
                 viewport={{ once: true }}
               >
                 <MiniVideoPlayer
-                  src="/courses/module-0/media/Assistant_to_Delegate.mp4"
+                  src="/courses/module-0/media/module-0-the-mental-model-shift.mp4"
                   title="The Mental Model Shift (Video)"
-                  downloadName="Module-0-Mental-Model-Shift.mp4"
+                  downloadName="Module-0-The-Mental-Model-Shift.mp4"
                 />
               </motion.div>
 
@@ -171,10 +171,34 @@ export default function Module0Page() {
                 transition={{ delay: 0.1 }}
               >
                 <MiniAudioPlayer
-                  src="/courses/module-0/media/Delegate_AI_Accesses_Your_Files_and_Does_Work.m4a"
+                  src="/courses/module-0/media/module-0-the-mental-model-shift.m4a"
                   title="The Mental Model Shift (Podcast)"
-                  downloadName="Module-0-Mental-Model-Shift.m4a"
+                  downloadName="Module-0-The-Mental-Model-Shift.m4a"
                 />
+              </motion.div>
+
+              {/* Mindmap */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border)]"
+              >
+                <h3 className="font-semibold mb-3">Module Mindmap</h3>
+                <a
+                  href="/courses/module-0/media/module-0-mindmap.png"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <img
+                    src="/courses/module-0/media/module-0-mindmap.png"
+                    alt="Module 0 Mindmap - The Mental Model Shift"
+                    className="w-full rounded-lg border border-[var(--border)] hover:border-id8-orange/50 transition-colors cursor-pointer"
+                  />
+                </a>
+                <p className="text-sm text-[var(--text-tertiary)] mt-2">Click to view full size</p>
               </motion.div>
             </div>
           </div>

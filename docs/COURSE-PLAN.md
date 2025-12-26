@@ -32,10 +32,11 @@ A 6-module course teaching non-programmers how to use Claude Code for everyday k
 
 **Status:** ✅ Complete
 **Duration:** 30 minutes
-**Source:** `docs/module-0-video-script.md`
+**Source:** `docs/module-0-notebooklm-source.md`
 
 ### What It Covers
 - Why Claude Code is different (AI that does things, not just talks)
+- The three superpowers: file access, long-running sessions, tool integration
 - The delegation mindset shift
 - Installation walkthrough (Mac focus)
 - First win: Downloads folder cleanup demo
@@ -46,9 +47,9 @@ A 6-module course teaching non-programmers how to use Claude Code for everyday k
 - **Philosophy:** Start small, build trust
 
 ### Assets
-- Video: `module-0-your-first-magical-task.mp4`
-- Audio: `module-0-your-first-magical-task.m4a`
-- PDF: `module-0-your-first-magical-task.pdf`
+- Video: `module-0-the-mental-model-shift.mp4`
+- Audio: `module-0-the-mental-model-shift.m4a`
+- PDF: `module-0-the-mental-model-shift.pdf`
 - Mindmap: `module-0-mindmap.png`
 
 ### Challenge
