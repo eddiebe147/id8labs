@@ -12,6 +12,160 @@ export interface Essay {
 
 export const essays: Essay[] = [
   {
+    slug: 'claude-code-isnt-for-coders',
+    title: 'Claude Code Isn\'t For Coders',
+    subtitle: 'How I use an AI "coding tool" to run a production company and an LLC - without writing code',
+    date: '2025-12-26',
+    category: 'essay',
+    readTime: '7 min read',
+    excerpt: 'I run two businesses. One produces reality television. The other builds AI tools for developers. Neither requires me to write code daily. But Claude Code has become the most important tool in both.',
+    content: `# Claude Code Isn't For Coders
+
+I run two businesses. One produces reality television. The other builds AI tools for developers.
+
+Neither requires me to write code daily. But Claude Code has become the most important tool in both.
+
+If you've dismissed Claude Code because of its name, you're missing the point entirely.
+
+---
+
+## The Junk Drawer That Changed Everything
+
+I had an iCloud folder with over 10 years of files. Screenshots, voice memos, PDFs, random documents—everything I'd ever thought was worth saving but never organized. A digital junk drawer I'd been meaning to clean up since 2015.
+
+One afternoon, I pointed Claude Code at it.
+
+"Go through this folder. Build me an intake system. Categorize everything."
+
+What happened next shifted how I think about AI.
+
+Claude didn't just sort files into folders. It *understood* them. It read documents, parsed images, identified patterns. It built a categorization system based on what the files actually contained—not just file types or dates.
+
+Hours later, I had structure. Contracts in one place. Creative assets in another. Research organized by topic. Voice memos transcribed and tagged.
+
+But here's what hit me: none of it was junk. Every file I'd saved over a decade, I'd saved for a reason. It was treasure—I just needed someone to help me see it.
+
+That's when I realized: Claude Code isn't a coding tool. It's a thinking partner that happens to run on your computer.
+
+---
+
+## What I Actually Do With It
+
+### Reality TV Production
+
+I work on productions for major networks. The work involves:
+
+- **Interview questions** - Generating thoughtful questions for cast members based on their backgrounds, storylines, and what we need to capture
+- **Logistics and scheduling** - Grinding through operational details to find the most effective time management across complex shoots
+- **Research** - Web searches for cast backgrounds, location scouting, fact-checking storylines
+
+Before Claude Code, this was days of work. Document creation, legwork, research rabbit holes.
+
+Now it compresses into hours.
+
+The time savings matter, but that's not the real win. The real win is *bandwidth*. When you're not bogged down by document creation and research logistics, you have space for higher-level creative decisions. You can actually *think* about the story instead of drowning in the mechanics of capturing it.
+
+I use Perplexity and Firecrawl integrations to search the web, pull backgrounds, scout locations. Claude processes everything and surfaces what matters.
+
+### LLC Operations
+
+I've built a team of AI agents to help me run ID8Labs. Not metaphorically—literally a team with different roles:
+
+- Compliance monitoring
+- Tax strategy
+- Expense categorization
+- Document generation
+
+I've also built a media pipeline that generates marketing assets. Social content, graphics, promotional materials—systematized and consistent.
+
+This is the part that sounds like "coding work" but isn't. I'm not writing the code. I'm *directing* the work. "Build me a system that does X." "Create a workflow for Y." "When Z happens, do this."
+
+The difference between asking ChatGPT for help and using Claude Code is the difference between texting a friend for advice and having an employee who can actually *do the work*.
+
+---
+
+## The Mental Model Shift
+
+Here's what most people get wrong about Claude Code:
+
+**They think it's for developers.**
+
+It's not. It's for anyone with files, folders, and work that involves processing information.
+
+**They think you need to write code.**
+
+You don't. You describe what you want in plain English. Claude figures out how to do it.
+
+**They think it's just a better chatbot.**
+
+It's not a chatbot at all. It's an agent running locally on your computer with access to your files, the ability to run for hours, and tools to interact with the world.
+
+The shift is from *assistance* to *delegation*.
+
+- **Assistance**: "Help me write interview questions"
+- **Delegation**: "Here are the cast files. Generate interview questions for each person based on their background and what we discussed in the story meeting. Save them to the prep folder."
+
+One gives you suggestions. The other gives you deliverables.
+
+---
+
+## Who This Is Actually For
+
+If you're a developer, you already know about Claude Code. This isn't for you.
+
+This is for:
+
+**Writers** - Voice memos to organized outlines to polished drafts. Research synthesis. Multi-platform content repurposing.
+
+**Researchers** - Competitive analysis. Interview transcript synthesis. Pattern recognition across hundreds of documents.
+
+**Operators** - File organization. Invoice processing. Recurring workflows. The operational grunt work that eats your day.
+
+**Producers** - Anyone managing complex projects with lots of moving pieces, documents, and logistics.
+
+If your work involves processing information and you're still using AI as a chatbot, you're leaving 80% of the value on the table.
+
+---
+
+## Getting Started
+
+The technical barrier is lower than you think:
+
+1. Open Terminal (Command + Space, type "Terminal" on Mac)
+2. Run: \`curl -fsSL https://claude.ai/install.sh | bash\`
+3. Type: \`claude\`
+
+That's it. You're in.
+
+Start with something low-stakes. Point it at your Downloads folder. "Organize this. Show me what's here. Find duplicates."
+
+Watch it work. See what it finds.
+
+Then try something real. A folder of invoices. Research documents. Voice memos from last month.
+
+The moment it clicks—the moment you realize this isn't a chatbot but an *operator*—everything changes.
+
+---
+
+## The Bigger Picture
+
+We're in a weird transition period where the most powerful AI tools are marketed to developers, but their real value is for everyone.
+
+Claude Code's name is a liability. It scares away exactly the people who would benefit most.
+
+But that's also an opportunity. If you're a knowledge worker who figures this out now, you have a massive advantage over everyone still copy-pasting from ChatGPT.
+
+The future of work isn't humans asking AI questions. It's humans delegating to AI agents.
+
+Claude Code is the first real taste of that future. And it's available right now, for free.
+
+Stop asking. Start delegating.
+
+---
+
+*I'm building a course on Claude Code for non-technical knowledge workers. If you want early access, [join the waitlist](/courses/claude-for-knowledge-workers).*`
+  },
+  {
     slug: 'ive-filmed-a-thousand-fights',
     title: 'I\'ve Filmed a Thousand Fights. Here\'s What I Learned.',
     subtitle: 'Why I built Pause—a communication translator for conflict',
