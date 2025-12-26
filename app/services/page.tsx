@@ -187,6 +187,12 @@ const credentials = [
   { highlight: "ID8Labs", role: "— Founder, building AI tools for creators" },
 ]
 
+const freeCourseModules = [
+  { number: 0, title: "The Mental Model Shift", duration: "30 min", description: "Installation + your first delegation (Downloads cleanup)" },
+  { number: 1, title: "Your First Delegation", duration: "45 min", description: "10 Quick Wins to build confidence and master the formula" },
+  { number: 2, title: "Working With Your Files", duration: "60 min", description: "Document processing, invoices, and semantic search" },
+]
+
 export default function ServicesPage() {
   const contactEmail = "eb@id8labs.tech"
   const bookingUrl = `mailto:${contactEmail}?subject=AI%20Implementation%20-%20Let's%20Talk&body=Hey%20Eddie%2C%0A%0AI'm%20interested%20in%20learning%20more%20about%20your%20AI%20implementation%20services.%0A%0AA%20bit%20about%20me%3A%0A-%20What%20I%20do%3A%20%0A-%20Biggest%20time%20sink%3A%20%0A-%20What%20I'm%20hoping%20AI%20can%20help%20with%3A%20%0A%0ALet's%20find%20a%20time%20to%20chat.`
@@ -239,6 +245,28 @@ export default function ServicesPage() {
 
         {/* Bottom border */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Free Course CTA Banner */}
+      <section className="py-6 bg-id8-orange/10 border-y border-id8-orange/20">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">🎓</span>
+              <div>
+                <p className="font-semibold text-[var(--text-primary)]">New: Free Course Available</p>
+                <p className="text-sm text-[var(--text-secondary)]">Claude Code for Knowledge Workers — No programming required</p>
+              </div>
+            </div>
+            <Link
+              href="/courses/claude-for-knowledge-workers"
+              className="btn bg-id8-orange text-white hover:bg-id8-orange/90 whitespace-nowrap group inline-flex items-center gap-2"
+            >
+              Start Free Course
+              <ArrowRightIcon />
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* Problem Section */}
@@ -349,18 +377,109 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Claude Code Courses Section */}
-      <section className="section-spacing border-t border-[var(--border)]" id="claude-code">
+      {/* Free Course Section */}
+      <section className="section-spacing border-t border-[var(--border)]" id="free-course">
         <div className="container">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Claude Code Training
+              Start Here — Free
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              Learn to build with Claude Code
+              Claude Code for Knowledge Workers
             </h2>
             <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-              Live sessions, not recorded tutorials. Learn hooks, MCP servers, plugins, and production workflows from someone who ships with Claude Code daily.
+              A complete free course teaching non-programmers how to use Claude Code for everyday work. No coding required — just delegation.
+            </p>
+          </div>
+
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={stagger}
+            className="max-w-3xl mx-auto"
+          >
+            <div className="card-featured p-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-tertiary)] mb-1">
+                    6-Module Course
+                  </p>
+                  <h3 className="text-2xl font-bold">Complete Curriculum</h3>
+                </div>
+                <span className="text-3xl font-bold text-id8-orange font-mono">FREE</span>
+              </div>
+
+              <div className="space-y-4 mb-8">
+                {freeCourseModules.map((module, index) => (
+                  <motion.div
+                    key={index}
+                    variants={fadeUp}
+                    className="flex items-start gap-4 p-4 bg-[var(--bg-primary)] rounded-lg border border-[var(--border)]"
+                  >
+                    <span className="flex-shrink-0 w-8 h-8 bg-id8-orange/10 text-id8-orange rounded-full flex items-center justify-center font-mono font-bold text-sm">
+                      {module.number}
+                    </span>
+                    <div className="flex-grow">
+                      <div className="flex items-center justify-between mb-1">
+                        <h4 className="font-semibold">{module.title}</h4>
+                        <span className="text-xs font-mono text-[var(--text-tertiary)]">{module.duration}</span>
+                      </div>
+                      <p className="text-sm text-[var(--text-secondary)]">{module.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
+                <div className="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] rounded-lg border border-dashed border-[var(--border)]">
+                  <span className="flex-shrink-0 w-8 h-8 bg-[var(--bg-tertiary)] text-[var(--text-tertiary)] rounded-full flex items-center justify-center font-mono text-sm">
+                    +3
+                  </span>
+                  <p className="text-sm text-[var(--text-tertiary)]">More modules coming: Writing, Research, Workflows</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/courses/claude-for-knowledge-workers"
+                  className="btn btn-primary flex-1 text-center group inline-flex items-center justify-center gap-2"
+                >
+                  Start Module 0
+                  <ArrowRightIcon />
+                </Link>
+                <Link
+                  href="/courses/claude-for-knowledge-workers#curriculum"
+                  className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 flex-1 text-center"
+                >
+                  View Full Curriculum
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Claude Code Courses Section */}
+      <section className="section-spacing bg-[var(--bg-secondary)]" id="claude-code">
+        <div className="container">
+          {/* Callout for free course */}
+          <div className="mb-12 p-4 bg-id8-orange/5 border border-id8-orange/20 rounded-xl max-w-2xl mx-auto">
+            <p className="text-center text-[var(--text-secondary)]">
+              <span className="font-semibold text-[var(--text-primary)]">New to Claude Code?</span> Start with our{' '}
+              <Link href="/courses/claude-for-knowledge-workers" className="text-id8-orange hover:underline font-medium">
+                free course
+              </Link>{' '}
+              first. The training below is for those ready to go deeper.
+            </p>
+          </div>
+
+          <div className="text-center mb-16">
+            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
+              Advanced Training
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              Go deeper with live sessions
+            </h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+              For developers and power users ready to build with hooks, MCP servers, plugins, and production workflows. Live sessions, not recorded tutorials.
             </p>
           </div>
 
