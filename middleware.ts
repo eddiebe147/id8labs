@@ -36,14 +36,19 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protected routes
+  // Protected routes - courses are protected EXCEPT module-0 (free module)
   const protectedPaths = ['/courses']
+  const freePaths = ['/courses/claude-for-knowledge-workers/module-0']
+
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   )
+  const isFreePath = freePaths.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  )
 
-  // Redirect to sign-in if accessing protected route without auth
-  if (isProtectedPath && !user) {
+  // Redirect to sign-in if accessing protected route without auth (except free paths)
+  if (isProtectedPath && !isFreePath && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/sign-in'
     url.searchParams.set('redirect', request.nextUrl.pathname)
