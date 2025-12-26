@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import MiniAudioPlayer from '@/components/MiniAudioPlayer'
+import MiniVideoPlayer from '@/components/MiniVideoPlayer'
 
 // Animation variants
 const fadeUp = {
@@ -124,18 +126,59 @@ export default function Module0Page() {
                 <DownloadIcon />
                 Download Guide (PDF)
               </a>
-              <button
-                disabled
-                className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-tertiary)] cursor-not-allowed inline-flex items-center gap-2"
+              <a
+                href="#media"
+                className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 transition-colors inline-flex items-center gap-2"
               >
                 <PlayIcon />
-                Watch Video (Coming Soon)
-              </button>
+                Watch or Listen
+              </a>
             </motion.div>
           </motion.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Media Section */}
+      <section id="media" className="section-spacing border-t border-[var(--border)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold mb-2">Watch or Listen</h2>
+            <p className="text-[var(--text-secondary)] mb-8">
+              Choose your format — same content, different experience.
+            </p>
+
+            <div className="space-y-6">
+              {/* Video Player */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <MiniVideoPlayer
+                  src="/courses/module-0/media/Assistant_to_Delegate.mp4"
+                  title="The Mental Model Shift (Video)"
+                  downloadName="Module-0-Mental-Model-Shift.mp4"
+                />
+              </motion.div>
+
+              {/* Audio Player */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                <MiniAudioPlayer
+                  src="/courses/module-0/media/Delegate_AI_Accesses_Your_Files_and_Does_Work.m4a"
+                  title="The Mental Model Shift (Podcast)"
+                  downloadName="Module-0-Mental-Model-Shift.m4a"
+                />
+              </motion.div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* What You'll Learn */}
