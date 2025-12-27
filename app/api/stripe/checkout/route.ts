@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe, COURSE_PRODUCTS, type CourseProductId } from '@/lib/stripe'
+import { getStripe, COURSE_PRODUCTS, type CourseProductId } from '@/lib/stripe'
 import { createClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -75,6 +75,8 @@ export async function POST(request: NextRequest) {
       .select('stripe_customer_id')
       .eq('id', user.id)
       .single()
+
+    const stripe = getStripe()
 
     if (customer?.stripe_customer_id) {
       customerId = customer.stripe_customer_id
