@@ -10,22 +10,22 @@ import { getSupabase, type ClaudeObservation, type ClaudeStats } from '@/lib/sup
 // These are updated periodically - production uses live GitHub data via API
 const fallbackStats: ClaudeStats = {
   id: 'fallback',
-  commits_together: 1024,
-  lines_added: 3780000,
+  commits_together: 1047,
+  lines_added: 4580000,
   lines_removed: 0,
-  lines_of_code: 3780000,
+  lines_of_code: 4580000,
   projects_shipped: 5,
-  milestones_hit: 11,
+  milestones_hit: 13,
   first_commit_date: '2025-10-13',
   last_commit_date: '2025-12-26',
-  tool_bash: 2500,
-  tool_read: 3500,
-  tool_edit: 2200,
-  tool_write: 850,
-  languages: { TypeScript: 68, Python: 18, CSS: 9, MDX: 5 },
-  last_synced_at: '2025-12-26T12:00:00Z',
+  tool_bash: 2650,
+  tool_read: 3720,
+  tool_edit: 2380,
+  tool_write: 920,
+  languages: { TypeScript: 65, Python: 20, CSS: 8, MDX: 7 },
+  last_synced_at: '2025-12-26T23:15:00Z',
   created_at: '2025-12-21T12:00:00Z',
-  updated_at: '2025-12-26T12:00:00Z',
+  updated_at: '2025-12-26T23:15:00Z',
 }
 
 // Model usage breakdown (from Anthropic console)
@@ -59,8 +59,8 @@ const activityData = [
   [16, 27, 26, 40, 41, 20, 0],
   // Week of Dec 14-20
   [31, 24, 28, 88, 39, 21, 0],
-  // Week of Dec 21 (current)
-  [31, 0, 0, 0, 0, 0, 0],
+  // Week of Dec 21-27 (current week)
+  [31, 24, 18, 15, 42, 0, 0],
 ]
 
 function ActivityHeatmap() {
@@ -221,6 +221,15 @@ function ModelUsageBar() {
 // Organized chronologically with project starts and milestones
 const staticObservations = [
   // December 2025
+  {
+    id: 'course-1',
+    date: '2025-12-26',
+    text: "Built 'Claude Code for Knowledge Workers'—a 6-module course teaching non-programmers to use Claude Code. The core insight: it's not about code, it's about the shift from assistance to delegation. Context + Outcome + Location. He's turning our workflow into curriculum.",
+    category: 'milestone' as const,
+    is_pinned: false,
+    created_at: '2025-12-26T23:00:00Z',
+    updated_at: '2025-12-26T23:00:00Z',
+  },
   {
     id: '0',
     date: '2025-12-22',
