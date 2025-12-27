@@ -16,6 +16,7 @@ interface NeuralNetworkBgProps {
   fireRate?: number         // How often neurons fire (0-100)
   orangeIntensity?: number  // 0-100
   parallaxFactor?: number   // How much parallax effect (0 = none, 0.15 = subtle)
+  zoomFactor?: number       // How much to zoom on scroll (0 = none, 0.5 = subtle zoom in)
   className?: string
 }
 
@@ -91,6 +92,7 @@ export function NeuralNetworkBg({
   fireRate = 30,
   orangeIntensity = 60,
   parallaxFactor = 0.15,
+  zoomFactor = 0.4,
   className = '',
 }: NeuralNetworkBgProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -100,25 +102,38 @@ export function NeuralNetworkBg({
   const signalsRef = useRef<Signal[]>([])
   const rotationRef = useRef({ x: 0, y: 0 })
   const scrollOffsetRef = useRef(0)
+  const zoomRef = useRef(1) // Current zoom level (1 = normal, higher = zoomed in)
 
   useEffect(() => {
     setIsClient(true)
   }, [])
 
-  // Parallax scroll effect
+  // Parallax scroll effect + zoom
   useEffect(() => {
-    if (!isClient || parallaxFactor === 0) return
+    if (!isClient) return
 
     const handleScroll = () => {
-      scrollOffsetRef.current = window.scrollY * parallaxFactor
-      if (containerRef.current) {
-        containerRef.current.style.transform = `translateY(${scrollOffsetRef.current}px)`
+      // Calculate scroll progress (0 to 1)
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      const scrollProgress = Math.min(1, window.scrollY / maxScroll)
+
+      // Parallax translation
+      if (parallaxFactor !== 0) {
+        scrollOffsetRef.current = window.scrollY * parallaxFactor
+        if (containerRef.current) {
+          containerRef.current.style.transform = `translateY(${scrollOffsetRef.current}px)`
+        }
       }
+
+      // Zoom effect: scale from 1 to (1 + zoomFactor) as user scrolls
+      // Higher zoom = camera moves closer to the neural network
+      zoomRef.current = 1 + scrollProgress * zoomFactor
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // Initialize on mount
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isClient, parallaxFactor])
+  }, [isClient, parallaxFactor, zoomFactor])
 
   useEffect(() => {
     if (!isClient) return
@@ -245,13 +260,22 @@ export function NeuralNetworkBg({
 
       // Transform all neuron positions
       // Use viewportHeight for projection centering so neurons stay in visible viewport
+      // Apply zoom by adjusting FOV: lower FOV = more zoomed in
+      // Base FOV is 500, zoom multiplies the scale effect
+      const currentZoom = zoomRef.current
       const transformedNeurons = neuronsRef.current.map(n => {
         let rotated = rotateY(n.pos, rotationRef.current.y)
         rotated = rotateX(rotated, rotationRef.current.x)
+        // Scale positions by zoom to create "diving in" effect
+        const zoomedRotated = {
+          x: rotated.x * currentZoom,
+          y: rotated.y * currentZoom,
+          z: rotated.z,
+        }
         return {
           ...n,
-          projected: project(rotated, width, viewportHeight),
-          rotated,
+          projected: project(zoomedRotated, width, viewportHeight),
+          rotated: zoomedRotated,
         }
       })
 
