@@ -176,7 +176,7 @@ export default function Module5Page() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.1 }}
+                // delay: 0.1 merged
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -243,7 +243,7 @@ export default function Module5Page() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.1 }}
+                // delay: 0.1 merged
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -312,7 +312,7 @@ export default function Module5Page() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.1 }}
+                // delay: 0.1 merged
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -384,7 +384,7 @@ export default function Module5Page() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.1 }}
+                // delay: 0.1 merged
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -464,7 +464,7 @@ export default function Module5Page() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.1 }}
+                // delay: 0.1 merged
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-start gap-3">
@@ -484,7 +484,7 @@ export default function Module5Page() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.2 }}
+                // delay: 0.2 merged
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-start gap-3">
@@ -504,7 +504,7 @@ export default function Module5Page() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.3 }}
+                // delay: 0.3 merged
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-start gap-3">

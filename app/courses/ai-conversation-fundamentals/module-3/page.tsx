@@ -205,8 +205,7 @@ export default function Module3Page() {
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                   className={`p-6 border rounded-xl ${
                     move.color === 'yellow' ? 'bg-yellow-500/5 border-yellow-500/20' :
                     move.color === 'blue' ? 'bg-blue-500/5 border-blue-500/20' :

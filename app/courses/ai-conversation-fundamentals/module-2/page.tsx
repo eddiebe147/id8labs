@@ -170,8 +170,7 @@ export default function Module2Page() {
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                   className="p-6 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl"
                 >
                   {/* Lever Header */}

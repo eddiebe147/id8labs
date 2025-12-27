@@ -159,8 +159,7 @@ export default function Module4Page() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.1 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                 className="p-5 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-xl"
               >
                 <div className="mb-3">
@@ -220,8 +219,7 @@ export default function Module4Page() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.1 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
                 className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg"
               >
                 <h3 className="font-bold text-[var(--text-primary)] mb-2">2. Don't dump everything</h3>
@@ -239,8 +237,7 @@ export default function Module4Page() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.2 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                 className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg"
               >
                 <h3 className="font-bold text-[var(--text-primary)] mb-2">3. Long conversations drift</h3>
@@ -258,8 +255,7 @@ export default function Module4Page() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                transition={{ delay: 0.3 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
                 className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg"
               >
                 <h3 className="font-bold text-[var(--text-primary)] mb-2">4. Restating helps refocus</h3>
