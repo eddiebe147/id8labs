@@ -4,7 +4,10 @@ import { routes } from './utils/test-config';
 test.describe('Navigation', () => {
   test('should navigate to products page', async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+
+    // Set desktop viewport to ensure nav is visible
+    await page.setViewportSize({ width: 1280, height: 720 });
 
     // Click the Products link in the header navigation
     const header = page.locator('header');
@@ -23,7 +26,7 @@ test.describe('Navigation', () => {
 
     for (const route of routesToTest) {
       await page.goto(route.path);
-      await page.waitForLoadState('networkidle');
+      await page.waitForLoadState('domcontentloaded');
 
       if (route.expectedTitle) {
         await expect(page).toHaveTitle(route.expectedTitle);
@@ -37,13 +40,13 @@ test.describe('Navigation', () => {
   test('should return to home from any page', async ({ page }) => {
     // Go to products first
     await page.goto('/products');
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
-    // Click the logo in header to return home
+    // Click the logo in header to return home (logo links to "/")
     const header = page.locator('header');
-    const homeLink = header.getByRole('link').first();
+    const homeLink = header.locator('a[href="/"]').first();
     await homeLink.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
     await expect(page).toHaveURL('/');
   });
 
