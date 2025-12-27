@@ -115,8 +115,10 @@ export function PurchaseGate({ productId, children, moduleName = 'this module' }
           {/* Price and CTA */}
           <div className="space-y-4">
             <div className="text-center">
-              <span className="text-4xl font-bold">$197</span>
+              <span className="text-xl text-secondary line-through mr-2">$197</span>
+              <span className="text-4xl font-bold text-id8-orange">$99</span>
               <span className="text-secondary ml-2">one-time</span>
+              <p className="text-sm text-green-500 font-medium mt-1">Founder's Launch Special</p>
             </div>
 
             <CheckoutButton

@@ -411,8 +411,11 @@ export default function ServicesPage() {
                   <h3 className="text-2xl font-bold">Complete Curriculum</h3>
                 </div>
                 <div className="text-right">
-                  <span className="text-3xl font-bold text-id8-orange font-mono">$197</span>
-                  <p className="text-xs text-[var(--text-tertiary)]">Module 0 free</p>
+                  <div className="flex items-baseline justify-end gap-2">
+                    <span className="text-lg text-[var(--text-tertiary)] line-through font-mono">$197</span>
+                    <span className="text-3xl font-bold text-id8-orange font-mono">$99</span>
+                  </div>
+                  <p className="text-xs text-green-500 font-medium">Founder's Launch Special</p>
                 </div>
               </div>
 
@@ -463,7 +466,7 @@ export default function ServicesPage() {
                   href="/courses/claude-for-knowledge-workers"
                   className="btn btn-primary flex-1 text-center group inline-flex items-center justify-center gap-2"
                 >
-                  Get Full Course — $197
+                  Get Full Course — $99
                   <ArrowRightIcon />
                 </Link>
               </div>
