@@ -282,8 +282,9 @@ export default function Module6Page() {
                       <strong className="text-[var(--text-primary)]">Claude for Knowledge Workers</strong> — Learn to delegate file management, data processing, research, and more. 5 modules of hands-on practice.
                     </p>
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="text-2xl font-bold text-[var(--text-primary)]">$197</span>
-                      <span className="text-sm text-[var(--text-tertiary)]">One-time payment. Lifetime access.</span>
+                      <span className="text-lg text-[var(--text-tertiary)] line-through">$197</span>
+                      <span className="text-2xl font-bold text-id8-orange">$99</span>
+                      <span className="text-sm text-green-400 font-mono">Launch Special</span>
                     </div>
                     <Link
                       href="/courses/claude-for-knowledge-workers"
