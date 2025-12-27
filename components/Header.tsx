@@ -24,6 +24,39 @@ export default function Header() {
             <Link href="/services" className="text-base hover:opacity-70 transition-opacity">
               Services
             </Link>
+            {/* Courses Dropdown */}
+            <div className="relative group">
+              <button className="text-base hover:opacity-70 transition-opacity flex items-center gap-1">
+                Courses
+                <svg className="w-4 h-4 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg shadow-xl py-2 min-w-[280px]">
+                  <Link
+                    href="/courses/ai-conversation-fundamentals"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-secondary)] transition-colors"
+                  >
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
+                    <div>
+                      <p className="font-medium text-sm">AI Conversation Fundamentals</p>
+                      <p className="text-xs text-[var(--text-tertiary)]">Mental models for AI • 45 min</p>
+                    </div>
+                  </Link>
+                  <Link
+                    href="/courses/claude-for-knowledge-workers"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-secondary)] transition-colors"
+                  >
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange text-white rounded">$99</span>
+                    <div>
+                      <p className="font-medium text-sm">Claude Code for Knowledge Workers</p>
+                      <p className="text-xs text-[var(--text-tertiary)]">Full delegation course • 5 hrs</p>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
             <Link href="/essays" className="text-base hover:opacity-70 transition-opacity">
               Essays
             </Link>
@@ -79,6 +112,26 @@ export default function Header() {
             >
               Services
             </Link>
+            {/* Mobile Courses Section */}
+            <div className="space-y-2">
+              <p className="text-lg font-medium">Courses</p>
+              <Link
+                href="/courses/ai-conversation-fundamentals"
+                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
+                AI Fundamentals
+              </Link>
+              <Link
+                href="/courses/claude-for-knowledge-workers"
+                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange text-white rounded">$99</span>
+                Claude Code Course
+              </Link>
+            </div>
             <Link
               href="/essays"
               className="block text-lg hover:opacity-70 transition-opacity"
