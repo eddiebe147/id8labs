@@ -14,6 +14,40 @@ function getResend(): Resend {
   return resend
 }
 
+// Sources that trigger the AI Fundamentals nurture sequence
+const AI_FUNDAMENTALS_SOURCES = [
+  'ai-conversation-fundamentals-landing',
+  'ai-conversation-fundamentals-module-6',
+]
+
+// Trigger email sequence for qualifying sources
+async function triggerEmailSequence(email: string, source: string): Promise<void> {
+  // Only trigger for AI Fundamentals sources
+  if (!AI_FUNDAMENTALS_SOURCES.includes(source)) {
+    return
+  }
+
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://id8labs.app'
+    const response = await fetch(`${baseUrl}/api/email-sequences/trigger`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        sequenceId: 'ai-fundamentals-nurture',
+        source,
+      }),
+    })
+
+    if (!response.ok) {
+      console.error('Failed to trigger email sequence:', await response.text())
+    }
+  } catch (error) {
+    // Log but don't fail the subscription
+    console.error('Error triggering email sequence:', error)
+  }
+}
+
 interface SubscribePayload {
   email: string
   source: string
@@ -70,6 +104,9 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       )
     }
+
+    // Trigger email nurture sequence if applicable (non-blocking)
+    triggerEmailSequence(email, source)
 
     return NextResponse.json({
       success: true,
