@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { cachedJsonResponse, CachePresets, withCache } from '@/lib/cache'
 
 // Lazy-load Supabase clients
 let supabaseAnon: SupabaseClient | null = null
@@ -34,19 +35,24 @@ function getSupabaseService() {
 }
 
 // GET - Fetch current stats (no sync) - uses anon key for public read access
+// Optimized with edge caching and in-memory cache
 export async function GET() {
   try {
-    const client = getSupabaseAnon()
-    const { data, error } = await client
-      .from('claude_stats')
-      .select('*')
-      .single()
+    // Use in-memory cache for 30s to reduce DB calls during high traffic
+    const stats = await withCache('claude-stats', async () => {
+      const client = getSupabaseAnon()
+      const { data, error } = await client
+        .from('claude_stats')
+        .select('*')
+        .single()
 
-    if (error) throw error
+      if (error) throw error
+      return data
+    }, 30000) // 30 second TTL
 
     // Calculate derived stats
-    const firstCommit = data.first_commit_date
-      ? new Date(data.first_commit_date)
+    const firstCommit = stats.first_commit_date
+      ? new Date(stats.first_commit_date)
       : null
     const now = new Date()
     const monthsBuilding = firstCommit
@@ -61,13 +67,14 @@ export async function GET() {
         )
       : 0
 
-    return NextResponse.json({
+    // Return with CDN cache headers (30s cache, 60s stale-while-revalidate)
+    return cachedJsonResponse({
       stats: {
-        ...data,
+        ...stats,
         months_building: monthsBuilding,
         session_uptime_days: sessionUptime,
       },
-    })
+    }, 'STATS')
   } catch (error) {
     console.error('Error fetching stats:', error)
     return NextResponse.json(

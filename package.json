@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
@@ -16,7 +17,9 @@
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:chromium": "playwright test --project=chromium",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "perf": "npx tsx scripts/perf-test.ts",
+    "perf:prod": "BASE_URL=https://id8labs.app npx tsx scripts/perf-test.ts"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.0",
@@ -32,6 +35,7 @@
     "stripe": "^20.1.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.1.1",
     "@playwright/test": "^1.57.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

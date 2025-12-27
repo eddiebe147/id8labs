@@ -76,13 +76,19 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     * - api routes (except auth callback)
+     * PERFORMANCE OPTIMIZED: Only run middleware on paths that need auth
+     * - /courses/* (protected content, except free paths handled in middleware)
+     * - /sign-in, /sign-up (auth redirects)
+     * - /api/auth/* (auth callbacks)
+     *
+     * EXCLUDED (massive performance gain):
+     * - All static assets (_next/static, images, etc.)
+     * - All other API routes (they handle their own auth)
+     * - All public pages (/, /essays, /products, etc.)
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/courses/:path*',
+    '/sign-in',
+    '/sign-up',
+    '/api/auth/:path*',
   ],
 }

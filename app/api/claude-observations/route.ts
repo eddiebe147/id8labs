@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { cachedJsonResponse, withCache } from '@/lib/cache'
 
 // Lazy-load Supabase client to avoid build-time errors
 let supabase: SupabaseClient | null = null
@@ -160,30 +161,37 @@ const staticObservations = [
 ]
 
 // GET - Fetch all observations
+// Optimized with edge caching and in-memory cache
 export async function GET() {
   try {
-    const client = getSupabase()
-    const { data, error } = await client
-      .from('claude_observations')
-      .select('*')
-      .order('date', { ascending: false })
+    // Use in-memory cache for 60s (observations change less frequently)
+    const result = await withCache('claude-observations', async () => {
+      const client = getSupabase()
+      const { data, error } = await client
+        .from('claude_observations')
+        .select('*')
+        .order('date', { ascending: false })
 
-    if (error) {
-      // Table might not exist yet - return static observations
-      console.log('Falling back to static observations:', error.message)
-      return NextResponse.json({
-        observations: staticObservations,
-        source: 'static',
-      })
-    }
+      if (error) {
+        // Table might not exist yet - return static observations
+        console.log('Falling back to static observations:', error.message)
+        return {
+          observations: staticObservations,
+          source: 'static' as const,
+        }
+      }
 
-    return NextResponse.json({
-      observations: data,
-      source: 'database',
-    })
+      return {
+        observations: data,
+        source: 'database' as const,
+      }
+    }, 60000) // 60 second TTL
+
+    // Return with CDN cache headers (60s cache, 5min stale-while-revalidate)
+    return cachedJsonResponse(result, 'CONTENT')
   } catch (error) {
     console.error('Error fetching observations:', error)
-    // Always return static as fallback
+    // Always return static as fallback (no cache on errors)
     return NextResponse.json({
       observations: staticObservations,
       source: 'static',
