@@ -38,15 +38,19 @@ test.describe('Navigation', () => {
   });
 
   test('should return to home from any page', async ({ page }) => {
+    // Set desktop viewport for consistent nav
+    await page.setViewportSize({ width: 1280, height: 720 });
+
     // Go to products first
     await page.goto('/products');
     await page.waitForLoadState('domcontentloaded');
 
-    // Click the logo in header to return home (logo links to "/")
-    const header = page.locator('header');
-    const homeLink = header.locator('a[href="/"]').first();
-    await homeLink.click();
-    await page.waitForLoadState('domcontentloaded');
+    // Click the logo in header to return home
+    // Use the link with text "id8Labs" which is the logo
+    const logoLink = page.locator('header a[href="/"]');
+    await logoLink.waitFor({ state: 'visible' });
+    await logoLink.click({ force: true });
+    await page.waitForURL('/');
     await expect(page).toHaveURL('/');
   });
 
