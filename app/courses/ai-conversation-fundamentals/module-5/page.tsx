@@ -127,8 +127,8 @@ export default function Module5Page() {
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="text-xl text-[var(--text-secondary)] leading-relaxed mb-6">
                 You've learned the mental models. Now let's see them in practice. Each example shows the before and after—and why the "after" version gets better results.
@@ -157,8 +157,8 @@ export default function Module5Page() {
             <div className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-4 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -174,8 +174,8 @@ export default function Module5Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
@@ -224,8 +224,8 @@ export default function Module5Page() {
             <div className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-4 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -241,8 +241,8 @@ export default function Module5Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
@@ -293,8 +293,8 @@ export default function Module5Page() {
             <div className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-4 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -310,8 +310,8 @@ export default function Module5Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
@@ -365,8 +365,8 @@ export default function Module5Page() {
             <div className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-4 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg"
               >
                 <div className="flex items-center gap-2 mb-3">
@@ -382,8 +382,8 @@ export default function Module5Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
@@ -443,8 +443,8 @@ export default function Module5Page() {
             <div className="space-y-3">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
                 <div className="flex items-start gap-3">
@@ -462,8 +462,8 @@ export default function Module5Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
@@ -482,8 +482,8 @@ export default function Module5Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.2 }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >
@@ -502,8 +502,8 @@ export default function Module5Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.3 }}
                 className="p-4 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-lg"
               >

@@ -108,8 +108,8 @@ export default function Module4Page() {
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="prose prose-lg"
             >
               <p className="text-[var(--text-secondary)] leading-relaxed mb-6">
@@ -140,8 +140,8 @@ export default function Module4Page() {
             <div className="grid md:grid-cols-2 gap-4 mb-8">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-5 bg-[var(--bg-primary)] border border-[var(--border)] rounded-xl"
               >
                 <div className="mb-3">
@@ -158,8 +158,8 @@ export default function Module4Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-5 bg-[var(--bg-primary)] border border-id8-orange/30 rounded-xl"
               >
@@ -197,8 +197,8 @@ export default function Module4Page() {
             <div className="space-y-4">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg"
               >
                 <h3 className="font-bold text-[var(--text-primary)] mb-2">1. Front-load what matters</h3>
@@ -219,8 +219,8 @@ export default function Module4Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg"
               >
@@ -238,8 +238,8 @@ export default function Module4Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.2 }}
                 className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg"
               >
@@ -257,8 +257,8 @@ export default function Module4Page() {
 
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.3 }}
                 className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg"
               >

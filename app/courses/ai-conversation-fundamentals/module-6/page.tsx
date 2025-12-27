@@ -154,7 +154,7 @@ export default function Module6Page() {
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   transition={{ delay: index * 0.1 }}
                   className="flex items-start gap-4 p-4 bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]"
                 >
@@ -186,8 +186,8 @@ export default function Module6Page() {
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="text-xl text-[var(--text-secondary)] leading-relaxed mb-6">
                 Chat interfaces like ChatGPT and Claude.ai are powerful for conversations. But they have limits.
@@ -237,8 +237,8 @@ export default function Module6Page() {
               {/* CTA 1: Free Module 0 */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl hover:border-id8-orange/30 transition-colors"
               >
                 <div className="flex items-start gap-4">
@@ -264,8 +264,8 @@ export default function Module6Page() {
               {/* CTA 2: Full Course */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.1 }}
                 className="p-6 bg-id8-orange/5 border-2 border-id8-orange/30 rounded-xl"
               >
@@ -299,8 +299,8 @@ export default function Module6Page() {
               {/* CTA 3: Services */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 transition={{ delay: 0.2 }}
                 className="p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl hover:border-id8-orange/30 transition-colors"
               >
@@ -354,8 +354,8 @@ export default function Module6Page() {
           <div className="max-w-2xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="inline-flex items-center justify-center w-16 h-16 bg-id8-orange/10 rounded-2xl mb-6">
                 <CheckIcon />
