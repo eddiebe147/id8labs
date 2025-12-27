@@ -7,8 +7,8 @@ export default function Footer() {
       {/* Subtle tropical texture in footer - reduced opacity to not compete with LED background */}
       <div className="absolute inset-0 texture-tropical-dots opacity-20" />
       <div className="container py-12 relative z-10">
-        {/* Four Column Layout */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+        {/* Five Column Layout */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           {/* Column 1: ID8Labs */}
           <div className="col-span-2 md:col-span-1">
             <p className="text-sm font-bold mb-2">
@@ -81,7 +81,21 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Column 4: Connect */}
+          {/* Column 4: Courses */}
+          <div>
+            <h3 className="text-sm font-bold mb-3">Courses</h3>
+            <nav className="flex flex-col gap-2 text-sm">
+              <Link href="/courses/ai-conversation-fundamentals" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors flex items-center gap-1.5">
+                <span className="px-1 py-0.5 text-[8px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
+                AI Fundamentals
+              </Link>
+              <Link href="/courses/claude-for-knowledge-workers" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+                Claude Code Course
+              </Link>
+            </nav>
+          </div>
+
+          {/* Column 5: Connect */}
           <div>
             <h3 className="text-sm font-bold mb-3">Connect</h3>
             <div className="flex flex-col gap-2 text-sm">

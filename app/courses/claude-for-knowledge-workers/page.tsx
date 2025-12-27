@@ -248,6 +248,21 @@ export default function ClaudeForKnowledgeWorkersPage() {
             <motion.p variants={fadeUp} className="mt-4 text-sm text-[var(--text-tertiary)]">
               Module 0 is completely free. No credit card required.
             </motion.p>
+
+            {/* Cross-link to free fundamentals course */}
+            <motion.div variants={fadeUp} className="mt-8 pt-6 border-t border-[var(--border)]">
+              <p className="text-sm text-[var(--text-secondary)]">
+                New to AI conversations?{' '}
+                <Link
+                  href="/courses/ai-conversation-fundamentals"
+                  className="text-green-400 hover:text-green-300 transition-colors inline-flex items-center gap-1"
+                >
+                  <span className="px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-wider bg-green-500 text-white rounded mr-1">Free</span>
+                  Start with AI Fundamentals
+                  <ArrowRightIcon />
+                </Link>
+              </p>
+            </motion.div>
           </motion.div>
         </div>
 

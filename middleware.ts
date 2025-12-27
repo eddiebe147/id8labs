@@ -36,9 +36,14 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protected routes - courses are protected EXCEPT module-0 (free module)
+  // Protected routes - courses are protected EXCEPT:
+  // - module-0 of paid course (free preview)
+  // - entire AI Conversation Fundamentals course (free lead magnet)
   const protectedPaths = ['/courses']
-  const freePaths = ['/courses/claude-for-knowledge-workers/module-0']
+  const freePaths = [
+    '/courses/claude-for-knowledge-workers/module-0',
+    '/courses/ai-conversation-fundamentals',
+  ]
 
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)

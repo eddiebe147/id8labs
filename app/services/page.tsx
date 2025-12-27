@@ -250,6 +250,28 @@ export default function ServicesPage() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
       </section>
 
+      {/* Free Course Banner - AI Conversation Fundamentals */}
+      <section className="py-6 bg-green-500/10 border-y border-green-500/20">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="px-2 py-1 text-xs font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
+              <div>
+                <p className="font-semibold text-[var(--text-primary)]">AI Conversation Fundamentals</p>
+                <p className="text-sm text-[var(--text-secondary)]">Learn the mental models that make every AI interaction more effective — 45 min course</p>
+              </div>
+            </div>
+            <Link
+              href="/courses/ai-conversation-fundamentals"
+              className="btn bg-green-500 text-white hover:bg-green-600 whitespace-nowrap group inline-flex items-center gap-2"
+            >
+              Start Free Course
+              <ArrowRightIcon />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Free Module CTA Banner */}
       <section className="py-6 bg-id8-orange/10 border-y border-id8-orange/20">
         <div className="container">
