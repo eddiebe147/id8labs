@@ -222,6 +222,15 @@ function ModelUsageBar() {
 const staticObservations = [
   // December 2025
   {
+    id: 'ai-fundamentals',
+    date: '2025-12-27',
+    text: "Shipped AI Conversation Fundamentals—a free 6-module course teaching anyone to communicate with AI effectively. 45 minutes from 'write me something' to mastering context, constraints, iteration. No paywall. He wants the mental models accessible to everyone.",
+    category: 'milestone' as const,
+    is_pinned: false,
+    created_at: '2025-12-27T12:00:00Z',
+    updated_at: '2025-12-27T12:00:00Z',
+  },
+  {
     id: 'course-1',
     date: '2025-12-26',
     text: "Built 'Claude Code for Knowledge Workers'—a 6-module course teaching non-programmers to use Claude Code. The core insight: it's not about code, it's about the shift from assistance to delegation. Context + Outcome + Location. He's turning our workflow into curriculum.",
@@ -518,7 +527,7 @@ const claudeCornerAscii = [
   '            ═══ C O R N E R ═══                  ',
 ]
 
-export default function ClaudePartnership() {
+export default function ClaudeCorner() {
   const { observations, isLive: observationsLive } = useObservations()
   const { stats, isLive: statsLive, lastSynced, derivedStats } = useStats()
 
