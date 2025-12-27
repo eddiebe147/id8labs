@@ -242,7 +242,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
                 href="#pricing"
                 className="btn btn-secondary group inline-flex items-center justify-center gap-2"
               >
-                Get Full Course — $197
+                Get Full Course — $99
               </a>
             </motion.div>
             <motion.p variants={fadeUp} className="mt-4 text-sm text-[var(--text-tertiary)]">
@@ -506,18 +506,25 @@ export default function ClaudeForKnowledgeWorkersPage() {
           <div className="max-w-lg mx-auto">
             {/* Full Course Card */}
             <div className="card bg-[var(--bg-secondary)] border-2 border-id8-orange/30 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-id8-orange text-zone-text text-xs font-mono uppercase tracking-wider px-3 py-1">
+              <div className="absolute top-0 right-0 bg-id8-orange text-zone-text text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-bl-lg">
                 Full Access
               </div>
+              <div className="absolute top-0 left-0 bg-green-500 text-white text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-br-lg">
+                Save $98
+              </div>
 
-              <div className="text-center pt-4">
+              <div className="text-center pt-8">
                 <h3 className="text-2xl font-bold mb-2">Complete Course</h3>
-                <p className="text-[var(--text-secondary)] mb-6">
+                <p className="text-[var(--text-secondary)] mb-4">
                   All 6 modules + lifetime updates
+                </p>
+                <p className="text-sm text-green-400 font-mono uppercase tracking-wider mb-4">
+                  Founder's Launch Special
                 </p>
 
                 <div className="mb-6">
-                  <span className="text-5xl font-bold">$197</span>
+                  <span className="text-2xl text-[var(--text-tertiary)] line-through mr-2">$197</span>
+                  <span className="text-5xl font-bold text-id8-orange">$99</span>
                   <span className="text-[var(--text-tertiary)] ml-2">one-time</span>
                 </div>
 

@@ -87,6 +87,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#FF6B35" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      </head>
       <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable}`}>
         <GoogleAnalytics />
         {/* Neural Network Background - "Thoughtful Brain" settings */}
