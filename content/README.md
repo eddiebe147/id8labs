@@ -168,3 +168,34 @@ The social media scheduler reads from:
 
 JSON format for scheduler ingestion available in:
 - `content/social/linkedin/*.json` (generated from .md files)
+
+---
+
+## Integration with Website
+
+Essays in `content/essays/*.mdx` are **automatically rendered** on the website at:
+- List: `id8labs.app/essays`
+- Individual: `id8labs.app/essays/{slug}`
+
+**How it works:**
+1. `lib/mdx-essays.ts` reads MDX files from this directory
+2. `lib/essays.ts` merges them with legacy inline essays
+3. MDX essays take precedence (if same slug exists in both)
+
+**Required frontmatter for essays:**
+```yaml
+---
+title: "Essay Title"           # Required
+subtitle: "Tagline"            # Optional, displayed in header
+date: "YYYY-MM-DD"             # Required for sorting
+author: "Eddie Belaval"        # Optional
+tags: ["tag1", "tag2"]         # Optional, used for category inference
+featured: true                 # Optional
+category: "essay"              # Optional: essay, research, or release
+---
+```
+
+**Auto-generated fields:**
+- `readTime` - calculated from word count (~200 wpm)
+- `excerpt` - extracted from first paragraph
+- `category` - inferred from tags if not specified

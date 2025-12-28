@@ -1,3 +1,5 @@
+import { getMdxEssays, type MdxEssay } from './mdx-essays'
+
 export interface Essay {
   slug: string
   title: string
@@ -1465,16 +1467,32 @@ That's the difference between a demo and a product.
   }
 ]
 
+/**
+ * Get all essays - merges inline essays with MDX file-based essays
+ * MDX essays take precedence (newer content model)
+ */
+function getMergedEssays(): Essay[] {
+  const mdxEssays = getMdxEssays()
+  const mdxSlugs = new Set(mdxEssays.map(e => e.slug))
+
+  // Filter out inline essays that have MDX versions (MDX takes precedence)
+  const uniqueInlineEssays = essays.filter(e => !mdxSlugs.has(e.slug))
+
+  // Merge and sort by date
+  const allEssays = [...mdxEssays, ...uniqueInlineEssays]
+  return allEssays.sort((a, b) =>
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  )
+}
+
 export function getEssayBySlug(slug: string): Essay | undefined {
-  return essays.find(essay => essay.slug === slug)
+  return getMergedEssays().find(essay => essay.slug === slug)
 }
 
 export function getEssaysByCategory(category: Essay['category']): Essay[] {
-  return essays.filter(essay => essay.category === category)
+  return getMergedEssays().filter(essay => essay.category === category)
 }
 
 export function getAllEssays(): Essay[] {
-  return [...essays].sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  )
+  return getMergedEssays()
 }
