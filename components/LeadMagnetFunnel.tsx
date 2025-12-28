@@ -1,10 +1,30 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { trackEvent } from '@/components/Analytics'
 
 type FunnelStep = 'assessment' | 'results' | 'checklist' | 'success'
+
+/**
+ * Routes where the assessment button should NOT appear:
+ * - Course pages (users are already engaged)
+ * - Legal pages (privacy, terms)
+ * - Contact page (has its own CTA)
+ * - Action plans (post-assessment resources)
+ */
+const HIDDEN_ROUTES = [
+  '/courses',      // All course pages and modules
+  '/privacy',      // Legal
+  '/terms',        // Legal
+  '/contact',      // Has its own CTA
+  '/resources/action-plans',  // Post-assessment pages
+]
+
+function shouldShowButton(pathname: string): boolean {
+  return !HIDDEN_ROUTES.some(route => pathname.startsWith(route))
+}
 
 interface AssessmentAnswer {
   question: number
@@ -113,16 +133,24 @@ const getReadinessLevel = (score: number): { level: string; description: string;
 }
 
 export default function LeadMagnetFunnel() {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const [step, setStep] = useState<FunnelStep>('assessment')
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<AssessmentAnswer[]>([])
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const totalScore = answers.reduce((sum, a) => sum + a.score, 0)
   const readiness = getReadinessLevel(totalScore)
+
+  // Don't render on excluded routes
+  if (!shouldShowButton(pathname)) {
+    return null
+  }
 
   const handleAnswer = (score: number) => {
     const newAnswers = [...answers, { question: currentQuestion, score }]
@@ -138,8 +166,6 @@ export default function LeadMagnetFunnel() {
       trackEvent('assessment_complete', 'lead_funnel', getReadinessLevel(finalScore).level, finalScore)
     }
   }
-
-  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -188,35 +214,59 @@ export default function LeadMagnetFunnel() {
 
   return (
     <>
-      {/* Floating CTA Button */}
+      {/* Floating CTA Button - Collapsed by default, expands on hover */}
       <motion.button
         onClick={() => {
           setIsOpen(true)
           trackEvent('assessment_opened', 'lead_funnel', 'floating_button')
         }}
-        className="fixed bottom-6 right-6 z-40 bg-[var(--id8-orange)] text-white px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group text-sm"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="fixed bottom-6 right-6 z-40 bg-[var(--id8-orange)] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center overflow-hidden"
+        style={{
+          padding: isHovered ? '10px 16px' : '12px',
+          gap: isHovered ? '8px' : '0',
+        }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
+        aria-label="Free AI Readiness Check"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="flex-shrink-0">
           <path d="M9 12l2 2 4-4" />
           <circle cx="12" cy="12" r="10" />
         </svg>
-        <span className="font-medium">Free Readiness Check</span>
-        <svg
+        <motion.span
+          className="font-medium text-sm whitespace-nowrap"
+          initial={false}
+          animate={{
+            width: isHovered ? 'auto' : 0,
+            opacity: isHovered ? 1 : 0,
+          }}
+          transition={{ duration: 0.2 }}
+          style={{ overflow: 'hidden' }}
+        >
+          AI Readiness Check
+        </motion.span>
+        <motion.svg
           width="14"
           height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          className="transition-transform group-hover:translate-x-1"
+          initial={false}
+          animate={{
+            width: isHovered ? 14 : 0,
+            opacity: isHovered ? 1 : 0,
+          }}
+          transition={{ duration: 0.2 }}
+          style={{ overflow: 'hidden', flexShrink: 0 }}
         >
           <polyline points="9 18 15 12 9 6" />
-        </svg>
+        </motion.svg>
       </motion.button>
 
       {/* Modal Overlay */}
