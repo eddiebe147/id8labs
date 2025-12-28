@@ -1,0 +1,163 @@
+{
+  "source": {
+    "type": "essay",
+    "title": "The 70% Problem: What AI Coding Courses Don't Tell You",
+    "path": "content/essays/the-70-percent-problem.mdx",
+    "url": "/essays/the-70-percent-problem"
+  },
+  "posts": [
+    {
+      "id": "essay-1-slice-1",
+      "title": "The Hook",
+      "scheduledDay": 1,
+      "format": "text",
+      "pillar": "thought-leadership",
+      "content": "There's a moment every developer using AI hits.\n\nYou've been flying. Claude just scaffolded an entire feature in minutes. The code looks clean. The logic makes sense.\n\nYou're thinking, \"This is it. This is the 10x productivity everyone promised.\"\n\nThen you run it.\n\nAnd it almost works. Almost.\n\nThe first 70% happens shockingly fast.\nThe last 30% takes longer than writing the whole thing from scratch.\n\nThis is the 70% Problem.\n\nAnd until you understand it, AI coding tools will make you FEEL productive while actually slowing you down.\n\n(Full essay in comments 👇)",
+      "cta": {
+        "type": "link",
+        "text": "Full essay: id8labs.app/essays/the-70-percent-problem",
+        "placement": "comment"
+      },
+      "hashtags": ["#AI", "#ClaudeCode", "#SoftwareDevelopment", "#BuildInPublic", "#TechFounders"],
+      "metrics": {
+        "targetEngagement": 0.05,
+        "viralPotential": "medium"
+      }
+    },
+    {
+      "id": "essay-1-slice-2",
+      "title": "The Data",
+      "scheduledDay": 3,
+      "format": "text",
+      "pillar": "thought-leadership",
+      "content": "A research study tracked experienced developers using AI coding assistants on real tasks.\n\nThe results were wild:\n\n→ Developers PREDICTED they'd be 24% faster\n→ Developers FELT 20% faster while working\n→ Developers were actually 19% SLOWER\n\nRead that again. They felt faster. They measured slower.\n\n90% of engineering teams now use AI tools.\nOnly 16.3% report significant productivity gains.\n41.4% say AI has \"little or no effect.\"\n\nThese numbers aren't anti-AI propaganda.\n\nThey're a signal that we're using these tools wrong.\n\nThe dopamine hit of instant code generation masks the reality of slower delivery.\n\nWhat's your experience? Faster or slower?",
+      "cta": {
+        "type": "engagement",
+        "text": "Poll: Has AI made you faster or slower?",
+        "placement": "inline"
+      },
+      "hashtags": ["#AI", "#DeveloperProductivity", "#ClaudeCode", "#TechTruth", "#SoftwareEngineering"],
+      "metrics": {
+        "targetEngagement": 0.06,
+        "viralPotential": "high"
+      }
+    },
+    {
+      "id": "essay-1-slice-3",
+      "title": "The Knowledge Paradox",
+      "scheduledDay": 5,
+      "format": "text",
+      "pillar": "thought-leadership",
+      "content": "Here's the part that breaks the \"AI democratizes coding\" narrative:\n\nAI helps experienced developers MORE than beginners.\n\nThis seems backwards. Surely the people who need help most would benefit most?\n\nBut the data shows the opposite.\n\nWhy?\n\nExperienced developers use AI to accelerate what they already know. They spot when Claude's suggestion is slightly off. They know which patterns work in production.\n\nBeginners use AI to REPLACE what they should be learning. They accept suggestions they don't understand. When the 70% breaks, they can't fix it.\n\nThe cruel irony: the people who need AI most are the people it helps least.\n\nThis is why \"learn to code with AI\" courses often backfire.\n\nYou need the fundamentals FIRST. Then AI becomes a multiplier instead of a crutch.",
+      "cta": {
+        "type": "engagement",
+        "text": "Agree or disagree?",
+        "placement": "inline"
+      },
+      "hashtags": ["#AI", "#LearnToCode", "#ClaudeCode", "#DeveloperLife", "#TechEducation"],
+      "metrics": {
+        "targetEngagement": 0.05,
+        "viralPotential": "high"
+      }
+    },
+    {
+      "id": "essay-1-slice-4",
+      "title": "4 Ways to Beat the 70% Problem",
+      "scheduledDay": 7,
+      "format": "carousel",
+      "pillar": "claude-code-tips",
+      "slides": [
+        {
+          "slideNumber": 1,
+          "type": "cover",
+          "headline": "4 Ways to Beat the 70% Problem",
+          "subheadline": "The AI coding trap that makes you feel fast but ship slow"
+        },
+        {
+          "slideNumber": 2,
+          "type": "content",
+          "headline": "#1: Stop Chasing 100%",
+          "body": "Let Claude scaffold the boilerplate.\nYOU write the business logic.\n\nLet Claude generate test structure.\nYOU define what needs testing.\n\nThe goal isn't AI writing everything.\nIt's AI doing parts that don't need your judgment."
+        },
+        {
+          "slideNumber": 3,
+          "type": "content",
+          "headline": "#2: Treat Output as a Draft",
+          "body": "Every line of AI code should be read as if a junior developer wrote it.\n\nBecause that's essentially what happened—a very fast junior with no context about your situation.\n\nReview it. Question it. Don't copy-paste and pray."
+        },
+        {
+          "slideNumber": 4,
+          "type": "content",
+          "headline": "#3: Build the Last 30% First",
+          "body": "Before asking Claude to write anything, write down:\n• Edge cases specific to your system\n• Integration points that burned you before\n• Security requirements that aren't negotiable\n\nTHEN ask Claude to write with those constraints."
+        },
+        {
+          "slideNumber": 5,
+          "type": "content",
+          "headline": "#4: Use AI for Exploration, Not Production",
+          "body": "AI is brilliant for: \"How might I approach this?\"\nAI is dangerous for: \"What exactly should I ship?\"\n\nExplore architectures with Claude.\nWrite the implementation yourself."
+        },
+        {
+          "slideNumber": 6,
+          "type": "cta",
+          "headline": "The 70% is free.",
+          "subheadline": "The 30% is where you earn it.",
+          "ctaText": "Full essay: id8labs.app/essays/the-70-percent-problem"
+        }
+      ],
+      "cta": {
+        "type": "link",
+        "text": "Which tip are you trying first? Comment 1, 2, 3, or 4",
+        "placement": "caption"
+      },
+      "hashtags": ["#AI", "#ClaudeCode", "#ProductivityTips", "#SoftwareDevelopment", "#BuildInPublic"],
+      "metrics": {
+        "targetEngagement": 0.07,
+        "viralPotential": "high"
+      }
+    },
+    {
+      "id": "essay-1-slice-5",
+      "title": "The Uncomfortable Truth",
+      "scheduledDay": 9,
+      "format": "text",
+      "pillar": "thought-leadership",
+      "content": "The 70% Problem isn't going away.\n\nIt's not a bug that will be fixed in the next release. It's fundamental to how these systems work.\n\nLarge language models predict plausible next tokens. They're trained on the common case. They don't understand:\n\n• Your specific constraints\n• Your users\n• Your technical debt\n• Your business rules\n\nThe 70% is everything general.\nThe 30% is everything specific to YOU.\n\nAnd the specific stuff? That's where the value is. That's what makes your product actually work. That's what you get paid for.\n\nMost developers are chasing 100% from AI and getting burned by the 30%.\n\nIf you learn to use AI as augmentation instead of replacement—you'll have a genuine competitive advantage.\n\nNot because you're faster at generating code.\n\nBecause you're faster at shipping code that actually works.",
+      "cta": {
+        "type": "engagement",
+        "text": "What's the hardest 30% in your current project?",
+        "placement": "inline"
+      },
+      "hashtags": ["#AI", "#TechTruth", "#SoftwareEngineering", "#ClaudeCode", "#ProductDevelopment"],
+      "metrics": {
+        "targetEngagement": 0.05,
+        "viralPotential": "medium"
+      }
+    },
+    {
+      "id": "essay-1-slice-6",
+      "title": "Security Stats",
+      "scheduledDay": 11,
+      "format": "text",
+      "pillar": "thought-leadership",
+      "content": "AI-generated code has:\n\n→ 322% more privilege escalation paths\n→ 153% more design flaws\n→ 40% increase in secrets exposure\n\nSpeed without security is technical debt with interest.\n\nThis is why \"vibe coding\" terrifies me.\n\nYes, AI can scaffold a full feature in minutes.\nBut if nobody reviews the output critically?\n\nYou're shipping vulnerabilities at 10x speed.\n\nThe fix isn't \"don't use AI.\"\n\nThe fix is treating AI output like code from a fast junior developer who doesn't know your security requirements.\n\nReview it. Question it. Don't trust it blindly.",
+      "cta": {
+        "type": "engagement",
+        "text": "Have you found security issues in AI-generated code?",
+        "placement": "inline"
+      },
+      "hashtags": ["#AI", "#CyberSecurity", "#SecureCoding", "#ClaudeCode", "#DevSecOps"],
+      "metrics": {
+        "targetEngagement": 0.06,
+        "viralPotential": "high"
+      }
+    }
+  ],
+  "metadata": {
+    "createdAt": "2025-12-27",
+    "totalPosts": 6,
+    "scheduleSpan": "11 days",
+    "primaryCta": "/essays/the-70-percent-problem",
+    "secondaryCta": "/courses/ai-conversation-fundamentals"
+  }
+}
