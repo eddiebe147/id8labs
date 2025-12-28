@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion } from '@/components/motion'
 import { getAllEssays, type Essay } from '@/lib/essays'
 import { useState } from 'react'
 

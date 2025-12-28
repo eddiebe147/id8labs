@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView } from '@/components/motion'
 import { useRef, useState, useEffect } from 'react'
 
 // Section data for navigation

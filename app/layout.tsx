@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import { NeuralNetworkBg } from '@/components/foundation/neural-network-bg'
 import { GoogleAnalytics } from '@/components/Analytics'
 import LeadMagnetFunnel from '@/components/LeadMagnetFunnel'
+import { MotionProvider } from '@/components/motion'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -107,14 +108,16 @@ export default function RootLayout({
         />
 
         <ThemeProvider>
-          <div className="relative" style={{ zIndex: 1 }}>
-            <Header />
-            <main className="min-h-screen">
-              {children}
-            </main>
-            <Footer />
-          </div>
-          <LeadMagnetFunnel />
+          <MotionProvider>
+            <div className="relative" style={{ zIndex: 1 }}>
+              <Header />
+              <main className="min-h-screen">
+                {children}
+              </main>
+              <Footer />
+            </div>
+            <LeadMagnetFunnel />
+          </MotionProvider>
         </ThemeProvider>
       </body>
     </html>

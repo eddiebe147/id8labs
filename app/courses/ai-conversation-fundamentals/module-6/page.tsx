@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from '@/components/motion'
 import Link from 'next/link'
 import EmailCapture from '@/components/EmailCapture'
 import CourseFeedback from '@/components/CourseFeedback'
