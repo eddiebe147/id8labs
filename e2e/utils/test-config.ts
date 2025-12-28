@@ -30,12 +30,13 @@ export const testConfig = {
 
   /**
    * Timeouts configuration
+   * Increased for production testing where network latency is higher
    */
   timeouts: {
     navigation: 30000,
     action: 10000,
-    assertion: 5000,
-    animation: 1000,
+    assertion: 10000,
+    animation: 1500, // Increased for animation-heavy pages
   },
 
   /**

@@ -26,10 +26,12 @@ export abstract class BasePage {
   }
 
   /**
-   * Wait for page to fully load (network idle + animations)
+   * Wait for page to fully load (DOM content + animations)
+   * Note: Using domcontentloaded instead of networkidle for better reliability
+   * networkidle is flaky with animated content and background processes
    */
   async waitForPageLoad() {
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('domcontentloaded');
     // Wait for any initial animations to settle
     await this.page.waitForTimeout(testConfig.timeouts.animation);
   }
