@@ -130,6 +130,7 @@ Research → Essay → Social Slices → Scheduler
 
 **LinkedIn Slices:**
 - ✅ Essay 1 slices (6 posts)
+- ✅ Essay 1 schedule manifest (ready for automation)
 
 **Research:**
 - ✅ AI Dev Tools Market Research 2025
@@ -166,8 +167,32 @@ The social media scheduler reads from:
 - `content/social/linkedin/*.md` (or `.json` when formatted)
 - `content/calendar/*.md` for timing
 
-JSON format for scheduler ingestion available in:
-- `content/social/linkedin/*.json` (generated from .md files)
+### Scheduling Files
+
+| File | Purpose |
+|------|---------|
+| `essay-1-posts.json` | Source content (6 posts with text, hashtags, CTAs) |
+| `essay-1-schedule.json` | Machine-readable schedule with exact dates/times |
+| `SCHEDULING_MANIFEST.md` | Human-readable agent instructions |
+
+### Agent Workflow
+1. Agent reads `SCHEDULING_MANIFEST.md` for instructions
+2. Agent uses `essay-1-schedule.json` for exact timing
+3. Posts go out automatically on schedule
+4. Eddie handles engagement manually
+
+### Schedule Structure (JSON)
+```json
+{
+  "schedule": {
+    "date": "2025-01-06",
+    "time": "09:00",
+    "dayOfWeek": "Monday"
+  },
+  "content": "...",
+  "firstComment": { "required": true, "content": "..." }
+}
+```
 
 ---
 
