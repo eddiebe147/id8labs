@@ -434,7 +434,7 @@ export function NeuralNetworkBg({
       cancelAnimationFrame(animationId)
       window.removeEventListener('resize', resize)
     }
-  }, [isClient, neuronCount, connectionDensity, rotationSpeed, fireRate, orangeIntensity])
+  }, [isClient, neuronCount, connectionDensity, rotationSpeed, fireRate, orangeIntensity, parallaxFactor])
 
   if (!isClient) {
     return <div className={`fixed inset-0 ${className}`} style={{ background: COLORS.background }} />

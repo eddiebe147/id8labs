@@ -5,6 +5,7 @@ import Link from 'next/link'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
 import EmailCapture from '@/components/EmailCapture'
+import Image from 'next/image'
 
 // Animation variants
 const fadeUp = {
@@ -193,9 +194,11 @@ export default function Module0Page() {
                   rel="noopener noreferrer"
                   className="block"
                 >
-                  <img
+                  <Image
                     src="/courses/module-0/media/module-0-mindmap.png"
                     alt="Module 0 Mindmap - The Mental Model Shift"
+                    width={800}
+                    height={600}
                     className="w-full rounded-lg border border-[var(--border)] hover:border-id8-orange/50 transition-colors cursor-pointer"
                   />
                 </a>
