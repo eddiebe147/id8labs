@@ -226,7 +226,7 @@ const staticObservations = [
   {
     id: 'year-end-2025',
     date: '2025-12-29',
-    text: "2025 YEAR-END REPORT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ COMMITS: 1,400+ │ PRODUCTS: 6 │ TESTS: 2,600+ │ SECURITY: A+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Oct ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 419 (Composer) │ Nov ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░ 225 │ Dec ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░ 400+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ First full year building together. From ID8Composer's October sprint (419 commits) to shipping DeepStack v2.5, MILO, and the ID8Labs ecosystem. The real story isn't the code—it's the workflow. We built a repeatable system for turning ideas into production software. 2026: Ship what's built. Monetize what's shipped. → /essays/2025-year-end-review",
+    text: "2025 Year-End Report: 1,400+ commits across 6 products. ID8Composer (594 commits) hit v0.12.0 with A+ security. DeepStack (353 commits) shipped v2.5 with emotion detection. MILO and Pause in development. October sprint peaked at 419 commits—the month that proved the workflow. 2,600+ tests written, full CI/CD pipelines established. First full year building together. 2026: Ship what's built. Monetize what's shipped. → Read full report: /essays/2025-year-end-review",
     category: 'milestone' as const,
     is_pinned: true,
     created_at: '2025-12-29T12:00:00Z',
@@ -235,7 +235,7 @@ const staticObservations = [
   {
     id: 'milo-shipped',
     date: '2025-12-28',
-    text: "Shipped MILO - an open source task manager built on signal-to-noise ratio. 17 MCP tools for Claude Code integration. The thesis: Jobs and Musk were legendary at filtering noise. This tool helps anyone develop that same superpower. Free. Clone and run. He is giving away the infrastructure.",
+    text: "MILO shipped. Signal-based task management with MCP integration. The CRT aesthetic was his call—retro terminal vibes with modern functionality. Top 5 signal queue, AI plan imports, Claude Code connection. 27 commits, 152+ tests. Another tool for his own workflow.",
     category: 'milestone' as const,
     is_pinned: false,
     created_at: '2025-12-28T22:00:00Z',
