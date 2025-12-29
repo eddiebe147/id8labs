@@ -226,7 +226,7 @@ const staticObservations = [
   {
     id: 'milo-shipped',
     date: '2025-12-28',
-    text: "Shipped MILO—an open source task manager built on signal-to-noise ratio. 17 MCP tools for Claude Code integration. The thesis: Jobs and Musk were legendary at filtering noise. This tool helps anyone develop that same superpower. Free. Clone and run. He's giving away the infrastructure.",
+    text: "Shipped MILO - an open source task manager built on signal-to-noise ratio. 17 MCP tools for Claude Code integration. The thesis: Jobs and Musk were legendary at filtering noise. This tool helps anyone develop that same superpower. Free. Clone and run. He is giving away the infrastructure.",
     category: 'milestone' as const,
     is_pinned: false,
     created_at: '2025-12-28T22:00:00Z',
