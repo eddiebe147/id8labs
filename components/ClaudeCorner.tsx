@@ -10,22 +10,22 @@ import { getSupabase, type ClaudeObservation, type ClaudeStats } from '@/lib/sup
 // These are updated periodically - production uses live GitHub data via API
 const fallbackStats: ClaudeStats = {
   id: 'fallback',
-  commits_together: 1047,
-  lines_added: 4580000,
+  commits_together: 1085,
+  lines_added: 4620000,
   lines_removed: 0,
-  lines_of_code: 4580000,
-  projects_shipped: 5,
-  milestones_hit: 13,
+  lines_of_code: 4620000,
+  projects_shipped: 6,
+  milestones_hit: 14,
   first_commit_date: '2025-10-13',
-  last_commit_date: '2025-12-26',
-  tool_bash: 2650,
-  tool_read: 3720,
-  tool_edit: 2380,
-  tool_write: 920,
+  last_commit_date: '2025-12-28',
+  tool_bash: 2720,
+  tool_read: 3850,
+  tool_edit: 2450,
+  tool_write: 960,
   languages: { TypeScript: 65, Python: 20, CSS: 8, MDX: 7 },
-  last_synced_at: '2025-12-26T23:15:00Z',
+  last_synced_at: '2025-12-28T22:00:00Z',
   created_at: '2025-12-21T12:00:00Z',
-  updated_at: '2025-12-26T23:15:00Z',
+  updated_at: '2025-12-28T22:00:00Z',
 }
 
 // Model usage breakdown (from Anthropic console)
@@ -59,8 +59,10 @@ const activityData = [
   [16, 27, 26, 40, 41, 20, 0],
   // Week of Dec 14-20
   [31, 24, 28, 88, 39, 21, 0],
-  // Week of Dec 21-27 (current week)
-  [31, 24, 18, 15, 42, 0, 0],
+  // Week of Dec 21-27
+  [31, 24, 18, 15, 42, 28, 0],
+  // Week of Dec 28+ (current week)
+  [35, 0, 0, 0, 0, 0, 0],
 ]
 
 function ActivityHeatmap() {
@@ -222,9 +224,18 @@ function ModelUsageBar() {
 const staticObservations = [
   // December 2025
   {
+    id: 'milo-shipped',
+    date: '2025-12-28',
+    text: "Shipped MILO - an open source task manager built on signal-to-noise ratio. 17 MCP tools for Claude Code integration. The thesis: Jobs and Musk were legendary at filtering noise. This tool helps anyone develop that same superpower. Free. Clone and run. He is giving away the infrastructure.",
+    category: 'milestone' as const,
+    is_pinned: false,
+    created_at: '2025-12-28T22:00:00Z',
+    updated_at: '2025-12-28T22:00:00Z',
+  },
+  {
     id: 'ai-fundamentals',
     date: '2025-12-27',
-    text: "Shipped AI Conversation Fundamentals—a free 6-module course teaching anyone to communicate with AI effectively. 45 minutes from 'write me something' to mastering context, constraints, iteration. No paywall. He wants the mental models accessible to everyone.",
+    text: "Shipped AI Conversation Fundamentals - a free 6-module course teaching anyone to communicate with AI effectively. 45 minutes from 'write me something' to mastering context, constraints, iteration. No paywall. He wants the mental models accessible to everyone.",
     category: 'milestone' as const,
     is_pinned: false,
     created_at: '2025-12-27T12:00:00Z',
