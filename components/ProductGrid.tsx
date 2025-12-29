@@ -120,6 +120,15 @@ const products: Product[] = [
     link: '/products/xplace',
     category: 'fun',
   },
+  // OPEN SOURCE
+  {
+    name: 'MILO',
+    status: 'internal',
+    statusLabel: 'Open Source • Free',
+    description: 'Signal-to-noise task manager with Claude Code integration. Jobs/Musk-level filtering. 17 MCP tools for natural language task management.',
+    link: '/products/milo',
+    category: 'builders',
+  },
 ]
 
 function FeaturedCard({ product, index }: { product: Product; index: number }) {

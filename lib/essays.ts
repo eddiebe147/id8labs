@@ -14,6 +14,155 @@ export interface Essay {
 
 export const essays: Essay[] = [
   {
+    slug: 'why-i-built-milo',
+    title: 'Why I Built MILO: A Signal-Based Approach to Task Management',
+    subtitle: 'Developing Jobs/Musk-level signal-to-noise ratio for shipping at scale',
+    date: '2025-12-28',
+    category: 'essay',
+    readTime: '7 min read',
+    excerpt: 'Todo lists are fundamentally broken. They show you everything at once, treating a quick email reply the same as a project that will define your quarter. MILO applies signal-to-noise filtering to help you ship like Jobs and Musk.',
+    content: `# Why I Built MILO: A Signal-Based Approach to Task Management
+
+**Author:** Eddie Belaval, Founder @ ID8Labs
+**Published:** December 28, 2025
+
+---
+
+## The Problem Nobody Talks About
+
+Todo lists are fundamentally broken.
+
+Not because they don't work—they do, technically. The problem is they work *too well* at one thing: making you feel overwhelmed. Every productivity app I've used has the same fatal flaw: they show you everything at once, treating a quick email reply the same as a project that will define your quarter.
+
+After 20 years in TV production—managing shows where a missed deadline means blown budgets and angry networks—I realized that the tools we use for personal productivity have learned nothing from how professionals actually work under pressure.
+
+## The Signal-to-Noise Revelation
+
+In audio engineering, there's a concept called the Signal-to-Noise Ratio (S/N). It measures how much useful signal exists compared to background noise. The higher the ratio, the cleaner the transmission.
+
+Steve Jobs and Elon Musk are legendary for this exact skill—ruthlessly filtering signal from noise at scale. Jobs killed hundreds of products to focus on four. Musk runs five companies by ignoring everything that doesn't move the mission forward. Their superpower isn't working harder—it's filtering better. MILO helps you develop that same Jobs/Musk-level signal-to-noise ratio, so you can ship at scale without drowning in noise.
+
+I started thinking: what if we applied this to task management?
+
+**Signal** = Actions that directly advance your goals
+**Noise** = Everything else fighting for your attention
+
+Most todo apps are noise amplifiers. They dutifully collect every task, every idea, every "I should probably..." thought—and then dump them all in front of you. The result? Paralysis. You spend more time organizing tasks than doing them.
+
+## Enter MILO: Mission Intelligence Life Operator
+
+MILO is the task manager I wished existed. It operates on a simple principle: **show only what matters right now.**
+
+### The Signal Queue
+
+Instead of endless lists, MILO surfaces your top 5 priorities. That's it. In-progress tasks first, then the highest priority pending items. Everything else goes to the backlog—organized, accessible, but out of your immediate attention.
+
+This isn't about having fewer tasks. It's about seeing fewer tasks *at once*.
+
+### Categories as Projects
+
+Tasks don't exist in isolation. They belong to projects, life areas, goals. MILO's category system lets you group related work with custom colors and drag-to-reorder organization. But here's the key: categories help you *organize*, not *overwhelm*.
+
+### Work Tracking for Multi-Day Tasks
+
+Real work rarely fits in a single session. MILO tracks estimated days vs. actual days worked, giving you honest feedback about how long things really take—not how long you *think* they take.
+
+## Why Claude Code Integration Changed Everything
+
+Here's where MILO becomes something special.
+
+As a developer, I live in my terminal. Switching to a GUI to manage tasks breaks flow. So I built an MCP (Model Context Protocol) server that lets Claude Code manage MILO directly:
+
+\\\`\\\`\\\`
+"Create a task called 'Refactor auth module' with priority 1"
+"Show me my signal queue"
+"Mark the database migration task complete"
+\\\`\\\`\\\`
+
+17 tools. Natural language. Zero context switching.
+
+When I'm deep in code and remember something I need to do, I tell Claude. Task created. Back to coding. The friction disappeared.
+
+## The Technical Details (For Fellow Builders)
+
+MILO is built with:
+- **Electron + React + TypeScript** for the desktop app
+- **SQLite via better-sqlite3** for local-first data
+- **@modelcontextprotocol/sdk** for Claude Code integration
+- **TailwindCSS + Zod** for clean UI and validation
+
+The MCP server exposes:
+- 11 task management tools (CRUD, lifecycle, signal queue, work tracking)
+- 6 category management tools (projects, organization, reordering)
+- 4 read-only resources (signal queue, backlog, categories, today's tasks)
+
+Both the Electron app and MCP server share the same SQLite database. Changes from either appear instantly in both.
+
+## What's Next
+
+MILO is just getting started. On the roadmap:
+- **Activity monitoring** - MILO will know when you've drifted off-task
+- **Smart nudges** - Gentle reminders that respect your flow
+- **Time blocking integration** - Connect signal queue to your calendar
+- **Goal tracking** - Tasks roll up into objectives, objectives into milestones
+
+The vision is a system that doesn't just store your tasks—it actively helps you stay on mission.
+
+## The Philosophy
+
+Every productivity tool promises to help you do more. MILO is different. It's designed to help you do *what matters*.
+
+The goal isn't to check more boxes. It's to check the right boxes.
+
+That's the signal.
+
+---
+
+## Get MILO
+
+MILO is open source and free. Clone it, build it, use it.
+
+### Quick Start
+
+\\\`\\\`\\\`bash
+# Clone the repo
+git clone https://github.com/eddiebe147/milo.git
+cd milo
+
+# Install dependencies
+npm install
+
+# Build and run
+npm run build
+npm start
+\\\`\\\`\\\`
+
+### Claude Code Integration
+
+Add MILO as an MCP server in your Claude Code config:
+
+\\\`\\\`\\\`json
+{
+  "mcpServers": {
+    "milo": {
+      "command": "node",
+      "args": ["/path/to/milo/mcp-server/dist/index.js"]
+    }
+  }
+}
+\\\`\\\`\\\`
+
+Then just talk to Claude: "Show my signal queue" or "Create a task for..."
+
+---
+
+**GitHub:** [eddiebe147/milo](https://github.com/eddiebe147/milo)
+
+---
+
+*Eddie Belaval is the founder of ID8Labs, building professional tools for the AI era. Previously a producer on 90 Day Fiancé and other reality TV series.*`
+  },
+  {
     slug: 'ai-conversation-fundamentals-free-course',
     title: 'We Just Shipped a Free Course on Talking to AI',
     subtitle: 'AI Conversation Fundamentals: 45 minutes to transform how you work with AI',
