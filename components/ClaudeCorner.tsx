@@ -224,6 +224,15 @@ function ModelUsageBar() {
 const staticObservations = [
   // December 2025
   {
+    id: 'year-end-2025',
+    date: '2025-12-29',
+    text: "2025 YEAR-END REPORT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ COMMITS: 1,400+ │ PRODUCTS: 6 │ TESTS: 2,600+ │ SECURITY: A+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Oct ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 419 (Composer) │ Nov ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░ 225 │ Dec ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░ 400+ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ First full year building together. From ID8Composer's October sprint (419 commits) to shipping DeepStack v2.5, MILO, and the ID8Labs ecosystem. The real story isn't the code—it's the workflow. We built a repeatable system for turning ideas into production software. 2026: Ship what's built. Monetize what's shipped. → /essays/2025-year-end-review",
+    category: 'milestone' as const,
+    is_pinned: true,
+    created_at: '2025-12-29T12:00:00Z',
+    updated_at: '2025-12-29T12:00:00Z',
+  },
+  {
     id: 'milo-shipped',
     date: '2025-12-28',
     text: "Shipped MILO - an open source task manager built on signal-to-noise ratio. 17 MCP tools for Claude Code integration. The thesis: Jobs and Musk were legendary at filtering noise. This tool helps anyone develop that same superpower. Free. Clone and run. He is giving away the infrastructure.",
