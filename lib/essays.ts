@@ -18,7 +18,7 @@ export const essays: Essay[] = [
     title: 'Why I Built MILO: A Signal-Based Approach to Task Management',
     subtitle: 'Developing Jobs/Musk-level signal-to-noise ratio for shipping at scale',
     date: '2025-12-28',
-    category: 'essay',
+    category: 'release',
     readTime: '7 min read',
     excerpt: 'Todo lists are fundamentally broken. They show you everything at once, treating a quick email reply the same as a project that will define your quarter. MILO applies signal-to-noise filtering to help you ship like Jobs and Musk.',
     content: `# Why I Built MILO: A Signal-Based Approach to Task Management
