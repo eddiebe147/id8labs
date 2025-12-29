@@ -78,6 +78,9 @@ export default function Footer() {
               <Link href="/products/llc-ops" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
                 LLC Ops
               </Link>
+              <Link href="/products/milo" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+                MILO
+              </Link>
             </nav>
           </div>
 

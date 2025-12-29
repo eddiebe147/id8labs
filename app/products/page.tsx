@@ -56,6 +56,14 @@ const creatorProducts: Product[] = [
 // FOR BUILDERS - AI orchestration for solo builders
 const builderProducts: Product[] = [
   {
+    name: 'MILO',
+    status: 'internal',
+    tagline: 'Signal-to-noise task manager',
+    description:
+      'Jobs/Musk-level signal filtering with Claude Code integration. 17 MCP tools for natural language task management. Open source.',
+    link: '/products/milo',
+  },
+  {
     name: 'Pipeline',
     status: 'internal',
     tagline: 'Idea-to-exit in 11 stages',
