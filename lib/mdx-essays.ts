@@ -7,6 +7,7 @@ export interface MdxEssay {
   title: string
   subtitle?: string
   date: string
+  publishDate?: string  // Optional: schedule for future publication (YYYY-MM-DD)
   category: 'research' | 'release' | 'essay'
   readTime: string
   excerpt: string
@@ -18,6 +19,23 @@ export interface MdxEssay {
 }
 
 const ESSAYS_DIR = path.join(process.cwd(), 'content', 'essays')
+
+/**
+ * Check if an essay should be published based on publishDate
+ * If no publishDate is set, the essay is published immediately
+ * If publishDate is in the future, the essay is hidden until that date
+ */
+function isPublished(publishDate?: string): boolean {
+  if (!publishDate) return true  // No publishDate = publish immediately
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)  // Compare dates only, not times
+
+  const pubDate = new Date(publishDate)
+  pubDate.setHours(0, 0, 0, 0)
+
+  return pubDate <= today
+}
 
 /**
  * Calculate read time based on word count (~200 words per minute)
@@ -92,12 +110,20 @@ export function getMdxEssays(): MdxEssay[] {
       // Generate slug from filename (remove extension)
       const slug = filename.replace(/\.(mdx|md)$/, '')
 
+      // Check if essay should be published (based on publishDate)
+      const publishDate = frontmatter.publishDate
+      if (!isPublished(publishDate)) {
+        // Skip essays scheduled for future publication
+        continue
+      }
+
       // Map frontmatter to Essay interface
       const essay: MdxEssay = {
         slug,
         title: frontmatter.title || 'Untitled',
         subtitle: frontmatter.subtitle,
         date: frontmatter.date || new Date().toISOString().split('T')[0],
+        publishDate: publishDate,
         category: frontmatter.category || inferCategory(frontmatter.tags),
         readTime: frontmatter.readTime || calculateReadTime(content),
         excerpt: frontmatter.excerpt || extractExcerpt(content),

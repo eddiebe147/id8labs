@@ -17,9 +17,9 @@ export const essays: Essay[] = [
     slug: 'why-i-built-milo',
     title: 'Why I Built MILO: A Signal-Based Approach to Task Management',
     subtitle: 'Developing Jobs/Musk-level signal-to-noise ratio for shipping at scale',
-    date: '2025-12-28',
+    date: '2025-12-29',
     category: 'release',
-    readTime: '7 min read',
+    readTime: '9 min read',
     excerpt: 'Todo lists are fundamentally broken. They show you everything at once, treating a quick email reply the same as a project that will define your quarter. MILO applies signal-to-noise filtering to help you ship like Jobs and Musk.',
     content: `# Why I Built MILO: A Signal-Based Approach to Task Management
 
@@ -83,6 +83,31 @@ As a developer, I live in my terminal. Switching to a GUI to manage tasks breaks
 
 When I'm deep in code and remember something I need to do, I tell Claude. Task created. Back to coding. The friction disappeared.
 
+## Recent Updates: The Polish Pass
+
+MILO just went through a major refinement phase. Here's what's new:
+
+### CRT-Inspired UI
+The interface now has that vintage terminal feel—curved screen edges, subtle scanline effects, and theme customization. It's not just aesthetic. The warm CRT glow reduces eye strain during long focus sessions.
+
+### Command Palette (Cmd+K)
+Full keyboard navigation. Jump between projects, create tasks, search everything—all without touching the mouse. Power users stay in flow.
+
+### Drag-and-Drop Everything
+Projects. Tasks. Categories. All reorderable with virtual scrolling for performance. Your organizational structure is whatever you want it to be.
+
+### Task Execution Modal
+Hit the launch button and MILO shows you exactly what's happening. Color-coded output, real-time progress, clear success/failure states. No more wondering if your task is running.
+
+### Chat with Persistent History
+Built-in AI chat with typewriter effect and full history. Your conversations persist across sessions. Context carries forward.
+
+### Settings That Matter
+Theme customization, API key management, preference controls. All in one clean settings page. No more digging through config files.
+
+### 355 Tests Passing
+Unit tests, E2E tests, API contract tests. 98%+ coverage on critical paths. MILO doesn't ship broken.
+
 ## The Technical Details (For Fellow Builders)
 
 MILO is built with:
@@ -90,6 +115,7 @@ MILO is built with:
 - **SQLite via better-sqlite3** for local-first data
 - **@modelcontextprotocol/sdk** for Claude Code integration
 - **TailwindCSS + Zod** for clean UI and validation
+- **Vitest + Playwright** for comprehensive testing
 
 The MCP server exposes:
 - 11 task management tools (CRUD, lifecycle, signal queue, work tracking)

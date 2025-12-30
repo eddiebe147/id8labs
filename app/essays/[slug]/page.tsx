@@ -4,6 +4,9 @@ import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import { getEssayBySlug, getAllEssays } from '@/lib/essays'
 
+// Revalidate every hour to pick up scheduled posts
+export const revalidate = 3600  // 1 hour in seconds
+
 export function generateStaticParams() {
   return getAllEssays().map((essay) => ({
     slug: essay.slug,

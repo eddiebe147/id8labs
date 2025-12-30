@@ -213,10 +213,26 @@ Essays in `content/essays/*.mdx` are **automatically rendered** on the website a
 title: "Essay Title"           # Required
 subtitle: "Tagline"            # Optional, displayed in header
 date: "YYYY-MM-DD"             # Required for sorting
+publishDate: "YYYY-MM-DD"      # Optional: schedule for future publication
 author: "Eddie Belaval"        # Optional
 tags: ["tag1", "tag2"]         # Optional, used for category inference
 featured: true                 # Optional
 category: "essay"              # Optional: essay, research, or release
+---
+```
+
+**Scheduled Publishing:**
+- If `publishDate` is omitted, essay publishes immediately on deploy
+- If `publishDate` is set to a future date, essay is hidden until that date
+- Site revalidates hourly via Vercel ISR to pick up newly-published essays
+- Use `date` for display/sorting, `publishDate` for scheduling
+
+**Example scheduled post:**
+```yaml
+---
+title: "2026 Resolution"
+date: "2026-01-01"             # Display date
+publishDate: "2026-01-01"      # Won't appear until Jan 1, 2026
 ---
 ```
 
