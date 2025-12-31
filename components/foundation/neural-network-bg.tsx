@@ -109,30 +109,52 @@ export function NeuralNetworkBg({
   }, [])
 
   // Parallax scroll effect + zoom
+  // Uses RAF to batch updates and avoid layout thrashing (INP optimization)
   useEffect(() => {
     if (!isClient) return
 
-    const handleScroll = () => {
+    let rafId: number | null = null
+    let lastScrollY = -1
+
+    const updateTransform = () => {
+      rafId = null
+      const scrollY = window.scrollY
+
+      // Skip if scroll position hasn't changed
+      if (scrollY === lastScrollY) return
+      lastScrollY = scrollY
+
       // Calculate scroll progress (0 to 1)
       const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
-      const scrollProgress = Math.min(1, window.scrollY / maxScroll)
+      const scrollProgress = Math.min(1, scrollY / maxScroll)
 
-      // Parallax translation
+      // Parallax translation - use will-change CSS to promote to compositor
       if (parallaxFactor !== 0) {
-        scrollOffsetRef.current = window.scrollY * parallaxFactor
+        scrollOffsetRef.current = scrollY * parallaxFactor
         if (containerRef.current) {
-          containerRef.current.style.transform = `translateY(${scrollOffsetRef.current}px)`
+          containerRef.current.style.transform = `translate3d(0, ${scrollOffsetRef.current}px, 0)`
         }
       }
 
       // Zoom effect: scale from 1 to (1 + zoomFactor) as user scrolls
-      // Higher zoom = camera moves closer to the neural network
       zoomRef.current = 1 + scrollProgress * zoomFactor
     }
 
+    const handleScroll = () => {
+      // Throttle to rAF to avoid blocking main thread (INP fix)
+      if (rafId === null) {
+        rafId = requestAnimationFrame(updateTransform)
+      }
+    }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll() // Initialize on mount
-    return () => window.removeEventListener('scroll', handleScroll)
+    updateTransform() // Initialize on mount
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId)
+      }
+    }
   }, [isClient, parallaxFactor, zoomFactor])
 
   useEffect(() => {

@@ -664,3 +664,44 @@ a:hover {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================
+   PROSE ESSAY - Code Blocks
+   Prevents ASCII art from causing horizontal
+   overflow on mobile devices
+   ============================================ */
+
+.prose-essay pre {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose-essay pre code {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  white-space: pre;
+  color: var(--text-secondary);
+}
+
+/* On mobile, ensure code blocks scale down */
+@media (max-width: 768px) {
+  .prose-essay pre {
+    padding: 1rem;
+    margin: 1rem -1.25rem;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .prose-essay pre code {
+    font-size: 0.625rem;
+  }
+}
