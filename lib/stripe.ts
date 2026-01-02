@@ -26,14 +26,5 @@ export const stripe = {
   },
 }
 
-// Course product configuration
-export const COURSE_PRODUCTS = {
-  'claude-for-knowledge-workers': {
-    name: 'Claude Code for Knowledge Workers',
-    description: 'Complete 6-module course + lifetime updates',
-    price: 9900, // $99.00 in cents (Founder's Launch Special - was $197)
-    currency: 'usd',
-  },
-} as const
-
-export type CourseProductId = keyof typeof COURSE_PRODUCTS
+// Re-export from unified products config for backwards compatibility
+export { COURSE_PRODUCTS, type CourseProductId } from './products'

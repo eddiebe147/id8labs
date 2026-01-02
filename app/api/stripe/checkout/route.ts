@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getStripe, COURSE_PRODUCTS, type CourseProductId } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
+import { getProduct, type ProductId } from '@/lib/products'
 import { createClient } from '@/lib/supabase/server'
 
 export async function POST(request: NextRequest) {
@@ -18,17 +19,30 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { productId } = body as { productId: CourseProductId }
+    const { productId } = body as { productId: ProductId }
 
-    // Validate product ID
-    if (!productId || !COURSE_PRODUCTS[productId]) {
+    // Validate product ID and ensure it's a Stripe product
+    const product = getProduct(productId)
+    if (!product) {
       return NextResponse.json(
         { error: 'Invalid product ID' },
         { status: 400 }
       )
     }
 
-    const product = COURSE_PRODUCTS[productId]
+    if (product.purchaseType !== 'stripe') {
+      return NextResponse.json(
+        { error: 'This product cannot be purchased via checkout' },
+        { status: 400 }
+      )
+    }
+
+    if (product.price === null) {
+      return NextResponse.json(
+        { error: 'This product requires a custom quote' },
+        { status: 400 }
+      )
+    }
 
     // Check if user has already purchased this course
     const { data: existingPurchase } = await supabase
@@ -101,6 +115,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Stripe checkout session
+    const successUrl = product.successRedirect
+      ? `${request.nextUrl.origin}${product.successRedirect}&session_id={CHECKOUT_SESSION_ID}`
+      : `${request.nextUrl.origin}/services/success?type=${productId}&session_id={CHECKOUT_SESSION_ID}`
+    const cancelUrl = `${request.nextUrl.origin}/services`
+
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       line_items: [
@@ -117,8 +136,8 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `${request.nextUrl.origin}/courses/${productId}?success=true`,
-      cancel_url: `${request.nextUrl.origin}/courses/${productId}`,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
       metadata: {
         user_id: user.id,
         product_id: productId,

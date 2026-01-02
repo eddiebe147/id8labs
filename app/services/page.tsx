@@ -1,7 +1,34 @@
 'use client'
 
+import { useEffect } from 'react'
 import { motion } from '@/components/motion'
 import Link from 'next/link'
+import { ServiceCard } from '@/components/ServiceCard'
+import { PRODUCTS, getProductsByCategory } from '@/lib/products'
+
+// Load Cal.com script globally for booking buttons
+function useCalScript() {
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src*="cal.com/embed"]')
+    if (existingScript) return
+
+    const script = document.createElement('script')
+    script.src = 'https://app.cal.com/embed/embed.js'
+    script.async = true
+    document.body.appendChild(script)
+
+    script.onload = () => {
+      const Cal = (window as unknown as { Cal?: (action: string, config: object) => void }).Cal
+      if (Cal) {
+        Cal('init', { origin: 'https://cal.com' })
+        Cal('ui', {
+          styles: { branding: { brandColor: '#FF6B35' } },
+          hideEventTypeDetails: false,
+        })
+      }
+    }
+  }, [])
+}
 
 // Animation variants
 const fadeUp = {
@@ -45,12 +72,6 @@ const TrendingUpIcon = () => (
   </svg>
 )
 
-const CheckIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="20 6 9 17 4 12"/>
-  </svg>
-)
-
 const ArrowRightIcon = () => (
   <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -63,100 +84,6 @@ const problems = [
   { icon: <SparklesIcon />, text: "Every prompt feels like starting from scratch" },
   { icon: <LayoutIcon />, text: "You know there's a better way but can't find the time to build it" },
   { icon: <TrendingUpIcon />, text: "Meanwhile, competitors are shipping faster than you" },
-]
-
-const services = [
-  {
-    tier: "Tier 1",
-    name: "The Workshop",
-    price: "$297",
-    description: "2-hour intensive session. Walk in confused, walk out with workflows you'll use tomorrow.",
-    features: [
-      "Live prompt demonstrations",
-      "Custom applications for your work",
-      "20 prompt templates (PDF)",
-      "30 days follow-up support",
-    ],
-    popular: false,
-    category: "ai-implementation",
-  },
-  {
-    tier: "Tier 2",
-    name: "The Sprint",
-    price: "$1,997",
-    description: "4 weeks. We implement 3 AI workflows together. You learn by doing, with me guiding every step.",
-    features: [
-      "Weekly 90-min working sessions",
-      "3 fully implemented workflows",
-      "Custom templates and SOPs",
-      "Daily async support",
-      "Recorded sessions for reference",
-    ],
-    popular: true,
-    category: "ai-implementation",
-  },
-  {
-    tier: "Tier 3",
-    name: "The Build",
-    price: "Custom Quote",
-    description: "8+ weeks. Full operational transformation. We don't just add AI — we rebuild your workflows from the ground up.",
-    features: [
-      "Process audit using proven frameworks (Lean, Kaizen, Six Sigma principles)",
-      "Refinement protocol: Question → Delete → Simplify → Accelerate → Automate",
-      "Custom AI systems built for your operation",
-      "Team training + full documentation",
-      "90 days of hands-on support",
-    ],
-    popular: false,
-    category: "ai-implementation",
-  },
-]
-
-const claudeCodeCourses = [
-  {
-    tier: "Fundamentals",
-    name: "Claude Code Basics",
-    price: "$149",
-    description: "90-minute live session. Get set up, learn the commands, and start building with Claude Code the right way.",
-    features: [
-      "Live Zoom session (1:1 or small group)",
-      "Installation & configuration walkthrough",
-      "Core commands and workflows",
-      "Prompt patterns that actually work",
-      "Cheat sheet PDF included",
-    ],
-    popular: false,
-  },
-  {
-    tier: "Builder",
-    name: "Claude Code for Builders",
-    price: "$497",
-    description: "3 live sessions over 2 weeks. Build real projects with hooks, MCP servers, plugins, and context systems.",
-    features: [
-      "Three 90-min live sessions",
-      "Hooks & automation setup",
-      "MCP server integration",
-      "Custom plugin development",
-      "Context systems that persist",
-      "Your own project as the curriculum",
-    ],
-    popular: true,
-  },
-  {
-    tier: "Partner",
-    name: "Build With Claude",
-    price: "$1,497",
-    description: "6-week live cohort. We build a production app together from scratch. You ship something real.",
-    features: [
-      "Weekly 2-hour live build sessions",
-      "Full project from idea to deployment",
-      "Subagents, pipelines, and orchestration",
-      "Code review and architecture guidance",
-      "Small cohort (max 6 people)",
-      "Private Discord/Slack access",
-    ],
-    popular: false,
-  },
 ]
 
 const audiences = [
@@ -196,9 +123,13 @@ const courseModules = [
   { number: 5, title: "Building Workflows", duration: "60 min", description: "Automation, recurring tasks, your operating system", free: false },
 ]
 
+// Get products from unified config
+const aiImplementationServices = getProductsByCategory('ai-implementation')
+const claudeCodeTraining = getProductsByCategory('claude-code-training')
+
 export default function ServicesPage() {
-  const contactEmail = "eb@id8labs.tech"
-  const bookingUrl = `mailto:${contactEmail}?subject=AI%20Implementation%20-%20Let's%20Talk&body=Hey%20Eddie%2C%0A%0AI'm%20interested%20in%20learning%20more%20about%20your%20AI%20implementation%20services.%0A%0AA%20bit%20about%20me%3A%0A-%20What%20I%20do%3A%20%0A-%20Biggest%20time%20sink%3A%20%0A-%20What%20I'm%20hoping%20AI%20can%20help%20with%3A%20%0A%0ALet's%20find%20a%20time%20to%20chat.`
+  // Initialize Cal.com script
+  useCalScript()
 
   return (
     <div className="min-h-screen">
@@ -235,13 +166,14 @@ export default function ServicesPage() {
             </motion.p>
 
             <motion.div variants={fadeUp}>
-              <a
-                href={bookingUrl}
+              <button
+                data-cal-link="id8labs/discovery"
+                data-cal-config='{"layout":"month_view"}'
                 className="btn btn-primary hover-lift group inline-flex items-center gap-3"
               >
                 Book a Call
                 <ArrowRightIcon />
-              </a>
+              </button>
             </motion.div>
           </motion.div>
         </div>
@@ -334,7 +266,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* AI Implementation Services Section */}
       <section className="section-spacing bg-[var(--bg-secondary)]" id="services">
         <div className="container">
           <div className="text-center mb-16">
@@ -356,53 +288,16 @@ export default function ServicesPage() {
             variants={stagger}
             className="grid md:grid-cols-3 gap-6"
           >
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                variants={fadeUp}
-                className={`relative overflow-hidden ${
-                  service.popular ? 'card-featured' : 'card'
-                }`}
-              >
-                {service.popular && (
-                  <span className="absolute top-4 right-4 text-xs font-mono uppercase tracking-wider text-id8-orange bg-[var(--id8-orange-light)] px-3 py-1.5 rounded-md">
-                    Most Popular
-                  </span>
-                )}
-
-                <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-tertiary)] mb-3">
-                  {service.tier}
-                </p>
-                <h3 className="text-2xl font-bold mb-2 tracking-tight">
-                  {service.name}
-                </h3>
-                <p className="text-3xl font-bold text-id8-orange font-mono mb-5">
-                  {service.price}
-                </p>
-                <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                  {service.description}
-                </p>
-
-                <ul className="space-y-3">
-                  {service.features.map((feature, featureIndex) => (
-                    <li
-                      key={featureIndex}
-                      className="flex items-start gap-3 text-[var(--text-secondary)]"
-                    >
-                      <span className="text-id8-orange flex-shrink-0 mt-1">
-                        <CheckIcon />
-                      </span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+            {aiImplementationServices.map((product) => (
+              <motion.div key={product.id} variants={fadeUp}>
+                <ServiceCard product={product} />
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Course Section */}
+      {/* Self-Paced Course Section */}
       <section className="section-spacing border-t border-[var(--border)]" id="course">
         <div className="container">
           <div className="text-center mb-12">
@@ -484,20 +379,17 @@ export default function ServicesPage() {
                 >
                   Try Module 0 Free
                 </Link>
-                <Link
-                  href="/courses/claude-for-knowledge-workers"
-                  className="btn btn-primary flex-1 text-center group inline-flex items-center justify-center gap-2"
-                >
-                  Get Full Course — $99
-                  <ArrowRightIcon />
-                </Link>
+                <ServiceCard
+                  product={PRODUCTS['claude-for-knowledge-workers']}
+                  className="flex-1 !p-0 !border-0 !bg-transparent"
+                />
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Claude Code Courses Section */}
+      {/* Claude Code Live Training Section */}
       <section className="section-spacing bg-[var(--bg-secondary)]" id="claude-code">
         <div className="container">
           {/* Callout for course */}
@@ -534,54 +426,9 @@ export default function ServicesPage() {
             variants={stagger}
             className="grid md:grid-cols-3 gap-6"
           >
-            {claudeCodeCourses.map((course, index) => (
-              <motion.div
-                key={index}
-                variants={fadeUp}
-                className={`relative overflow-hidden flex flex-col ${
-                  course.popular ? 'card-featured' : 'card'
-                }`}
-              >
-                {course.popular && (
-                  <span className="absolute top-4 right-4 text-xs font-mono uppercase tracking-wider text-id8-orange bg-[var(--id8-orange-light)] px-3 py-1.5 rounded-md">
-                    Most Popular
-                  </span>
-                )}
-
-                <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-tertiary)] mb-3">
-                  {course.tier}
-                </p>
-                <h3 className="text-2xl font-bold mb-2 tracking-tight">
-                  {course.name}
-                </h3>
-                <p className="text-3xl font-bold text-id8-orange font-mono mb-5">
-                  {course.price}
-                </p>
-                <p className="text-[var(--text-secondary)] mb-6 leading-relaxed">
-                  {course.description}
-                </p>
-
-                <ul className="space-y-3 mb-8 flex-grow">
-                  {course.features.map((feature, featureIndex) => (
-                    <li
-                      key={featureIndex}
-                      className="flex items-start gap-3 text-[var(--text-secondary)]"
-                    >
-                      <span className="text-id8-orange flex-shrink-0 mt-1">
-                        <CheckIcon />
-                      </span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <a
-                  href={`mailto:eb@id8labs.tech?subject=Claude%20Code%20Training%20-%20${encodeURIComponent(course.name)}&body=Hey%20Eddie%2C%0A%0AI'm%20interested%20in%20the%20${encodeURIComponent(course.name)}%20course.%0A%0AA%20bit%20about%20me%3A%0A-%20Current%20experience%20with%20Claude%20Code%3A%20%0A-%20What%20I'm%20hoping%20to%20build%3A%20%0A%0ALet's%20find%20a%20time%20that%20works.`}
-                  className="btn btn-primary w-full text-center group inline-flex items-center justify-center gap-2"
-                >
-                  Schedule Session
-                  <ArrowRightIcon />
-                </a>
+            {claudeCodeTraining.map((product) => (
+              <motion.div key={product.id} variants={fadeUp}>
+                <ServiceCard product={product} />
               </motion.div>
             ))}
           </motion.div>
@@ -678,13 +525,14 @@ export default function ServicesPage() {
               Book a 15-minute call. We'll figure out which option fits — or if this isn't right for you.
             </p>
 
-            <a
-              href={bookingUrl}
+            <button
+              data-cal-link="id8labs/discovery"
+              data-cal-config='{"layout":"month_view"}'
               className="btn btn-primary hover-lift group inline-flex items-center gap-3 text-lg px-8 py-4"
             >
               Let's Talk
               <ArrowRightIcon />
-            </a>
+            </button>
 
             <p className="mt-6 text-sm font-mono text-[var(--text-tertiary)]">
               No pitch. No pressure. Just a conversation.
