@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import { type Essay } from '@/lib/essays'
 import { useState } from 'react'
 
@@ -27,7 +27,7 @@ export function EssaysList({ essays }: EssaysListProps) {
       {/* Hero Section */}
       <section className="section-spacing border-b border-[var(--border)]">
         <div className="container">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -37,7 +37,7 @@ export function EssaysList({ essays }: EssaysListProps) {
             <p className="text-xl text-[var(--text-secondary)]">
               Long-form writing on product development, AI, and building category-defining tools.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -94,7 +94,7 @@ export function EssaysList({ essays }: EssaysListProps) {
         <div className="container">
           <div className="max-w-3xl space-y-12">
             {filteredEssays.map((essay, index) => (
-              <motion.article
+              <m.article
                 key={essay.slug}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -140,7 +140,7 @@ export function EssaysList({ essays }: EssaysListProps) {
                     </svg>
                   </div>
                 </Link>
-              </motion.article>
+              </m.article>
             ))}
           </div>
         </div>

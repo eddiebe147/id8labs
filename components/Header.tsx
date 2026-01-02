@@ -24,19 +24,29 @@ export default function Header() {
             <Link href="/services" className="text-base hover:opacity-70 transition-opacity">
               Services
             </Link>
-            {/* Courses Dropdown */}
+            {/* Academy Dropdown */}
             <div className="relative group">
               <Link
-                href="/services"
+                href="/academy"
                 className="text-base hover:opacity-70 transition-opacity flex items-center gap-1"
               >
-                Courses
+                Academy
                 <svg className="w-4 h-4 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M6 9l6 6 6-6"/>
                 </svg>
               </Link>
               <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg shadow-xl py-2 min-w-[280px]">
+                <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg shadow-xl py-2 min-w-[300px]">
+                  <Link
+                    href="/academy/prompt-engineering-creators"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-secondary)] transition-colors"
+                  >
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">New</span>
+                    <div>
+                      <p className="font-medium text-sm">Prompt Engineering for Creators</p>
+                      <p className="text-xs text-[var(--text-tertiary)]">9 modules • Free</p>
+                    </div>
+                  </Link>
                   <Link
                     href="/courses/ai-conversation-fundamentals"
                     className="flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-secondary)] transition-colors"
@@ -115,9 +125,23 @@ export default function Header() {
             >
               Services
             </Link>
-            {/* Mobile Courses Section */}
+            {/* Mobile Academy Section */}
             <div className="space-y-2">
-              <p className="text-lg font-medium">Courses</p>
+              <Link
+                href="/academy"
+                className="text-lg font-medium hover:text-id8-orange transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Academy
+              </Link>
+              <Link
+                href="/academy/prompt-engineering-creators"
+                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">New</span>
+                Prompt Engineering
+              </Link>
               <Link
                 href="/courses/ai-conversation-fundamentals"
                 className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"

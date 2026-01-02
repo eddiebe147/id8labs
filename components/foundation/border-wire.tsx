@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 import { useEffect, useState } from 'react'
 
 /**
@@ -59,7 +59,7 @@ export function BorderWire({
       }}
     >
       {/* Main wire line */}
-      <motion.line
+      <m.line
         x1={startX}
         y1={startY}
         x2={endX}
@@ -85,7 +85,7 @@ export function BorderWire({
 
       {/* Particle flow indicator (when active) */}
       {active && (
-        <motion.circle
+        <m.circle
           r="3"
           fill={color}
           initial={{

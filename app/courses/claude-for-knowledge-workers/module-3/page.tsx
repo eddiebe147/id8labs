@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { useState } from 'react'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
@@ -75,6 +76,75 @@ const EditIcon = () => (
   </svg>
 )
 
+const CopyIcon = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+  </svg>
+)
+
+const CheckIconSmall = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+)
+
+// Interactive Components
+function CopyableCode({ code, label }: { code: string; label?: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="relative group">
+      {label && (
+        <p className="text-xs font-mono text-id8-orange mb-2">{label}</p>
+      )}
+      <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg p-4 font-mono text-sm">
+        <pre className="whitespace-pre-wrap text-[var(--text-primary)]">{code}</pre>
+        <button
+          onClick={handleCopy}
+          className="absolute top-3 right-3 p-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:border-id8-orange/50"
+          aria-label="Copy to clipboard"
+        >
+          {copied ? <CheckIconSmall /> : <CopyIcon />}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function TryThisNow({ children, title }: { children: React.ReactNode; title: string }) {
+  return (
+    <div className="my-8 p-6 bg-id8-orange/5 border-2 border-id8-orange/30 rounded-xl">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-id8-orange">
+          <TerminalIcon />
+        </span>
+        <h3 className="text-lg font-bold text-id8-orange">{title}</h3>
+      </div>
+      <div className="space-y-4">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function MentorNote({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="my-6 p-4 border-l-4 border-id8-orange/50 bg-[var(--bg-secondary)] rounded-r-lg">
+      <p className="text-sm text-[var(--text-secondary)]">
+        <span className="font-medium text-[var(--text-primary)]">💡 </span>
+        {children}
+      </p>
+    </div>
+  )
+}
+
 // Module 3 content
 const outcomes = [
   "Understand the writing partnership model — Claude as collaborator, not replacement",
@@ -120,13 +190,13 @@ export default function Module3Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/claude-for-knowledge-workers"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -134,32 +204,32 @@ export default function Module3Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 3</span>
               <span className="text-id8-orange/50">•</span>
               <span>60 min</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               Writing With Claude
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               From rambling voice notes to polished drafts. From blank page paralysis to words on the page. Claude becomes your writing partner — accelerating your thinking, not replacing it.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <m.div variants={fadeUp} className="flex flex-wrap gap-4">
               <a
                 href="/courses/module-3/module-3-writing-with-claude.pdf"
                 download="Module-3-Writing-With-Claude.pdf"
@@ -175,11 +245,23 @@ export default function Module3Page() {
                 <PlayIcon />
                 Watch or Listen
               </a>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Split Tab Callout */}
+      <section className="py-4 bg-id8-orange/5 border-b border-id8-orange/20">
+        <div className="container">
+          <div className="max-w-3xl mx-auto flex items-center gap-3 text-sm">
+            <span className="text-id8-orange">💡</span>
+            <p className="text-[var(--text-secondary)]">
+              <strong className="text-[var(--text-primary)]">Pro tip:</strong> Open Claude Code in a split tab alongside this lesson. Practice each delegation as you learn it — the patterns stick better when you try them immediately.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Media Section */}
@@ -193,7 +275,7 @@ export default function Module3Page() {
 
             <div className="space-y-6">
               {/* Video Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -203,10 +285,10 @@ export default function Module3Page() {
                   title="Writing With Claude (Video)"
                   downloadName="Module-3-Writing-With-Claude.mp4"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Audio Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -217,7 +299,7 @@ export default function Module3Page() {
                   title="Writing With Claude (Podcast)"
                   downloadName="Module-3-Writing-With-Claude.m4a"
                 />
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -227,7 +309,7 @@ export default function Module3Page() {
       <section className="section-spacing border-t border-[var(--border)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -242,7 +324,7 @@ export default function Module3Page() {
               <p className="text-[var(--text-secondary)] leading-relaxed">
                 When Claude processes files, you're delegating mechanical work. When Claude helps you write, you're entering a <strong className="text-[var(--text-primary)]">collaboration</strong>. The goal isn't to have Claude write FOR you. It's to write WITH Claude — using AI to accelerate your thinking, not replace it.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -304,7 +386,7 @@ export default function Module3Page() {
 
             <div className="space-y-4">
               {outcomes.map((outcome, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -316,7 +398,7 @@ export default function Module3Page() {
                     <CheckIcon />
                   </span>
                   <span className="text-[var(--text-primary)]">{outcome}</span>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -356,6 +438,23 @@ export default function Module3Page() {
                 "I was stuck on this course's Module 0 script. Spent an hour staring at the blank page. Finally, I just opened Voice Memos and talked for 8 minutes about what I wanted people to understand. Rambling, tangents, half-sentences. Transcribed it. Told Claude: 'Turn this into a video script. Keep my conversational tone. Target 5 minutes spoken. Make it flow.' First draft in 90 seconds. I edited for 20 minutes. Done. The whole thing took less time than staring at the blank page."
               </p>
             </div>
+
+            <TryThisNow title="Try Voice-to-Draft Now">
+              <p className="text-[var(--text-secondary)] mb-4">
+                Got something you need to write? Open Voice Memos on your phone, ramble for 2-3 minutes about your idea, then transcribe it and use this delegation:
+              </p>
+              <CopyableCode
+                code={`Here's a rough voice transcription of my thoughts on [topic]:
+
+[Paste your transcription here]
+
+Turn this into a clear, structured [blog post/email/memo]. Keep my voice and examples. Organize my rambling into logical sections. The audience is [who]. Target length: [word count]. Save to ~/Documents/Drafts/[filename].md`}
+                label="Voice-to-draft delegation template"
+              />
+              <p className="text-sm text-[var(--text-tertiary)] mt-3">
+                Notice how much faster it is to talk through an idea than to write it from scratch.
+              </p>
+            </TryThisNow>
           </div>
         </div>
       </section>
@@ -371,7 +470,7 @@ export default function Module3Page() {
 
             <div className="space-y-4">
               {editingPatterns.map((pattern, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -383,7 +482,7 @@ export default function Module3Page() {
                   <code className="block text-sm text-[var(--text-primary)] bg-[var(--bg-secondary)] p-3 rounded">
                     {pattern.pattern}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -444,7 +543,7 @@ export default function Module3Page() {
 
             <div className="space-y-4">
               {emailPatterns.map((pattern, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -456,7 +555,7 @@ export default function Module3Page() {
                   <code className="block text-sm text-[var(--text-primary)] bg-[var(--bg-secondary)] p-3 rounded">
                     {pattern.delegation}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -534,6 +633,10 @@ export default function Module3Page() {
                 </div>
               ))}
             </div>
+
+            <MentorNote>
+              The writing skills you build here compound. Once you have a voice profile and a few go-to delegation patterns, you'll find yourself writing 3x faster with the same (or better) quality. The key is starting — record one voice note today and see how it feels.
+            </MentorNote>
           </div>
         </div>
       </section>

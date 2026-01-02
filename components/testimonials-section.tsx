@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 /**
  * Testimonials Section Component
@@ -49,7 +49,7 @@ export function TestimonialsSection() {
     <section className="px-6 bg-bg-primary" style={{ paddingTop: 'var(--spacing-5xl)', paddingBottom: 'var(--spacing-5xl)' }}>
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -65,12 +65,12 @@ export function TestimonialsSection() {
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
             Real feedback from people using these tools in production
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <motion.div
+            <m.div
               key={testimonial.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ export function TestimonialsSection() {
                   Using {testimonial.product}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { m, useInView } from '@/components/motion'
 import { useRef, useState, useEffect } from 'react'
 
 interface TypewriterProps {
@@ -49,7 +49,7 @@ export default function Typewriter({
     <span ref={ref} className={className}>
       {displayText}
       {cursor && (
-        <motion.span
+        <m.span
           animate={{ opacity: [0, 1, 0] }}
           transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
           className="inline-block w-[2px] h-[1em] bg-current ml-1 align-middle"

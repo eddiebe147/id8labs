@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 export default function Builder() {
   return (
@@ -9,7 +9,7 @@ export default function Builder() {
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left - Headline (Asymmetric) */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -22,10 +22,10 @@ export default function Builder() {
               <span className="text-gradient-orange">Builder</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent" />
-          </motion.div>
+          </m.div>
 
           {/* Right - Content */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -90,7 +90,7 @@ export default function Builder() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

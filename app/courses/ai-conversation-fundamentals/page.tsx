@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import EmailCapture from '@/components/EmailCapture'
 
@@ -99,43 +99,43 @@ export default function AIConversationFundamentalsPage() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-4xl"
           >
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-6"
             >
               Free Course • ~45 min
-            </motion.p>
+            </m.p>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-[clamp(2.5rem,7vw,4.5rem)] leading-[1.05] font-bold tracking-tight mb-6"
             >
               AI Conversation{' '}
               <span className="text-gradient-orange">Fundamentals</span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-2xl md:text-3xl text-[var(--text-secondary)] max-w-2xl mb-4 font-medium"
             >
               The mental models that separate frustrated users from people who get results every time.
-            </motion.p>
+            </m.p>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] max-w-2xl mb-10 leading-relaxed"
             >
               You've used ChatGPT. You've tried Claude. Sometimes it's magic. Sometimes it's useless. The difference isn't luck. It's understanding how to think about the conversation.
-            </motion.p>
+            </m.p>
 
             {/* What You'll Learn */}
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="mb-10 p-6 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl"
             >
@@ -150,10 +150,10 @@ export default function AIConversationFundamentalsPage() {
                   </li>
                 ))}
               </ul>
-            </motion.div>
+            </m.div>
 
             {/* CTA Button */}
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
+            <m.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/courses/ai-conversation-fundamentals/module-1"
                 className="btn btn-primary group inline-flex items-center justify-center gap-2"
@@ -161,8 +161,8 @@ export default function AIConversationFundamentalsPage() {
                 Start the Course
                 <ArrowRightIcon />
               </Link>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
@@ -195,7 +195,7 @@ export default function AIConversationFundamentalsPage() {
             </p>
           </div>
 
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
@@ -203,7 +203,7 @@ export default function AIConversationFundamentalsPage() {
             className="max-w-3xl mx-auto space-y-4"
           >
             {modules.map((module, index) => (
-              <motion.div key={index} variants={fadeUp}>
+              <m.div key={index} variants={fadeUp}>
                 <Link
                   href={module.href}
                   className="flex items-start gap-4 p-5 rounded-xl border bg-[var(--bg-secondary)] border-[var(--border)] hover:border-id8-orange/30 transition-colors"
@@ -221,9 +221,9 @@ export default function AIConversationFundamentalsPage() {
                     {module.duration}
                   </span>
                 </Link>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 /**
  * RaisedDot Component
@@ -64,7 +64,7 @@ export function RaisedDot({
   }
 
   return (
-    <motion.div
+    <m.div
       className={`raised-dot ${className}`}
       animate={animations[animated]}
       style={{

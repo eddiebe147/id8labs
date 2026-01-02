@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
 
@@ -44,13 +44,13 @@ export default function Module1Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/ai-conversation-fundamentals"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -58,39 +58,39 @@ export default function Module1Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <CourseProgress
                 currentModule={1}
                 totalModules={6}
                 courseTitle="AI Conversation Fundamentals"
               />
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 1</span>
               <span className="text-id8-orange/50">•</span>
               <span>~10 minutes</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               The Mental Model Shift
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] leading-relaxed"
             >
               Why AI is a collaborator, not a search engine — and what that means for how you use it.
-            </motion.p>
-          </motion.div>
+            </m.p>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
@@ -100,7 +100,7 @@ export default function Module1Page() {
       <section className="section-spacing">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -144,7 +144,7 @@ export default function Module1Page() {
                   </tbody>
                 </table>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -153,7 +153,7 @@ export default function Module1Page() {
       <section className="section-spacing bg-[var(--bg-secondary)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
@@ -188,7 +188,7 @@ export default function Module1Page() {
               <p className="text-lg text-[var(--text-primary)] leading-relaxed">
                 The AI's output just revealed four assumptions it made that you didn't intend. Now you know exactly what to clarify in your next message.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -197,7 +197,7 @@ export default function Module1Page() {
       <section className="section-spacing">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -225,7 +225,7 @@ export default function Module1Page() {
               <p className="text-lg text-[var(--text-secondary)] mt-8 leading-relaxed">
                 This shift in mindset is the foundation of everything else in this course. When you start treating AI output as <strong>information about your input</strong> rather than <strong>the final answer</strong>, you unlock the ability to iterate toward exactly what you need.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -234,7 +234,7 @@ export default function Module1Page() {
       <section className="section-spacing bg-[var(--bg-secondary)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
@@ -273,7 +273,7 @@ export default function Module1Page() {
               <p className="text-sm text-[var(--text-secondary)] mt-6 italic">
                 This exercise is the diagnostic process in action. You're reverse-engineering what the AI inferred from your prompt.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>

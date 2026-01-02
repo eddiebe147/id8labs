@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 import { RaisedDot } from '@/components/foundation/raised-dot'
 
 /**
@@ -33,7 +33,7 @@ export function SocialProofStrip() {
       {/* Content Container */}
       <div className="max-w-4xl mx-auto relative">
         {/* Left Dot Indicator */}
-        <motion.div
+        <m.div
           className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:block"
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -45,10 +45,10 @@ export function SocialProofStrip() {
           }}
         >
           <RaisedDot size="sm" color="rgb-green" glowIntensity={60} />
-        </motion.div>
+        </m.div>
 
         {/* Social Proof Text */}
-        <motion.p
+        <m.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -67,10 +67,10 @@ export function SocialProofStrip() {
           <span className="text-text-primary font-medium">
             bestselling novels
           </span>
-        </motion.p>
+        </m.p>
 
         {/* Right Dot Indicator */}
-        <motion.div
+        <m.div
           className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:block"
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -82,7 +82,7 @@ export function SocialProofStrip() {
           }}
         >
           <RaisedDot size="sm" color="accent" glowIntensity={60} />
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

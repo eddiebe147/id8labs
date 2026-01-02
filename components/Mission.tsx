@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 export default function Mission() {
   return (
@@ -9,7 +9,7 @@ export default function Mission() {
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left - Headline (Asymmetric) */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -22,10 +22,10 @@ export default function Mission() {
               <span className="text-gradient-orange">Build</span>
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent" />
-          </motion.div>
+          </m.div>
 
           {/* Right - Content Stack (Asymmetric) */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -148,7 +148,7 @@ export default function Mission() {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

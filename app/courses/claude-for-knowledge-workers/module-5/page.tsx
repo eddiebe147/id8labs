@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { useState } from 'react'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
@@ -92,6 +93,75 @@ const ZapIcon = () => (
   </svg>
 )
 
+const CopyIcon = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+  </svg>
+)
+
+const CheckIconSmall = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+)
+
+// Interactive Components
+function CopyableCode({ code, label }: { code: string; label?: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="relative group">
+      {label && (
+        <p className="text-xs font-mono text-id8-orange mb-2">{label}</p>
+      )}
+      <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg p-4 font-mono text-sm">
+        <pre className="whitespace-pre-wrap text-[var(--text-primary)]">{code}</pre>
+        <button
+          onClick={handleCopy}
+          className="absolute top-3 right-3 p-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:border-id8-orange/50"
+          aria-label="Copy to clipboard"
+        >
+          {copied ? <CheckIconSmall /> : <CopyIcon />}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function TryThisNow({ children, title }: { children: React.ReactNode; title: string }) {
+  return (
+    <div className="my-8 p-6 bg-id8-orange/5 border-2 border-id8-orange/30 rounded-xl">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-id8-orange">
+          <TerminalIcon />
+        </span>
+        <h3 className="text-lg font-bold text-id8-orange">{title}</h3>
+      </div>
+      <div className="space-y-4">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function MentorNote({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="my-6 p-4 border-l-4 border-id8-orange/50 bg-[var(--bg-secondary)] rounded-r-lg">
+      <p className="text-sm text-[var(--text-secondary)]">
+        <span className="font-medium text-[var(--text-primary)]">💡 </span>
+        {children}
+      </p>
+    </div>
+  )
+}
+
 // Module 5 content
 const outcomes = [
   "Transform one-off delegations into reusable templates with blanks to fill",
@@ -173,13 +243,13 @@ export default function Module5Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/claude-for-knowledge-workers"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -187,9 +257,9 @@ export default function Module5Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
@@ -198,23 +268,23 @@ export default function Module5Page() {
               <span>60 min</span>
               <span className="text-id8-orange/50">•</span>
               <span>Final Module</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               Building Workflows
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               From one-off delegations to a personal operating system. Build reusable templates, chain delegations together, and create systems that compound over time. This is where everything comes together.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <m.div variants={fadeUp} className="flex flex-wrap gap-4">
               <a
                 href="/courses/module-5/module-5-building-workflows.pdf"
                 download="Module-5-Building-Workflows.pdf"
@@ -230,11 +300,23 @@ export default function Module5Page() {
                 <PlayIcon />
                 Watch or Listen
               </a>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Split Tab Callout */}
+      <section className="py-4 bg-id8-orange/5 border-b border-id8-orange/20">
+        <div className="container">
+          <div className="max-w-3xl mx-auto flex items-center gap-3 text-sm">
+            <span className="text-id8-orange">💡</span>
+            <p className="text-[var(--text-secondary)]">
+              <strong className="text-[var(--text-primary)]">Pro tip:</strong> Open Claude Code in a split tab alongside this lesson. Practice each delegation as you learn it — the patterns stick better when you try them immediately.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Media Section */}
@@ -248,7 +330,7 @@ export default function Module5Page() {
 
             <div className="space-y-6">
               {/* Video Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -258,10 +340,10 @@ export default function Module5Page() {
                   title="Building Workflows (Video)"
                   downloadName="Module-5-Building-Workflows.mp4"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Audio Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -272,7 +354,7 @@ export default function Module5Page() {
                   title="Building Workflows (Podcast)"
                   downloadName="Module-5-Building-Workflows.m4a"
                 />
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -282,7 +364,7 @@ export default function Module5Page() {
       <section className="section-spacing border-t border-[var(--border)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -297,7 +379,7 @@ export default function Module5Page() {
               <p className="text-[var(--text-secondary)] leading-relaxed">
                 Now we tie it all together. This module is about <strong className="text-[var(--text-primary)]">systems</strong>. Not one-off delegations, but repeatable workflows. The goal: build your personal operating system with Claude — a set of patterns, templates, and habits that compound over time.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -334,7 +416,7 @@ export default function Module5Page() {
 
             <div className="space-y-4">
               {outcomes.map((outcome, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -346,7 +428,7 @@ export default function Module5Page() {
                     <CheckIcon />
                   </span>
                   <span className="text-[var(--text-primary)]">{outcome}</span>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -364,7 +446,7 @@ export default function Module5Page() {
 
             <div className="grid md:grid-cols-2 gap-4">
               {buildingBlocks.map((block, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -377,7 +459,7 @@ export default function Module5Page() {
                     <h3 className="font-bold text-[var(--text-primary)]">{block.name}</h3>
                   </div>
                   <p className="text-sm text-[var(--text-secondary)]">{block.description}</p>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -401,7 +483,7 @@ export default function Module5Page() {
 
             <div className="space-y-4">
               {essentialWorkflows.map((workflow, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -418,9 +500,31 @@ export default function Module5Page() {
                   <code className="block text-sm text-[var(--text-secondary)] bg-[var(--bg-primary)] p-3 rounded">
                     {workflow.pattern}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
+
+            <TryThisNow title="Build Your First Workflow Template">
+              <p className="text-[var(--text-secondary)] mb-4">
+                Pick one of the six workflows above (Weekly Review is a great start) and customize it for your situation. Create your own template file:
+              </p>
+              <CopyableCode
+                code={`Create a workflow template for me. The workflow is: Weekly Review
+
+When I run this workflow, I want you to:
+1. Read all files created or modified this week in ~/Documents/
+2. Summarize what I accomplished
+3. List what's still in progress
+4. Note any blockers or stuck items
+5. Suggest focus areas for next week
+
+Save the template to ~/Workflows/weekly-review.md so I can reference it every Friday.`}
+                label="Your first workflow template"
+              />
+              <p className="text-sm text-[var(--text-tertiary)] mt-3">
+                Once saved, you can run it every week with: "Run my weekly review workflow from ~/Workflows/weekly-review.md"
+              </p>
+            </TryThisNow>
           </div>
         </div>
       </section>
@@ -442,7 +546,7 @@ export default function Module5Page() {
 
             <div className="space-y-4">
               {advancedPatterns.map((pattern, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -455,7 +559,7 @@ export default function Module5Page() {
                   <code className="block text-sm text-[var(--text-primary)] bg-[var(--bg-secondary)] p-3 rounded">
                     {pattern.example}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -562,6 +666,22 @@ export default function Module5Page() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Mentor Note */}
+      <section className="container">
+        <div className="max-w-3xl mx-auto">
+          <MentorNote>
+            <p>
+              <strong>From one builder to another:</strong> Workflows are where everything clicks.
+              When I stopped thinking of Claude as a chatbot and started treating it like a
+              systems-level assistant, my entire approach changed. Now I have templates for
+              research, content, production prep—each one built from patterns that actually
+              worked. Start small. One workflow for one recurring task. Get it working, then
+              expand. You've got everything you need now. Go build something.
+            </p>
+          </MentorNote>
         </div>
       </section>
 

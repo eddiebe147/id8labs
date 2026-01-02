@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 /**
  * Ecosystem Section Component
@@ -42,7 +42,7 @@ export function EcosystemSection() {
     <section className="px-6 bg-bg-secondary" style={{ paddingTop: 'var(--spacing-5xl)', paddingBottom: 'var(--spacing-5xl)' }}>
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -58,12 +58,12 @@ export function EcosystemSection() {
           <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto">
             Use one or use them all — built for real creative workflows
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Tools Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 mt-16">
           {tools.map((tool, index) => (
-            <motion.div
+            <m.div
               key={tool.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -108,12 +108,12 @@ export function EcosystemSection() {
               <p className="text-sm text-text-secondary leading-relaxed">
                 {tool.description}
               </p>
-            </motion.div>
+            </m.div>
           ))}
         </div>
 
         {/* Footer Statement */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -124,7 +124,7 @@ export function EcosystemSection() {
             Each tool stands alone.{' '}
             <span className="text-accent">Together they&apos;re unstoppable.</span>
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

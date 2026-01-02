@@ -1,33 +1,16 @@
 'use client'
 
 /**
- * Optimized Motion Components
+ * Motion Components Re-export
  *
- * Uses LazyMotion with domAnimation for smaller bundle size.
- * This reduces framer-motion from ~116KB to ~25KB by only loading
- * the features actually used (DOM animations, no SVG/3D/etc).
- *
- * Usage: Replace `import { motion } from 'framer-motion'`
- *        with `import { m } from '@/components/motion'`
+ * Simple re-export from framer-motion for consistent imports across the app.
  */
 
-import { LazyMotion, domAnimation, m } from 'framer-motion'
-import { ReactNode } from 'react'
+// Re-export motion and commonly used components/hooks
+export { motion, AnimatePresence, useInView, useAnimation } from 'framer-motion'
 
-// Re-export m as both m and motion for easy migration
-export { m, m as motion }
-
-// Export commonly used hooks
-export { useInView, useAnimation, AnimatePresence } from 'framer-motion'
-
-// Provider wrapper - use this at the layout level
-export function MotionProvider({ children }: { children: ReactNode }) {
-  return (
-    <LazyMotion features={domAnimation} strict>
-      {children}
-    </LazyMotion>
-  )
-}
+// Also export as 'm' for compatibility with existing code
+export { motion as m } from 'framer-motion'
 
 // Pre-configured animation variants for common patterns
 export const fadeIn = {

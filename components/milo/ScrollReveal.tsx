@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { m, useInView } from '@/components/motion'
 
 /**
  * ScrollReveal - Framer Motion wrapper for scroll-triggered animations
@@ -63,7 +63,7 @@ export default function ScrollReveal({
   }
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       initial={initial}
       animate={animate}
@@ -75,6 +75,6 @@ export default function ScrollReveal({
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }

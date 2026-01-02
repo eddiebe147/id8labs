@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect } from 'react'
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import { ServiceCard } from '@/components/ServiceCard'
-import { PRODUCTS, getProductsByCategory } from '@/lib/products'
+import { getProductsByCategory } from '@/lib/products'
 
 // Load Cal.com script globally for booking buttons
 // Uses Cal.com's official embed pattern with queue-based initialization
@@ -141,18 +141,8 @@ const credentials = [
   { highlight: "ID8Labs", role: "— Founder, building AI tools for creators" },
 ]
 
-const courseModules = [
-  { number: 0, title: "The Mental Model Shift", duration: "30 min", description: "Installation + your first delegation (Downloads cleanup)", free: true },
-  { number: 1, title: "Your First Delegation", duration: "45 min", description: "10 Quick Wins to build confidence and master the formula", free: false },
-  { number: 2, title: "Working With Your Files", duration: "60 min", description: "Document processing, invoices, and semantic search", free: false },
-  { number: 3, title: "Writing With Claude", duration: "60 min", description: "Voice notes to drafts, editing, finding your voice", free: false },
-  { number: 4, title: "Research & Analysis", duration: "60 min", description: "Web research, competitive analysis, synthesis", free: false },
-  { number: 5, title: "Building Workflows", duration: "60 min", description: "Automation, recurring tasks, your operating system", free: false },
-]
-
 // Get products from unified config
 const aiImplementationServices = getProductsByCategory('ai-implementation')
-const claudeCodeTraining = getProductsByCategory('claude-code-training')
 
 export default function ServicesPage() {
   // Initialize Cal.com script
@@ -163,36 +153,36 @@ export default function ServicesPage() {
       {/* Hero Section */}
       <section className="relative min-h-[85vh] flex items-center bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-4xl"
           >
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-6"
             >
               AI Implementation Services
-            </motion.p>
+            </m.p>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-[clamp(2.5rem,7vw,5rem)] leading-[1.05] font-bold tracking-tight mb-8"
             >
               Stop watching tutorials.
               <br />
               <span className="text-gradient-orange">Start using AI.</span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-2xl mb-10 leading-relaxed"
             >
               You know AI matters. You've played with ChatGPT. But turning that into actual workflows that save you hours every week? That's where most people get stuck. We fix that.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <button
                 data-cal-link="id8labs/15min"
                 data-cal-config='{"layout":"month_view"}'
@@ -201,52 +191,30 @@ export default function ServicesPage() {
                 Book a Call
                 <ArrowRightIcon />
               </button>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         {/* Bottom border */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
       </section>
 
-      {/* Free Course Banner - AI Conversation Fundamentals */}
-      <section className="py-6 bg-green-500/10 border-y border-green-500/20">
-        <div className="container">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <span className="px-2 py-1 text-xs font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
-              <div>
-                <p className="font-semibold text-[var(--text-primary)]">AI Conversation Fundamentals</p>
-                <p className="text-sm text-[var(--text-secondary)]">Learn the mental models that make every AI interaction more effective — 45 min course</p>
-              </div>
-            </div>
-            <Link
-              href="/courses/ai-conversation-fundamentals"
-              className="btn bg-green-500 text-white hover:bg-green-600 whitespace-nowrap group inline-flex items-center gap-2"
-            >
-              Start Free Course
-              <ArrowRightIcon />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Free Module CTA Banner */}
+      {/* Academy Cross-link Banner */}
       <section className="py-6 bg-id8-orange/10 border-y border-id8-orange/20">
         <div className="container">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🎓</span>
               <div>
-                <p className="font-semibold text-[var(--text-primary)]">Try Module 0 Free</p>
-                <p className="text-sm text-[var(--text-secondary)]">Claude Code for Knowledge Workers — No programming required</p>
+                <p className="font-semibold text-[var(--text-primary)]">Want to learn AI yourself?</p>
+                <p className="text-sm text-[var(--text-secondary)]">Free courses on prompt engineering and AI workflows in the Academy</p>
               </div>
             </div>
             <Link
-              href="/courses/claude-for-knowledge-workers/module-0"
+              href="/academy"
               className="btn bg-id8-orange text-white hover:bg-id8-orange/90 whitespace-nowrap group inline-flex items-center gap-2"
             >
-              Start Free Module
+              Visit Academy
               <ArrowRightIcon />
             </Link>
           </div>
@@ -267,7 +235,7 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <motion.ul
+            <m.ul
               initial="initial"
               whileInView="animate"
               viewport={{ once: true, margin: "-100px" }}
@@ -275,7 +243,7 @@ export default function ServicesPage() {
               className="space-y-0"
             >
               {problems.map((problem, index) => (
-                <motion.li
+                <m.li
                   key={index}
                   variants={fadeUp}
                   className="flex items-start gap-4 py-5 border-b border-[var(--border)] last:border-b-0"
@@ -286,9 +254,9 @@ export default function ServicesPage() {
                   <span className="text-[var(--text-secondary)] text-lg">
                     {problem.text}
                   </span>
-                </motion.li>
+                </m.li>
               ))}
-            </motion.ul>
+            </m.ul>
           </div>
         </div>
       </section>
@@ -308,7 +276,7 @@ export default function ServicesPage() {
             </p>
           </div>
 
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
@@ -316,151 +284,14 @@ export default function ServicesPage() {
             className="grid md:grid-cols-3 gap-6"
           >
             {aiImplementationServices.map((product) => (
-              <motion.div key={product.id} variants={fadeUp}>
+              <m.div key={product.id} variants={fadeUp}>
                 <ServiceCard product={product} />
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
-      {/* Self-Paced Course Section */}
-      <section className="section-spacing border-t border-[var(--border)]" id="course">
-        <div className="container">
-          <div className="text-center mb-12">
-            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Self-Paced Course
-            </p>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              Claude Code for Knowledge Workers
-            </h2>
-            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-              A complete course teaching non-programmers how to use Claude Code for everyday work. No coding required — just delegation.
-            </p>
-          </div>
-
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={stagger}
-            className="max-w-3xl mx-auto"
-          >
-            <div className="card-featured p-8">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-tertiary)] mb-1">
-                    6-Module Course
-                  </p>
-                  <h3 className="text-2xl font-bold">Complete Curriculum</h3>
-                </div>
-                <div className="text-right">
-                  <div className="flex items-baseline justify-end gap-2">
-                    <span className="text-lg text-[var(--text-tertiary)] line-through font-mono">$197</span>
-                    <span className="text-3xl font-bold text-id8-orange font-mono">$99</span>
-                  </div>
-                  <p className="text-xs text-green-500 font-medium">Founder's Launch Special</p>
-                </div>
-              </div>
-
-              <div className="space-y-3 mb-8">
-                {courseModules.map((module, index) => (
-                  <motion.div
-                    key={index}
-                    variants={fadeUp}
-                    className={`flex items-start gap-4 p-4 rounded-lg border ${
-                      module.free
-                        ? 'bg-id8-orange/5 border-id8-orange/20'
-                        : 'bg-[var(--bg-primary)] border-[var(--border)]'
-                    }`}
-                  >
-                    <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-mono font-bold text-sm ${
-                      module.free
-                        ? 'bg-id8-orange text-white'
-                        : 'bg-id8-orange/10 text-id8-orange'
-                    }`}>
-                      {module.number}
-                    </span>
-                    <div className="flex-grow">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold">{module.title}</h4>
-                          {module.free && (
-                            <span className="text-xs font-mono uppercase tracking-wider text-id8-orange bg-id8-orange/10 px-2 py-0.5 rounded">
-                              Free
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs font-mono text-[var(--text-tertiary)]">{module.duration}</span>
-                      </div>
-                      <p className="text-sm text-[var(--text-secondary)]">{module.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/courses/claude-for-knowledge-workers/module-0"
-                  className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 flex-1 text-center"
-                >
-                  Try Module 0 Free
-                </Link>
-                <ServiceCard
-                  product={PRODUCTS['claude-for-knowledge-workers']}
-                  className="flex-1 !p-0 !border-0 !bg-transparent"
-                />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Claude Code Live Training Section */}
-      <section className="section-spacing bg-[var(--bg-secondary)]" id="claude-code">
-        <div className="container">
-          {/* Callout for course */}
-          <div className="mb-12 p-4 bg-id8-orange/5 border border-id8-orange/20 rounded-xl max-w-2xl mx-auto">
-            <p className="text-center text-[var(--text-secondary)]">
-              <span className="font-semibold text-[var(--text-primary)]">New to Claude Code?</span> Try{' '}
-              <Link href="/courses/claude-for-knowledge-workers/module-0" className="text-id8-orange hover:underline font-medium">
-                Module 0 free
-              </Link>{' '}
-              or get the{' '}
-              <Link href="/courses/claude-for-knowledge-workers" className="text-id8-orange hover:underline font-medium">
-                full course
-              </Link>
-              . The training below is for developers ready to go deeper.
-            </p>
-          </div>
-
-          <div className="text-center mb-16">
-            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Advanced Training
-            </p>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              Go deeper with live sessions
-            </h2>
-            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-              For developers and power users ready to build with hooks, MCP servers, plugins, and production workflows. Live sessions, not recorded tutorials.
-            </p>
-          </div>
-
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={stagger}
-            className="grid md:grid-cols-3 gap-6"
-          >
-            {claudeCodeTraining.map((product) => (
-              <motion.div key={product.id} variants={fadeUp}>
-                <ServiceCard product={product} />
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
 
       {/* Audience Section */}
       <section className="section-spacing border-t border-[var(--border)]">
@@ -474,7 +305,7 @@ export default function ServicesPage() {
             </h2>
           </div>
 
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
@@ -482,16 +313,16 @@ export default function ServicesPage() {
             className="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto"
           >
             {audiences.map((audience, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 variants={fadeUp}
                 className="card hover:border-[var(--border-light)]"
               >
                 <h3 className="text-lg font-bold mb-2">{audience.title}</h3>
                 <p className="text-[var(--text-secondary)]">{audience.description}</p>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -512,7 +343,7 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <motion.ul
+            <m.ul
               initial="initial"
               whileInView="animate"
               viewport={{ once: true, margin: "-100px" }}
@@ -520,7 +351,7 @@ export default function ServicesPage() {
               className="space-y-0"
             >
               {credentials.map((cred, index) => (
-                <motion.li
+                <m.li
                   key={index}
                   variants={fadeUp}
                   className="py-4 border-b border-[var(--border)] last:border-b-0 font-mono text-sm"
@@ -531,9 +362,9 @@ export default function ServicesPage() {
                   <span className="text-[var(--text-tertiary)]">
                     {cred.role}
                   </span>
-                </motion.li>
+                </m.li>
               ))}
-            </motion.ul>
+            </m.ul>
           </div>
         </div>
       </section>

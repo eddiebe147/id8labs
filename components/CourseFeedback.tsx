@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from '@/components/motion'
 
 interface CourseFeedbackProps {
   courseId: string
@@ -72,7 +72,7 @@ export default function CourseFeedback({
       <AnimatePresence mode="wait">
         {/* Initial voting state */}
         {status === 'idle' && (
-          <motion.div
+          <m.div
             key="voting"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -99,12 +99,12 @@ export default function CourseFeedback({
                 Could be better
               </button>
             </div>
-          </motion.div>
+          </m.div>
         )}
 
         {/* After voting - ask for email */}
         {status === 'voted' && (
-          <motion.div
+          <m.div
             key="email-capture"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,12 +150,12 @@ export default function CourseFeedback({
                 Skip — just submit my feedback
               </button>
             </form>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Submitting state */}
         {status === 'submitting' && (
-          <motion.div
+          <m.div
             key="submitting"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -181,12 +181,12 @@ export default function CourseFeedback({
               </svg>
             </div>
             <p className="text-[var(--text-secondary)]">Submitting...</p>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Success state */}
         {status === 'success' && (
-          <motion.div
+          <m.div
             key="success"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -201,12 +201,12 @@ export default function CourseFeedback({
                 ? "We'll be in touch with personalized recommendations."
                 : "Thanks for helping us improve."}
             </p>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Error state */}
         {status === 'error' && (
-          <motion.div
+          <m.div
             key="error"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -223,7 +223,7 @@ export default function CourseFeedback({
             >
               Try again
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

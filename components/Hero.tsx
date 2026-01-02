@@ -1,12 +1,12 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 export default function Hero() {
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-zone-text">
       <div className="container relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -26,17 +26,17 @@ export default function Hero() {
           </h1>
 
           {/* Subheadline */}
-          <motion.p
+          <m.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto font-medium leading-relaxed"
           >
             AI as thinking partner, not chatbot. Tools that compound—every session builds on the last.
-          </motion.p>
+          </m.p>
 
           {/* CTA Buttons */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -68,10 +68,10 @@ export default function Hero() {
             >
               Read the Lab Story
             </a>
-          </motion.div>
+          </m.div>
 
           {/* Social Proof / Status */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -90,8 +90,8 @@ export default function Hero() {
             <div className="hidden sm:flex items-center gap-2">
               <span>Built in Miami</span>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
 
       {/* Decorative elements - Subtle depth */}

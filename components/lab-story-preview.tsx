@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 
 /**
@@ -13,7 +13,7 @@ export function LabStoryPreview() {
   return (
     <section className="relative px-8 overflow-hidden bg-bg-secondary" style={{ paddingTop: 'var(--spacing-5xl)', paddingBottom: 'var(--spacing-5xl)' }}>
       {/* Geometric Accent - Floating Circle */}
-      <motion.div
+      <m.div
         className="absolute bottom-16 right-16 w-24 h-24 rounded-full pointer-events-none hidden md:block"
         style={{
           background: 'rgba(0, 217, 255, 0.08)',
@@ -32,7 +32,7 @@ export function LabStoryPreview() {
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -43,10 +43,10 @@ export function LabStoryPreview() {
             Behind the{' '}
             <span className="font-mono tracking-wider text-accent">Lab</span>
           </h2>
-        </motion.div>
+        </m.div>
 
         {/* Story Content */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -66,10 +66,10 @@ export function LabStoryPreview() {
             So I built the lab I wished existed. Tools made by someone who
             actually uses them. Battle-tested in real production.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* CTA Button */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -85,7 +85,7 @@ export function LabStoryPreview() {
               →
             </span>
           </Link>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Hover Effect Styles */}

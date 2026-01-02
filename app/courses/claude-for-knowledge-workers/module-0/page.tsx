@@ -1,11 +1,12 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
 import EmailCapture from '@/components/EmailCapture'
 import Image from 'next/image'
+import { useState } from 'react'
 
 // Animation variants
 const fadeUp = {
@@ -60,6 +61,77 @@ const TerminalIcon = () => (
   </svg>
 )
 
+const CopyIcon = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+  </svg>
+)
+
+const CheckIconSmall = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+)
+
+// Copyable code block component
+function CopyableCode({ code, label }: { code: string; label?: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="relative group">
+      {label && (
+        <div className="text-xs font-mono text-id8-orange mb-2">{label}</div>
+      )}
+      <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg p-4 font-mono text-sm overflow-x-auto">
+        <pre className="text-[var(--text-secondary)] whitespace-pre-wrap">{code}</pre>
+      </div>
+      <button
+        onClick={handleCopy}
+        className="absolute top-2 right-2 p-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:border-id8-orange/50"
+      >
+        {copied ? <CheckIconSmall /> : <CopyIcon />}
+      </button>
+    </div>
+  )
+}
+
+// "Try This Now" interactive section
+function TryThisNow({ children, title }: { children: React.ReactNode; title: string }) {
+  return (
+    <div className="my-8 p-6 bg-id8-orange/5 border-2 border-id8-orange/30 rounded-xl">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 bg-id8-orange/20 rounded-full flex items-center justify-center">
+          <TerminalIcon />
+        </div>
+        <div>
+          <span className="text-xs font-mono text-id8-orange uppercase tracking-wider">Hands-On Exercise</span>
+          <h3 className="text-lg font-bold text-[var(--text-primary)]">{title}</h3>
+        </div>
+      </div>
+      {children}
+    </div>
+  )
+}
+
+// Mentor aside component
+function MentorNote({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="my-6 p-4 bg-[var(--bg-secondary)] border-l-4 border-id8-orange rounded-r-lg">
+      <div className="flex items-start gap-3">
+        <div className="text-2xl">💡</div>
+        <div className="text-[var(--text-secondary)] italic">{children}</div>
+      </div>
+    </div>
+  )
+}
+
 const outcomes = [
   "Understand what Claude Code actually is (hint: not for developers)",
   "Install Claude Code on your computer in under 2 minutes",
@@ -80,13 +152,13 @@ export default function Module0Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/claude-for-knowledge-workers"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -94,32 +166,32 @@ export default function Module0Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 0</span>
               <span className="text-id8-orange/50">•</span>
               <span>Free</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               The Mental Model Shift
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               15 minutes to understand what Claude Code actually is — and complete your first real delegation.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <m.div variants={fadeUp} className="flex flex-wrap gap-4">
               <a
                 href="/courses/module-0/module-0-the-mental-model-shift.pdf"
                 download="Module-0-The-Mental-Model-Shift.pdf"
@@ -135,11 +207,26 @@ export default function Module0Page() {
                 <PlayIcon />
                 Watch or Listen
               </a>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Split Tab Callout */}
+      <section className="py-4 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-purple-500/10 border-b border-[var(--border)]">
+        <div className="container">
+          <div className="flex items-center justify-center gap-3 text-center">
+            <span className="text-lg">✨</span>
+            <p className="text-sm text-[var(--text-secondary)]">
+              <span className="font-medium text-[var(--text-primary)]">Pro Tip:</span> Use your browser's Split Tab feature to follow along side-by-side with Claude Code open.
+            </p>
+            <span className="text-xs font-mono uppercase tracking-wider text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full">
+              New
+            </span>
+          </div>
+        </div>
       </section>
 
       {/* Media Section */}
@@ -153,7 +240,7 @@ export default function Module0Page() {
 
             <div className="space-y-6">
               {/* Video Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -163,10 +250,10 @@ export default function Module0Page() {
                   title="The Mental Model Shift (Video)"
                   downloadName="Module-0-The-Mental-Model-Shift.mp4"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Audio Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -177,10 +264,10 @@ export default function Module0Page() {
                   title="The Mental Model Shift (Podcast)"
                   downloadName="Module-0-The-Mental-Model-Shift.m4a"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Mindmap */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -203,7 +290,7 @@ export default function Module0Page() {
                   />
                 </a>
                 <p className="text-sm text-[var(--text-tertiary)] mt-2">Click to view full size</p>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -217,7 +304,7 @@ export default function Module0Page() {
 
             <div className="space-y-4">
               {outcomes.map((outcome, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -229,7 +316,7 @@ export default function Module0Page() {
                     <CheckIcon />
                   </span>
                   <span className="text-[var(--text-primary)]">{outcome}</span>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -247,28 +334,70 @@ export default function Module0Page() {
               <h2 className="text-2xl font-bold">Quick Start</h2>
             </div>
 
-            <div className="space-y-4">
-              {quickStart.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-start gap-4"
-                >
-                  <span className="w-8 h-8 rounded-full bg-id8-orange/10 border border-id8-orange/30 flex items-center justify-center text-id8-orange font-mono text-sm flex-shrink-0">
-                    {item.step}
-                  </span>
-                  <div className="flex-1">
-                    <code className="block px-4 py-3 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg font-mono text-sm text-[var(--text-primary)] mb-2">
-                      {item.command}
-                    </code>
-                    <p className="text-sm text-[var(--text-tertiary)]">{item.description}</p>
-                  </div>
-                </motion.div>
-              ))}
+            <MentorNote>
+              Don't just read these commands — actually run them. The mental shift happens when you experience it firsthand.
+            </MentorNote>
+
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-8 h-8 rounded-full bg-id8-orange/10 border border-id8-orange/30 flex items-center justify-center text-id8-orange font-mono text-sm flex-shrink-0">1</span>
+                  <p className="text-sm text-[var(--text-tertiary)]">Install Claude Code</p>
+                </div>
+                <CopyableCode code="curl -fsSL https://claude.ai/install.sh | bash" />
+              </div>
+
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-8 h-8 rounded-full bg-id8-orange/10 border border-id8-orange/30 flex items-center justify-center text-id8-orange font-mono text-sm flex-shrink-0">2</span>
+                  <p className="text-sm text-[var(--text-tertiary)]">Start a session</p>
+                </div>
+                <CopyableCode code="claude" />
+              </div>
+
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-8 h-8 rounded-full bg-id8-orange/10 border border-id8-orange/30 flex items-center justify-center text-id8-orange font-mono text-sm flex-shrink-0">3</span>
+                  <p className="text-sm text-[var(--text-tertiary)]">Navigate to a folder</p>
+                </div>
+                <CopyableCode code="cd ~/Downloads" />
+              </div>
+
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="w-8 h-8 rounded-full bg-id8-orange/10 border border-id8-orange/30 flex items-center justify-center text-id8-orange font-mono text-sm flex-shrink-0">4</span>
+                  <p className="text-sm text-[var(--text-tertiary)]">Your first delegation</p>
+                </div>
+                <CopyableCode code={`"Organize this folder by file type"`} />
+              </div>
             </div>
+
+            <TryThisNow title="Complete Your First Delegation">
+              <p className="text-[var(--text-secondary)] mb-4">
+                Right now, open your terminal and try this exact sequence. Watch as Claude Code:
+              </p>
+              <ul className="space-y-2 text-[var(--text-secondary)] mb-4">
+                <li className="flex items-start gap-2">
+                  <span className="text-id8-orange mt-1">•</span>
+                  <span>Scans your Downloads folder</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-id8-orange mt-1">•</span>
+                  <span>Creates subfolders (PDFs, Images, Documents, etc.)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-id8-orange mt-1">•</span>
+                  <span>Moves files into the right places</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-id8-orange mt-1">•</span>
+                  <span>Reports back what it did</span>
+                </li>
+              </ul>
+              <p className="text-sm text-[var(--text-tertiary)]">
+                This is delegation. You stated a goal. Claude Code delivered a result.
+              </p>
+            </TryThisNow>
           </div>
         </div>
       </section>
@@ -300,6 +429,10 @@ export default function Module0Page() {
                 One gives you <strong>suggestions</strong>. The other gives you <strong>deliverables</strong>.
               </p>
             </div>
+
+            <MentorNote>
+              This isn't about Claude being "smarter." It's about you thinking differently. When you delegate instead of ask, you get outcomes instead of options. That's the mental model shift.
+            </MentorNote>
           </div>
         </div>
       </section>

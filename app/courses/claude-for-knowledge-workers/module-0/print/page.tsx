@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 
 // Animation variants
 const fadeUp = {
@@ -103,35 +103,35 @@ export default function Module0PrintPage() {
       {/* Hero Section */}
       <section className="relative min-h-[50vh] flex items-center bg-zone-text print:min-h-0 print:py-12">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-4xl"
           >
-            <motion.div variants={fadeUp} className="flex items-center gap-4 mb-6">
+            <m.div variants={fadeUp} className="flex items-center gap-4 mb-6">
               <span className="text-sm font-mono uppercase tracking-widest px-3 py-1 rounded-md bg-id8-orange/10 text-id8-orange">
                 Module 0
               </span>
               <span className="text-sm font-mono text-[var(--text-tertiary)]">
                 Free • 15 min
               </span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] font-bold tracking-tight mb-6"
             >
               The Mental Model Shift
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] max-w-2xl leading-relaxed"
             >
               From Chatbot to Operating System: Install Claude Code and complete your first real delegation in 15 minutes.
-            </motion.p>
-          </motion.div>
+            </m.p>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent print:hidden" />

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 
 /**
@@ -27,7 +27,7 @@ export function FinalCTASection() {
       }}
     >
       {/* Geometric Accent - Floating Triangle */}
-      <motion.div
+      <m.div
         className="absolute top-20 left-10 pointer-events-none hidden md:block"
         animate={{
           y: [0, -15, 0],
@@ -51,7 +51,7 @@ export function FinalCTASection() {
       {/* Content Container */}
       <div className="max-w-4xl mx-auto text-center relative z-10">
         {/* Title */}
-        <motion.h2
+        <m.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -59,10 +59,10 @@ export function FinalCTASection() {
           className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
         >
           Ready to Build Differently?
-        </motion.h2>
+        </m.h2>
 
         {/* Subtitle */}
-        <motion.p
+        <m.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -70,10 +70,10 @@ export function FinalCTASection() {
           className="text-xl md:text-2xl text-text-secondary mb-12 max-w-2xl mx-auto"
         >
           Join creators who refuse to compromise
-        </motion.p>
+        </m.p>
 
         {/* Product Links */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -81,7 +81,7 @@ export function FinalCTASection() {
           className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8"
         >
           {products.map((product, index) => (
-            <motion.div
+            <m.div
               key={product.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -97,12 +97,12 @@ export function FinalCTASection() {
                   →
                 </span>
               </Link>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Alternative: Read Lab Story */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -116,7 +116,7 @@ export function FinalCTASection() {
           >
             read the full story
           </Link>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Hover Effect Styles */}

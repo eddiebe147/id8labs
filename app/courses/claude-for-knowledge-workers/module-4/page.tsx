@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { useState } from 'react'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
@@ -93,6 +94,75 @@ const ShieldCheckIcon = () => (
   </svg>
 )
 
+const CopyIcon = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+  </svg>
+)
+
+const CheckIconSmall = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+)
+
+// Interactive Components
+function CopyableCode({ code, label }: { code: string; label?: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="relative group">
+      {label && (
+        <p className="text-xs font-mono text-id8-orange mb-2">{label}</p>
+      )}
+      <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg p-4 font-mono text-sm">
+        <pre className="whitespace-pre-wrap text-[var(--text-primary)]">{code}</pre>
+        <button
+          onClick={handleCopy}
+          className="absolute top-3 right-3 p-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:border-id8-orange/50"
+          aria-label="Copy to clipboard"
+        >
+          {copied ? <CheckIconSmall /> : <CopyIcon />}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function TryThisNow({ children, title }: { children: React.ReactNode; title: string }) {
+  return (
+    <div className="my-8 p-6 bg-id8-orange/5 border-2 border-id8-orange/30 rounded-xl">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-id8-orange">
+          <TerminalIcon />
+        </span>
+        <h3 className="text-lg font-bold text-id8-orange">{title}</h3>
+      </div>
+      <div className="space-y-4">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function MentorNote({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="my-6 p-4 border-l-4 border-id8-orange/50 bg-[var(--bg-secondary)] rounded-r-lg">
+      <p className="text-sm text-[var(--text-secondary)]">
+        <span className="font-medium text-[var(--text-primary)]">💡 </span>
+        {children}
+      </p>
+    </div>
+  )
+}
+
 // Module 4 content
 const outcomes = [
   "Turn research questions into actionable briefings using the Research Briefing Workflow",
@@ -144,13 +214,13 @@ export default function Module4Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/claude-for-knowledge-workers"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -158,32 +228,32 @@ export default function Module4Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 4</span>
               <span className="text-id8-orange/50">•</span>
               <span>60 min</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               Research & Analysis
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               From dozens of browser tabs to actionable insights. Claude doesn't just help you search — it helps you synthesize. The shift is from "help me search" to "research this and tell me what I need to know."
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <m.div variants={fadeUp} className="flex flex-wrap gap-4">
               <a
                 href="/courses/module-4/module-4-research-and-analysis.pdf"
                 download="Module-4-Research-And-Analysis.pdf"
@@ -199,11 +269,23 @@ export default function Module4Page() {
                 <PlayIcon />
                 Watch or Listen
               </a>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Split Tab Callout */}
+      <section className="py-4 bg-id8-orange/5 border-b border-id8-orange/20">
+        <div className="container">
+          <div className="max-w-3xl mx-auto flex items-center gap-3 text-sm">
+            <span className="text-id8-orange">💡</span>
+            <p className="text-[var(--text-secondary)]">
+              <strong className="text-[var(--text-primary)]">Pro tip:</strong> Open Claude Code in a split tab alongside this lesson. Practice each delegation as you learn it — the patterns stick better when you try them immediately.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Media Section */}
@@ -217,7 +299,7 @@ export default function Module4Page() {
 
             <div className="space-y-6">
               {/* Video Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -227,10 +309,10 @@ export default function Module4Page() {
                   title="Research & Analysis (Video)"
                   downloadName="Module-4-Research-And-Analysis.mp4"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Audio Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -241,7 +323,7 @@ export default function Module4Page() {
                   title="Research & Analysis (Podcast)"
                   downloadName="Module-4-Research-And-Analysis.m4a"
                 />
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -251,7 +333,7 @@ export default function Module4Page() {
       <section className="section-spacing border-t border-[var(--border)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -266,7 +348,7 @@ export default function Module4Page() {
               <p className="text-[var(--text-secondary)] leading-relaxed">
                 Think about how you research today. You open a dozen browser tabs. You skim articles, copy quotes into notes, lose track of where you found things. You spend hours gathering information, then more hours trying to make sense of it all. <strong className="text-[var(--text-primary)]">Claude Code changes this fundamentally.</strong>
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -328,7 +410,7 @@ export default function Module4Page() {
 
             <div className="space-y-4">
               {outcomes.map((outcome, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -340,7 +422,7 @@ export default function Module4Page() {
                     <CheckIcon />
                   </span>
                   <span className="text-[var(--text-primary)]">{outcome}</span>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -364,7 +446,7 @@ export default function Module4Page() {
 
             <div className="space-y-4 mb-6">
               {researchPatterns.map((pattern, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -376,7 +458,7 @@ export default function Module4Page() {
                   <code className="block text-sm text-[var(--text-primary)] bg-[var(--bg-primary)] p-3 rounded">
                     {pattern.pattern}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -386,6 +468,24 @@ export default function Module4Page() {
                 "I produce reality television. Before filming, I need to understand each cast member — their background, their social media presence, any public controversies, their relationships. Used to take a researcher half a day per person. Now I give Claude their names and basic info: 'Research these 10 cast members. For each one, find: social media presence and follower counts, any news coverage, relationship history if public, potential storylines, and red flags we should know about.' Ten detailed briefings in 15 minutes. My team reviews and adds context, but the grunt work is done."
               </p>
             </div>
+
+            <TryThisNow title="Create Your First Research Briefing">
+              <p className="text-[var(--text-secondary)] mb-4">
+                Pick something you're genuinely curious about — a competitor, a potential partner, a market trend, or a person you'll be meeting with. Use this template:
+              </p>
+              <CopyableCode
+                code={`Research [company/person/topic]. I want to understand:
+- [Specific aspect 1]
+- [Specific aspect 2]
+- [Specific aspect 3]
+
+Create a briefing covering: background, key facts, recent developments, and anything surprising. Include sources for key claims. Save to ~/Documents/Research/briefing.md`}
+                label="Research briefing delegation template"
+              />
+              <p className="text-sm text-[var(--text-tertiary)] mt-3">
+                Start small — one topic, 3-5 aspects. You can always ask follow-up questions to go deeper.
+              </p>
+            </TryThisNow>
           </div>
         </div>
       </section>
@@ -433,7 +533,7 @@ export default function Module4Page() {
 
             <div className="space-y-4 mb-6">
               {documentPatterns.map((pattern, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -445,7 +545,7 @@ export default function Module4Page() {
                   <code className="block text-sm text-[var(--text-primary)] bg-[var(--bg-primary)] p-3 rounded">
                     {pattern.delegation}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -470,7 +570,7 @@ export default function Module4Page() {
 
             <div className="space-y-4">
               {actionPatterns.map((pattern, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -482,7 +582,7 @@ export default function Module4Page() {
                   <code className="block text-sm text-[var(--text-primary)] bg-[var(--bg-secondary)] p-3 rounded">
                     {pattern.pattern}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -594,6 +694,10 @@ export default function Module4Page() {
                 </div>
               ))}
             </div>
+
+            <MentorNote>
+              Research is where Claude Code truly shines for knowledge workers. You've likely spent entire days doing what now takes 15 minutes. The key shift: stop thinking of Claude as a search engine. Think of it as a research analyst who can synthesize multiple sources into exactly what you need.
+            </MentorNote>
           </div>
         </div>
       </section>

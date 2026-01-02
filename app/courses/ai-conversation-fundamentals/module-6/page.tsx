@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import EmailCapture from '@/components/EmailCapture'
 import CourseFeedback from '@/components/CourseFeedback'
@@ -106,13 +106,13 @@ export default function Module6Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/ai-conversation-fundamentals"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -120,31 +120,31 @@ export default function Module6Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 6</span>
               <span className="text-id8-orange/50">•</span>
               <span>~3 min</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               What's Next
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               You've completed the fundamentals. Here's what you've learned and where to go from here.
-            </motion.p>
-          </motion.div>
+            </m.p>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
@@ -163,7 +163,7 @@ export default function Module6Page() {
 
             <div className="space-y-3">
               {learnings.map((item, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -177,7 +177,7 @@ export default function Module6Page() {
                     <h3 className="font-bold text-[var(--text-primary)] mb-1">{item.title}</h3>
                     <p className="text-sm text-[var(--text-secondary)]">{item.description}</p>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -196,7 +196,7 @@ export default function Module6Page() {
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-6">But There's a Ceiling</h2>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -234,7 +234,7 @@ export default function Module6Page() {
               <p className="text-[var(--text-secondary)] leading-relaxed">
                 That's where <strong className="text-[var(--text-primary)]">Claude Code</strong> (formerly Claude Desktop) comes in. It's the same AI, but with the ability to read your files, run commands, and actually do work on your behalf.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -247,7 +247,7 @@ export default function Module6Page() {
 
             <div className="space-y-4">
               {/* CTA 1: Free Module 0 */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -271,10 +271,10 @@ export default function Module6Page() {
                     </Link>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* CTA 2: Full Course */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
@@ -306,10 +306,10 @@ export default function Module6Page() {
                     </Link>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
 
               {/* CTA 3: Services */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -333,7 +333,7 @@ export default function Module6Page() {
                     </Link>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -343,7 +343,7 @@ export default function Module6Page() {
       <section className="section-spacing bg-[var(--bg-secondary)]">
         <div className="container">
           <div className="max-w-2xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -368,7 +368,7 @@ export default function Module6Page() {
               <p className="text-sm text-[var(--text-tertiary)] mt-4">
                 Free to join. No spam.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -409,7 +409,7 @@ export default function Module6Page() {
 
         <div className="container relative">
           <div className="max-w-2xl mx-auto text-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -427,7 +427,7 @@ export default function Module6Page() {
               <p className="text-lg text-[var(--text-secondary)]">
                 Now go use it.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>

@@ -9,7 +9,7 @@
  */
 
 export type PurchaseType = 'stripe' | 'booking' | 'free'
-export type ProductCategory = 'ai-implementation' | 'claude-code-training' | 'self-paced-course' | 'free-resource'
+export type ProductCategory = 'ai-implementation' | 'claude-code-training' | 'self-paced-course' | 'free-resource' | 'coming-soon'
 
 export interface Product {
   id: string
@@ -250,6 +250,32 @@ export const PRODUCTS: Record<string, Product> = {
     ],
     successRedirect: '/courses/claude-for-knowledge-workers/module-0',
   },
+
+  // ─────────────────────────────────────────────────────────────
+  // Academy Courses (Free, creator-focused)
+  // ─────────────────────────────────────────────────────────────
+  'prompt-engineering-creators': {
+    id: 'prompt-engineering-creators',
+    name: 'Prompt Engineering for Creators',
+    description: 'Learn the 9 techniques that make every AI conversation more effective — through real examples from writers, content creators, and indie makers.',
+    category: 'free-resource',
+    purchaseType: 'free',
+    price: 0,
+    priceDisplay: 'Free',
+    currency: 'usd',
+    features: [
+      'Module 1: The Anatomy of a Great Prompt',
+      'Module 2: Say What You Mean',
+      'Module 3: Give Claude a Job Description',
+      'Module 4: Context Without Confusion',
+      'Module 5: Get the Format You Need',
+      'Module 6: Help Claude Think',
+      'Module 7: Show, Don\'t Just Tell',
+      'Module 8: Keep Claude Honest',
+      'Module 9: Build Your Prompt Library',
+    ],
+    successRedirect: '/academy/prompt-engineering-creators',
+  },
 } as const
 
 export type ProductId = keyof typeof PRODUCTS
@@ -280,6 +306,24 @@ export function getBookingProducts(): Product[] {
 
 export function getFreeProducts(): Product[] {
   return getProductsByPurchaseType('free')
+}
+
+export function getLearningProducts(): Product[] {
+  return Object.values(PRODUCTS).filter(p =>
+    p.category === 'self-paced-course' ||
+    p.category === 'free-resource' ||
+    p.category === 'claude-code-training'
+  )
+}
+
+export function getImplementationServices(): Product[] {
+  return getProductsByCategory('ai-implementation')
+}
+
+export function getAcademyCourses(): Product[] {
+  return Object.values(PRODUCTS).filter(p =>
+    p.category === 'free-resource' || p.category === 'self-paced-course'
+  )
 }
 
 // For backwards compatibility with existing checkout code

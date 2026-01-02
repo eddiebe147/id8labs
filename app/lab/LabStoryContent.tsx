@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion, useInView } from '@/components/motion'
+import { m, useInView } from '@/components/motion'
 import { useRef, useState, useEffect } from 'react'
 
 // Section data for navigation
@@ -21,14 +21,14 @@ function FadeInSection({ children, delay = 0 }: { children: React.ReactNode; del
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 interface Product {
   name: string
@@ -144,7 +144,7 @@ function FeaturedCard({ product, index }: { product: Product; index: number }) {
   }
 
   const content = (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -195,15 +195,15 @@ function FeaturedCard({ product, index }: { product: Product; index: number }) {
         </div>
 
         {/* Right - Product Preview */}
-        <motion.div
+        <m.div
           className="order-first lg:order-last"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
         >
           {getPreview()}
-        </motion.div>
+        </m.div>
       </div>
-    </motion.div>
+    </m.div>
   )
 
   if (product.external) {
@@ -250,7 +250,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   }
 
   const content = (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -312,7 +312,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </svg>
         </div>
       )}
-    </motion.div>
+    </m.div>
   )
 
   if (!product.link) {
@@ -348,7 +348,7 @@ export default function ProductGrid() {
         {/* Two Column Layout - Sticky Header + Products */}
         <div className="grid lg:grid-cols-[1fr_2fr] gap-16 lg:gap-24">
           {/* Left - Sticky Section Header */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -364,7 +364,7 @@ export default function ProductGrid() {
             <p className="text-xl text-[var(--text-secondary)]">
               Tools for creators. Infrastructure for builders. Experiments for fun.
             </p>
-          </motion.div>
+          </m.div>
 
           {/* Right - Products Content */}
           <div className="space-y-12">

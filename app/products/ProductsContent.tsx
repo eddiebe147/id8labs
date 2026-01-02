@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import { ArrowRight, ExternalLink, Sparkles, Wrench, Zap, Terminal, Box } from 'lucide-react'
 
@@ -176,7 +176,7 @@ function ProductCard({ product }: { product: Product }) {
     const config = statusConfig[product.status]
 
     return (
-        <motion.div
+        <m.div
             variants={itemVariants}
             className={`group relative flex flex-col p-6 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04] ${config.glow}`}
         >
@@ -229,7 +229,7 @@ function ProductCard({ product }: { product: Product }) {
                     </Link>
                 )
             )}
-        </motion.div>
+        </m.div>
     )
 }
 
@@ -247,7 +247,7 @@ function CategorySection({
     accent: string
 }) {
     return (
-        <motion.section
+        <m.section
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-50px' }}
@@ -267,7 +267,7 @@ function CategorySection({
                     <ProductCard key={product.name} product={product} />
                 ))}
             </div>
-        </motion.section>
+        </m.section>
     )
 }
 
@@ -285,7 +285,7 @@ export default function ProductsContent() {
                 </Link>
 
                 {/* Header */}
-                <motion.header
+                <m.header
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
@@ -300,7 +300,7 @@ export default function ProductsContent() {
                         <br className="hidden md:block" />
                         <span className="text-zinc-200"> Experiments because we can't help ourselves.</span>
                     </p>
-                </motion.header>
+                </m.header>
 
                 {/* For Creators */}
                 <CategorySection
@@ -330,7 +330,7 @@ export default function ProductsContent() {
                 />
 
                 {/* Custom Builds CTA */}
-                <motion.section
+                <m.section
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -360,7 +360,7 @@ export default function ProductsContent() {
                             </a>
                         </div>
                     </div>
-                </motion.section>
+                </m.section>
             </div>
         </div>
     )

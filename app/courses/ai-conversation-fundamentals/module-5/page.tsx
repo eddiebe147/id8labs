@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 
 // Animation variants
@@ -77,13 +77,13 @@ export default function Module5Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/ai-conversation-fundamentals"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -91,31 +91,31 @@ export default function Module5Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 5</span>
               <span className="text-id8-orange/50">•</span>
               <span>~10 min</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               Putting It Together
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               Real examples across writing, analysis, research, and creative work. See the patterns in action.
-            </motion.p>
-          </motion.div>
+            </m.p>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
@@ -125,7 +125,7 @@ export default function Module5Page() {
       <section className="section-spacing border-t border-[var(--border)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -138,7 +138,7 @@ export default function Module5Page() {
                   <strong>The pattern you'll see repeated:</strong> Context + Task + Constraints + Quality bar
                 </p>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -155,7 +155,7 @@ export default function Module5Page() {
             </div>
 
             <div className="space-y-4">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -170,9 +170,9 @@ export default function Module5Page() {
                 <p className="text-xs text-[var(--text-tertiary)] mt-3">
                   Problem: No context, no goal, no tone guidance
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -204,7 +204,7 @@ export default function Module5Page() {
                     <strong>Why it works:</strong> Context (conference, their pain point), Task (schedule demo), Constraints (tone, length), Quality bar (reference conversation)
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -222,7 +222,7 @@ export default function Module5Page() {
             </div>
 
             <div className="space-y-4">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -237,9 +237,9 @@ export default function Module5Page() {
                 <p className="text-xs text-[var(--text-tertiary)] mt-3">
                   Problem: Which angle? For what purpose?
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -273,7 +273,7 @@ export default function Module5Page() {
                     <strong>Why it works:</strong> Clear use case (exec presentation), Specific questions, Deliverable format, Permission to prioritize ("flag issues")
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -291,7 +291,7 @@ export default function Module5Page() {
             </div>
 
             <div className="space-y-4">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -306,9 +306,9 @@ export default function Module5Page() {
                 <p className="text-xs text-[var(--text-tertiary)] mt-3">
                   Problem: For what show? What audience? What style?
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -345,7 +345,7 @@ export default function Module5Page() {
                     <strong>Why it works:</strong> Show context (style, audience), What to avoid (past topics), Deliverable format (title + description + hook), Quality bar (counterintuitive)
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -363,7 +363,7 @@ export default function Module5Page() {
             </div>
 
             <div className="space-y-4">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -378,9 +378,9 @@ export default function Module5Page() {
                 <p className="text-xs text-[var(--text-tertiary)] mt-3">
                   Problem: Too broad. What's the decision?
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -419,7 +419,7 @@ export default function Module5Page() {
                     <strong>Why it works:</strong> Specific situation (location, budget, timeline), Clear scope (decision factors), Explicit "skip this" (saves attention for what matters)
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -441,7 +441,7 @@ export default function Module5Page() {
             </p>
 
             <div className="space-y-3">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -458,9 +458,9 @@ export default function Module5Page() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -478,9 +478,9 @@ export default function Module5Page() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -498,9 +498,9 @@ export default function Module5Page() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -518,7 +518,7 @@ export default function Module5Page() {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
 
             <div className="mt-6 p-4 bg-id8-orange/5 border border-id8-orange/20 rounded-lg">

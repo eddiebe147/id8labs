@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 /**
  * WhatWeAre Section
@@ -11,7 +11,7 @@ export default function WhatWeAre() {
   return (
     <section className="relative py-24 bg-zone-text">
       <div className="container">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -30,7 +30,7 @@ export default function WhatWeAre() {
           <p className="text-lg md:text-xl text-[var(--text-secondary)] leading-relaxed">
             <span className="text-[var(--id8-orange)]">For Creators</span> — AI writing partners with memory that lasts. <span className="text-purple-400">For Builders</span> — orchestration that turns tab-switching into workflows. <span className="text-cyan-400">For Fun</span> — experiments we couldn't resist building.
           </p>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Subtle separator */}

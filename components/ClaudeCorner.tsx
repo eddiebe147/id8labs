@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 import { useEffect, useState, useMemo } from 'react'
 import { getSupabase, type ClaudeObservation, type ClaudeStats } from '@/lib/supabase'
 
@@ -111,7 +111,7 @@ function ActivityHeatmap() {
           {activityData.map((week, weekIndex) => (
             <div key={weekIndex} className="flex flex-col gap-[2px]">
               {week.map((day, dayIndex) => (
-                <motion.div
+                <m.div
                   key={dayIndex}
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
@@ -160,7 +160,7 @@ function ActivityHeatmap() {
 
 function StatCard({ value, label, suffix = '' }: { value: string | number; label: string; suffix?: string }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -172,13 +172,13 @@ function StatCard({ value, label, suffix = '' }: { value: string | number; label
         {typeof value === 'number' ? value.toLocaleString() : value}{suffix}
       </p>
       <p className="text-xs sm:text-sm text-[var(--text-tertiary)] mt-1 leading-tight">{label}</p>
-    </motion.div>
+    </m.div>
   )
 }
 
 function ModelUsageBar() {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -190,7 +190,7 @@ function ModelUsageBar() {
       {/* Stacked bar */}
       <div className="flex h-4 rounded-full overflow-hidden mb-4 shadow-inner bg-[var(--bg-secondary)]/50">
         {modelUsage.map((usage, index) => (
-          <motion.div
+          <m.div
             key={usage.model}
             initial={{ width: 0 }}
             whileInView={{ width: `${usage.percentage}%` }}
@@ -201,7 +201,7 @@ function ModelUsageBar() {
           >
             {/* Shine effect on hover */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/bar:opacity-100 transition-opacity duration-300" />
-          </motion.div>
+          </m.div>
         ))}
       </div>
       {/* Legend */}
@@ -215,7 +215,7 @@ function ModelUsageBar() {
           </div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -583,7 +583,7 @@ export default function ClaudeCorner() {
     <section className="section-spacing bg-zone-visual">
       <div className="container max-w-7xl">
         {/* ASCII Art Header - Claude Corner */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -592,7 +592,7 @@ export default function ClaudeCorner() {
         >
           <pre className="font-mono text-[var(--id8-orange)] text-[0.4rem] xs:text-[0.5rem] sm:text-xs md:text-sm lg:text-base leading-none inline-block select-none">
             {claudeCornerAscii.map((line, i) => (
-              <motion.span
+              <m.span
                 key={i}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -601,13 +601,13 @@ export default function ClaudeCorner() {
                 className="block"
               >
                 {line}
-              </motion.span>
+              </m.span>
             ))}
           </pre>
-        </motion.div>
+        </m.div>
 
         {/* Terminal Window - Title Bar */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -628,10 +628,10 @@ export default function ClaudeCorner() {
               {isLive ? 'LIVE' : 'ACTIVE'}
             </span>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Terminal Window - Content */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -639,7 +639,7 @@ export default function ClaudeCorner() {
           className="rounded-b-xl bg-[#1e1e1e] border border-[#3d3d3d] border-t-0 p-6 md:p-8 lg:p-10"
         >
           {/* Claude Intro - Compact */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -670,12 +670,12 @@ export default function ClaudeCorner() {
                 </span>
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Two Column Layout */}
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
             {/* LEFT COLUMN - Data Console */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -756,7 +756,7 @@ export default function ClaudeCorner() {
                         <span className="text-[#c0c0c0]">{lang.percentage}%</span>
                       </div>
                       <div className="h-1.5 bg-[#1e1e1e] rounded-full overflow-hidden">
-                        <motion.div
+                        <m.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${lang.percentage}%` }}
                           viewport={{ once: true }}
@@ -777,7 +777,7 @@ export default function ClaudeCorner() {
                 </div>
                 <div className="flex h-3 rounded-full overflow-hidden mb-3 bg-[#1e1e1e]">
                   {modelUsage.map((usage, index) => (
-                    <motion.div
+                    <m.div
                       key={usage.model}
                       initial={{ width: 0 }}
                       whileInView={{ width: `${usage.percentage}%` }}
@@ -809,10 +809,10 @@ export default function ClaudeCorner() {
                 </div>
                 <ActivityHeatmap />
               </div>
-            </motion.div>
+            </m.div>
 
             {/* RIGHT COLUMN - Field Notes Log */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -837,7 +837,7 @@ export default function ClaudeCorner() {
                     })
 
                     return (
-                      <motion.div
+                      <m.div
                         key={observation.id}
                         initial={{ opacity: 0, x: -10 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -871,7 +871,7 @@ export default function ClaudeCorner() {
                             </p>
                           </div>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )
                   })}
 
@@ -899,9 +899,9 @@ export default function ClaudeCorner() {
                   <span className="text-[#606060]">{observations.length} entries</span>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

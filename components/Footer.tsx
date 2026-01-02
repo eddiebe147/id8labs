@@ -84,10 +84,17 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Column 4: Courses */}
+          {/* Column 4: Academy */}
           <div>
-            <h3 className="text-sm font-bold mb-3">Courses</h3>
+            <h3 className="text-sm font-bold mb-3">Academy</h3>
             <nav className="flex flex-col gap-2 text-sm">
+              <Link href="/academy" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+                All Courses
+              </Link>
+              <Link href="/academy/prompt-engineering-creators" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors flex items-center gap-1.5">
+                <span className="px-1 py-0.5 text-[8px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">New</span>
+                Prompt Engineering
+              </Link>
               <Link href="/courses/ai-conversation-fundamentals" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors flex items-center gap-1.5">
                 <span className="px-1 py-0.5 text-[8px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
                 AI Fundamentals

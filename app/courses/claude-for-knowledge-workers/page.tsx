@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import CheckoutButton from '@/components/CheckoutButton'
 
@@ -134,6 +134,46 @@ const modules = [
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-5",
   },
+  {
+    number: "6",
+    title: "Custom Commands",
+    duration: "45 min",
+    description: "Save your best prompts as reusable commands. Type one word, get consistent results every time.",
+    free: false,
+    available: true,
+    href: "/courses/claude-for-knowledge-workers/module-6",
+    isNew: true,
+  },
+  {
+    number: "7",
+    title: "Connecting Your Tools",
+    duration: "50 min",
+    description: "Let Claude read your Notion, browse the web, access files. Claude becomes part of your workflow.",
+    free: false,
+    available: true,
+    href: "/courses/claude-for-knowledge-workers/module-7",
+    isNew: true,
+  },
+  {
+    number: "8",
+    title: "Managing Long Sessions",
+    duration: "40 min",
+    description: "Keep Claude sharp during complex projects. Reset, rewind, and recover from messy contexts.",
+    free: false,
+    available: true,
+    href: "/courses/claude-for-knowledge-workers/module-8",
+    isNew: true,
+  },
+  {
+    number: "9",
+    title: "Project Memory",
+    duration: "45 min",
+    description: "Make Claude remember your projects across sessions. Persistent context that survives restarts.",
+    free: false,
+    available: true,
+    href: "/courses/claude-for-knowledge-workers/module-9",
+    isNew: true,
+  },
 ]
 
 const audiences = [
@@ -194,43 +234,43 @@ export default function ClaudeForKnowledgeWorkersPage() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-4xl"
           >
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-6"
             >
-              6-Module Course • ~5 Hours
-            </motion.p>
+              10-Module Course • ~7 Hours
+            </m.p>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-[clamp(2.5rem,7vw,4.5rem)] leading-[1.05] font-bold tracking-tight mb-6"
             >
               Claude Code for{' '}
               <span className="text-gradient-orange">Knowledge Workers</span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-2xl md:text-3xl text-[var(--text-secondary)] max-w-2xl mb-4 font-medium"
             >
               From Chatbot to Operating System
-            </motion.p>
+            </m.p>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] max-w-2xl mb-10 leading-relaxed"
             >
               Stop asking questions. Start delegating tasks. A structured course for writers, researchers, and operators who want to use Claude Code without writing code.
-            </motion.p>
+            </m.p>
 
             {/* CTA Buttons */}
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
+            <m.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/courses/claude-for-knowledge-workers/module-0"
                 className="btn btn-primary group inline-flex items-center justify-center gap-2"
@@ -244,13 +284,13 @@ export default function ClaudeForKnowledgeWorkersPage() {
               >
                 Get Full Course — $99
               </a>
-            </motion.div>
-            <motion.p variants={fadeUp} className="mt-4 text-sm text-[var(--text-tertiary)]">
+            </m.div>
+            <m.p variants={fadeUp} className="mt-4 text-sm text-[var(--text-tertiary)]">
               Module 0 is completely free. No credit card required.
-            </motion.p>
+            </m.p>
 
             {/* Cross-link to free fundamentals course */}
-            <motion.div variants={fadeUp} className="mt-8 pt-6 border-t border-[var(--border)]">
+            <m.div variants={fadeUp} className="mt-8 pt-6 border-t border-[var(--border)]">
               <p className="text-sm text-[var(--text-secondary)]">
                 New to AI conversations?{' '}
                 <Link
@@ -262,11 +302,33 @@ export default function ClaudeForKnowledgeWorkersPage() {
                   <ArrowRightIcon />
                 </Link>
               </p>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Split Tab Feature Callout */}
+      <section className="py-6 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-purple-500/10 border-b border-[var(--border)]">
+        <div className="container">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">✨</span>
+              <div>
+                <p className="font-bold text-[var(--text-primary)]">
+                  Pro Tip: Use Split Tab for Side-by-Side Learning
+                </p>
+                <p className="text-sm text-[var(--text-secondary)]">
+                  Open Claude Code in one tab, this course in another. New Split Tab feature lets you work alongside the lessons in real-time.
+                </p>
+              </div>
+            </div>
+            <span className="text-xs font-mono uppercase tracking-wider text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full whitespace-nowrap">
+              New Feature
+            </span>
+          </div>
+        </div>
       </section>
 
       {/* The Problem Section */}
@@ -285,7 +347,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
             </p>
           </div>
 
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
@@ -293,7 +355,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
             className="max-w-3xl mx-auto space-y-4"
           >
             {misconceptions.map((item, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 variants={fadeUp}
                 className="grid md:grid-cols-2 gap-4"
@@ -314,9 +376,9 @@ export default function ClaudeForKnowledgeWorkersPage() {
                     {item.right}
                   </span>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
 
           <div className="max-w-3xl mx-auto mt-12 text-center">
             <p className="text-xl text-[var(--text-primary)] font-medium">
@@ -345,7 +407,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
             </p>
           </div>
 
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
@@ -353,7 +415,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
           >
             {audiences.map((audience, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 variants={fadeUp}
                 className="card"
@@ -363,9 +425,9 @@ export default function ClaudeForKnowledgeWorkersPage() {
                 <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
                   {audience.description}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
 
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-sm font-mono uppercase tracking-widest text-[var(--text-tertiary)] mb-4">
@@ -393,14 +455,14 @@ export default function ClaudeForKnowledgeWorkersPage() {
               Curriculum
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              6 modules. ~5 hours. Zero code required.
+              10 modules. ~7 hours. Zero code required.
             </h2>
             <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
               Each module builds on the last. By the end, you'll have a personal operating system that handles the work you used to do manually.
             </p>
           </div>
 
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
@@ -419,6 +481,11 @@ export default function ClaudeForKnowledgeWorkersPage() {
                       {module.free && (
                         <span className="text-xs font-mono uppercase tracking-wider text-id8-orange bg-id8-orange/10 px-2 py-0.5 rounded">
                           Free
+                        </span>
+                      )}
+                      {(module as typeof module & { isNew?: boolean }).isNew && (
+                        <span className="text-xs font-mono uppercase tracking-wider text-green-400 bg-green-500/10 px-2 py-0.5 rounded animate-pulse">
+                          New
                         </span>
                       )}
                       {!module.available && (
@@ -444,7 +511,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
               }`
 
               return (
-                <motion.div key={index} variants={fadeUp}>
+                <m.div key={index} variants={fadeUp}>
                   {module.available ? (
                     <Link href={module.href} className={cardClass}>
                       {cardContent}
@@ -454,10 +521,10 @@ export default function ClaudeForKnowledgeWorkersPage() {
                       {cardContent}
                     </div>
                   )}
-                </motion.div>
+                </m.div>
               )
             })}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -531,7 +598,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
               <div className="text-center pt-8">
                 <h3 className="text-2xl font-bold mb-2">Complete Course</h3>
                 <p className="text-[var(--text-secondary)] mb-4">
-                  All 6 modules + lifetime updates
+                  All 10 modules + lifetime updates
                 </p>
                 <p className="text-sm text-green-400 font-mono uppercase tracking-wider mb-4">
                   Founder's Launch Special
@@ -546,7 +613,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
                 <ul className="text-left space-y-3 mb-8">
                   <li className="flex items-start gap-3">
                     <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
-                    <span>All 6 modules (~5 hours of content)</span>
+                    <span>All 10 modules (~7 hours of content)</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
@@ -616,7 +683,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -632,7 +699,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         </span>
       </button>
 
-      <motion.div
+      <m.div
         initial={false}
         animate={{
           height: isOpen ? 'auto' : 0,
@@ -644,7 +711,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         <div className="px-5 pb-5 pt-0 text-[var(--text-secondary)] leading-relaxed">
           {answer}
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   )
 }

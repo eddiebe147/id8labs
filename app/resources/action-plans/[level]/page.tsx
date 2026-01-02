@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -389,13 +389,13 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-4xl"
           >
-            <motion.div variants={fadeUp} className="flex items-center gap-4 mb-6">
+            <m.div variants={fadeUp} className="flex items-center gap-4 mb-6">
               <span
                 className="text-sm font-mono uppercase tracking-widest px-3 py-1 rounded-md"
                 style={{ backgroundColor: plan.colorLight, color: plan.color }}
@@ -405,23 +405,23 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
               <span className="text-sm font-mono text-[var(--text-tertiary)]">
                 Score: {plan.score}
               </span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] font-bold tracking-tight mb-6"
             >
               {plan.level} Action Plan
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] max-w-2xl mb-8 leading-relaxed"
             >
               {plan.tagline}
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="flex gap-4 flex-wrap">
+            <m.div variants={fadeUp} className="flex gap-4 flex-wrap">
               <a
                 href={`/resources/action-plans/${level.toLowerCase()}.pdf`}
                 className="btn btn-primary hover-lift group inline-flex items-center gap-2"
@@ -436,8 +436,8 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
               >
                 View Roadmap
               </Link>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
@@ -478,14 +478,14 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
       {/* Your First Challenge */}
       <section className="section-spacing bg-[var(--bg-secondary)]">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
             variants={stagger}
             className="max-w-3xl mx-auto"
           >
-            <motion.div variants={fadeUp} className="text-center mb-8">
+            <m.div variants={fadeUp} className="text-center mb-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ backgroundColor: plan.colorLight }}>
                 <span style={{ color: plan.color }}><RocketIcon /></span>
                 <span className="text-sm font-mono" style={{ color: plan.color }}>{plan.firstChallenge.time}</span>
@@ -493,9 +493,9 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
                 Your First Challenge
               </h2>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp} className="card border-2" style={{ borderColor: plan.colorLight }}>
+            <m.div variants={fadeUp} className="card border-2" style={{ borderColor: plan.colorLight }}>
               <p className="text-lg text-[var(--text-secondary)] leading-relaxed mb-6">
                 {plan.firstChallenge.task}
               </p>
@@ -509,8 +509,8 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
       </section>
 
@@ -526,7 +526,7 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
             </h2>
           </div>
 
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
@@ -534,7 +534,7 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {plan.weeks.map((week, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 variants={fadeUp}
                 className="card"
@@ -556,23 +556,23 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* Want to Go Deeper? */}
       <section className="section-spacing border-t border-[var(--border)]">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
             variants={stagger}
             className="max-w-3xl mx-auto"
           >
-            <motion.div variants={fadeUp} className="text-center mb-8">
+            <m.div variants={fadeUp} className="text-center mb-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4" style={{ backgroundColor: plan.colorLight }}>
                 <span style={{ color: plan.color }}><DeepDiveIcon /></span>
                 <span className="text-sm font-mono" style={{ color: plan.color }}>{plan.deeperChallenge.time}</span>
@@ -580,9 +580,9 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
                 Want to Go Deeper?
               </h2>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp} className="card">
+            <m.div variants={fadeUp} className="card">
               <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-3">The Challenge</h3>
                 <p className="text-[var(--text-secondary)] leading-relaxed">
@@ -606,8 +606,8 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
       </section>
 
@@ -661,7 +661,7 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
               </h2>
             </div>
 
-            <motion.ul
+            <m.ul
               initial="initial"
               whileInView="animate"
               viewport={{ once: true }}
@@ -669,7 +669,7 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
               className="space-y-4"
             >
               {plan.readyChecklist.map((item, index) => (
-                <motion.li
+                <m.li
                   key={index}
                   variants={fadeUp}
                   className="flex items-center gap-4 p-4 rounded-lg border border-[var(--border)] bg-[var(--bg-primary)]"
@@ -681,9 +681,9 @@ export default function ActionPlanPage({ params }: { params: { level: string } }
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: plan.color }} />
                   </div>
                   <span className="text-[var(--text-secondary)]">{item}</span>
-                </motion.li>
+                </m.li>
               ))}
-            </motion.ul>
+            </m.ul>
           </div>
         </div>
       </section>

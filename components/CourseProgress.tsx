@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from '@/components/motion'
 
 interface CourseProgressProps {
   currentModule: number
@@ -25,7 +25,7 @@ export default function CourseProgress({
 
       {/* Progress Bar */}
       <div className="relative h-1.5 bg-[var(--border)] rounded-full overflow-hidden mb-2">
-        <motion.div
+        <m.div
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}

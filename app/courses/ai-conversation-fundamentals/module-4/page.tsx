@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 
 // Animation variants
@@ -51,13 +51,13 @@ export default function Module4Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/ai-conversation-fundamentals"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -65,31 +65,31 @@ export default function Module4Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 4</span>
               <span className="text-id8-orange/50">•</span>
               <span>~10 min</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               The Attention Budget
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               Why more context often makes things worse. How to feed information strategically.
-            </motion.p>
-          </motion.div>
+            </m.p>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
@@ -106,7 +106,7 @@ export default function Module4Page() {
               <h2 className="text-2xl font-bold">The Concept</h2>
             </div>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -126,7 +126,7 @@ export default function Module4Page() {
                   Give the AI exactly what it needs to do the job. No more, no less.
                 </p>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -138,7 +138,7 @@ export default function Module4Page() {
             <h2 className="text-2xl font-bold mb-6">The Desk Analogy</h2>
 
             <div className="grid md:grid-cols-2 gap-4 mb-8">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -154,9 +154,9 @@ export default function Module4Page() {
                 <p className="text-sm text-[var(--text-primary)] font-mono bg-[var(--bg-secondary)] p-2 rounded">
                   Result: Unfocused, generic output
                 </p>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
@@ -172,7 +172,7 @@ export default function Module4Page() {
                 <p className="text-sm text-[var(--text-primary)] font-mono bg-[var(--bg-secondary)] p-2 rounded">
                   Result: Focused, precise output
                 </p>
-              </motion.div>
+              </m.div>
             </div>
 
             <p className="text-[var(--text-secondary)] text-sm">
@@ -194,7 +194,7 @@ export default function Module4Page() {
             </div>
 
             <div className="space-y-4">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -214,9 +214,9 @@ export default function Module4Page() {
                     "Write a subject line for this sales follow-up email. Context: meeting yesterday, discussed pricing, they seemed interested."
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
@@ -232,9 +232,9 @@ export default function Module4Page() {
                     "If I were delegating this to a human, what would they actually need to know?"
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -250,9 +250,9 @@ export default function Module4Page() {
                     Start a new conversation and restate what you need with fresh context.
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
@@ -267,7 +267,7 @@ export default function Module4Page() {
                     "Let me refocus: I need three subject line options for a cold outreach email to CTOs. Keep them under 50 characters."
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>

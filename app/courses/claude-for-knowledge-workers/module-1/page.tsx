@@ -1,12 +1,13 @@
 'use client'
 
-import { motion } from '@/components/motion'
+import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
 import { PurchaseGate } from '@/components/PurchaseGate'
 import AuthGate from '@/components/auth/AuthGate'
+import { useState } from 'react'
 
 // Animation variants
 const fadeUp = {
@@ -67,6 +68,77 @@ const LightbulbIcon = () => (
   </svg>
 )
 
+const CopyIcon = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+  </svg>
+)
+
+const CheckIconSmall = () => (
+  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+)
+
+// Copyable code block component
+function CopyableCode({ code, label }: { code: string; label?: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <div className="relative group">
+      {label && (
+        <div className="text-xs font-mono text-id8-orange mb-2">{label}</div>
+      )}
+      <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg p-4 font-mono text-sm overflow-x-auto">
+        <pre className="text-[var(--text-secondary)] whitespace-pre-wrap">{code}</pre>
+      </div>
+      <button
+        onClick={handleCopy}
+        className="absolute top-2 right-2 p-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:border-id8-orange/50"
+      >
+        {copied ? <CheckIconSmall /> : <CopyIcon />}
+      </button>
+    </div>
+  )
+}
+
+// "Try This Now" interactive section
+function TryThisNow({ children, title }: { children: React.ReactNode; title: string }) {
+  return (
+    <div className="my-8 p-6 bg-id8-orange/5 border-2 border-id8-orange/30 rounded-xl">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 bg-id8-orange/20 rounded-full flex items-center justify-center">
+          <TerminalIcon />
+        </div>
+        <div>
+          <span className="text-xs font-mono text-id8-orange uppercase tracking-wider">Hands-On Exercise</span>
+          <h3 className="text-lg font-bold text-[var(--text-primary)]">{title}</h3>
+        </div>
+      </div>
+      {children}
+    </div>
+  )
+}
+
+// Mentor aside component
+function MentorNote({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="my-6 p-4 bg-[var(--bg-secondary)] border-l-4 border-id8-orange rounded-r-lg">
+      <div className="flex items-start gap-3">
+        <div className="text-2xl">💡</div>
+        <div className="text-[var(--text-secondary)] italic">{children}</div>
+      </div>
+    </div>
+  )
+}
+
 // Updated content to match new Module 1
 const outcomes = [
   "Build confidence through low-stakes practice delegations",
@@ -110,13 +182,13 @@ export default function Module1Page() {
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
         <div className="container">
-          <motion.div
+          <m.div
             initial="initial"
             animate="animate"
             variants={stagger}
             className="max-w-3xl"
           >
-            <motion.div variants={fadeUp}>
+            <m.div variants={fadeUp}>
               <Link
                 href="/courses/claude-for-knowledge-workers"
                 className="inline-flex items-center gap-2 text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] transition-colors mb-6"
@@ -124,32 +196,32 @@ export default function Module1Page() {
                 <ArrowLeftIcon />
                 Back to Course
               </Link>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={fadeUp}
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
             >
               <span>Module 1</span>
               <span className="text-id8-orange/50">•</span>
               <span>45 min</span>
-            </motion.div>
+            </m.div>
 
-            <motion.h1
+            <m.h1
               variants={fadeUp}
               className="text-4xl md:text-5xl font-bold tracking-tight mb-4"
             >
               Your First Delegation
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               variants={fadeUp}
               className="text-xl text-[var(--text-secondary)] mb-8 leading-relaxed"
             >
               Build confidence through practice. 10 quick wins to master the delegation formula and develop the reflex that separates daily users from one-timers.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <m.div variants={fadeUp} className="flex flex-wrap gap-4">
               <a
                 href="/courses/module-1/module-1-your-first-delegation.pdf"
                 download="Module-1-Your-First-Delegation.pdf"
@@ -165,11 +237,26 @@ export default function Module1Page() {
                 <PlayIcon />
                 Watch or Listen
               </a>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Split Tab Callout */}
+      <section className="py-4 bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-purple-500/10 border-b border-[var(--border)]">
+        <div className="container">
+          <div className="flex items-center justify-center gap-3 text-center">
+            <span className="text-lg">✨</span>
+            <p className="text-sm text-[var(--text-secondary)]">
+              <span className="font-medium text-[var(--text-primary)]">Pro Tip:</span> Use your browser's Split Tab feature to follow along side-by-side with Claude Code open.
+            </p>
+            <span className="text-xs font-mono uppercase tracking-wider text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full">
+              New
+            </span>
+          </div>
+        </div>
       </section>
 
       {/* Media Section */}
@@ -183,7 +270,7 @@ export default function Module1Page() {
 
             <div className="space-y-6">
               {/* Video Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -193,10 +280,10 @@ export default function Module1Page() {
                   title="Your First Delegation (Video)"
                   downloadName="Module-1-Your-First-Delegation.mp4"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Audio Player */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -207,7 +294,7 @@ export default function Module1Page() {
                   title="Your First Delegation (Podcast)"
                   downloadName="Module-1-Your-First-Delegation.m4a"
                 />
-              </motion.div>
+              </m.div>
             </div>
           </div>
         </div>
@@ -217,7 +304,7 @@ export default function Module1Page() {
       <section className="section-spacing border-t border-[var(--border)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -229,7 +316,7 @@ export default function Module1Page() {
               <p className="text-[var(--text-secondary)] leading-relaxed">
                 Now we're going to build on that. This module gives you a menu of quick wins—different delegation targets to practice with—and deepens your understanding of why the delegation formula works. By the end, you'll have the confidence to delegate anything.
               </p>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -270,7 +357,7 @@ export default function Module1Page() {
 
             <div className="space-y-4">
               {outcomes.map((outcome, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -282,7 +369,7 @@ export default function Module1Page() {
                     <CheckIcon />
                   </span>
                   <span className="text-[var(--text-primary)]">{outcome}</span>
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </div>
@@ -310,7 +397,7 @@ export default function Module1Page() {
 
             <div className="space-y-4">
               {delegationFormula.map((item, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -327,7 +414,7 @@ export default function Module1Page() {
                   <code className="block text-sm text-[var(--text-primary)] bg-[var(--bg-secondary)] p-3 rounded">
                     {item.example}
                   </code>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -336,6 +423,19 @@ export default function Module1Page() {
                 <strong>Common mistake:</strong> People skip Location. They say "organize my files" and Claude asks "where should I put them?" Now you're having a conversation instead of delegating work.
               </p>
             </div>
+
+            <TryThisNow title="Practice the Formula">
+              <p className="text-[var(--text-secondary)] mb-4">
+                Try this delegation right now. Copy and paste it into Claude Code:
+              </p>
+              <CopyableCode
+                code={`Look at my Desktop. Count files by type (images, documents, etc). Show me a table with file counts and total sizes. Don't move anything — just report.`}
+                label="Your practice delegation"
+              />
+              <p className="text-sm text-[var(--text-tertiary)] mt-4">
+                Notice: Context (Desktop) + Outcome (count and table) + Location (just report, no changes). All three pieces.
+              </p>
+            </TryThisNow>
           </div>
         </div>
       </section>
@@ -351,7 +451,7 @@ export default function Module1Page() {
 
             <div className="space-y-3">
               {quickWins.map((win, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -377,7 +477,7 @@ export default function Module1Page() {
                       {win.risk}
                     </span>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
             </div>
 
@@ -402,7 +502,7 @@ export default function Module1Page() {
 
             <div className="space-y-4">
               {troubleshooting.map((item, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -417,9 +517,13 @@ export default function Module1Page() {
                   </div>
                   <p className="text-sm text-[var(--text-primary)] mb-1"><strong>What to do:</strong> {item.whatToDo}</p>
                   <p className="text-sm text-[var(--text-secondary)]"><strong>Why:</strong> {item.why}</p>
-                </motion.div>
+                </m.div>
               ))}
             </div>
+
+            <MentorNote>
+              Every "problem" is actually a learning opportunity. When Claude asks for clarification, it's teaching you to be more specific. When it asks permission, it's showing you its safety rails. Embrace these moments — they make your next delegation sharper.
+            </MentorNote>
           </div>
         </div>
       </section>

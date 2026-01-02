@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from '@/components/motion'
 
 interface EmailCaptureProps {
   source: string
@@ -54,7 +54,7 @@ export default function EmailCapture({
     <div className={`w-full max-w-md mx-auto ${className}`}>
       <AnimatePresence mode="wait">
         {status === 'success' ? (
-          <motion.div
+          <m.div
             key="success"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -74,9 +74,9 @@ export default function EmailCapture({
             <p className="text-[var(--text-primary)] text-sm">
               You're subscribed! Check your inbox for a confirmation.
             </p>
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.form
+          <m.form
             key="form"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -127,19 +127,19 @@ export default function EmailCapture({
             </div>
 
             {status === 'error' && (
-              <motion.p
+              <m.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="text-sm text-center text-red-500 bg-red-50 dark:bg-red-900/20 p-2 rounded-lg"
               >
                 {errorMessage}
-              </motion.p>
+              </m.p>
             )}
 
             <p className="text-xs text-center text-[var(--text-tertiary)]">
               No spam. Unsubscribe anytime.
             </p>
-          </motion.form>
+          </m.form>
         )}
       </AnimatePresence>
     </div>

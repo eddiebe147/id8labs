@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from '@/components/motion'
 import { trackEvent } from '@/components/Analytics'
 
 type FunnelStep = 'assessment' | 'results' | 'checklist' | 'success'
@@ -215,7 +215,7 @@ export default function LeadMagnetFunnel() {
   return (
     <>
       {/* Floating CTA Button - Collapsed by default, expands on hover */}
-      <motion.button
+      <m.button
         onClick={() => {
           setIsOpen(true)
           trackEvent('assessment_opened', 'lead_funnel', 'floating_button')
@@ -238,7 +238,7 @@ export default function LeadMagnetFunnel() {
           <path d="M9 12l2 2 4-4" />
           <circle cx="12" cy="12" r="10" />
         </svg>
-        <motion.span
+        <m.span
           className="font-medium text-sm whitespace-nowrap"
           initial={false}
           animate={{
@@ -249,8 +249,8 @@ export default function LeadMagnetFunnel() {
           style={{ overflow: 'hidden' }}
         >
           AI Readiness Check
-        </motion.span>
-        <motion.svg
+        </m.span>
+        <m.svg
           width="14"
           height="14"
           viewBox="0 0 24 24"
@@ -266,20 +266,20 @@ export default function LeadMagnetFunnel() {
           style={{ overflow: 'hidden', flexShrink: 0 }}
         >
           <polyline points="9 18 15 12 9 6" />
-        </motion.svg>
-      </motion.button>
+        </m.svg>
+      </m.button>
 
       {/* Modal Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
           >
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -319,7 +319,7 @@ export default function LeadMagnetFunnel() {
                 <AnimatePresence mode="wait">
                   {/* Assessment Questions */}
                   {step === 'assessment' && (
-                    <motion.div
+                    <m.div
                       key={`question-${currentQuestion}`}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -328,7 +328,7 @@ export default function LeadMagnetFunnel() {
                     >
                       {/* Progress Bar */}
                       <div className="h-1 bg-[var(--bg-secondary)] rounded-full overflow-hidden">
-                        <motion.div
+                        <m.div
                           className="h-full bg-[var(--id8-orange)]"
                           initial={{ width: 0 }}
                           animate={{ width: `${((currentQuestion + 1) / assessmentQuestions.length) * 100}%` }}
@@ -353,12 +353,12 @@ export default function LeadMagnetFunnel() {
                           </button>
                         ))}
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
 
                   {/* Results */}
                   {step === 'results' && (
-                    <motion.div
+                    <m.div
                       key="results"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -408,12 +408,12 @@ export default function LeadMagnetFunnel() {
                           <polyline points="9 18 15 12 9 6" />
                         </svg>
                       </button>
-                    </motion.div>
+                    </m.div>
                   )}
 
                   {/* Email Capture */}
                   {step === 'checklist' && (
-                    <motion.div
+                    <m.div
                       key="checklist"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -524,12 +524,12 @@ export default function LeadMagnetFunnel() {
                           No spam. Unsubscribe anytime. We respect your privacy.
                         </p>
                       </form>
-                    </motion.div>
+                    </m.div>
                   )}
 
                   {/* Success */}
                   {step === 'success' && (
-                    <motion.div
+                    <m.div
                       key="success"
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -572,12 +572,12 @@ export default function LeadMagnetFunnel() {
                       >
                         Close this window
                       </button>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>
