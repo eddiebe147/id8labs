@@ -57,11 +57,20 @@ const creatorProducts: Product[] = [
 const builderProducts: Product[] = [
   {
     name: 'MILO',
-    status: 'internal',
+    status: 'active',
     tagline: 'Signal-to-noise task manager',
     description:
       'Jobs/Musk-level signal filtering with Claude Code integration. 17 MCP tools for natural language task management. Open source.',
-    link: '/products/milo',
+    link: 'https://github.com/eddiebe147/milo',
+    external: true,
+  },
+  {
+    name: 'ID8Foundry',
+    status: 'internal',
+    tagline: 'The system that builds systems',
+    description:
+      'Self-improving development framework. Captures patterns, decisions, and failures across projects. Every build makes the next one faster.',
+    link: '/products/foundry',
   },
   {
     name: 'Pipeline',
