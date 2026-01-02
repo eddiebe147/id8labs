@@ -1,297 +1,628 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowLeft, Github, Terminal, Zap, Brain, ListTodo, Clock, Target, CheckCircle2, Copy, Check } from 'lucide-react'
-import { useState } from 'react'
+import { Github } from 'lucide-react'
+import CRTOverlay from '@/components/milo/CRTOverlay'
+import GlowText from '@/components/milo/GlowText'
+import GlowButton from '@/components/milo/GlowButton'
+import TerminalCard from '@/components/milo/TerminalCard'
+import SignalMeter from '@/components/milo/SignalMeter'
+import ScrollReveal from '@/components/milo/ScrollReveal'
+import WaitlistForm from '@/components/milo/WaitlistForm'
 
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false)
+/**
+ * MILO - Mission Intelligence Life Operator
+ * Signal-to-Noise Life Planner with Pip-Boy Aesthetic
+ *
+ * High-converting landing page with:
+ * - Hero with CRT effects
+ * - Problem/solution narrative
+ * - Product demo with screenshots
+ * - Feature cards
+ * - Waitlist CTA
+ */
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
+export default function MILOLandingPage() {
   return (
-    <button
-      onClick={handleCopy}
-      className="absolute top-3 right-3 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-      title="Copy to clipboard"
-    >
-      {copied ? (
-        <Check className="w-4 h-4 text-green-400" />
-      ) : (
-        <Copy className="w-4 h-4 text-neutral-400" />
-      )}
-    </button>
-  )
-}
+    <div className="relative min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden" style={{ zIndex: 10 }}>
+      {/* CRT Overlay - Fixed across entire page */}
+      <CRTOverlay />
 
-function CodeBlock({ code, language = 'bash' }: { code: string; language?: string }) {
-  return (
-    <div className="relative group">
-      <pre className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 overflow-x-auto">
-        <code className="text-sm text-neutral-300 font-mono">{code}</code>
-      </pre>
-      <CopyButton text={code} />
-    </div>
-  )
-}
+      {/* SECTION 1: HERO (100vh) */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20">
+        <div className="max-w-4xl w-full text-center space-y-12">
+          {/* Signal Meter */}
+          <ScrollReveal delay={0.1} immediate>
+            <div className="flex justify-center">
+              <SignalMeter />
+            </div>
+          </ScrollReveal>
 
-export default function MILOPage() {
-  const mcpConfig = `{
-  "mcpServers": {
-    "milo": {
-      "command": "node",
-      "args": ["/path/to/milo/dist/index.js"],
-      "env": {}
-    }
-  }
-}`
-
-  return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-neutral-800">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Products
-          </Link>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <section className="pt-32 pb-16 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="px-3 py-1 bg-green-500/10 text-green-400 text-sm font-medium rounded-full border border-green-500/20">
-              Open Source • Free
-            </span>
-          </div>
-
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">
-            MILO
-          </h1>
-
-          <p className="text-xl text-neutral-400 mb-8 leading-relaxed">
-            Signal-to-noise task manager with Claude Code integration. Develop Jobs/Musk-level
-            filtering to ship at scale. 17 MCP tools for natural language task management.
-          </p>
-
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="https://github.com/eddiebe147/milo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-medium rounded-xl hover:bg-neutral-200 transition-colors"
+          {/* Headline */}
+          <ScrollReveal delay={0.3} immediate>
+            <GlowText
+              as="h1"
+              glow="high"
+              color="green"
+              className="text-5xl md:text-7xl lg:text-8xl font-bold uppercase tracking-tight leading-none"
             >
-              <Github className="w-5 h-5" />
-              View on GitHub
-            </a>
-            <Link
-              href="/essays/why-i-built-milo"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-800 text-white font-medium rounded-xl hover:bg-neutral-700 transition-colors border border-neutral-700"
+              YOUR DAY HAS A SIGNAL.
+            </GlowText>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.5} immediate>
+            <GlowText
+              as="p"
+              glow="medium"
+              color="green"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase"
             >
-              Read the Essay
-            </Link>
-          </div>
+              Tune in.
+            </GlowText>
+          </ScrollReveal>
+
+          {/* CTAs */}
+          <ScrollReveal delay={0.7} immediate>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+              <GlowButton variant="primary" size="lg" href="#waitlist">
+                Join the Waitlist
+              </GlowButton>
+              <GlowButton
+                variant="secondary"
+                size="lg"
+                href="https://github.com/eddiebe147/milo"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.open('https://github.com/eddiebe147/milo', '_blank')
+                }}
+              >
+                <Github className="w-5 h-5 mr-2" />
+                View on GitHub
+              </GlowButton>
+            </div>
+          </ScrollReveal>
+
+          {/* Metadata */}
+          <ScrollReveal delay={0.9} immediate>
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
+              <GlowText
+                as="span"
+                glow="low"
+                color="dim"
+                className="text-sm uppercase tracking-wider"
+              >
+                Free
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="none"
+                color="dim"
+                className="text-sm"
+              >
+                •
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="low"
+                color="dim"
+                className="text-sm uppercase tracking-wider"
+              >
+                macOS
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="none"
+                color="dim"
+                className="text-sm"
+              >
+                •
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="low"
+                color="dim"
+                className="text-sm uppercase tracking-wider"
+              >
+                Coming to App Store
+              </GlowText>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 px-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8">Why MILO?</h2>
+      {/* SECTION 2: PROBLEM (50vh) */}
+      <section className="relative min-h-[50vh] flex items-center justify-center px-6 py-20">
+        <div className="max-w-3xl w-full space-y-8">
+          <ScrollReveal delay={0.1} direction="up">
+            <GlowText
+              as="p"
+              glow="low"
+              color="amber"
+              className="text-2xl md:text-4xl text-center leading-relaxed opacity-60"
+            >
+              "Another day. Gone."
+            </GlowText>
+          </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-neutral-900/50 rounded-2xl border border-neutral-800">
-              <Brain className="w-8 h-8 text-purple-400 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Signal-Based Prioritization</h3>
-              <p className="text-neutral-400">
-                Inspired by Jobs and Musk's legendary ability to filter signal from noise.
-                MILO helps you develop that same filtering superpower.
-              </p>
-            </div>
+          <ScrollReveal delay={0.3} direction="up">
+            <GlowText
+              as="p"
+              glow="low"
+              color="amber"
+              className="text-2xl md:text-4xl text-center leading-relaxed opacity-60"
+            >
+              "Another list. Ignored."
+            </GlowText>
+          </ScrollReveal>
 
-            <div className="p-6 bg-neutral-900/50 rounded-2xl border border-neutral-800">
-              <Terminal className="w-8 h-8 text-green-400 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Claude Code Integration</h3>
-              <p className="text-neutral-400">
-                17 MCP tools that let you manage tasks with natural language.
-                Just talk to Claude about what you need to do.
-              </p>
-            </div>
+          <ScrollReveal delay={0.5} direction="up">
+            <GlowText
+              as="p"
+              glow="low"
+              color="amber"
+              className="text-2xl md:text-4xl text-center leading-relaxed opacity-60"
+            >
+              "Another app. Another promise."
+            </GlowText>
+          </ScrollReveal>
 
-            <div className="p-6 bg-neutral-900/50 rounded-2xl border border-neutral-800">
-              <Zap className="w-8 h-8 text-yellow-400 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Urgency × Importance Matrix</h3>
-              <p className="text-neutral-400">
-                Tasks are scored on a 2D grid. High signal surfaces automatically.
-                Low signal fades. No more drowning in noise.
-              </p>
-            </div>
-
-            <div className="p-6 bg-neutral-900/50 rounded-2xl border border-neutral-800">
-              <Target className="w-8 h-8 text-red-400 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Ship at Scale</h3>
-              <p className="text-neutral-400">
-                Built for builders who need to execute fast. Focus on what moves
-                the mission forward. Ignore everything else.
-              </p>
-            </div>
-          </div>
+          <ScrollReveal delay={0.7} direction="up">
+            <GlowText
+              as="p"
+              glow="medium"
+              color="green"
+              className="text-3xl md:text-5xl text-center leading-relaxed pt-8"
+            >
+              What if you only saw what matters?
+            </GlowText>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Quick Start */}
-      <section className="py-16 px-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
-            <Terminal className="w-6 h-6" />
-            Quick Start
-          </h2>
+      {/* SECTION 3: PRODUCT DEMO (100vh) */}
+      <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
+        <div className="max-w-7xl w-full grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: Copy */}
+          <ScrollReveal delay={0.2} direction="left">
+            <div className="space-y-6">
+              <GlowText
+                as="h2"
+                glow="high"
+                color="green"
+                className="text-4xl md:text-6xl font-bold uppercase leading-tight"
+              >
+                MILO filters the noise.
+              </GlowText>
+              <GlowText
+                as="h2"
+                glow="high"
+                color="green"
+                className="text-4xl md:text-6xl font-bold uppercase leading-tight"
+              >
+                So you hear the signal.
+              </GlowText>
 
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3 text-neutral-300">1. Clone the repository</h3>
-              <CodeBlock code="git clone https://github.com/eddiebe147/milo.git" />
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-3 text-neutral-300">2. Install dependencies</h3>
-              <CodeBlock code="cd milo && npm install" />
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-3 text-neutral-300">3. Build the project</h3>
-              <CodeBlock code="npm run build" />
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-3 text-neutral-300">4. Start MILO</h3>
-              <CodeBlock code="npm start" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Claude Code Integration */}
-      <section className="py-16 px-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
-            <Brain className="w-6 h-6" />
-            Claude Code Integration
-          </h2>
-
-          <p className="text-neutral-400 mb-6">
-            Add MILO to your Claude Code MCP configuration to enable natural language task management:
-          </p>
-
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-3 text-neutral-300">Add to ~/.claude.json</h3>
-            <CodeBlock code={mcpConfig} language="json" />
-          </div>
-
-          <div className="p-6 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-2xl border border-purple-500/20">
-            <p className="text-neutral-300">
-              <strong className="text-white">Pro tip:</strong> Replace <code className="bg-neutral-800 px-2 py-1 rounded">/path/to/milo</code> with
-              the actual path where you cloned the repository.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* MCP Tools */}
-      <section className="py-16 px-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
-            <ListTodo className="w-6 h-6" />
-            17 MCP Tools
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {[
-              { name: 'milo_add_task', desc: 'Add a new task with priority scoring' },
-              { name: 'milo_list_tasks', desc: 'List tasks sorted by signal strength' },
-              { name: 'milo_complete_task', desc: 'Mark a task as complete' },
-              { name: 'milo_update_task', desc: 'Update task details or priority' },
-              { name: 'milo_delete_task', desc: 'Remove a task permanently' },
-              { name: 'milo_get_next', desc: 'Get the highest signal task' },
-              { name: 'milo_focus_mode', desc: 'Enter deep work mode' },
-              { name: 'milo_bulk_add', desc: 'Add multiple tasks at once' },
-              { name: 'milo_search', desc: 'Search tasks by keyword' },
-              { name: 'milo_archive', desc: 'Archive completed tasks' },
-              { name: 'milo_set_urgency', desc: 'Adjust task urgency (1-10)' },
-              { name: 'milo_set_importance', desc: 'Adjust task importance (1-10)' },
-              { name: 'milo_categories', desc: 'Organize tasks by category' },
-              { name: 'milo_daily_plan', desc: 'Generate a daily focus plan' },
-              { name: 'milo_review', desc: 'Weekly signal/noise analysis' },
-              { name: 'milo_export', desc: 'Export tasks to JSON/Markdown' },
-              { name: 'milo_stats', desc: 'View productivity statistics' },
-            ].map((tool) => (
-              <div key={tool.name} className="p-4 bg-neutral-900/50 rounded-xl border border-neutral-800">
-                <code className="text-green-400 text-sm font-mono">{tool.name}</code>
-                <p className="text-neutral-400 text-sm mt-1">{tool.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Example Usage */}
-      <section className="py-16 px-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8 flex items-center gap-3">
-            <Clock className="w-6 h-6" />
-            Example Usage
-          </h2>
-
-          <div className="space-y-6">
-            <div className="p-6 bg-neutral-900/50 rounded-2xl border border-neutral-800">
-              <p className="text-neutral-400 mb-4">Just talk to Claude naturally:</p>
-              <div className="space-y-3">
-                <p className="text-white">"Add a task to fix the auth bug - it's urgent and important"</p>
-                <p className="text-white">"What should I work on next?"</p>
-                <p className="text-white">"Show me all my high-signal tasks"</p>
-                <p className="text-white">"Mark the auth bug as complete"</p>
-                <p className="text-white">"Give me a daily plan for today"</p>
+              <div className="pt-6">
+                <GlowText
+                  as="p"
+                  glow="low"
+                  color="dim"
+                  className="text-lg md:text-xl leading-relaxed"
+                >
+                  You don't need another inbox. You need clarity. MILO shows you the one thing
+                  that matters most. Right now. Every day.
+                </GlowText>
               </div>
             </div>
+          </ScrollReveal>
+
+          {/* Right: Screenshots */}
+          <ScrollReveal delay={0.4} direction="right">
+            <div className="space-y-6">
+              {/* Welcome Screen */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
+                  <Image
+                    src="/products/milo/milo-welcome.png"
+                    alt="MILO Welcome Screen"
+                    width={800}
+                    height={600}
+                    className="w-full h-auto"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* Dashboard */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
+                  <Image
+                    src="/products/milo/milo-dashboard.png"
+                    alt="MILO Dashboard"
+                    width={800}
+                    height={600}
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* SECTION 3.5: CLAUDE INTEGRATION & TASK EXECUTION */}
+      <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
+        <div className="max-w-7xl w-full space-y-20">
+          {/* Claude Integration */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <ScrollReveal delay={0.2} direction="left">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
+                  <Image
+                    src="/products/milo/milo-api-settings.png"
+                    alt="MILO Claude API Settings"
+                    width={800}
+                    height={600}
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.4} direction="right">
+              <div className="space-y-6">
+                <GlowText
+                  as="h2"
+                  glow="high"
+                  color="green"
+                  className="text-3xl md:text-5xl font-bold uppercase leading-tight"
+                >
+                  Intelligence built in.
+                </GlowText>
+                <GlowText
+                  as="p"
+                  glow="low"
+                  color="dim"
+                  className="text-lg md:text-xl leading-relaxed"
+                >
+                  Connect once. Every morning, MILO reads your priorities and tells you where
+                  to aim. Every evening, it shows you what you actually accomplished.
+                  No setup. No prompts. Just insight.
+                </GlowText>
+                <GlowText
+                  as="p"
+                  glow="low"
+                  color="amber"
+                  className="text-base leading-relaxed"
+                >
+                  Your data stays local. Runs on your Mac.
+                </GlowText>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {/* Projects & Organization */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <ScrollReveal delay={0.2} direction="left" className="md:order-2">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
+                  <Image
+                    src="/products/milo/milo-projects.png"
+                    alt="MILO Projects View"
+                    width={800}
+                    height={600}
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.4} direction="right" className="md:order-1">
+              <div className="space-y-6">
+                <GlowText
+                  as="h2"
+                  glow="high"
+                  color="green"
+                  className="text-3xl md:text-5xl font-bold uppercase leading-tight"
+                >
+                  Your projects. Organized.
+                </GlowText>
+                <GlowText
+                  as="p"
+                  glow="low"
+                  color="dim"
+                  className="text-lg md:text-xl leading-relaxed"
+                >
+                  Inbox for capture. Projects for focus. MILO auto-discovers your local
+                  development projects and surfaces tasks where they belong. No manual
+                  filing. No lost context.
+                </GlowText>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {/* The Star: Signal Queue with Start Button */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <ScrollReveal delay={0.2} direction="left">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,255,65,0.3)]">
+                  <Image
+                    src="/products/milo/milo-signal-queue.png"
+                    alt="MILO Signal Queue with Start Button"
+                    width={800}
+                    height={600}
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.4} direction="right">
+              <div className="space-y-6">
+                <GlowText
+                  as="h2"
+                  glow="high"
+                  color="green"
+                  className="text-3xl md:text-5xl font-bold uppercase leading-tight"
+                >
+                  One button. Done.
+                </GlowText>
+                <GlowText
+                  as="p"
+                  glow="low"
+                  color="dim"
+                  className="text-lg md:text-xl leading-relaxed"
+                >
+                  See a task. Hit Start. Watch it happen. The AI thinks through the work,
+                  breaks it down, and does it — while you watch. You decide what matters.
+                  The machine does the rest.
+                </GlowText>
+                <GlowText
+                  as="p"
+                  glow="medium"
+                  color="green"
+                  className="text-lg leading-relaxed"
+                >
+                  Not a chatbot. A worker. You point. It builds.
+                </GlowText>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 px-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to filter the noise?</h2>
-          <p className="text-neutral-400 mb-8">
-            Clone MILO and start shipping with Jobs/Musk-level signal clarity.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="https://github.com/eddiebe147/milo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-medium rounded-xl hover:bg-neutral-200 transition-colors"
+      {/* SECTION 4: FEATURES (75vh) */}
+      <section className="relative min-h-[75vh] flex items-center justify-center px-6 py-20">
+        <div className="max-w-6xl w-full">
+          <ScrollReveal delay={0.1}>
+            <GlowText
+              as="h2"
+              glow="medium"
+              color="green"
+              className="text-3xl md:text-5xl font-bold uppercase text-center mb-16"
             >
-              <Github className="w-5 h-5" />
-              Get Started on GitHub
-            </a>
+              Signal. Awareness. Reflection.
+            </GlowText>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <ScrollReveal delay={0.2}>
+              <TerminalCard
+                icon={
+                  <svg
+                    className="w-12 h-12"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                }
+                title="Signal Queue"
+                description="What matters. Now. Wake up to your priorities, not your inbox."
+              />
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.4}>
+              <TerminalCard
+                icon={
+                  <svg
+                    className="w-12 h-12"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                }
+                title="Awareness"
+                description="Know where you are. Green means go. Red means stop. Before you burn out, MILO tells you."
+              />
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.6}>
+              <TerminalCard
+                icon={
+                  <svg
+                    className="w-12 h-12"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                }
+                title="Reflection"
+                description="Learn from today. Did you do what mattered? Every evening, the answer is waiting."
+              />
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-6 border-t border-neutral-800">
-        <div className="max-w-4xl mx-auto text-center text-neutral-500 text-sm">
-          <p>Built by ID8Labs • Open Source • MIT License</p>
+      {/* SECTION 5: CTA / CLOSE (50vh) */}
+      <section
+        id="waitlist"
+        className="relative min-h-[50vh] flex items-center justify-center px-6 py-20"
+      >
+        <div className="max-w-3xl w-full text-center space-y-12">
+          <ScrollReveal delay={0.2}>
+            <GlowText
+              as="h2"
+              glow="high"
+              color="green"
+              className="text-3xl md:text-5xl lg:text-6xl font-bold uppercase leading-tight"
+            >
+              The goal is not to do more.
+            </GlowText>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.4}>
+            <GlowText
+              as="p"
+              glow="medium"
+              color="green"
+              className="text-2xl md:text-4xl lg:text-5xl font-bold uppercase"
+            >
+              It's to do what matters.
+            </GlowText>
+          </ScrollReveal>
+
+          {/* Waitlist Form */}
+          <ScrollReveal delay={0.6}>
+            <div className="flex justify-center pt-8">
+              <WaitlistForm onSuccess={() => console.log('Waitlist signup!')} />
+            </div>
+          </ScrollReveal>
+
+          {/* Closing Kicker */}
+          <ScrollReveal delay={0.7}>
+            <GlowText
+              as="p"
+              glow="low"
+              color="amber"
+              className="text-lg md:text-xl text-center italic"
+            >
+              For people who are tired of being busy.
+            </GlowText>
+          </ScrollReveal>
+
+          {/* Metadata */}
+          <ScrollReveal delay={0.8}>
+            <div className="flex flex-wrap justify-center gap-4 pt-8">
+              <GlowText
+                as="span"
+                glow="low"
+                color="dim"
+                className="text-sm uppercase tracking-wider"
+              >
+                macOS
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="none"
+                color="dim"
+                className="text-sm"
+              >
+                •
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="low"
+                color="dim"
+                className="text-sm uppercase tracking-wider"
+              >
+                Requires Claude API Key
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="none"
+                color="dim"
+                className="text-sm"
+              >
+                •
+              </GlowText>
+              <GlowText
+                as="span"
+                glow="low"
+                color="dim"
+                className="text-sm uppercase tracking-wider"
+              >
+                MIT License
+              </GlowText>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* SECTION 6: FOOTER (minimal) */}
+      <footer className="relative px-6 py-12 border-t border-[#333333]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
+            <GlowText
+              as="p"
+              glow="none"
+              color="dim"
+              className="text-sm uppercase tracking-wider"
+            >
+              Built by ID8Labs • Miami, FL
+            </GlowText>
+
+            <div className="flex gap-6">
+              <Link
+                href="https://github.com/eddiebe147/milo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+              >
+                <GlowText
+                  as="span"
+                  glow="none"
+                  color="dim"
+                  className="text-sm uppercase tracking-wider group-hover:text-[#00ff41] transition-colors duration-300"
+                >
+                  GitHub
+                </GlowText>
+              </Link>
+              <Link href="/privacy" className="group">
+                <GlowText
+                  as="span"
+                  glow="none"
+                  color="dim"
+                  className="text-sm uppercase tracking-wider group-hover:text-[#00ff41] transition-colors duration-300"
+                >
+                  Privacy
+                </GlowText>
+              </Link>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
