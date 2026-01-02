@@ -352,9 +352,7 @@ export default function ProductsContent() {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <a
-                                href="https://x.com/eddiebe"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                href="/contact"
                                 className="group relative inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--id8-orange)] text-white font-semibold rounded-full hover:bg-[var(--id8-orange)]/90 transition-all hover:scale-105 active:scale-95"
                             >
                                 Let's Talk
