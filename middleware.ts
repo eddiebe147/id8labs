@@ -36,39 +36,13 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protected routes - courses are protected EXCEPT:
-  // - module-0 of paid course (free preview)
-  // - entire AI Conversation Fundamentals course (free lead magnet)
-  // - course landing page (so users can browse before signing up)
-  // - course media files (so videos/audio load on free modules)
-  const protectedPaths = ['/courses']
-
-  // Paths that use startsWith matching (sub-paths included)
-  const freePathPrefixes = [
-    '/courses/claude-for-knowledge-workers/module-0', // Module 0 + subpaths
-    '/courses/ai-conversation-fundamentals', // Entire free course
-    '/courses/module-0/media', // Media files for free module-0
-  ]
-
-  // Paths that require exact match only
-  const freePathExact = [
-    '/courses/claude-for-knowledge-workers', // Landing page only (not module-1+)
-  ]
-
-  const isProtectedPath = protectedPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path)
-  )
-  const isFreePath =
-    freePathPrefixes.some((path) => request.nextUrl.pathname.startsWith(path)) ||
-    freePathExact.includes(request.nextUrl.pathname)
-
-  // Redirect to sign-in if accessing protected route without auth (except free paths)
-  if (isProtectedPath && !isFreePath && !user) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/sign-in'
-    url.searchParams.set('redirect', request.nextUrl.pathname)
-    return NextResponse.redirect(url)
-  }
+  // Course module pages use client-side AuthGate for protection (modal instead of redirect)
+  // Middleware only handles:
+  // - Refreshing auth session (above)
+  // - Redirecting authenticated users away from auth pages (below)
+  //
+  // All course pages are allowed through - AuthGate component handles auth gating
+  // This provides better UX: modal overlay instead of hard redirect
 
   // Redirect to courses if accessing auth pages while authenticated
   const authPaths = ['/sign-in', '/sign-up']

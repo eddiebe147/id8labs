@@ -6,6 +6,7 @@ import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
 import { PurchaseGate } from '@/components/PurchaseGate'
+import AuthGate from '@/components/auth/AuthGate'
 
 // Animation variants
 const fadeUp = {
@@ -103,6 +104,7 @@ const troubleshooting = [
 
 export default function Module1Page() {
   return (
+    <AuthGate moduleName="Module 1: Your First Delegation">
     <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 1: Your First Delegation">
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -567,5 +569,6 @@ export default function Module1Page() {
       </section>
     </div>
     </PurchaseGate>
+    </AuthGate>
   )
 }
