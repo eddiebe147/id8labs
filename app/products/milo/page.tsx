@@ -65,11 +65,8 @@ export default function MILOLandingPage() {
           {/* CTAs */}
           <ScrollReveal delay={0.7} immediate>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-              <GlowButton variant="primary" size="lg" href="#waitlist">
-                Join the Waitlist
-              </GlowButton>
               <GlowButton
-                variant="secondary"
+                variant="primary"
                 size="lg"
                 href="https://github.com/eddiebe147/milo"
                 onClick={(e) => {
@@ -78,7 +75,10 @@ export default function MILOLandingPage() {
                 }}
               >
                 <Github className="w-5 h-5 mr-2" />
-                View on GitHub
+                Download on GitHub
+              </GlowButton>
+              <GlowButton variant="secondary" size="lg" href="#waitlist">
+                Get App Store Release
               </GlowButton>
             </div>
           </ScrollReveal>
@@ -108,7 +108,7 @@ export default function MILOLandingPage() {
                 color="dim"
                 className="text-sm uppercase tracking-wider"
               >
-                macOS
+                Open Source
               </GlowText>
               <GlowText
                 as="span"
@@ -124,7 +124,7 @@ export default function MILOLandingPage() {
                 color="dim"
                 className="text-sm uppercase tracking-wider"
               >
-                Coming to App Store
+                macOS
               </GlowText>
             </div>
           </ScrollReveal>
@@ -523,9 +523,21 @@ export default function MILOLandingPage() {
             </GlowText>
           </ScrollReveal>
 
+          {/* App Store Waitlist */}
+          <ScrollReveal delay={0.5}>
+            <GlowText
+              as="p"
+              glow="low"
+              color="dim"
+              className="text-lg md:text-xl text-center"
+            >
+              Available now on GitHub. Want the one-click App Store install?
+            </GlowText>
+          </ScrollReveal>
+
           {/* Waitlist Form */}
           <ScrollReveal delay={0.6}>
-            <div className="flex justify-center pt-8">
+            <div className="flex justify-center pt-4">
               <WaitlistForm onSuccess={() => console.log('Waitlist signup!')} />
             </div>
           </ScrollReveal>
