@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import BookCallCard from '@/components/BookCallCard'
 
 export const metadata: Metadata = {
   title: 'Contact - ID8Labs',
@@ -77,8 +78,45 @@ export default function ContactPage() {
         </header>
 
         {/* Intent Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          {intents.map((intent) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {intents.slice(0, 2).map((intent) => (
+            <a
+              key={intent.id}
+              href={intent.href}
+              target={intent.href.startsWith('http') ? '_blank' : undefined}
+              rel={intent.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="group flex flex-col p-8 bg-[var(--surface)] border border-[var(--border)] rounded-lg hover:border-[var(--id8-orange)] transition-all duration-300"
+            >
+              <div
+                className="mb-6 transition-colors duration-300"
+                style={{ color: intent.color }}
+              >
+                {intent.icon}
+              </div>
+              <h2 className="text-xl font-bold mb-3 group-hover:text-id8-orange transition-colors">
+                {intent.title}
+              </h2>
+              <p className="text-[var(--text-secondary)] mb-6 flex-grow">
+                {intent.description}
+              </p>
+              <div
+                className="inline-flex items-center gap-2 font-semibold transition-colors"
+                style={{ color: intent.color }}
+              >
+                {intent.cta}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+            </a>
+          ))}
+
+          {/* Book a Call - Cal.com Embed */}
+          <BookCallCard />
+
+          {/* Remaining intent cards */}
+          {intents.slice(2).map((intent) => (
             <a
               key={intent.id}
               href={intent.href}
@@ -116,6 +154,10 @@ export default function ContactPage() {
         <section className="text-center py-12 border-t border-[var(--border)]">
           <h3 className="text-lg font-bold mb-4">Response Times</h3>
           <div className="flex flex-wrap justify-center gap-8 text-[var(--text-secondary)]">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-[#10B981] rounded-full" />
+              <span>Cal.com: Instant</span>
+            </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
               <span>X DMs: Usually &lt;24h</span>
