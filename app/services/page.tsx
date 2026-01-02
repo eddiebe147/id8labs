@@ -194,7 +194,7 @@ export default function ServicesPage() {
 
             <motion.div variants={fadeUp}>
               <button
-                data-cal-link="id8labs/discovery"
+                data-cal-link="id8labs/15min"
                 data-cal-config='{"layout":"month_view"}'
                 className="btn btn-primary hover-lift group inline-flex items-center gap-3"
               >
@@ -553,7 +553,7 @@ export default function ServicesPage() {
             </p>
 
             <button
-              data-cal-link="id8labs/discovery"
+              data-cal-link="id8labs/15min"
               data-cal-config='{"layout":"month_view"}'
               className="btn btn-primary hover-lift group inline-flex items-center gap-3 text-lg px-8 py-4"
             >

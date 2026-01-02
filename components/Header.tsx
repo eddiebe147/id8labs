@@ -26,12 +26,15 @@ export default function Header() {
             </Link>
             {/* Courses Dropdown */}
             <div className="relative group">
-              <button className="text-base hover:opacity-70 transition-opacity flex items-center gap-1">
+              <Link
+                href="/services"
+                className="text-base hover:opacity-70 transition-opacity flex items-center gap-1"
+              >
                 Courses
                 <svg className="w-4 h-4 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M6 9l6 6 6-6"/>
                 </svg>
-              </button>
+              </Link>
               <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <div className="bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg shadow-xl py-2 min-w-[280px]">
                   <Link
