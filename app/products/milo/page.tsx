@@ -180,12 +180,12 @@ export default function MILOLandingPage() {
         </div>
       </section>
 
-      {/* SECTION 3: PRODUCT DEMO (100vh) */}
+      {/* SECTION 3: PRODUCT DEMO - Welcome Image Centered */}
       <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
-        <div className="max-w-7xl w-full grid md:grid-cols-2 gap-12 items-center">
-          {/* Left: Copy */}
-          <ScrollReveal delay={0.2} direction="left">
-            <div className="space-y-6">
+        <div className="max-w-5xl w-full space-y-12">
+          {/* Headline - Centered */}
+          <ScrollReveal delay={0.2} direction="up">
+            <div className="text-center space-y-4">
               <GlowText
                 as="h2"
                 glow="high"
@@ -202,42 +202,46 @@ export default function MILOLandingPage() {
               >
                 So you hear the signal.
               </GlowText>
+            </div>
+          </ScrollReveal>
 
-              <div className="pt-6">
-                <GlowText
-                  as="p"
-                  glow="low"
-                  color="dim"
-                  className="text-lg md:text-xl leading-relaxed"
-                >
-                  You don't need another inbox. You need clarity. MILO shows you the one thing
-                  that matters most. Right now. Every day.
-                </GlowText>
+          {/* Welcome Screen - Centered */}
+          <ScrollReveal delay={0.3} direction="up">
+            <div className="flex justify-center">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
+                  <Image
+                    src="/products/milo/milo-welcome.png"
+                    alt="MILO Welcome Screen"
+                    width={600}
+                    height={500}
+                    className="w-auto h-auto max-w-full"
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Right: Screenshots */}
-          <ScrollReveal delay={0.4} direction="right">
-            <div className="space-y-6">
-              {/* Welcome Screen - Centered */}
-              <div className="relative group flex justify-center">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
-                  <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
-                    <Image
-                      src="/products/milo/milo-welcome.png"
-                      alt="MILO Welcome Screen"
-                      width={600}
-                      height={500}
-                      className="w-auto h-auto max-w-full"
-                      priority
-                    />
-                  </div>
-                </div>
-              </div>
+          {/* Description - Centered */}
+          <ScrollReveal delay={0.4} direction="up">
+            <div className="text-center max-w-2xl mx-auto">
+              <GlowText
+                as="p"
+                glow="low"
+                color="dim"
+                className="text-lg md:text-xl leading-relaxed"
+              >
+                You don't need another inbox. You need clarity. MILO shows you the one thing
+                that matters most. Right now. Every day.
+              </GlowText>
+            </div>
+          </ScrollReveal>
 
-              {/* Dashboard */}
+          {/* Dashboard - Centered below */}
+          <ScrollReveal delay={0.5} direction="up">
+            <div className="flex justify-center">
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
                 <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
@@ -246,7 +250,7 @@ export default function MILOLandingPage() {
                     alt="MILO Dashboard"
                     width={800}
                     height={600}
-                    className="w-full h-auto"
+                    className="w-full h-auto max-w-3xl"
                   />
                 </div>
               </div>
