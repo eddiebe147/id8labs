@@ -57,14 +57,21 @@ export const metadata: Metadata = {
     siteName: 'ID8Labs',
     title: 'ID8Labs - Professional Tools for the AI Era',
     description: 'AI tools for creators and builders. Claude Code training, Composer, DeepStack, and more.',
-    // Images are auto-generated from app/opengraph-image.tsx
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ID8Labs - Tools for creators. Infrastructure for builders.',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'ID8Labs - Professional Tools for the AI Era',
     description: 'AI tools for creators and builders. Claude Code training, Composer, DeepStack, and more.',
     creator: '@eddiebe147',
-    // Images are auto-generated from app/twitter-image.tsx
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
