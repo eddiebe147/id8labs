@@ -59,8 +59,7 @@ const builderProducts: Product[] = [
         tagline: 'Signal-to-noise task manager',
         description:
             'Jobs/Musk-level signal filtering with Claude Code integration. 17 MCP tools for natural language task management. Open source.',
-        link: 'https://github.com/eddiebe147/milo',
-        external: true,
+        link: '/products/milo',
     },
     {
         name: 'ID8Foundry',
