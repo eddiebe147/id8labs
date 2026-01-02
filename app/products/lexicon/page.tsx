@@ -112,13 +112,13 @@ export default function LexiconPage() {
         <section className="pt-12 border-t border-[var(--border)]">
           <div className="space-y-4">
             <p className="text-lg text-[var(--text-secondary)]">
-              <strong>Status:</strong> Technical architecture complete, Q4 2025 MVP
+              <strong>Status:</strong> Technical architecture complete, Q1 2026 MVP
             </p>
             <a
               href="#lexicon"
               className="inline-flex items-center gap-2 text-lg px-8 py-4 border-2 border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-[var(--bg-primary)] transition-all duration-200 rounded-soft"
             >
-              Coming Q4 2025
+              Coming Q1 2026
             </a>
           </div>
         </section>

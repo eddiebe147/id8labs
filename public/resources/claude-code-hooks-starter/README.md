@@ -277,4 +277,4 @@ ID8Labs offers:
 
 ---
 
-© 2025 ID8Labs. MIT License.
+© 2026 ID8Labs. MIT License.

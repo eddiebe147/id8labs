@@ -12,7 +12,7 @@ export default function Footer() {
           {/* Column 1: ID8Labs */}
           <div className="col-span-2 md:col-span-1">
             <p className="text-sm font-bold mb-2">
-              <BrandName /> © 2025
+              <BrandName /> © 2026
             </p>
             <p className="text-sm text-[var(--text-secondary)] mb-1">
               Miami, FL

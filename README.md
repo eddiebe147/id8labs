@@ -72,4 +72,4 @@ This site was built following a 10-session plan:
 NO feature creep. NO RGB glows. NO heavy animations.
 Just clean, fast, credible.
 
-© 2025 ID8Labs. Professional tools for the AI era.
+© 2026 ID8Labs. Professional tools for the AI era.
