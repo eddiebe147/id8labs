@@ -115,25 +115,38 @@ export async function POST(request: Request) {
     })
 
     if (error) {
-      // Fallback: fetch and update
-      const { data: current } = await client
+      // Fallback: fetch and update (RPC doesn't exist)
+      const { data: current, error: fetchError } = await client
         .from('claude_stats')
-        .select(column)
+        .select('*')
+        .limit(1)
         .single()
 
+      if (fetchError) {
+        console.error('Fetch error:', fetchError)
+        throw fetchError
+      }
+
       if (current) {
-        const record = current as unknown as { [key: string]: number }
-        const currentValue = record[column] || 0
+        const record = current as Record<string, unknown>
+        const currentValue = (record[column] as number) || 0
         const { data: updated, error: updateError } = await client
           .from('claude_stats')
-          .update({ [column]: currentValue + increment })
+          .update({
+            [column]: currentValue + increment,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', record.id as string)
           .select()
           .single()
 
-        if (updateError) throw updateError
-        return NextResponse.json({ stats: updated })
+        if (updateError) {
+          console.error('Update error:', updateError)
+          throw updateError
+        }
+        return NextResponse.json({ success: true, tool, newValue: currentValue + increment })
       }
-      throw error
+      throw new Error('No stats row found')
     }
 
     return NextResponse.json({ success: true, tool, increment })
