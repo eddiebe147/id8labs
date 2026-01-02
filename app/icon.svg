@@ -1,11 +1,19 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Simple "I8" geometric favicon -->
-  <rect width="32" height="32" fill="#000000"/>
+  <!-- ID8Labs favicon with brand colors -->
+  <rect width="32" height="32" rx="4" fill="#0A0A0B"/>
 
-  <!-- I -->
-  <rect x="8" y="8" width="3" height="16" fill="#FFFFFF"/>
+  <!-- id8 text stylized -->
+  <!-- i dot -->
+  <circle cx="7" cy="9" r="1.5" fill="#FF6B35"/>
+  <!-- i stem -->
+  <rect x="5.5" y="12" width="3" height="10" rx="1" fill="#FF6B35"/>
 
-  <!-- 8 -->
-  <circle cx="20" cy="12" r="3.5" stroke="#FFFFFF" stroke-width="2" fill="none"/>
-  <circle cx="20" cy="20" r="3.5" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+  <!-- d -->
+  <path d="M12 12 L12 22 M12 17 C12 14.5 14 13 16 13 C18 13 19.5 14.5 19.5 17 C19.5 19.5 18 22 16 22 C14 22 12 20.5 12 17Z"
+        stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <!-- 8 - stylized neural network -->
+  <circle cx="26" cy="12" r="3" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+  <circle cx="26" cy="21" r="3.5" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+  <line x1="26" y1="15" x2="26" y2="17.5" stroke="#FFFFFF" stroke-width="2"/>
 </svg>
