@@ -1,0 +1,166 @@
+---
+title: "Learning from the Source"
+subtitle: "What happens when the creator of your most-used tool shares how they actually use it"
+date: "2026-01-02"
+author: "Eddie Belaval"
+category: "research"
+tags: ["ai-coding", "claude-code", "productivity", "learning", "workflow", "builders"]
+featured: true
+---
+
+Yesterday, Boris Cherny—the creator of Claude Code—posted a thread about how he uses his own tool.
+
+I stopped everything and studied it.
+
+Not because I'm a fanboy. Because this is one of those rare moments in a builder's life where you get to learn directly from the source. The person who built the thing you use every day, showing you the mental models behind it.
+
+These moments don't come often. And when they do, you should pay attention.
+
+---
+
+## The Unique Position We're In
+
+Think about what's happening right now in the AI tooling space.
+
+The people building these tools are still accessible. They post threads. They share workflows. They answer questions. Boris Cherny shares how he runs 15 Claude sessions in parallel. The architecture decisions that shaped your daily driver are being explained by the architects themselves.
+
+This won't last forever.
+
+As these tools scale, the creators will become increasingly distant. The institutional knowledge will get buried in documentation written by people three steps removed from the original decisions. The "why" behind the "what" will fade.
+
+Right now, we're in a window. The tools are new enough that the builders are still building in public. The communities are small enough that they're still paying attention.
+
+If you're serious about mastering these tools, this is the time to watch and learn.
+
+---
+
+## What Boris Actually Said
+
+The thread was dense with operational detail. Here's what stood out:
+
+**He runs 15+ Claude sessions simultaneously.** Five numbered terminal tabs, plus 5-10 web sessions at claude.ai/code. He starts sessions from his phone and teleports them to his desktop later.
+
+I was running 3-5 sessions. Good, but not enough. Reading this emboldened me to push further.
+
+**He uses Opus 4.5 for everything.** Even though it's slower and more expensive than Sonnet, he says it's "almost always faster in the end" because you steer it less. The bigger model requires less babysitting.
+
+I was already on Opus 4.5. Validated.
+
+**Terminal-first, always.** Boris runs everything in iTerm with numbered tabs. No IDE. No fancy GUI wrappers. Just the CLI.
+
+This hit home. I'd been experimenting with different interfaces—even tried Antigravity—but kept coming back to the terminal. Reading Boris's workflow confirmed what I already felt: IDEs are unnecessary overhead. The terminal is enough. The terminal is better.
+
+**Plan mode is the starting point.** Shift+Tab twice before most sessions. Get Claude to plan, iterate on the plan until it's right, then switch to auto-accept and let it execute.
+
+I knew about plan mode. I wasn't using it consistently enough.
+
+**Slash commands encode the inner loop.** His most-used command—/commit-push-pr—runs "dozens of times every day." The command uses inline bash to pre-compute git status, eliminating back-and-forth with the model.
+
+I had one slash command. For a completely different workflow.
+
+**The CLAUDE.md is living documentation.** His team shares one, checks it into git, and updates it multiple times per week. When Claude does something wrong, they add it to CLAUDE.md so it doesn't happen again.
+
+My CLAUDE.md was extensive but personal. Not a team artifact.
+
+**Verification is everything.** His final tip: "Give Claude a way to verify its work." He uses the Chrome extension to test every UI change in an actual browser. Claude opens it, tests it, iterates until it works.
+
+I had verification patterns defined but wasn't executing them consistently.
+
+---
+
+## The Gap Analysis
+
+When I compared Boris's workflow to my own, the pattern became clear.
+
+**I had depth. He showed me I could go wider.**
+
+I had built sophisticated systems: agentic patterns (Reflection, PEV, Metacognitive), an 11-stage product pipeline, custom skills for every phase of building. Deep infrastructure. I was already running multiple sessions—but reading his thread made me realize I was holding back.
+
+Why limit myself to 3-5 sessions when I could run 10-15?
+
+Boris treats Claude like a team of developers he's managing. Farm out tasks to different sessions. Poll for results. Context switch freely. Let the cloud sessions cook while you work locally. Send a session to the cloud with `&`, pick it up from your phone later.
+
+I'm in. I'm here now.
+
+The tabbed terminal interface. The numbered sessions. The polling pattern. This is the way.
+
+---
+
+## What I Built in Response
+
+Within an hour of reading his thread, I had implemented:
+
+**Four new slash commands:**
+- `/commit-push-pr` — His most-used command, adapted to my workflow
+- `/sync-main` — Rebase and sync with main, handle conflicts
+- `/test-verify` — Run full test suite with multiple modes
+- `/verify` — 6-layer verification (static, unit, integration, e2e, visual, build)
+
+**A formatter hook** that auto-runs Prettier or Biome after every Write/Edit. Boris mentioned his team uses a PostToolUse hook to handle "the last 10%" of formatting.
+
+**A verification skill** that chains Playwright browser testing with code analysis. His core principle: "Give Claude a way to verify its work."
+
+**Documentation for patterns I didn't know existed:**
+- The `&` suffix to send sessions to cloud
+- The `--teleport` flag to pull them back
+- Session continuation from iOS
+
+I had been using Claude Code for months without knowing you could background a session to the cloud and pick it up from your phone.
+
+---
+
+## The Learning Pattern
+
+This experience reinforced something I've been thinking about: the best way to learn a tool isn't the documentation. It's watching experts use it.
+
+Documentation tells you what's possible. Experts show you what's effective.
+
+Boris didn't explain features. He explained workflows. The numbered terminal tabs. The polling pattern. The "farm out long tasks with &" habit. The verification loop that catches issues before they compound.
+
+These are the operational details that turn a tool into a system. And they're almost never written down—unless the builder happens to post a thread about how they work.
+
+---
+
+## The Meta-Lesson
+
+Here's what I'm taking away:
+
+**1. Follow the builders.**
+Not just the tools. The people who make them. Their workflows, their complaints, their workarounds. That's where the real intelligence lives.
+
+**2. Act on insights immediately.**
+I read Boris's thread and built four slash commands within an hour. Not because I'm fast—because the moment of insight is also the moment of motivation. Let it pass and it becomes a note in a file you'll never reread.
+
+**3. Look for breadth gaps, not just depth gaps.**
+I was proud of my sophisticated patterns. But depth without breadth still leaves throughput on the table. Scale up.
+
+**4. Steal workflows, not just features.**
+Boris didn't share a feature list. He shared a way of working. The parallel sessions, the numbered tabs, the verification loop. That's the valuable part.
+
+---
+
+## The Mycelium Network
+
+Think about how mycelium works.
+
+A fungal network spreads through the forest floor, connecting trees. When one tree finds water, the network distributes it. When another finds nutrients, those flow too. The network learns. The network shares. Individual nodes become stronger because they're connected to something larger.
+
+That's what's happening right now with builders and their tools.
+
+Boris finds a workflow pattern. He shares it. I absorb it, adapt it, build on it. I share what I learned. Someone else picks it up. The knowledge flows through the network, making everyone stronger.
+
+This is the opportunity we have—not just to use tools, but to grow alongside the people building them. To learn in real-time from the source. To contribute back.
+
+The builders are still accessible. The community is still small. The operational knowledge is still being shared in threads and streams and conversations.
+
+Find the source. Watch how they work. Steal their patterns. And when you improve on them—share that too.
+
+This is the moment to learn. Together.
+
+---
+
+*Thank you to Boris Cherny for building Claude Code, and for being the kind of builder who shares how they actually use their own tools. That generosity compounds through the network.*
+
+---
+
+*This essay is part of ID8Labs' ongoing research into human-AI collaboration and the practice of building with AI tools.*
