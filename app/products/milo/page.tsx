@@ -220,18 +220,20 @@ export default function MILOLandingPage() {
           {/* Right: Screenshots */}
           <ScrollReveal delay={0.4} direction="right">
             <div className="space-y-6">
-              {/* Welcome Screen */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
-                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
-                  <Image
-                    src="/products/milo/milo-welcome.png"
-                    alt="MILO Welcome Screen"
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
-                    priority
-                  />
+              {/* Welcome Screen - Centered */}
+              <div className="relative group flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                  <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden">
+                    <Image
+                      src="/products/milo/milo-welcome.png"
+                      alt="MILO Welcome Screen"
+                      width={600}
+                      height={500}
+                      className="w-auto h-auto max-w-full"
+                      priority
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -346,19 +348,21 @@ export default function MILOLandingPage() {
             </ScrollReveal>
           </div>
 
-          {/* The Star: Signal Queue with Start Button */}
+          {/* The Star: One Button Done - Execute Task */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <ScrollReveal delay={0.2} direction="left">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
-                <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,255,65,0.3)]">
-                  <Image
-                    src="/products/milo/milo-signal-queue.png"
-                    alt="MILO Signal Queue with Start Button"
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
-                  />
+              <div className="relative group flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00ff41]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                  <div className="relative border-2 border-[#333333] group-hover:border-[#00ff41] transition-all duration-300 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,255,65,0.3)]">
+                    <Image
+                      src="/products/milo/milo-one-shot.png"
+                      alt="MILO Execute Task - One Shot Done"
+                      width={600}
+                      height={500}
+                      className="w-auto h-auto max-w-full"
+                    />
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
