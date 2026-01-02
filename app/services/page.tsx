@@ -7,25 +7,52 @@ import { ServiceCard } from '@/components/ServiceCard'
 import { PRODUCTS, getProductsByCategory } from '@/lib/products'
 
 // Load Cal.com script globally for booking buttons
+// Uses Cal.com's official embed pattern with queue-based initialization
 function useCalScript() {
   useEffect(() => {
-    const existingScript = document.querySelector('script[src*="cal.com/embed"]')
-    if (existingScript) return
+    // Check if Cal is already initialized
+    const win = window as unknown as { Cal?: CallableFunction & { loaded?: boolean; q?: unknown[]; ns?: Record<string, unknown> } }
+    if (win.Cal?.loaded) return
 
-    const script = document.createElement('script')
-    script.src = 'https://app.cal.com/embed/embed.js'
-    script.async = true
-    document.body.appendChild(script)
-
-    script.onload = () => {
-      const Cal = (window as unknown as { Cal?: (action: string, config: object) => void }).Cal
-      if (Cal) {
-        Cal('init', { origin: 'https://cal.com' })
-        Cal('ui', {
-          styles: { branding: { brandColor: '#FF6B35' } },
-          hideEventTypeDetails: false,
-        })
+    // Cal.com's official embed snippet (queue-based pattern)
+    // This creates a Cal function that queues calls until the script loads
+    ;(function (C: Window, A: string, L: string) {
+      const p = function (a: { q: unknown[] }, ar: unknown) { a.q.push(ar) }
+      const d = C.document
+      const w = C as unknown as { Cal: CallableFunction & { loaded?: boolean; q?: unknown[]; ns?: Record<string, CallableFunction & { q: unknown[] }> } }
+      w.Cal = w.Cal || function (...args: unknown[]) {
+        const cal = w.Cal as CallableFunction & { loaded?: boolean; q: unknown[]; ns: Record<string, CallableFunction & { q: unknown[] }> }
+        if (!cal.loaded) {
+          cal.ns = {}
+          cal.q = cal.q || []
+          d.head.appendChild(d.createElement('script')).src = A
+          cal.loaded = true
+        }
+        if (args[0] === L) {
+          const api = function (...apiArgs: unknown[]) { p(api as unknown as { q: unknown[] }, apiArgs) } as unknown as CallableFunction & { q: unknown[] }
+          const namespace = args[1]
+          api.q = api.q || []
+          if (typeof namespace === 'string') {
+            cal.ns[namespace] = cal.ns[namespace] || api
+            p(cal.ns[namespace], args)
+            p(cal as { q: unknown[] }, ['initNamespace', namespace])
+          } else {
+            p(cal as { q: unknown[] }, args)
+          }
+          return
+        }
+        p(cal as { q: unknown[] }, args)
       }
+    })(window, 'https://app.cal.com/embed/embed.js', 'init')
+
+    // Initialize Cal with branding
+    const Cal = win.Cal
+    if (Cal) {
+      Cal('init', { origin: 'https://cal.com' })
+      Cal('ui', {
+        styles: { branding: { brandColor: '#FF6B35' } },
+        hideEventTypeDetails: false,
+      })
     }
   }, [])
 }
