@@ -6,6 +6,7 @@ import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
 import { PurchaseGate } from '@/components/PurchaseGate'
+import AuthGate from '@/components/auth/AuthGate'
 
 // Animation variants
 const fadeUp = {
@@ -113,6 +114,7 @@ const emailPatterns = [
 
 export default function Module3Page() {
   return (
+    <AuthGate moduleName="Module 3: Advanced Prompting">
     <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 3: Advanced Prompting">
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -582,5 +584,6 @@ export default function Module3Page() {
       </section>
     </div>
     </PurchaseGate>
+    </AuthGate>
   )
 }
