@@ -9,6 +9,7 @@
 /test-results/
 /blob-report/
 .playwright/
+.playwright-mcp/
 
 # next.js
 /.next/
