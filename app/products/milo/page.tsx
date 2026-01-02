@@ -68,14 +68,14 @@ export default function MILOLandingPage() {
               <GlowButton
                 variant="primary"
                 size="lg"
-                href="https://github.com/eddiebe147/milo"
+                href="https://github.com/eddiebe147/milo/releases/latest"
                 onClick={(e) => {
                   e.preventDefault()
-                  window.open('https://github.com/eddiebe147/milo', '_blank')
+                  window.open('https://github.com/eddiebe147/milo/releases/latest', '_blank')
                 }}
               >
                 <Github className="w-5 h-5 mr-2" />
-                Download on GitHub
+                Download for Mac
               </GlowButton>
               <GlowButton variant="secondary" size="lg" href="#waitlist">
                 Get App Store Release
