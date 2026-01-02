@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getStripe } from '@/lib/stripe'
+import { stripeRaw } from '@/lib/stripe-raw'
 import { getProduct, type ProductId } from '@/lib/products'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
+
+// Force Node.js runtime for consistency
+export const runtime = 'nodejs'
 
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient()
+    // Admin client for database operations (bypasses RLS)
+    const adminSupabase = createAdminClient()
 
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -45,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user has already purchased this course
-    const { data: existingPurchase } = await supabase
+    const { data: existingPurchase } = await adminSupabase
       .from('purchases')
       .select('id, status')
       .eq('user_id', user.id)
@@ -61,7 +66,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create purchase record with pending status
-    const { data: purchase, error: purchaseError } = await supabase
+    const { data: purchase, error: purchaseError } = await adminSupabase
       .from('purchases')
       .insert({
         user_id: user.id,
@@ -76,7 +81,7 @@ export async function POST(request: NextRequest) {
     if (purchaseError || !purchase) {
       console.error('Error creating purchase record:', purchaseError)
       return NextResponse.json(
-        { error: 'Failed to create purchase record' },
+        { error: 'Failed to create purchase record', details: purchaseError?.message || 'Unknown error' },
         { status: 500 }
       )
     }
@@ -84,19 +89,17 @@ export async function POST(request: NextRequest) {
     // Get or create Stripe customer
     let customerId: string | undefined
 
-    const { data: customer } = await supabase
+    const { data: customer } = await adminSupabase
       .from('customers')
       .select('stripe_customer_id')
       .eq('id', user.id)
       .single()
 
-    const stripe = getStripe()
-
     if (customer?.stripe_customer_id) {
       customerId = customer.stripe_customer_id
     } else {
-      // Create new Stripe customer
-      const stripeCustomer = await stripe.customers.create({
+      // Create new Stripe customer using raw API (SDK has connection issues in Vercel)
+      const stripeCustomer = await stripeRaw.customers.create({
         email: user.email,
         metadata: {
           supabase_user_id: user.id,
@@ -106,7 +109,7 @@ export async function POST(request: NextRequest) {
       customerId = stripeCustomer.id
 
       // Save customer ID to database
-      await supabase
+      await adminSupabase
         .from('customers')
         .upsert({
           id: user.id,
@@ -114,14 +117,14 @@ export async function POST(request: NextRequest) {
         })
     }
 
-    // Create Stripe checkout session
+    // Create Stripe checkout session using raw API (SDK has connection issues in Vercel)
     const successUrl = product.successRedirect
       ? `${request.nextUrl.origin}${product.successRedirect}&session_id={CHECKOUT_SESSION_ID}`
       : `${request.nextUrl.origin}/services/success?type=${productId}&session_id={CHECKOUT_SESSION_ID}`
     const cancelUrl = `${request.nextUrl.origin}/services`
 
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
+    const session = await stripeRaw.checkout.sessions.create({
+      customer: customerId!,
       line_items: [
         {
           price_data: {
@@ -149,7 +152,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Update purchase with checkout session ID
-    await supabase
+    await adminSupabase
       .from('purchases')
       .update({
         stripe_checkout_session_id: session.id,
@@ -163,9 +166,12 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Checkout error:', error)
+    // Return more detailed error in development for debugging
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json(
-      { error: 'Failed to create checkout session' },
+      { error: 'Failed to create checkout session', details: errorMessage },
       { status: 500 }
     )
   }
 }
+
