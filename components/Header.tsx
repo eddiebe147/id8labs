@@ -79,6 +79,15 @@ export default function Header() {
             <Link href="/contact" className="text-base hover:opacity-70 transition-opacity">
               Contact
             </Link>
+            {/* Claude Corner Easter Egg */}
+            <Link
+              href="/claude-corner"
+              className="font-mono text-[var(--text-tertiary)] hover:text-[var(--id8-orange)] transition-colors flex items-center"
+              title="Claude Corner"
+            >
+              <span className="text-sm">{'>_'}</span>
+              <span className="w-[2px] h-4 bg-current ml-0.5 animate-pulse" />
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -179,6 +188,16 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
+            </Link>
+            {/* Claude Corner Easter Egg */}
+            <Link
+              href="/claude-corner"
+              className="flex items-center gap-2 font-mono text-[var(--text-tertiary)] hover:text-[var(--id8-orange)] transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <span className="text-lg">{'>_'}</span>
+              <span className="w-[2px] h-5 bg-current animate-pulse" />
+              <span className="text-xs uppercase tracking-wider">Claude Corner</span>
             </Link>
           </nav>
         )}
