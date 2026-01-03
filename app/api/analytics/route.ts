@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(apiUrl, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        'x-umami-share-token': token,
       },
       next: { revalidate: 60 }, // Cache for 60 seconds
     })
