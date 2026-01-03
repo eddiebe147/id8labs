@@ -45,10 +45,8 @@ export default function ChatPanel({ userId }: ChatPanelProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // Focus input on load
-  useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
+  // Don't auto-focus on load - it scrolls page to bottom
+  // User can use ⌘K to focus when ready
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
