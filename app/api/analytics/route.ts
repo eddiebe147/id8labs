@@ -1,30 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const UMAMI_URL = process.env.NEXT_PUBLIC_UMAMI_URL || 'https://umami-analytics-eddies-projects-b49c74d7.vercel.app'
+const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || 'a1468cfa-c7a0-4626-8217-154db2c99c93'
 const SHARE_ID = 'J4VS54l6JI0GY7ht'
-
-// Cache the token for reuse
-let cachedToken: string | null = null
-let tokenExpiry: number = 0
-
-async function getShareToken(): Promise<string> {
-  // Return cached token if still valid (refresh 5 min before expiry)
-  if (cachedToken && Date.now() < tokenExpiry - 300000) {
-    return cachedToken
-  }
-
-  const response = await fetch(`${UMAMI_URL}/api/share/${SHARE_ID}`)
-  if (!response.ok) {
-    throw new Error('Failed to get share token')
-  }
-
-  const data = await response.json()
-  cachedToken = data.token
-  // Token is typically valid for 1 hour
-  tokenExpiry = Date.now() + 3600000
-
-  return cachedToken!
-}
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -35,27 +13,30 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type')
 
   try {
-    const token = await getShareToken()
-    const websiteId = 'a1468cfa-c7a0-4626-8217-154db2c99c93'
-
-    // Build the query params
+    // Build the query params - include shareId for public access
     const params = new URLSearchParams()
+    params.set('shareId', SHARE_ID)
     if (startAt) params.set('startAt', startAt)
     if (endAt) params.set('endAt', endAt)
     if (unit) params.set('unit', unit)
     if (type) params.set('type', type)
+    // Umami requires timezone for some endpoints
+    params.set('timezone', 'America/New_York')
 
-    const apiUrl = `${UMAMI_URL}/api/websites/${websiteId}/${endpoint}?${params.toString()}`
+    const apiUrl = `${UMAMI_URL}/api/websites/${WEBSITE_ID}/${endpoint}?${params.toString()}`
 
     const response = await fetch(apiUrl, {
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
+        // Include share URL as referer to help with CORS/auth
+        'Referer': `${UMAMI_URL}/share/${SHARE_ID}`,
       },
       next: { revalidate: 60 }, // Cache for 60 seconds
     })
 
     if (!response.ok) {
+      const errorText = await response.text()
+      console.error(`Umami API error: ${response.status}`, errorText)
       throw new Error(`Umami API error: ${response.status}`)
     }
 
