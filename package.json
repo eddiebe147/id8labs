@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "queue": "npx tsx scripts/content-queue.ts",
+    "queue:add": "npx tsx scripts/content-queue.ts add",
+    "queue:list": "npx tsx scripts/content-queue.ts list",
+    "queue:stats": "npx tsx scripts/content-queue.ts stats",
+    "queue:process": "npx tsx scripts/content-queue.ts process",
+    "queue:next": "npx tsx scripts/content-queue.ts next"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
