@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import BootSequence from '@/components/claude-corner/BootSequence'
 import TerminalShell from '@/components/claude-corner/TerminalShell'
 
@@ -15,6 +15,16 @@ export default function ClaudeCornerClient({ user }: ClaudeCornerClientProps) {
   const [bootComplete, setBootComplete] = useState(false)
   const [skipBoot, setSkipBoot] = useState(false)
 
+  // Prevent scroll restoration and force scroll to top immediately
+  useLayoutEffect(() => {
+    // Disable browser scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual'
+    }
+    // Force scroll to top before paint
+    window.scrollTo(0, 0)
+  }, [])
+
   useEffect(() => {
     // Check if user has seen boot sequence before
     const hasSeen = localStorage.getItem('claude-corner-boot-seen')
@@ -22,6 +32,9 @@ export default function ClaudeCornerClient({ user }: ClaudeCornerClientProps) {
       setSkipBoot(true)
       setBootComplete(true)
     }
+
+    // Also scroll to top after state updates
+    window.scrollTo(0, 0)
   }, [])
 
   const handleBootComplete = () => {
