@@ -44,7 +44,7 @@ export default function IntroMessage({ userEmail }: IntroMessageProps) {
         className="mb-6 select-none"
       >
         {/* Centered ASCII Logo */}
-        <div className="flex justify-center overflow-x-auto">
+        <div className="flex justify-center overflow-hidden">
           <pre
             className="text-[#ff6b35] text-[0.4rem] xs:text-[0.45rem] sm:text-[0.55rem] md:text-[0.65rem] leading-none whitespace-pre"
             style={{ textShadow: '0 0 10px rgba(255, 107, 53, 0.4)' }}
