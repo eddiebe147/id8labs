@@ -40,7 +40,7 @@ describe('POST /api/leads', () => {
       server.use(
         http.post('https://api.resend.com/emails', async ({ request }) => {
           emailSent = true
-          const body = await request.json()
+          const body = await request.json() as { from: string; to: string; subject: string; html: string }
 
           expect(body).toMatchObject({
             from: 'ID8Labs <hello@mail.deepstack.trade>',
