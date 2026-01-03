@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { m, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from '@/components/motion'
 
 interface Message {
   role: 'user' | 'assistant'

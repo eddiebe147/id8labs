@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { m, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from '@/components/motion'
 
 interface BootSequenceProps {
   onComplete: () => void
@@ -31,13 +31,21 @@ const BOOT_MESSAGES = [
 ]
 
 export default function BootSequence({ onComplete }: BootSequenceProps) {
+  const [mounted, setMounted] = useState(false)
   const [phase, setPhase] = useState<'flicker' | 'logo' | 'boot' | 'fade'>('flicker')
   const [visibleMessages, setVisibleMessages] = useState<number>(0)
   const [cursorVisible, setCursorVisible] = useState(true)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
+  // Ensure client-side only rendering for animations
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   // Check for reduced motion preference
   useEffect(() => {
+    if (!mounted) return
+
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setPrefersReducedMotion(mediaQuery.matches)
 
@@ -45,11 +53,11 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
       // Skip animation entirely
       onComplete()
     }
-  }, [onComplete])
+  }, [mounted, onComplete])
 
   // Phase transitions
   useEffect(() => {
-    if (prefersReducedMotion) return
+    if (!mounted || prefersReducedMotion) return
 
     const timers: NodeJS.Timeout[] = []
 
@@ -64,7 +72,7 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
     timers.push(setTimeout(() => onComplete(), 4500))
 
     return () => timers.forEach(clearTimeout)
-  }, [onComplete, prefersReducedMotion])
+  }, [mounted, onComplete, prefersReducedMotion])
 
   // Boot messages reveal
   useEffect(() => {
@@ -104,7 +112,8 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handleSkip])
 
-  if (prefersReducedMotion) return null
+  // Don't render until mounted (prevents hydration mismatch)
+  if (!mounted || prefersReducedMotion) return null
 
   return (
     <AnimatePresence>

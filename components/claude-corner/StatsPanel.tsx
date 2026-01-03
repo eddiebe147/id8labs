@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { m, useMotionValue, useTransform, animate } from 'framer-motion'
+import { m } from '@/components/motion'
+import { useMotionValue, useTransform, animate } from 'framer-motion'
 import { type ClaudeStats } from '@/lib/supabase'
 
 interface StatsPanelProps {

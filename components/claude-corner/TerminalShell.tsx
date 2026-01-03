@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { m, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from '@/components/motion'
 import CRTOverlay from '@/components/milo/CRTOverlay'
 import IntroMessage from './IntroMessage'
 import StatsPanel from './StatsPanel'
