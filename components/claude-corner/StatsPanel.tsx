@@ -1,11 +1,138 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
-import { m } from '@/components/motion'
+import { useState, useEffect, useMemo, useCallback } from 'react'
+import { m, useMotionValue, useTransform, animate } from 'framer-motion'
 import { type ClaudeStats } from '@/lib/supabase'
 
 interface StatsPanelProps {
   onLiveStatusChange?: (isLive: boolean) => void
+}
+
+// Count-up animation hook
+function useCountUp(target: number, duration: number = 2, delay: number = 0) {
+  const [value, setValue] = useState(0)
+  const [hasStarted, setHasStarted] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setHasStarted(true), delay * 1000)
+    return () => clearTimeout(timer)
+  }, [delay])
+
+  useEffect(() => {
+    if (!hasStarted) return
+
+    const startTime = Date.now()
+    const startValue = 0
+
+    const animate = () => {
+      const elapsed = (Date.now() - startTime) / 1000
+      const progress = Math.min(elapsed / duration, 1)
+      // Ease out cubic for satisfying deceleration
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setValue(Math.round(startValue + (target - startValue) * eased))
+
+      if (progress < 1) {
+        requestAnimationFrame(animate)
+      }
+    }
+
+    animate()
+  }, [target, duration, hasStarted])
+
+  return value
+}
+
+// Animated stat display with hover glow
+function AnimatedStat({
+  value,
+  label,
+  format = 'number',
+  delay = 0
+}: {
+  value: number
+  label: string
+  format?: 'number' | 'compact'
+  delay?: number
+}) {
+  const animatedValue = useCountUp(value, 1.5, delay)
+  const [isHovered, setIsHovered] = useState(false)
+
+  const formatValue = (n: number) => {
+    if (format === 'compact') {
+      if (n >= 1000000) return `${(n / 1000000).toFixed(1)}M`
+      if (n >= 1000) return `${(n / 1000).toFixed(0)}K`
+    }
+    return n.toLocaleString()
+  }
+
+  return (
+    <m.div
+      className="group p-2 rounded transition-all cursor-default relative overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ scale: 1.02, backgroundColor: 'rgba(255, 107, 53, 0.1)' }}
+    >
+      {/* Pulse glow on hover */}
+      <m.div
+        className="absolute inset-0 bg-[#ff6b35]/20 rounded"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+      />
+
+      <m.div
+        className="text-[#ff6b35] text-xl font-bold relative z-10"
+        animate={{
+          textShadow: isHovered
+            ? '0 0 10px rgba(255, 107, 53, 0.5)'
+            : '0 0 0px rgba(255, 107, 53, 0)'
+        }}
+      >
+        {formatValue(animatedValue)}
+      </m.div>
+      <div className="text-[#808080] text-xs relative z-10">{label}</div>
+    </m.div>
+  )
+}
+
+// Animated tool bar with count-up
+function AnimatedToolBar({
+  name,
+  count,
+  maxCount,
+  color,
+  delay,
+  formatNumber
+}: {
+  name: string
+  count: number
+  maxCount: number
+  color: string
+  delay: number
+  formatNumber: (n: number) => string
+}) {
+  const animatedCount = useCountUp(count, 1.2, delay)
+
+  return (
+    <m.div
+      className="flex items-center gap-2 p-1 rounded cursor-default"
+      whileHover={{ x: 4, backgroundColor: 'rgba(255, 255, 255, 0.03)' }}
+    >
+      <span className="text-[#808080] w-12 text-xs">{name}</span>
+      <div className="flex-1 h-2 bg-[#1e1e1e] rounded-full overflow-hidden">
+        <m.div
+          initial={{ width: 0 }}
+          animate={{ width: `${(count / maxCount) * 100}%` }}
+          transition={{ duration: 0.8, delay }}
+          className={`h-full ${color} rounded-full`}
+          whileHover={{ boxShadow: `0 0 8px currentColor` }}
+        />
+      </div>
+      <span className="text-[#606060] text-xs w-12 text-right font-mono">
+        {formatNumber(animatedCount)}
+      </span>
+    </m.div>
+  )
 }
 
 // Fallback stats (used when API isn't available)
@@ -124,10 +251,16 @@ function ActivityHeatmap() {
           {activityData.map((week, weekIndex) => (
             <div key={weekIndex} className="flex flex-col gap-[2px]">
               {week.map((day, dayIndex) => (
-                <div
+                <m.div
                   key={dayIndex}
-                  className={`w-[12px] h-[12px] rounded-sm ${getIntensity(day)} transition-all hover:scale-110`}
+                  className={`w-[12px] h-[12px] rounded-sm ${getIntensity(day)} cursor-pointer relative`}
                   title={day === 0 ? 'No contributions' : `${day} contributions`}
+                  whileHover={{
+                    scale: 1.5,
+                    boxShadow: day > 0 ? '0 0 10px rgba(255, 107, 53, 0.7)' : 'none',
+                    zIndex: 10
+                  }}
+                  transition={{ duration: 0.12, ease: 'easeOut' }}
                 />
               ))}
             </div>
@@ -203,30 +336,27 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
       {/* Core Stats */}
       <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-4">
         <div className="grid grid-cols-2 gap-3">
-          <div className="group hover:bg-[#2d2d2d] p-2 rounded transition-colors">
-            <div className="text-[#ff6b35] text-xl font-bold">
-              {stats.commits_together.toLocaleString()}
-            </div>
-            <div className="text-[#808080] text-xs">commits together</div>
-          </div>
-          <div className="group hover:bg-[#2d2d2d] p-2 rounded transition-colors">
-            <div className="text-[#ff6b35] text-xl font-bold">
-              {formatNumber(stats.lines_of_code)}
-            </div>
-            <div className="text-[#808080] text-xs">lines of code</div>
-          </div>
-          <div className="group hover:bg-[#2d2d2d] p-2 rounded transition-colors">
-            <div className="text-[#ff6b35] text-xl font-bold">
-              {stats.projects_shipped}
-            </div>
-            <div className="text-[#808080] text-xs">projects shipped</div>
-          </div>
-          <div className="group hover:bg-[#2d2d2d] p-2 rounded transition-colors">
-            <div className="text-[#ff6b35] text-xl font-bold">
-              {derivedStats.monthsBuilding}
-            </div>
-            <div className="text-[#808080] text-xs">months building</div>
-          </div>
+          <AnimatedStat
+            value={stats.commits_together}
+            label="commits together"
+            delay={0}
+          />
+          <AnimatedStat
+            value={stats.lines_of_code}
+            label="lines of code"
+            format="compact"
+            delay={0.1}
+          />
+          <AnimatedStat
+            value={stats.projects_shipped}
+            label="projects shipped"
+            delay={0.2}
+          />
+          <AnimatedStat
+            value={derivedStats.monthsBuilding}
+            label="months building"
+            delay={0.3}
+          />
         </div>
       </div>
 
@@ -234,27 +364,10 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
       <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-4">
         <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">tool_usage</span></div>
         <div className="space-y-2">
-          {[
-            { name: 'Bash', count: stats.tool_bash, color: 'bg-green-500' },
-            { name: 'Read', count: stats.tool_read, color: 'bg-blue-500' },
-            { name: 'Edit', count: stats.tool_edit, color: 'bg-purple-500' },
-            { name: 'Write', count: stats.tool_write, color: 'bg-orange-500' },
-          ].map((tool) => (
-            <div key={tool.name} className="flex items-center gap-2">
-              <span className="text-[#808080] w-12 text-xs">{tool.name}</span>
-              <div className="flex-1 h-2 bg-[#1e1e1e] rounded-full overflow-hidden">
-                <m.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(tool.count / stats.tool_read) * 100}%` }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className={`h-full ${tool.color} rounded-full`}
-                />
-              </div>
-              <span className="text-[#606060] text-xs w-12 text-right">
-                {formatNumber(tool.count)}
-              </span>
-            </div>
-          ))}
+          <AnimatedToolBar name="Bash" count={stats.tool_bash} maxCount={stats.tool_read} color="bg-green-500" delay={0.4} formatNumber={formatNumber} />
+          <AnimatedToolBar name="Read" count={stats.tool_read} maxCount={stats.tool_read} color="bg-blue-500" delay={0.5} formatNumber={formatNumber} />
+          <AnimatedToolBar name="Edit" count={stats.tool_edit} maxCount={stats.tool_read} color="bg-purple-500" delay={0.6} formatNumber={formatNumber} />
+          <AnimatedToolBar name="Write" count={stats.tool_write} maxCount={stats.tool_read} color="bg-orange-500" delay={0.7} formatNumber={formatNumber} />
         </div>
       </div>
 
@@ -262,14 +375,22 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
       <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-4">
         <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">languages</span></div>
         <div className="flex flex-wrap gap-2">
-          {languageStats.map((lang) => (
-            <div
+          {languageStats.map((lang, index) => (
+            <m.div
               key={lang.lang}
-              className="px-2 py-1 bg-[#1e1e1e] rounded text-xs border border-[#3d3d3d]"
+              className="px-2 py-1 bg-[#1e1e1e] rounded text-xs border border-[#3d3d3d] cursor-default"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 + index * 0.1 }}
+              whileHover={{
+                scale: 1.05,
+                borderColor: 'rgba(255, 107, 53, 0.5)',
+                boxShadow: '0 0 8px rgba(255, 107, 53, 0.3)'
+              }}
             >
               <span className="text-[#e0e0e0]">{lang.lang}</span>
               <span className="text-[#ff6b35] ml-1">{lang.percentage}%</span>
-            </div>
+            </m.div>
           ))}
         </div>
       </div>
