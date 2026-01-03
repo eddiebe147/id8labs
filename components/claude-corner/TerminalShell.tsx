@@ -14,13 +14,13 @@ interface TerminalShellProps {
   userEmail?: string | null
 }
 
-// Staggered panel animation config
+// Staggered panel animation config with CRT focus effect
 const panelVariants = {
   hidden: {
     opacity: 0,
     y: 20,
-    scale: 0.95,
-    filter: 'blur(4px)'
+    scale: 0.98,
+    filter: 'blur(2px)'
   },
   visible: {
     opacity: 1,
@@ -28,7 +28,7 @@ const panelVariants = {
     scale: 1,
     filter: 'blur(0px)',
     transition: {
-      duration: 0.4,
+      duration: 0.5,
       ease: [0.25, 0.46, 0.45, 0.94]
     }
   }
@@ -52,30 +52,32 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
 
   // CRT power-on flicker effect
   useEffect(() => {
-    const flickerSequence = [
-      { delay: 0, phase: 1 },
-      { delay: 100, phase: 2 },
-      { delay: 200, phase: 1 },
-      { delay: 350, phase: 3 },
-      { delay: 500, phase: 2 },
-      { delay: 700, phase: 4 }, // Full on
+    // Phase timing for authentic CRT warm-up
+    const phases = [
+      { delay: 100, phase: 1 },   // Initial dim glow
+      { delay: 200, phase: 2 },   // Flicker up
+      { delay: 150, phase: 1 },   // Flicker back down
+      { delay: 100, phase: 3 },   // Brighter
+      { delay: 80, phase: 2 },    // Quick flicker
+      { delay: 120, phase: 4 },   // Full brightness
     ]
 
-    flickerSequence.forEach(({ delay, phase }) => {
-      setTimeout(() => setFlickerPhase(phase), delay)
+    let totalDelay = 0
+    const timers: NodeJS.Timeout[] = []
+
+    phases.forEach(({ delay, phase }) => {
+      totalDelay += delay
+      timers.push(setTimeout(() => setFlickerPhase(phase), totalDelay))
     })
 
-    // Show content after flicker
-    setTimeout(() => setShowContent(true), 800)
+    // Show content after flicker sequence
+    timers.push(setTimeout(() => setShowContent(true), totalDelay + 100))
+
+    return () => timers.forEach(clearTimeout)
   }, [])
 
-  const flickerOpacity = {
-    0: 0,
-    1: 0.3,
-    2: 0.6,
-    3: 0.8,
-    4: 1
-  }[flickerPhase] || 0
+  // Map phase to opacity for CRT effect
+  const flickerOpacity = [0, 0.3, 0.6, 0.85, 1][flickerPhase]
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">

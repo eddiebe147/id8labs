@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import Script from 'next/script'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
@@ -13,32 +14,47 @@ export function UmamiAnalytics() {
     <Script
       src={`${UMAMI_URL}/script.js`}
       data-website-id={UMAMI_WEBSITE_ID}
-      strategy="afterInteractive"
+      strategy="lazyOnload"
     />
   )
 }
 
 export function GoogleAnalytics() {
+  // Initialize gtag on client side only to avoid SSR issues
+  useEffect(() => {
+    if (!GA_MEASUREMENT_ID) return
+    if (typeof window === 'undefined') return
+
+    // Initialize dataLayer
+    window.dataLayer = window.dataLayer || []
+    function gtag(...args: unknown[]) {
+      window.dataLayer.push(args)
+    }
+    // Make gtag available globally
+    window.gtag = gtag
+
+    gtag('js', new Date())
+    gtag('config', GA_MEASUREMENT_ID, {
+      page_path: window.location.pathname,
+    })
+  }, [])
+
   if (!GA_MEASUREMENT_ID) return null
 
   return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GA_MEASUREMENT_ID}', {
-            page_path: window.location.pathname,
-          });
-        `}
-      </Script>
-    </>
+    <Script
+      src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+      strategy="lazyOnload"
+    />
   )
+}
+
+// Extend Window type for dataLayer and gtag
+declare global {
+  interface Window {
+    dataLayer: unknown[]
+    gtag: (...args: unknown[]) => void
+  }
 }
 
 // Event tracking utility
