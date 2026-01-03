@@ -400,12 +400,19 @@ export async function markPublished(id: string): Promise<QueuedContent> {
 export async function markFailed(id: string, errorMessage: string): Promise<QueuedContent> {
   const supabase = getAdminClient()
 
+  // First, get current retry count
+  const { data: current } = await supabase
+    .from('content_queue')
+    .select('retry_count')
+    .eq('id', id)
+    .single()
+
   const { data, error } = await supabase
     .from('content_queue')
     .update({
       status: 'failed',
       error_message: errorMessage,
-      retry_count: supabase.rpc ? undefined : 1 // Increment if RPC available
+      retry_count: (current?.retry_count ?? 0) + 1,
     })
     .eq('id', id)
     .select()

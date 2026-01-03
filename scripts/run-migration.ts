@@ -19,7 +19,11 @@ if (!supabaseUrl || !supabaseKey) {
   process.exit(1)
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey)
+// TypeScript doesn't know process.exit() never returns, so we assert the types
+const validUrl = supabaseUrl as string
+const validKey = supabaseKey as string
+
+const supabase = createClient(validUrl, validKey)
 
 async function runMigration() {
   console.log('\n🔄 Running content_queue migration...\n')
@@ -56,7 +60,7 @@ async function runMigration() {
 
   console.log('\n✅ Migration file ready.')
   console.log('\n📋 To apply, run this SQL in Supabase Dashboard > SQL Editor:\n')
-  console.log(`   https://${supabaseUrl.replace('https://', '').split('.')[0]}.supabase.co/project/default/sql/new`)
+  console.log(`   https://${validUrl.replace('https://', '').split('.')[0]}.supabase.co/project/default/sql/new`)
   console.log('\n   Or copy from: supabase/migrations/20260102_create_content_queue.sql\n')
 }
 
