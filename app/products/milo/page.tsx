@@ -7,7 +7,7 @@ import CRTOverlay from '@/components/milo/CRTOverlay'
 import GlowText from '@/components/milo/GlowText'
 import GlowButton from '@/components/milo/GlowButton'
 import TerminalCard from '@/components/milo/TerminalCard'
-import SignalMeter from '@/components/milo/SignalMeter'
+import WaveformGauge from '@/components/milo/WaveformGauge'
 import ScrollReveal from '@/components/milo/ScrollReveal'
 import WaitlistForm from '@/components/milo/WaitlistForm'
 
@@ -31,11 +31,11 @@ export default function MILOLandingPage() {
 
       {/* SECTION 1: HERO (100vh) */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20">
-        <div className="max-w-4xl w-full text-center space-y-12">
-          {/* Signal Meter */}
+        <div className="max-w-4xl w-full text-center space-y-8">
+          {/* Animated Waveform Gauge */}
           <ScrollReveal delay={0.1} immediate>
-            <div className="flex justify-center">
-              <SignalMeter />
+            <div className="flex justify-center mb-8">
+              <WaveformGauge size="hero" isActive={true} />
             </div>
           </ScrollReveal>
 
