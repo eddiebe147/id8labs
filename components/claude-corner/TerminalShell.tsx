@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { m, AnimatePresence } from '@/components/motion'
 import CRTMonitorPanel from './CRTMonitorPanel'
@@ -67,14 +67,15 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
       timers.push(setTimeout(() => setFlickerPhase(phase), totalDelay))
     })
 
-    // Phase 1: Show intro content after flicker
+    // Show intro content after flicker completes
     timers.push(setTimeout(() => setShowContent(true), totalDelay + 50))
 
-    // Phase 2: Show remaining panels after intro animation completes (~2s)
-    // This gives time for the intro ASCII art and message to be read
-    timers.push(setTimeout(() => setShowPanels(true), totalDelay + 2200))
-
     return () => timers.forEach(clearTimeout)
+  }, [])
+
+  // Called when Claude's intro boot sequence completes (typing finished)
+  const handleBootComplete = useCallback(() => {
+    setShowPanels(true)
   }, [])
 
   // Map phase to opacity for CRT effect - smoother progression
@@ -169,7 +170,10 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
                   {/* Intro Monitor - Orange glow */}
                   <CRTMonitorPanel title="claude_corner" glowColor="#ff6b35">
                     <div className="p-6 md:p-8">
-                      <IntroMessage userEmail={userEmail} />
+                      <IntroMessage
+                        userEmail={userEmail}
+                        onBootComplete={handleBootComplete}
+                      />
                     </div>
                   </CRTMonitorPanel>
                 </m.div>
