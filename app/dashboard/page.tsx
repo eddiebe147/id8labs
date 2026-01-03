@@ -228,7 +228,7 @@ export default function DashboardPage() {
         await Promise.all([
           fetch(`/api/analytics?endpoint=stats&startAt=${startAt}&endAt=${endAt}`),
           fetch(`/api/analytics?endpoint=pageviews&startAt=${startAt}&endAt=${endAt}&unit=${unit}`),
-          fetch(`/api/analytics?endpoint=metrics&type=url&startAt=${startAt}&endAt=${endAt}`),
+          fetch(`/api/analytics?endpoint=metrics&type=path&startAt=${startAt}&endAt=${endAt}`),
           fetch(`/api/analytics?endpoint=metrics&type=referrer&startAt=${startAt}&endAt=${endAt}`),
           fetch(`/api/analytics?endpoint=metrics&type=country&startAt=${startAt}&endAt=${endAt}`),
           fetch(`/api/analytics?endpoint=metrics&type=browser&startAt=${startAt}&endAt=${endAt}`),
