@@ -28,8 +28,6 @@ export async function GET(request: NextRequest) {
     const response = await fetch(apiUrl, {
       headers: {
         'Content-Type': 'application/json',
-        // Include share URL as referer to help with CORS/auth
-        'Referer': `${UMAMI_URL}/share/${SHARE_ID}`,
       },
       next: { revalidate: 60 }, // Cache for 60 seconds
     })
