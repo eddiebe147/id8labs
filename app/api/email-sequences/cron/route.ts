@@ -11,7 +11,7 @@ import {
 } from '@/lib/email/templates/academy-onboarding-sequence'
 
 // Email sender address
-const EMAIL_FROM = 'Eddie @ ID8Labs <hello@id8labs.app>'
+const EMAIL_FROM = 'Eddie @ ID8Labs <hello@id8labs.tech>'
 
 // Initialize clients
 const getSupabase = () => {

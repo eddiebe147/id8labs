@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
 
     // Send confirmation email
     const { data, error } = await getResend().emails.send({
-      from: 'ID8Labs <hello@id8labs.app>',
+      from: 'ID8Labs <hello@id8labs.tech>',
       to: email,
       subject: "You're subscribed to Claude Code updates",
       html: generateSubscribeEmail(email, source),

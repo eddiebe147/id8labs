@@ -8,7 +8,7 @@ import {
 } from '@/lib/email/templates/newsletter-template'
 
 // Email sender address
-const EMAIL_FROM = 'Eddie @ ID8Labs <hello@id8labs.app>'
+const EMAIL_FROM = 'Eddie @ ID8Labs <hello@id8labs.tech>'
 
 // Initialize clients
 const getSupabase = () => {

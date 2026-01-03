@@ -104,7 +104,7 @@ Required environment variables:
 - `RESEND_API_KEY` - Resend API key
 - `CRON_SECRET` - Secret for cron job authentication
 
-Email sender: `Eddie @ ID8Labs <hello@id8labs.app>`
+Email sender: `Eddie @ ID8Labs <hello@id8labs.tech>`
 
 ## Adding New Content
 
