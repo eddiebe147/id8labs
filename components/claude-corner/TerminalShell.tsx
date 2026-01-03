@@ -73,8 +73,8 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
     return () => timers.forEach(clearTimeout)
   }, [])
 
-  // Called when Claude's intro boot sequence completes (typing finished)
-  const handleBootComplete = useCallback(() => {
+  // Called when boot lines done (ASCII + system init + command) - show all panels
+  const handleBootReady = useCallback(() => {
     // Store current scroll position
     const scrollY = window.scrollY
 
@@ -180,7 +180,7 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
                     <div className="p-6 md:p-8">
                       <IntroMessage
                         userEmail={userEmail}
-                        onBootComplete={handleBootComplete}
+                        onBootReady={handleBootReady}
                       />
                     </div>
                   </CRTMonitorPanel>

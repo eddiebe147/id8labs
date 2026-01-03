@@ -6,7 +6,8 @@ import TypewriterText, { TypewriterSequence } from './TypewriterText'
 
 interface IntroMessageProps {
   userEmail?: string | null
-  onBootComplete?: () => void  // Signal when boot sequence is done
+  onBootReady?: () => void     // Signal when boot lines done (show other panels)
+  onTypingComplete?: () => void // Signal when all typing is done
 }
 
 // ASCII Art Logo - No leading newline, centered via flex container
@@ -17,7 +18,7 @@ const ASCII_LOGO = ` ██████╗██╗      █████╗ █�
 ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
  ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝`
 
-export default function IntroMessage({ userEmail, onBootComplete }: IntroMessageProps) {
+export default function IntroMessage({ userEmail, onBootReady, onTypingComplete }: IntroMessageProps) {
   const [bootPhase, setBootPhase] = useState(0)
   const [cursorVisible, setCursorVisible] = useState(true)
 
@@ -29,8 +30,8 @@ export default function IntroMessage({ userEmail, onBootComplete }: IntroMessage
   // 0: Nothing (initial)
   // 1: ASCII logo appears
   // 2: System init line types
-  // 3: Command prompt types
-  // 4: Claude's message types (main content)
+  // 3: Command prompt types → triggers onBootReady (other panels load)
+  // 4: Claude's message types (while other panels populate)
   // 5: Complete - cursor blinks
 
   useEffect(() => {
@@ -40,16 +41,19 @@ export default function IntroMessage({ userEmail, onBootComplete }: IntroMessage
     timers.push(setTimeout(() => setBootPhase(1), 100))
 
     // Phase 2: System init starts typing
-    timers.push(setTimeout(() => setBootPhase(2), 600))
+    timers.push(setTimeout(() => setBootPhase(2), 400))
 
     // Phase 3: Command prompt types
-    timers.push(setTimeout(() => setBootPhase(3), 1200))
+    timers.push(setTimeout(() => setBootPhase(3), 800))
 
-    // Phase 4: Claude's message starts typing
-    timers.push(setTimeout(() => setBootPhase(4), 1800))
+    // Phase 4: Start message typing + signal other panels to load
+    timers.push(setTimeout(() => {
+      setBootPhase(4)
+      onBootReady?.() // Load other panels now
+    }, 1200))
 
     return () => timers.forEach(clearTimeout)
-  }, [])
+  }, [onBootReady])
 
   // Cursor blink effect
   useEffect(() => {
@@ -63,11 +67,8 @@ export default function IntroMessage({ userEmail, onBootComplete }: IntroMessage
   // Called when main message typing completes
   const handleMessageComplete = useCallback(() => {
     setBootPhase(5)
-    // Small delay before triggering parent callback
-    setTimeout(() => {
-      onBootComplete?.()
-    }, 300)
-  }, [onBootComplete])
+    onTypingComplete?.()
+  }, [onTypingComplete])
 
   // The message lines Claude types out
   const messageLines = [
