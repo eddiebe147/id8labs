@@ -5,7 +5,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { NeuralNetworkBg } from '@/components/foundation/neural-network-bg'
-import { GoogleAnalytics } from '@/components/Analytics'
+import { GoogleAnalytics, UmamiAnalytics } from '@/components/Analytics'
 import LeadMagnetFunnel from '@/components/LeadMagnetFunnel'
 
 const inter = Inter({
@@ -105,6 +105,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable}`}>
         <GoogleAnalytics />
+        <UmamiAnalytics />
         {/* Neural Network Background - "Thoughtful Brain" settings */}
         <NeuralNetworkBg
           neuronCount={120}

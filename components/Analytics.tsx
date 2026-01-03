@@ -3,6 +3,20 @@
 import Script from 'next/script'
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+const UMAMI_WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
+const UMAMI_URL = process.env.NEXT_PUBLIC_UMAMI_URL
+
+export function UmamiAnalytics() {
+  if (!UMAMI_WEBSITE_ID || !UMAMI_URL) return null
+
+  return (
+    <Script
+      src={`${UMAMI_URL}/script.js`}
+      data-website-id={UMAMI_WEBSITE_ID}
+      strategy="afterInteractive"
+    />
+  )
+}
 
 export function GoogleAnalytics() {
   if (!GA_MEASUREMENT_ID) return null
