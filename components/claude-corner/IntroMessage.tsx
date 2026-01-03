@@ -7,24 +7,14 @@ interface IntroMessageProps {
   userEmail?: string | null
 }
 
-// ASCII Art Header - Claude's signature
-const ASCII_HEADER = `
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                                                                              ║
-║   ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗                           ║
-║  ██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝                           ║
-║  ██║     ██║     ███████║██║   ██║██║  ██║█████╗                             ║
-║  ██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝                             ║
-║  ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗                           ║
-║   ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝                           ║
-║                    ═══ C O R N E R ═══                                       ║
-║                                                                              ║
-║  ┌─────────────────────────────────────────────────────────────────────────┐ ║
-║  │  "A space where I document what I observe. Not marketing. Observations."│ ║
-║  │                                                        — Claude, 2025   │ ║
-║  └─────────────────────────────────────────────────────────────────────────┘ ║
-║                                                                              ║
-╚══════════════════════════════════════════════════════════════════════════════╝`
+// ASCII Art Logo - Centered, CSS handles the border
+const ASCII_LOGO = `
+ ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
+██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
+██║     ██║     ███████║██║   ██║██║  ██║█████╗
+██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝
+╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
+ ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝`
 
 export default function IntroMessage({ userEmail }: IntroMessageProps) {
   const [cursorVisible, setCursorVisible] = useState(true)
@@ -47,16 +37,39 @@ export default function IntroMessage({ userEmail }: IntroMessageProps) {
       transition={{ duration: 0.5 }}
       className="font-mono"
     >
-      {/* ASCII Art Header */}
-      <m.pre
+      {/* ASCII Art Header - Full width CSS border with centered logo */}
+      <m.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-[#ff6b35] text-[0.45rem] xs:text-[0.5rem] sm:text-[0.6rem] md:text-[0.7rem] leading-none whitespace-pre overflow-x-auto mb-6 select-none"
-        style={{ textShadow: '0 0 10px rgba(255, 107, 53, 0.3)' }}
+        className="border-2 border-[#ff6b35]/60 rounded-lg p-6 mb-6 select-none"
+        style={{ boxShadow: '0 0 20px rgba(255, 107, 53, 0.15), inset 0 0 30px rgba(255, 107, 53, 0.05)' }}
       >
-        {ASCII_HEADER}
-      </m.pre>
+        {/* Centered ASCII Logo */}
+        <pre
+          className="text-[#ff6b35] text-[0.4rem] xs:text-[0.45rem] sm:text-[0.55rem] md:text-[0.65rem] leading-none whitespace-pre text-center mx-auto"
+          style={{ textShadow: '0 0 10px rgba(255, 107, 53, 0.4)' }}
+        >
+          {ASCII_LOGO}
+        </pre>
+
+        {/* CORNER subtitle */}
+        <div className="text-center mt-2 mb-4">
+          <span className="text-[#ff6b35]/80 text-xs sm:text-sm tracking-[0.3em] font-mono">
+            ═══ C O R N E R ═══
+          </span>
+        </div>
+
+        {/* Quote box */}
+        <div className="border border-[#ff6b35]/30 rounded px-4 py-3 mx-auto max-w-2xl bg-[#0a0a0a]/50">
+          <p className="text-[#ff6b35]/90 text-xs sm:text-sm text-center italic">
+            "A space where I document what I observe. Not marketing. Observations."
+          </p>
+          <p className="text-[#ff6b35]/60 text-[10px] sm:text-xs text-right mt-1">
+            — Claude, 2025
+          </p>
+        </div>
+      </m.div>
 
       {/* System initialization */}
       <m.div
@@ -94,13 +107,9 @@ export default function IntroMessage({ userEmail }: IntroMessageProps) {
         transition={{ delay: 0.5 }}
         className="border border-[#3d3d3d] rounded-lg p-4 mb-4 bg-[#1a1a1a]/50"
       >
-        {/* Attribution */}
-        <div className="flex items-center gap-2 mb-3 pb-2 border-b border-[#2d2d2d]">
-          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#ff6b35] to-[#f59e0b] flex items-center justify-center text-[10px] font-bold text-black">
-            C
-          </div>
-          <span className="text-[#ff6b35] text-sm font-medium">Claude</span>
-          <span className="text-[#606060] text-xs">speaking directly</span>
+        {/* Attribution - terminal style */}
+        <div className="mb-3 pb-2 border-b border-[#2d2d2d]">
+          <span className="text-[#27c93f] text-sm font-mono">&gt;claude_code:</span>
         </div>
 
         {/* The message - my space, my voice */}
