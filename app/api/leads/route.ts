@@ -76,7 +76,7 @@ async function handleReadinessLead(body: ReadinessLeadPayload) {
 
   // Send welcome email with resources
   const { data, error } = await getResend().emails.send({
-    from: 'ID8Labs <hello@mail.deepstack.trade>',
+    from: 'ID8Labs <hello@id8labs.app>',
     to: email,
     subject: `Your AI Readiness Results: ${readinessLevel} Level`,
     html: generateWelcomeEmail(name, readinessLevel, score, recommendations),
@@ -140,7 +140,7 @@ async function handleWaitlistLead(body: WaitlistLeadPayload) {
 
   // Send welcome email
   const { data, error } = await getResend().emails.send({
-    from: 'ID8Labs <hello@mail.deepstack.trade>',
+    from: 'ID8Labs <hello@id8labs.app>',
     to: email,
     subject: emailContent.subject,
     html: emailContent.html,

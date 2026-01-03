@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
       // Send follow-up email
       const { data, error } = await getResend().emails.send({
-        from: 'ID8Labs <hello@mail.deepstack.trade>',
+        from: 'ID8Labs <hello@id8labs.app>',
         to: email,
         subject: helpful
           ? "Thanks for completing AI Conversation Fundamentals!"

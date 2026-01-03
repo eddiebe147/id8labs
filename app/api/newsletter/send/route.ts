@@ -8,7 +8,7 @@ import {
 } from '@/lib/email/templates/newsletter-template'
 
 // Email sender address
-const EMAIL_FROM = 'Eddie @ ID8Labs <hello@mail.deepstack.trade>'
+const EMAIL_FROM = 'Eddie @ ID8Labs <hello@id8labs.app>'
 
 // Initialize clients
 const getSupabase = () => {
