@@ -109,7 +109,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-full
+          name: playwright-report-${{ matrix.browser }}
           path: |
             playwright-report/
             test-results/
