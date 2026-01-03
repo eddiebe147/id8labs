@@ -75,7 +75,15 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
 
   // Called when Claude's intro boot sequence completes (typing finished)
   const handleBootComplete = useCallback(() => {
+    // Store current scroll position
+    const scrollY = window.scrollY
+
     setShowPanels(true)
+
+    // Restore scroll position after panels render to prevent jump
+    requestAnimationFrame(() => {
+      window.scrollTo(0, scrollY)
+    })
   }, [])
 
   // Map phase to opacity for CRT effect - smoother progression
@@ -157,7 +165,7 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
           </div>
 
           {/* Terminal Content - Vertical stack of CRT monitors */}
-          <div className="bg-[#1a1a1a] rounded-b-xl border border-[#3d3d3d] border-t-0 p-4 md:p-6">
+          <div className="bg-[#1a1a1a] rounded-b-xl border border-[#3d3d3d] border-t-0 p-4 md:p-6" style={{ overflowAnchor: 'none' }}>
             {/* Phase 1: Intro Panel - Appears first, alone */}
             <AnimatePresence>
               {showContent && (
