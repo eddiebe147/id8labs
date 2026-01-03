@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { AI_FUNDAMENTALS_SEQUENCE } from '@/lib/email/templates/ai-fundamentals-sequence'
+import { ACADEMY_ONBOARDING_SEQUENCE } from '@/lib/email/templates/academy-onboarding-sequence'
 
 // Initialize Supabase client with service role for server-side operations
 const getSupabase = () => {
@@ -25,6 +26,7 @@ interface SequenceConfig {
 // Available sequences
 const SEQUENCES: Record<string, SequenceConfig> = {
   'ai-fundamentals-nurture': AI_FUNDAMENTALS_SEQUENCE,
+  'academy-onboarding': ACADEMY_ONBOARDING_SEQUENCE,
 }
 
 export async function POST(request: NextRequest) {

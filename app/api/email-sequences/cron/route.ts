@@ -5,6 +5,10 @@ import {
   AI_FUNDAMENTALS_SEQUENCE,
   getSequenceEmail
 } from '@/lib/email/templates/ai-fundamentals-sequence'
+import {
+  ACADEMY_ONBOARDING_SEQUENCE,
+  getAcademyOnboardingEmail
+} from '@/lib/email/templates/academy-onboarding-sequence'
 
 // Email sender address
 const EMAIL_FROM = 'Eddie @ ID8Labs <hello@mail.deepstack.trade>'
@@ -45,6 +49,10 @@ const SEQUENCES: Record<string, {
   'ai-fundamentals-nurture': {
     config: AI_FUNDAMENTALS_SEQUENCE,
     getEmail: getSequenceEmail,
+  },
+  'academy-onboarding': {
+    config: ACADEMY_ONBOARDING_SEQUENCE,
+    getEmail: getAcademyOnboardingEmail,
   },
 }
 

@@ -4,6 +4,33 @@ import { getStripe } from '@/lib/stripe'
 import { createAdminClient } from '@/lib/supabase/server'
 import Stripe from 'stripe'
 
+// Products that trigger Academy onboarding email sequence
+const ACADEMY_PRODUCTS = ['claude-for-knowledge-workers']
+
+// Trigger the Academy onboarding email sequence
+async function triggerAcademyOnboarding(email: string) {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://id8labs.tech'
+    const response = await fetch(`${baseUrl}/api/email-sequences/trigger`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        sequenceId: 'academy-onboarding',
+        source: 'stripe-purchase',
+      }),
+    })
+
+    if (!response.ok) {
+      console.error('Failed to trigger Academy onboarding:', await response.text())
+    } else {
+      console.log(`Academy onboarding sequence started for ${email}`)
+    }
+  } catch (error) {
+    console.error('Error triggering Academy onboarding:', error)
+  }
+}
+
 export async function POST(request: Request) {
   const body = await request.text()
   const headersList = await headers()
@@ -63,6 +90,16 @@ export async function POST(request: Request) {
           console.error('Error updating purchase:', error)
         } else {
           console.log(`Purchase completed for user ${userId}, product ${productId}`)
+
+          // Trigger Academy onboarding for eligible products
+          if (ACADEMY_PRODUCTS.includes(productId)) {
+            const customerEmail = session.customer_email || session.customer_details?.email
+            if (customerEmail) {
+              await triggerAcademyOnboarding(customerEmail)
+            } else {
+              console.error('No customer email found for Academy onboarding')
+            }
+          }
         }
         break
       }
