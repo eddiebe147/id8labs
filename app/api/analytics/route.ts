@@ -4,6 +4,36 @@ const UMAMI_URL = process.env.NEXT_PUBLIC_UMAMI_URL || 'https://umami-analytics-
 const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || 'a1468cfa-c7a0-4626-8217-154db2c99c93'
 const SHARE_ID = 'J4VS54l6JI0GY7ht'
 
+// Cache the share token to avoid repeated requests
+let cachedToken: string | null = null
+let tokenExpiry: number = 0
+
+async function getShareToken(): Promise<string> {
+  // Return cached token if still valid (cache for 5 minutes)
+  if (cachedToken && Date.now() < tokenExpiry) {
+    return cachedToken
+  }
+
+  // Call the share endpoint to get a token
+  const shareResponse = await fetch(`${UMAMI_URL}/api/share/${SHARE_ID}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!shareResponse.ok) {
+    throw new Error(`Failed to get share token: ${shareResponse.status}`)
+  }
+
+  const shareData = await shareResponse.json()
+
+  // The share endpoint returns a token we can use
+  cachedToken = shareData.token
+  tokenExpiry = Date.now() + 5 * 60 * 1000 // 5 minutes
+
+  return cachedToken!
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const endpoint = searchParams.get('endpoint') || 'stats'
@@ -13,14 +43,15 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get('type')
 
   try {
-    // Build the query params - include shareId for public access
+    // Get the share token first
+    const token = await getShareToken()
+
+    // Build the query params
     const params = new URLSearchParams()
-    params.set('shareId', SHARE_ID)
     if (startAt) params.set('startAt', startAt)
     if (endAt) params.set('endAt', endAt)
     if (unit) params.set('unit', unit)
     if (type) params.set('type', type)
-    // Umami requires timezone for some endpoints
     params.set('timezone', 'America/New_York')
 
     const apiUrl = `${UMAMI_URL}/api/websites/${WEBSITE_ID}/${endpoint}?${params.toString()}`
@@ -28,6 +59,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(apiUrl, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       next: { revalidate: 60 }, // Cache for 60 seconds
     })
