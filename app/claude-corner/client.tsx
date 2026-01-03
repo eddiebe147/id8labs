@@ -8,7 +8,7 @@ interface ClaudeCornerClientProps {
   user: {
     id: string
     email?: string | null
-  }
+  } | null
 }
 
 export default function ClaudeCornerClient({ user }: ClaudeCornerClientProps) {
@@ -34,6 +34,11 @@ export default function ClaudeCornerClient({ user }: ClaudeCornerClientProps) {
     return <BootSequence onComplete={handleBootComplete} />
   }
 
-  // Show terminal shell after boot
-  return <TerminalShell userId={user.id} userEmail={user.email} />
+  // Show terminal shell after boot (guest mode if no user)
+  return (
+    <TerminalShell
+      userId={user?.id ?? 'guest'}
+      userEmail={user?.email}
+    />
+  )
 }
