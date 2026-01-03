@@ -49,6 +49,29 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
   const [showPanels, setShowPanels] = useState(false) // Phase 2: other panels
   const [flickerPhase, setFlickerPhase] = useState(0)
 
+  // Force scroll to top on mount - aggressive approach to prevent jump
+  useEffect(() => {
+    // Immediate scroll to top
+    window.scrollTo(0, 0)
+
+    // Also set after a frame to catch any late scrolls
+    const frame1 = requestAnimationFrame(() => {
+      window.scrollTo(0, 0)
+    })
+
+    // And again after two frames for safety
+    const frame2 = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0)
+      })
+    })
+
+    return () => {
+      cancelAnimationFrame(frame1)
+      cancelAnimationFrame(frame2)
+    }
+  }, [])
+
   // CRT power-on flicker effect (only runs once on mount)
   useEffect(() => {
     // Simplified flicker sequence - shorter and less jarring
@@ -75,14 +98,14 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
 
   // Called when boot lines done (ASCII + system init + command) - show all panels
   const handleBootReady = useCallback(() => {
-    // Store current scroll position
-    const scrollY = window.scrollY
-
     setShowPanels(true)
 
-    // Restore scroll position after panels render to prevent jump
+    // Force scroll to top after panels render - multiple frames for reliability
     requestAnimationFrame(() => {
-      window.scrollTo(0, scrollY)
+      window.scrollTo(0, 0)
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0)
+      })
     })
   }, [])
 
