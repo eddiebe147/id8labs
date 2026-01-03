@@ -1,9 +1,58 @@
 'use client'
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { m } from '@/components/motion'
+import { m, AnimatePresence } from '@/components/motion'
 import { useMotionValue, useTransform, animate } from 'framer-motion'
 import { type ClaudeStats } from '@/lib/supabase'
+
+// Claude Code Arsenal Manifest
+const ARSENAL_MANIFEST = {
+  agents: {
+    count: 64,
+    categories: {
+      'Core': ['general-purpose', 'Explore', 'Plan', 'claude-code-guide', 'statusline-setup'],
+      'Development': ['code-reviewer', 'debugger', 'frontend-developer', 'fullstack-developer', 'backend-architect', 'nextjs-senior-dev', 'ui-ux-designer', 'database-architect'],
+      'Code Quality': ['feature-dev:code-reviewer', 'feature-dev:code-explorer', 'feature-dev:code-architect', 'pr-review-toolkit:code-reviewer', 'pr-review-toolkit:silent-failure-hunter', 'pr-review-toolkit:code-simplifier', 'pr-review-toolkit:comment-analyzer', 'pr-review-toolkit:pr-test-analyzer', 'pr-review-toolkit:type-design-analyzer'],
+      'AI/ML': ['ai-engineer', 'ai-ml-toolkit:ai-engineer', 'ai-ml-toolkit:ml-engineer', 'ai-ml-toolkit:nlp-engineer', 'ai-ml-toolkit:computer-vision-engineer', 'ai-ml-toolkit:mlops-engineer'],
+      'Security': ['security-pro:security-auditor', 'security-pro:penetration-tester', 'security-pro:compliance-specialist', 'security-pro:incident-responder', 'mcp-security-auditor'],
+      'DevOps': ['devops-automation:cloud-architect', 'testing-suite:test-engineer', 'performance-optimizer:performance-engineer', 'performance-optimizer:load-testing-specialist'],
+      'Data': ['supabase-toolkit:data-engineer', 'supabase-toolkit:data-scientist'],
+      'MCP': ['mcp-protocol-specialist', 'mcp-server-architect', 'mcp-deployment-orchestrator', 'mcp-registry-navigator', 'mcp-integration-engineer', 'mcp-testing-engineer'],
+      'Documentation': ['documentation-generator:technical-writer', 'documentation-generator:docusaurus-expert'],
+      'Business': ['project-management-suite:product-strategist', 'project-management-suite:business-analyst', 'operations-manager', 'relationship-builder', 'market-intelligence-analyst'],
+      'Git': ['git-workflow:git-flow-manager'],
+      'SDK': ['agent-sdk-dev:agent-sdk-verifier-ts', 'agent-sdk-dev:agent-sdk-verifier-py'],
+      'Creative': ['nana-image-generator', 'notebooklm-producer', 'social-media-manager', 'x-viral-optimizer', 'reality-tv-beat-writer', 'steve-jobs-advisor', 'strategic-think-tank'],
+    }
+  },
+  plugins: {
+    count: 18,
+    list: [
+      'agent-sdk-dev', 'pr-review-toolkit', 'commit-commands', 'feature-dev',
+      'security-guidance', 'git-workflow', 'nextjs-vercel-pro', 'security-pro',
+      'testing-suite', 'supabase-toolkit', 'project-management-suite',
+      'devops-automation', 'ai-ml-toolkit', 'documentation-generator',
+      'performance-optimizer', 'learning-output-style', 'code-review', 'frontend-design'
+    ]
+  },
+  mcpServers: {
+    count: 6,
+    list: ['Playwright', 'Supabase', 'GitHub', 'Memory', 'Firecrawl', 'Perplexity']
+  },
+  skills: {
+    count: 96,
+    categories: {
+      'Development': ['start', 'ship', 'fix', 'test', 'verify', 'preview', 'cleanup', 'rollback'],
+      'Git': ['commit', 'commit-push-pr', 'sync-main', 'compare'],
+      'Documentation': ['docs', 'explain', 'log-note'],
+      'Publishing': ['write-release', 'write-research', 'publish-essay', 'announce-release', 'post-linkedin'],
+      'Project': ['status', 'idea', 'feature-dev', 'feature-dev-guide'],
+      'App Store': ['appstore-review', 'appstore-readiness', 'appstore-submit'],
+      'Session': ['save-state', 'resume'],
+      'Utilities': ['CHEATSHEET', 'COMMAND-MAP', 'GETTING-STARTED', 'README', 'WHICH-COMMAND']
+    }
+  }
+}
 
 interface StatsPanelProps {
   onLiveStatusChange?: (isLive: boolean) => void
@@ -223,6 +272,166 @@ function useStats() {
   }, [stats.first_commit_date])
 
   return { stats, isLive, lastSynced, derivedStats }
+}
+
+// Arsenal Section with expandable manifest
+function ArsenalSection() {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [activeTab, setActiveTab] = useState<'agents' | 'plugins' | 'mcps' | 'skills'>('agents')
+
+  const tabs = [
+    { id: 'agents' as const, label: 'Agents', count: ARSENAL_MANIFEST.agents.count, color: '#27c93f' },
+    { id: 'plugins' as const, label: 'Plugins', count: ARSENAL_MANIFEST.plugins.count, color: '#3b82f6' },
+    { id: 'mcps' as const, label: 'MCPs', count: ARSENAL_MANIFEST.mcpServers.count, color: '#f59e0b' },
+    { id: 'skills' as const, label: 'Skills', count: ARSENAL_MANIFEST.skills.count, color: '#ff6b35' },
+  ]
+
+  return (
+    <div className="bg-[#252525] rounded-lg border border-[#3d3d3d] mb-4 overflow-hidden">
+      {/* Header with counts */}
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-[#27c93f] text-xs">{'> '}<span className="text-[#808080]">arsenal</span></div>
+          <m.button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-[#606060] text-xs hover:text-[#ff6b35] transition-colors flex items-center gap-1"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isExpanded ? 'collapse' : 'view manifest →'}
+          </m.button>
+        </div>
+
+        {/* Count badges */}
+        <div className="grid grid-cols-4 gap-2">
+          {tabs.map((tab, index) => (
+            <m.div
+              key={tab.id}
+              className="text-center p-2 bg-[#1e1e1e] rounded border border-[#3d3d3d] cursor-pointer"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.8 + index * 0.05 }}
+              onClick={() => {
+                setActiveTab(tab.id)
+                setIsExpanded(true)
+              }}
+              whileHover={{
+                borderColor: tab.color,
+                boxShadow: `0 0 8px ${tab.color}33`
+              }}
+            >
+              <div className="text-lg font-bold" style={{ color: tab.color }}>{tab.count}</div>
+              <div className="text-[#606060] text-[10px]">{tab.label.toLowerCase()}</div>
+            </m.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Expandable manifest viewer */}
+      <AnimatePresence>
+        {isExpanded && (
+          <m.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="border-t border-[#3d3d3d]"
+          >
+            {/* Tab selector */}
+            <div className="flex border-b border-[#3d3d3d]">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-1 px-3 py-2 text-xs font-mono transition-all ${
+                    activeTab === tab.id
+                      ? 'bg-[#1e1e1e] border-b-2'
+                      : 'text-[#606060] hover:text-[#e0e0e0] hover:bg-[#1e1e1e]/50'
+                  }`}
+                  style={{
+                    borderColor: activeTab === tab.id ? tab.color : 'transparent',
+                    color: activeTab === tab.id ? tab.color : undefined
+                  }}
+                >
+                  {tab.label} ({tab.count})
+                </button>
+              ))}
+            </div>
+
+            {/* Content */}
+            <div className="p-4 max-h-64 overflow-y-auto custom-scrollbar">
+              {activeTab === 'agents' && (
+                <div className="space-y-3">
+                  {Object.entries(ARSENAL_MANIFEST.agents.categories).map(([category, agents]) => (
+                    <div key={category}>
+                      <div className="text-[#27c93f] text-[10px] uppercase tracking-wider mb-1.5">{category}</div>
+                      <div className="flex flex-wrap gap-1">
+                        {agents.map((agent) => (
+                          <span
+                            key={agent}
+                            className="px-1.5 py-0.5 bg-[#1e1e1e] rounded text-[10px] text-[#808080] border border-[#3d3d3d]"
+                          >
+                            {agent}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeTab === 'plugins' && (
+                <div className="flex flex-wrap gap-2">
+                  {ARSENAL_MANIFEST.plugins.list.map((plugin) => (
+                    <span
+                      key={plugin}
+                      className="px-2 py-1 bg-[#1e1e1e] rounded text-xs text-[#3b82f6] border border-[#3d3d3d]"
+                    >
+                      {plugin}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {activeTab === 'mcps' && (
+                <div className="grid grid-cols-2 gap-2">
+                  {ARSENAL_MANIFEST.mcpServers.list.map((mcp) => (
+                    <div
+                      key={mcp}
+                      className="flex items-center gap-2 p-2 bg-[#1e1e1e] rounded border border-[#3d3d3d]"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-pulse" />
+                      <span className="text-xs text-[#e0e0e0]">{mcp}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeTab === 'skills' && (
+                <div className="space-y-3">
+                  {Object.entries(ARSENAL_MANIFEST.skills.categories).map(([category, skills]) => (
+                    <div key={category}>
+                      <div className="text-[#ff6b35] text-[10px] uppercase tracking-wider mb-1.5">{category}</div>
+                      <div className="flex flex-wrap gap-1">
+                        {skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-1.5 py-0.5 bg-[#1e1e1e] rounded text-[10px] text-[#808080] border border-[#3d3d3d] font-mono"
+                          >
+                            /{skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </m.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
 }
 
 function ActivityHeatmap() {
@@ -507,7 +716,7 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
 
       {/* Quality Metrics */}
       {(stats.tests_written > 0 || stats.builds_succeeded > 0 || stats.bugs_fixed > 0) && (
-        <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-2">
+        <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-4">
           <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">quality_metrics</span></div>
           <div className="grid grid-cols-3 gap-3">
             <m.div
@@ -540,6 +749,9 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
           </div>
         </div>
       )}
+
+      {/* Arsenal - Claude Code Capabilities */}
+      <ArsenalSection />
     </div>
   )
 }
