@@ -7,9 +7,8 @@ interface IntroMessageProps {
   userEmail?: string | null
 }
 
-// ASCII Art Logo - Centered, CSS handles the border
-const ASCII_LOGO = `
- ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
+// ASCII Art Logo - No leading newline, centered via flex container
+const ASCII_LOGO = ` ██████╗██╗      █████╗ ██╗   ██╗██████╗ ███████╗
 ██╔════╝██║     ██╔══██╗██║   ██║██╔══██╗██╔════╝
 ██║     ██║     ███████║██║   ██║██║  ██║█████╗
 ██║     ██║     ██╔══██║██║   ██║██║  ██║██╔══╝
@@ -46,12 +45,14 @@ export default function IntroMessage({ userEmail }: IntroMessageProps) {
         style={{ boxShadow: '0 0 20px rgba(255, 107, 53, 0.15), inset 0 0 30px rgba(255, 107, 53, 0.05)' }}
       >
         {/* Centered ASCII Logo */}
-        <pre
-          className="text-[#ff6b35] text-[0.4rem] xs:text-[0.45rem] sm:text-[0.55rem] md:text-[0.65rem] leading-none whitespace-pre text-center mx-auto"
-          style={{ textShadow: '0 0 10px rgba(255, 107, 53, 0.4)' }}
-        >
-          {ASCII_LOGO}
-        </pre>
+        <div className="flex justify-center overflow-x-auto">
+          <pre
+            className="text-[#ff6b35] text-[0.4rem] xs:text-[0.45rem] sm:text-[0.55rem] md:text-[0.65rem] leading-none whitespace-pre"
+            style={{ textShadow: '0 0 10px rgba(255, 107, 53, 0.4)' }}
+          >
+            {ASCII_LOGO}
+          </pre>
+        </div>
 
         {/* CORNER subtitle */}
         <div className="text-center mt-2 mb-4">
