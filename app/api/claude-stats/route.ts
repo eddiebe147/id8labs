@@ -84,7 +84,7 @@ export async function GET() {
   }
 }
 
-// POST - Increment tool usage (for hooks) - uses service role for write access
+// POST - Increment stats (tools, agents, skills, MCP, quality) - uses service role for write access
 export async function POST(request: Request) {
   try {
     // Simple API key auth
@@ -96,64 +96,123 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    const { tool, increment = 1 } = body
+    const { type = 'tool', name, tool, increment = 1 } = body
 
-    if (!tool || !['bash', 'read', 'edit', 'write'].includes(tool)) {
-      return NextResponse.json(
-        { error: 'Invalid tool. Must be: bash, read, edit, or write' },
-        { status: 400 }
-      )
-    }
+    // Support legacy 'tool' param or new 'name' param
+    const itemName = name || tool
 
     const client = getSupabaseService()
-    const column = `tool_${tool}`
 
-    // Use raw SQL for atomic increment
-    const { data, error } = await client.rpc('increment_tool_usage', {
-      tool_column: column,
-      increment_by: increment,
-    })
+    // Fetch current stats
+    const { data: current, error: fetchError } = await client
+      .from('claude_stats')
+      .select('*')
+      .limit(1)
+      .single()
 
-    if (error) {
-      // Fallback: fetch and update (RPC doesn't exist)
-      const { data: current, error: fetchError } = await client
-        .from('claude_stats')
-        .select('*')
-        .limit(1)
-        .single()
+    if (fetchError) {
+      console.error('Fetch error:', fetchError)
+      throw fetchError
+    }
 
-      if (fetchError) {
-        console.error('Fetch error:', fetchError)
-        throw fetchError
-      }
-
-      if (current) {
-        const record = current as Record<string, unknown>
-        const currentValue = (record[column] as number) || 0
-        const { data: updated, error: updateError } = await client
-          .from('claude_stats')
-          .update({
-            [column]: currentValue + increment,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', record.id as string)
-          .select()
-          .single()
-
-        if (updateError) {
-          console.error('Update error:', updateError)
-          throw updateError
-        }
-        return NextResponse.json({ success: true, tool, newValue: currentValue + increment })
-      }
+    if (!current) {
       throw new Error('No stats row found')
     }
 
-    return NextResponse.json({ success: true, tool, increment })
+    const record = current as Record<string, unknown>
+    let updatePayload: Record<string, unknown> = { updated_at: new Date().toISOString() }
+
+    switch (type) {
+      case 'tool': {
+        // Legacy tool increment (bash, read, edit, write)
+        if (!itemName || !['bash', 'read', 'edit', 'write'].includes(itemName)) {
+          return NextResponse.json(
+            { error: 'Invalid tool. Must be: bash, read, edit, or write' },
+            { status: 400 }
+          )
+        }
+        const column = `tool_${itemName}`
+        const currentValue = (record[column] as number) || 0
+        updatePayload[column] = currentValue + increment
+        break
+      }
+
+      case 'agent': {
+        // Increment agent usage in JSONB
+        if (!itemName) {
+          return NextResponse.json({ error: 'Agent name required' }, { status: 400 })
+        }
+        const agentsUsed = (record.agents_used as Record<string, number>) || {}
+        agentsUsed[itemName] = (agentsUsed[itemName] || 0) + increment
+        updatePayload.agents_used = agentsUsed
+        break
+      }
+
+      case 'skill': {
+        // Increment skill usage in JSONB
+        if (!itemName) {
+          return NextResponse.json({ error: 'Skill name required' }, { status: 400 })
+        }
+        const skillsUsed = (record.skills_used as Record<string, number>) || {}
+        skillsUsed[itemName] = (skillsUsed[itemName] || 0) + increment
+        updatePayload.skills_used = skillsUsed
+        break
+      }
+
+      case 'mcp': {
+        // Increment MCP server usage in JSONB
+        if (!itemName) {
+          return NextResponse.json({ error: 'MCP server name required' }, { status: 400 })
+        }
+        const mcpUsed = (record.mcp_used as Record<string, number>) || {}
+        mcpUsed[itemName] = (mcpUsed[itemName] || 0) + increment
+        updatePayload.mcp_used = mcpUsed
+        break
+      }
+
+      case 'session': {
+        // Increment session count
+        const currentSessions = (record.sessions_count as number) || 0
+        updatePayload.sessions_count = currentSessions + increment
+        break
+      }
+
+      case 'quality': {
+        // Increment quality metric (tests_written, builds_succeeded, bugs_fixed)
+        if (!itemName || !['tests_written', 'builds_succeeded', 'bugs_fixed'].includes(itemName)) {
+          return NextResponse.json(
+            { error: 'Invalid quality metric. Must be: tests_written, builds_succeeded, or bugs_fixed' },
+            { status: 400 }
+          )
+        }
+        const currentValue = (record[itemName] as number) || 0
+        updatePayload[itemName] = currentValue + increment
+        break
+      }
+
+      default:
+        return NextResponse.json(
+          { error: 'Invalid type. Must be: tool, agent, skill, mcp, session, or quality' },
+          { status: 400 }
+        )
+    }
+
+    // Update the stats
+    const { error: updateError } = await client
+      .from('claude_stats')
+      .update(updatePayload)
+      .eq('id', record.id as string)
+
+    if (updateError) {
+      console.error('Update error:', updateError)
+      throw updateError
+    }
+
+    return NextResponse.json({ success: true, type, name: itemName, increment })
   } catch (error) {
-    console.error('Error updating tool usage:', error)
+    console.error('Error updating stats:', error)
     return NextResponse.json(
-      { error: 'Failed to update tool usage' },
+      { error: 'Failed to update stats' },
       { status: 500 }
     )
   }

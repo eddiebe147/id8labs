@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { m, AnimatePresence } from '@/components/motion'
-import CRTOverlay from '@/components/milo/CRTOverlay'
+import CRTMonitorPanel from './CRTMonitorPanel'
 import IntroMessage from './IntroMessage'
 import StatsPanel from './StatsPanel'
 import FieldNotesPanel from './FieldNotesPanel'
@@ -14,22 +14,20 @@ interface TerminalShellProps {
   userEmail?: string | null
 }
 
-// Staggered panel animation config with CRT focus effect
+// Staggered panel animation config - smooth fade-in without jarring effects
 const panelVariants = {
   hidden: {
     opacity: 0,
-    y: 20,
-    scale: 0.98,
-    filter: 'blur(2px)'
+    y: 12,
+    scale: 0.99
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: 'blur(0px)',
     transition: {
-      duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94]
+      duration: 0.6,
+      ease: [0.22, 0.61, 0.36, 1] // Smooth easing curve
     }
   }
 }
@@ -50,16 +48,14 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
   const [showContent, setShowContent] = useState(false)
   const [flickerPhase, setFlickerPhase] = useState(0)
 
-  // CRT power-on flicker effect
+  // CRT power-on flicker effect (only runs once on mount)
   useEffect(() => {
-    // Phase timing for authentic CRT warm-up
+    // Simplified flicker sequence - shorter and less jarring
     const phases = [
       { delay: 100, phase: 1 },   // Initial dim glow
-      { delay: 200, phase: 2 },   // Flicker up
-      { delay: 150, phase: 1 },   // Flicker back down
+      { delay: 150, phase: 2 },   // Flicker up
       { delay: 100, phase: 3 },   // Brighter
-      { delay: 80, phase: 2 },    // Quick flicker
-      { delay: 120, phase: 4 },   // Full brightness
+      { delay: 100, phase: 4 },   // Full brightness
     ]
 
     let totalDelay = 0
@@ -70,35 +66,31 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
       timers.push(setTimeout(() => setFlickerPhase(phase), totalDelay))
     })
 
-    // Show content after flicker sequence
-    timers.push(setTimeout(() => setShowContent(true), totalDelay + 100))
+    // Show content after flicker sequence - slightly earlier for better UX
+    timers.push(setTimeout(() => setShowContent(true), totalDelay + 50))
 
     return () => timers.forEach(clearTimeout)
   }, [])
 
-  // Map phase to opacity for CRT effect
-  const flickerOpacity = [0, 0.3, 0.6, 0.85, 1][flickerPhase]
+  // Map phase to opacity for CRT effect - smoother progression
+  const flickerOpacity = [0, 0.4, 0.7, 0.9, 1][flickerPhase]
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">
-      {/* CRT Effects Overlay */}
-      <CRTOverlay enableFlicker={true} />
-
-      {/* Phosphor glow pulse - Claude's heartbeat */}
+      {/* Subtle background glow - no global CRT overlay, effects are per-panel now */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(255, 107, 53, 0.03) 0%, transparent 50%)',
-          animation: 'pulse 3s ease-in-out infinite'
+          background: 'radial-gradient(ellipse at center, rgba(255, 107, 53, 0.02) 0%, transparent 60%)',
         }}
       />
 
-      {/* Terminal Container with flicker */}
+      {/* Terminal Container with initial power-on flicker only */}
       <m.div
         className="relative z-10 min-h-screen p-4 md:p-6 lg:p-8"
         initial={{ opacity: 0 }}
-        animate={{ opacity: flickerOpacity }}
-        transition={{ duration: 0.1 }}
+        animate={{ opacity: flickerPhase === 4 ? 1 : flickerOpacity }}
+        transition={{ duration: flickerPhase === 4 ? 0.3 : 0.08 }}
       >
         {/* Terminal Window */}
         <div className="max-w-7xl mx-auto">
@@ -158,54 +150,56 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
             </div>
           </div>
 
-          {/* Terminal Content */}
-          <div className="bg-[#1e1e1e] rounded-b-xl border border-[#3d3d3d] border-t-0 overflow-hidden">
+          {/* Terminal Content - Vertical stack of CRT monitors */}
+          <div className="bg-[#1a1a1a] rounded-b-xl border border-[#3d3d3d] border-t-0 p-4 md:p-6">
             <AnimatePresence>
               {showContent && (
                 <m.div
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
+                  className="space-y-4"
                 >
-                  {/* Intro Message */}
-                  <m.div
-                    variants={panelVariants}
-                    className="p-6 md:p-8 border-b border-[#2d2d2d]"
-                  >
-                    <IntroMessage userEmail={userEmail} />
+                  {/* Intro Monitor - Orange glow */}
+                  <m.div variants={panelVariants}>
+                    <CRTMonitorPanel title="claude_corner" glowColor="#ff6b35">
+                      <div className="p-6 md:p-8">
+                        <IntroMessage userEmail={userEmail} />
+                      </div>
+                    </CRTMonitorPanel>
                   </m.div>
 
-                  {/* Two Column Layout: Stats & Notes */}
-                  <div className="grid lg:grid-cols-2 gap-0 lg:gap-0">
-                    {/* Stats Panel */}
-                    <m.div
-                      variants={panelVariants}
-                      className="p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-[#2d2d2d]"
-                    >
-                      <StatsPanel onLiveStatusChange={setIsLive} />
-                    </m.div>
+                  {/* Stats Monitor - Orange glow */}
+                  <m.div variants={panelVariants}>
+                    <CRTMonitorPanel title="stats_console" glowColor="#ff6b35">
+                      <div className="p-6 md:p-8">
+                        <StatsPanel onLiveStatusChange={setIsLive} />
+                      </div>
+                    </CRTMonitorPanel>
+                  </m.div>
 
-                    {/* Field Notes Panel */}
-                    <m.div
-                      variants={panelVariants}
-                      className="p-6 md:p-8 border-b border-[#2d2d2d]"
-                    >
-                      <FieldNotesPanel />
-                    </m.div>
-                  </div>
+                  {/* Field Notes Monitor - Green glow */}
+                  <m.div variants={panelVariants}>
+                    <CRTMonitorPanel title="field_notes" glowColor="#27c93f">
+                      <div className="p-6 md:p-8">
+                        <FieldNotesPanel />
+                      </div>
+                    </CRTMonitorPanel>
+                  </m.div>
 
-                  {/* Chat Panel - Full Width */}
-                  <m.div
-                    variants={panelVariants}
-                    className="p-6 md:p-8"
-                  >
-                    <ChatPanel userId={userId} />
+                  {/* Lab Assistant Monitor - Amber glow */}
+                  <m.div variants={panelVariants}>
+                    <CRTMonitorPanel title="lab_assistant" glowColor="#f59e0b">
+                      <div className="p-6 md:p-8">
+                        <ChatPanel userId={userId} />
+                      </div>
+                    </CRTMonitorPanel>
                   </m.div>
 
                   {/* Footer */}
                   <m.div
                     variants={panelVariants}
-                    className="px-6 md:px-8 py-4 border-t border-[#2d2d2d] flex items-center justify-between text-xs font-mono text-[#404040]"
+                    className="pt-4 flex items-center justify-between text-xs font-mono text-[#404040]"
                   >
                     <span>ID8Labs × Claude Partnership</span>
                     <span>Since October 2025</span>

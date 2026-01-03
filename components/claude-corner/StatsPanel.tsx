@@ -152,6 +152,15 @@ const fallbackStats: ClaudeStats = {
   tool_edit: 2450,
   tool_write: 960,
   languages: { TypeScript: 65, Python: 20, CSS: 8, MDX: 7 },
+  // Extended stats
+  agents_used: { 'Explore': 45, 'code-reviewer': 23, 'debugger': 18, 'frontend-developer': 12, 'Plan': 8 },
+  skills_used: { 'commit': 45, 'fix': 23, 'ship': 15, 'test': 12, 'verify': 8 },
+  mcp_used: { 'playwright': 120, 'supabase': 89, 'github': 67, 'memory': 34 },
+  sessions_count: 156,
+  hours_collaborated: 420,
+  tests_written: 152,
+  builds_succeeded: 98,
+  bugs_fixed: 23,
   last_synced_at: '2025-12-28T22:00:00Z',
   created_at: '2025-12-21T12:00:00Z',
   updated_at: '2025-12-28T22:00:00Z',
@@ -397,10 +406,140 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
       </div>
 
       {/* Activity Heatmap */}
-      <div className="mb-2">
+      <div className="mb-4">
         <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">activity_heatmap</span></div>
         <ActivityHeatmap />
       </div>
+
+      {/* Agents Deployed */}
+      {stats.agents_used && Object.keys(stats.agents_used).length > 0 && (
+        <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-4">
+          <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">agents_deployed</span></div>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(stats.agents_used)
+              .sort(([,a], [,b]) => b - a)
+              .slice(0, 6)
+              .map(([agent, count], index) => (
+                <m.div
+                  key={agent}
+                  className="px-2 py-1 bg-[#1e1e1e] rounded text-xs border border-[#3d3d3d] cursor-default flex items-center gap-1.5"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.0 + index * 0.05 }}
+                  whileHover={{
+                    scale: 1.05,
+                    borderColor: 'rgba(39, 201, 63, 0.5)',
+                    boxShadow: '0 0 8px rgba(39, 201, 63, 0.3)'
+                  }}
+                >
+                  <span className="text-[#27c93f]">●</span>
+                  <span className="text-[#e0e0e0]">{agent}</span>
+                  <span className="text-[#606060]">{count}</span>
+                </m.div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* Skills Invoked */}
+      {stats.skills_used && Object.keys(stats.skills_used).length > 0 && (
+        <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-4">
+          <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">skills_invoked</span></div>
+          <div className="grid grid-cols-2 gap-2">
+            {Object.entries(stats.skills_used)
+              .sort(([,a], [,b]) => b - a)
+              .slice(0, 4)
+              .map(([skill, count], index) => {
+                const maxCount = Math.max(...Object.values(stats.skills_used))
+                return (
+                  <m.div
+                    key={skill}
+                    className="flex items-center gap-2"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.2 + index * 0.05 }}
+                  >
+                    <span className="text-[#f59e0b] text-xs font-mono">/{skill}</span>
+                    <div className="flex-1 h-1.5 bg-[#1e1e1e] rounded-full overflow-hidden">
+                      <m.div
+                        className="h-full bg-[#f59e0b] rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(count / maxCount) * 100}%` }}
+                        transition={{ duration: 0.6, delay: 1.2 + index * 0.05 }}
+                      />
+                    </div>
+                    <span className="text-[#606060] text-xs w-6 text-right">{count}</span>
+                  </m.div>
+                )
+              })}
+          </div>
+        </div>
+      )}
+
+      {/* MCP Connections */}
+      {stats.mcp_used && Object.keys(stats.mcp_used).length > 0 && (
+        <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-4">
+          <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">mcp_connections</span></div>
+          <div className="grid grid-cols-2 gap-3">
+            {Object.entries(stats.mcp_used)
+              .sort(([,a], [,b]) => b - a)
+              .slice(0, 4)
+              .map(([mcp, count], index) => (
+                <m.div
+                  key={mcp}
+                  className="flex items-center gap-2 p-2 bg-[#1e1e1e] rounded border border-[#3d3d3d]"
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.4 + index * 0.05 }}
+                  whileHover={{
+                    borderColor: 'rgba(59, 130, 246, 0.5)',
+                    boxShadow: '0 0 8px rgba(59, 130, 246, 0.2)'
+                  }}
+                >
+                  <span className="w-2 h-2 rounded-full bg-[#3b82f6] animate-pulse" />
+                  <span className="text-[#e0e0e0] text-xs capitalize flex-1">{mcp}</span>
+                  <span className="text-[#606060] text-xs">{count} calls</span>
+                </m.div>
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* Quality Metrics */}
+      {(stats.tests_written > 0 || stats.builds_succeeded > 0 || stats.bugs_fixed > 0) && (
+        <div className="bg-[#252525] rounded-lg p-4 border border-[#3d3d3d] mb-2">
+          <div className="text-[#27c93f] text-xs mb-3">{'> '}<span className="text-[#808080]">quality_metrics</span></div>
+          <div className="grid grid-cols-3 gap-3">
+            <m.div
+              className="text-center p-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.6 }}
+            >
+              <div className="text-[#27c93f] text-lg font-bold">{stats.tests_written}</div>
+              <div className="text-[#606060] text-[10px]">tests written</div>
+            </m.div>
+            <m.div
+              className="text-center p-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.65 }}
+            >
+              <div className="text-[#3b82f6] text-lg font-bold">{stats.builds_succeeded}%</div>
+              <div className="text-[#606060] text-[10px]">builds passed</div>
+            </m.div>
+            <m.div
+              className="text-center p-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.7 }}
+            >
+              <div className="text-[#f59e0b] text-lg font-bold">{stats.bugs_fixed}</div>
+              <div className="text-[#606060] text-[10px]">bugs fixed</div>
+            </m.div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

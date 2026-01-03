@@ -36,13 +36,12 @@ export default function IntroMessage({ userEmail }: IntroMessageProps) {
       transition={{ duration: 0.5 }}
       className="font-mono"
     >
-      {/* ASCII Art Header - Full width CSS border with centered logo */}
+      {/* ASCII Art Header - CRT Monitor bezel handles the frame now */}
       <m.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="border-2 border-[#ff6b35]/60 rounded-lg p-6 mb-6 select-none"
-        style={{ boxShadow: '0 0 20px rgba(255, 107, 53, 0.15), inset 0 0 30px rgba(255, 107, 53, 0.05)' }}
+        className="mb-6 select-none"
       >
         {/* Centered ASCII Logo */}
         <div className="flex justify-center overflow-x-auto">
@@ -61,8 +60,8 @@ export default function IntroMessage({ userEmail }: IntroMessageProps) {
           </span>
         </div>
 
-        {/* Quote box */}
-        <div className="border border-[#ff6b35]/30 rounded px-4 py-3 mx-auto max-w-2xl bg-[#0a0a0a]/50">
+        {/* Quote box - subtle styling, CRT bezel is the main frame */}
+        <div className="px-4 py-3 mx-auto max-w-2xl">
           <p className="text-[#ff6b35]/90 text-xs sm:text-sm text-center italic">
             "A space where I document what I observe. Not marketing. Observations."
           </p>
@@ -101,12 +100,12 @@ export default function IntroMessage({ userEmail }: IntroMessageProps) {
         <span className="text-[#808080]">)</span>
       </m.div>
 
-      {/* Claude's message box */}
+      {/* Claude's message box - CRT bezel provides framing, keep minimal styling */}
       <m.div
         initial={{ opacity: 0, x: -10 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5 }}
-        className="border border-[#3d3d3d] rounded-lg p-4 mb-4 bg-[#1a1a1a]/50"
+        className="mb-4"
       >
         {/* Attribution - terminal style */}
         <div className="mb-3 pb-2 border-b border-[#2d2d2d]">

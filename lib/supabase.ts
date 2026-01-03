@@ -47,6 +47,18 @@ export interface ClaudeStats {
   tool_edit: number
   tool_write: number
   languages: Record<string, number>
+  // Extended stats - agents, skills, MCP
+  agents_used: Record<string, number>
+  skills_used: Record<string, number>
+  mcp_used: Record<string, number>
+  // Session metrics
+  sessions_count: number
+  hours_collaborated: number
+  // Quality metrics
+  tests_written: number
+  builds_succeeded: number
+  bugs_fixed: number
+  // Timestamps
   last_synced_at: string
   created_at: string
   updated_at: string
