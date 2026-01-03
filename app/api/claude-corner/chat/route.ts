@@ -3,9 +3,52 @@ import { NextResponse } from 'next/server'
 import { essays } from '@/lib/essays'
 import { PRODUCTS } from '@/lib/products'
 
+export const runtime = 'nodejs'
+export const maxDuration = 30
+
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
+
+// Simple in-memory rate limiting
+// Note: In serverless, each instance has its own memory, so this is per-instance
+// For stricter limits, use Vercel KV or Upstash Redis
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT = 20 // requests per window
+const RATE_WINDOW = 60 * 1000 // 1 minute
+
+function getRateLimitKey(request: Request): string {
+  // Use forwarded IP or fallback
+  const forwarded = request.headers.get('x-forwarded-for')
+  const ip = forwarded?.split(',')[0]?.trim() || 'unknown'
+  return ip
+}
+
+function checkRateLimit(key: string): { allowed: boolean; remaining: number } {
+  const now = Date.now()
+  const entry = rateLimitMap.get(key)
+
+  // Clean up old entries periodically
+  if (rateLimitMap.size > 1000) {
+    const keysToDelete: string[] = []
+    rateLimitMap.forEach((v, k) => {
+      if (v.resetTime < now) keysToDelete.push(k)
+    })
+    keysToDelete.forEach(k => rateLimitMap.delete(k))
+  }
+
+  if (!entry || entry.resetTime < now) {
+    rateLimitMap.set(key, { count: 1, resetTime: now + RATE_WINDOW })
+    return { allowed: true, remaining: RATE_LIMIT - 1 }
+  }
+
+  if (entry.count >= RATE_LIMIT) {
+    return { allowed: false, remaining: 0 }
+  }
+
+  entry.count++
+  return { allowed: true, remaining: RATE_LIMIT - entry.count }
+}
 
 // Build knowledge base from existing content
 function buildKnowledgeBase(): string {
@@ -103,6 +146,24 @@ We started building together in October 2025. 1,000+ commits later, here we are.
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting
+    const rateLimitKey = getRateLimitKey(request)
+    const { allowed, remaining } = checkRateLimit(rateLimitKey)
+
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded. Try again in a minute.' },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': RATE_LIMIT.toString(),
+            'X-RateLimit-Remaining': '0',
+            'Retry-After': '60',
+          }
+        }
+      )
+    }
+
     const { messages } = await request.json()
 
     if (!messages || !Array.isArray(messages)) {
@@ -156,6 +217,8 @@ export async function POST(request: Request) {
         'Content-Type': 'text/plain; charset=utf-8',
         'Transfer-Encoding': 'chunked',
         'Cache-Control': 'no-cache',
+        'X-RateLimit-Limit': RATE_LIMIT.toString(),
+        'X-RateLimit-Remaining': remaining.toString(),
       },
     })
   } catch (error) {
