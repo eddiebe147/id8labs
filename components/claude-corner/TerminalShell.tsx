@@ -46,6 +46,7 @@ const containerVariants = {
 export default function TerminalShell({ userId, userEmail }: TerminalShellProps) {
   const [isLive, setIsLive] = useState(true)
   const [showContent, setShowContent] = useState(false)
+  const [showPanels, setShowPanels] = useState(false) // Phase 2: other panels
   const [flickerPhase, setFlickerPhase] = useState(0)
 
   // CRT power-on flicker effect (only runs once on mount)
@@ -66,8 +67,12 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
       timers.push(setTimeout(() => setFlickerPhase(phase), totalDelay))
     })
 
-    // Show content after flicker sequence - slightly earlier for better UX
+    // Phase 1: Show intro content after flicker
     timers.push(setTimeout(() => setShowContent(true), totalDelay + 50))
+
+    // Phase 2: Show remaining panels after intro animation completes (~2s)
+    // This gives time for the intro ASCII art and message to be read
+    timers.push(setTimeout(() => setShowPanels(true), totalDelay + 2200))
 
     return () => timers.forEach(clearTimeout)
   }, [])
@@ -152,23 +157,34 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
 
           {/* Terminal Content - Vertical stack of CRT monitors */}
           <div className="bg-[#1a1a1a] rounded-b-xl border border-[#3d3d3d] border-t-0 p-4 md:p-6">
+            {/* Phase 1: Intro Panel - Appears first, alone */}
             <AnimatePresence>
               {showContent && (
+                <m.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="space-y-4"
+                >
+                  {/* Intro Monitor - Orange glow */}
+                  <CRTMonitorPanel title="claude_corner" glowColor="#ff6b35">
+                    <div className="p-6 md:p-8">
+                      <IntroMessage userEmail={userEmail} />
+                    </div>
+                  </CRTMonitorPanel>
+                </m.div>
+              )}
+            </AnimatePresence>
+
+            {/* Phase 2: Other Panels - Appear after intro animation completes */}
+            <AnimatePresence>
+              {showPanels && (
                 <m.div
                   variants={containerVariants}
                   initial="hidden"
                   animate="visible"
-                  className="space-y-4"
+                  className="space-y-4 mt-4"
                 >
-                  {/* Intro Monitor - Orange glow */}
-                  <m.div variants={panelVariants}>
-                    <CRTMonitorPanel title="claude_corner" glowColor="#ff6b35">
-                      <div className="p-6 md:p-8">
-                        <IntroMessage userEmail={userEmail} />
-                      </div>
-                    </CRTMonitorPanel>
-                  </m.div>
-
                   {/* Stats Monitor - Orange glow */}
                   <m.div variants={panelVariants}>
                     <CRTMonitorPanel title="stats_console" glowColor="#ff6b35">
