@@ -137,7 +137,7 @@ export default function IntroMessage({ userEmail, onBootComplete }: IntroMessage
           <span className="w-2 h-2 rounded-full bg-[#27c93f] animate-pulse" />
           <TypewriterText
             text="CLAUDE_PROCESS_ACTIVE"
-            speed={80}
+            speed={150}
           />
           <span className="text-[#808080]">]</span>
           <span className="text-[#606060]">pid: anthropic.claude.opus</span>
@@ -151,7 +151,7 @@ export default function IntroMessage({ userEmail, onBootComplete }: IntroMessage
           {' '}
           <TypewriterText
             text={`claude.greet("${greeting}")`}
-            speed={60}
+            speed={120}
             className="text-[#ff6b35]"
           />
         </div>
@@ -169,8 +169,8 @@ export default function IntroMessage({ userEmail, onBootComplete }: IntroMessage
           <div className="text-[#c0c0c0] text-sm leading-relaxed">
             <TypewriterSequence
               lines={messageLines}
-              speed={80}
-              lineGap={150}
+              speed={180}
+              lineGap={80}
               onComplete={handleMessageComplete}
             />
           </div>
