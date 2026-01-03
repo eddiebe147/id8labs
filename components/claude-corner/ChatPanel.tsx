@@ -163,12 +163,14 @@ export default function ChatPanel({ userId }: ChatPanelProps) {
               >
                 <span
                   className={`flex-shrink-0 ${
-                    msg.role === 'user' ? 'text-[#ff6b35]' : 'text-[#27c93f]'
+                    msg.role === 'user' ? 'text-[#ff6b35]' : 'text-[#f59e0b]'
                   }`}
                 >
                   {msg.role === 'user' ? 'you:' : 'claude:'}
                 </span>
-                <span className="text-[#c0c0c0] whitespace-pre-wrap break-words">
+                <span className={`whitespace-pre-wrap break-words ${
+                  msg.role === 'user' ? 'text-[#c0c0c0]' : 'text-[#fcd34d]'
+                }`}>
                   {msg.content}
                   {/* Streaming cursor */}
                   {isStreaming && i === messages.length - 1 && msg.role === 'assistant' && (
