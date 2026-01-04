@@ -1,0 +1,226 @@
+---
+title: "Building Pipeline CLI: A Visual Dashboard for Idea Lifecycle Management"
+subtitle: "When your project portfolio needs a control room, not a spreadsheet"
+date: "2025-12-21"
+category: "release"
+author: "Eddie Belaval"
+tags: ["pipeline", "cli", "productivity", "release"]
+---
+
+I had 12 projects in various states of decay. Markdown files everywhere. No visibility into what needed attention. So I built a terminal dashboard that makes the invisible visible—decay bars, sparklines, health indicators, all updating live.
+
+---
+
+I had 12 projects in various states of decay. Some were thriving. Some were dying. Most were somewhere in between, and I had no idea which was which.
+
+The data existed—markdown files with YAML frontmatter tracking state, activity, blockers. But opening files one by one? That's not visibility. That's archaeology.
+
+I needed a dashboard. Not a web app. A terminal tool I could run from anywhere, glance at in two seconds, and know exactly what needed attention.
+
+So I built Pipeline CLI.
+
+---
+
+## The Problem with Project Tracking
+
+Most project management tools optimize for the wrong things:
+
+- **Spreadsheets** give you data but no insight
+- **Kanban boards** show movement but not momentum
+- **To-do apps** track tasks but miss the bigger picture
+
+What I needed was something that treated my project portfolio like a living system—one where projects decay without attention, where some stages move faster than others, and where the visual display tells me what matters before I ask.
+
+---
+
+## What Pipeline CLI Does
+
+Run `id8` from anywhere. Get this:
+
+```
+╭─────────────────────────── ID8 PIPELINE ───────────────────────────╮
+│                                                                     │
+│  ╭──── Health ────╮  ╭──────────── Alerts ──────────────╮          │
+│  │ 🟢 3 Healthy   │  │ 🔴 deepstack: 85% decay          │          │
+│  │ 🟡 1 Warning   │  │ 🟡 composer: blocked on API key  │          │
+│  │ 🔴 1 Critical  │  ╰──────────────────────────────────╯          │
+│  │ ❄️ 2 Ice       │                                                │
+│  ╰────────────────╯                                                 │
+│                                                                     │
+│  ╭───────────────── Active Projects ─────────────────────╮         │
+│  │ PROJECT    │ STATE    │ DECAY        │ HEALTH │ DAYS  │         │
+│  ├────────────┼──────────┼──────────────┼────────┼───────┤         │
+│  │ Composer   │ BUILDING │ ████░░░░ 45% │ 🟢     │  23   │         │
+│  │ DeepStack  │ GROWING  │ ███████░ 85% │ 🔴     │  12   │         │
+│  │ Pipeline   │ OPERATING│ ─────────    │ 🟢     │  45   │         │
+│  ╰────────────────────────────────────────────────────────╯         │
+│                                                                     │
+│  ╭─── Stage Distribution ───╮  ╭──── Activity (7d) ────╮           │
+│  │ CAPTURED    ░░░░░░░░ 0   │  │ ▁▂▄▆█▇▅▃ 23 actions   │           │
+│  │ VALIDATING  ██░░░░░░ 1   │  │                       │           │
+│  │ BUILDING    ████░░░░ 2   │  │ Most: Composer (12)   │           │
+│  │ OPERATING   ██░░░░░░ 1   │  │ Stalled: Lexicon (0)  │           │
+│  ╰──────────────────────────╯  ╰───────────────────────╯           │
+╰─────────────────────────────────────────────────────────────────────╯
+```
+
+One glance. Full picture. No clicking through tabs.
+
+---
+
+## The Core Concepts
+
+### Decay Mechanics
+
+Every project decays. Not because it's dying—because attention is finite.
+
+Different stages have different decay windows:
+- **CAPTURED** (raw ideas): 14 days before they rot
+- **VALIDATING**: 7 days to prove or kill
+- **BUILDING**: 90 days of active development
+- **OPERATING**: 365 days of runway
+
+The decay bar shows you where each project stands. Green means healthy. Yellow means pay attention. Red means act now or accept the loss.
+
+### Health Indicators
+
+Visual at a glance:
+- 🟢 Healthy: 0-50% decay
+- 🟡 Warning: 50-85% decay
+- 🔴 Critical: 85-100% decay
+- ❄️ Ice: Frozen (intentionally paused)
+
+### Sparklines
+
+Activity over time, compressed into a single line: `▁▂▄▆█▇▅`
+
+You can see momentum at a glance. Rising activity? Project's alive. Flatline? Something's wrong.
+
+---
+
+## The Technical Stack
+
+**Python + Rich**. That's it.
+
+Rich handles the terminal UI—tables, panels, colors, live updating. It's the library that makes terminal apps look like they belong in a control room.
+
+**Click** for the CLI framework. Clean command structure, help text, argument parsing.
+
+**Pydantic** for data models. Type-safe, validated, with sensible defaults.
+
+**python-frontmatter** for parsing the markdown files where project data lives.
+
+The whole thing is ~1500 lines of Python. Installs globally with `pip install id8-cli`. Works on any terminal.
+
+---
+
+## The Commands
+
+| Command | What it does |
+|---------|--------------|
+| `id8` | Live dashboard (default) |
+| `id8 pulse` | Quick 2-minute check |
+| `id8 list` | Simple table view |
+| `id8 show <slug>` | Deep dive on one project |
+| `id8 new <slug> <name>` | Create project |
+| `id8 log <slug> <note>` | Log activity |
+| `id8 update <slug> <STATE>` | Transition state |
+| `id8 ice <slug>` | Freeze project |
+| `id8 thaw <slug>` | Unfreeze project |
+| `id8 kill <slug>` | Kill project |
+
+The live dashboard updates every 5 seconds. Press 'q' to quit. That's the interface.
+
+---
+
+## Why Terminal?
+
+Three reasons:
+
+**1. Speed.** No browser tabs. No loading spinners. Run `id8`, see everything, move on.
+
+**2. Availability.** Works over SSH. Works in tmux. Works while you're debugging something else. The dashboard is always one command away.
+
+**3. Focus.** Terminals don't have notifications, sidebars, or suggested content. You look at your projects. That's it.
+
+Web dashboards are great for collaboration. But this is a solo builder's tool. Different constraints.
+
+---
+
+## What I Learned Building It
+
+**Build for the actual problem.** I didn't need project management. I needed visibility. The dashboard is read-heavy, write-light. That's intentional.
+
+**Decay mechanics change behavior.** When you see a project at 85% decay, you make a decision. Work on it or kill it. The visual pressure prevents the slow death of neglect.
+
+**Sparklines are magic.** Seven characters can show you a week of momentum. More information-dense than any chart.
+
+**Rich is incredible.** Seriously. If you're building anything terminal-based, start there.
+
+---
+
+## The Data Model
+
+Projects live in `~/.id8labs/projects/` as markdown files:
+
+```yaml
+---
+slug: composer
+name: ID8 Composer
+state: BUILDING
+created: 2024-09-15
+last_activity: 2025-12-20
+---
+
+# One-liner
+AI-assisted writing with selective knowledge base management.
+
+# Blockers
+- None
+
+# Activity Log
+- 2025-12-20: Shipped v0.8.1
+- 2025-12-19: Fixed auth bug
+```
+
+Simple. Portable. Version-controllable. No database required.
+
+---
+
+## What's Next
+
+The current version works. But there's obvious room:
+
+- **Git integration**: Auto-log commits as activity
+- **Notifications**: Alert when projects hit critical decay
+- **Team mode**: Aggregate multiple portfolios
+- **API**: Pipe data into other tools
+
+But those are features. Right now, Pipeline CLI is a tool that solves a specific problem I have today.
+
+---
+
+## Build Something Like This?
+
+Here's the thing: every workflow has invisible friction. Stuff you click through. Tabs you switch between. Mental overhead you've normalized.
+
+Pipeline CLI exists because I was tired of not knowing what needed attention across a dozen projects. The solution is a visual dashboard with decay mechanics and live updating.
+
+Your problem is different. Your solution will be too.
+
+**But the pattern is the same: take something invisible and make it visible. Take something scattered and centralize it. Take something manual and automate it.**
+
+CLI dashboards. AI orchestration. Production tools. Browser automation. If you've got a workflow that's held together by duct tape and browser tabs, I can probably build something better.
+
+**Reach out on [X @eddiebe](https://x.com/eddiebe) and let's talk.**
+
+---
+
+*Stack: Python 3.10+, Rich, Click, Pydantic*
+*Install: `pip install id8-cli`*
+*Platform: macOS, Linux, Windows*
+*Built with: Claude Code*
+
+---
+
+*Published December 21, 2025*

@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextResponse } from 'next/server'
-import { essays } from '@/lib/essays'
+import { getAllEssays } from '@/lib/essays'
 import { PRODUCTS } from '@/lib/products'
 
 export const runtime = 'nodejs'
@@ -53,6 +53,7 @@ function checkRateLimit(key: string): { allowed: boolean; remaining: number } {
 // Build knowledge base from existing content
 function buildKnowledgeBase(): string {
   // Get essay summaries
+  const essays = getAllEssays()
   const essaySummaries = essays
     .slice(0, 10) // Top 10 essays
     .map(e => `- "${e.title}" (${e.date}): ${e.excerpt}`)

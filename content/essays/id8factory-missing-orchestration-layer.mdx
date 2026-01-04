@@ -1,0 +1,86 @@
+---
+title: "ID8Factory: The Missing Layer Between AI Tools and Finished Work"
+subtitle: "The AI tools are incredible. Using them together is a mess."
+date: "2025-12-17"
+category: "essay"
+author: "Eddie Belaval"
+tags: ["id8factory", "ai", "automation", "creative"]
+---
+
+I was spending more time on logistics than creativity. Midjourney, Grok, Gemini—incredible tools, but using them together is just tab-switching and forgetting which prompt made which image. So I built the orchestration that was missing.
+
+---
+
+Every campaign needs visuals, and every visual needs iterations. That means logging into Midjourney, writing a prompt, waiting three minutes, downloading, then doing the same in Grok, then Gemini, then organizing everything into folders you'll never find again.
+
+I was spending more time on logistics than creativity.
+
+Midjourney produces stuff I couldn't have imagined five years ago. Grok is fast. Gemini is weirdly good at photorealism. But using them together? That's just tab-switching and copy-pasting and forgetting which prompt made which image.
+
+So I built the orchestration that was missing.
+
+---
+
+## What ID8Factory Actually Does
+
+I didn't build another AI image generator. I built the orchestration layer that makes the existing ones usable at scale.
+
+It's a pipeline. You tell it what you need—"generate ad creatives for DeepStack"—and it handles the tedious parts:
+
+- **Research** → Pulls brand guidelines, analyzes competitors, builds a moodboard
+- **Brief** → Synthesizes direction into platform-specific prompts
+- **Generate** → Automates the browsers, runs prompts across multiple AI platforms
+- **Iterate** → Tracks what worked, suggests variations
+- **Deploy** → Packages assets with full metadata, pushes to GitHub
+
+The AI handles logistics. You handle taste.
+
+---
+
+## The Browser Automation Problem
+
+Most people don't realize: these AI image platforms don't have APIs. Or the APIs are limited, expensive, or waitlisted.
+
+So Factory automates the browser.
+
+It navigates to Midjourney's web interface, finds the prompt box, types your prompt, waits for generation, clicks upscale on the best result, downloads it, saves it with metadata tracking which prompt produced what. Then it does the same on Grok. Then Gemini. All while you do something else.
+
+The trick is using accessibility snapshots instead of CSS selectors. "Find the textbox labeled 'What will you imagine?'" survives UI updates. CSS selectors don't.
+
+---
+
+## Human Gates
+
+Not everything should be automated. Factory has explicit decision points where the AI stops and waits:
+
+- After the brief: Does this creative direction actually match what you want?
+- After generation: Which of these images should we iterate on?
+- Before deploy: Ready to push to production?
+
+The system presents options. You decide. Then it continues.
+
+---
+
+## First Real Test
+
+I built this for our DeepStack campaign. Results: 5 production-ready images. Under 10 minutes of my attention.
+
+What I learned about the platforms: Midjourney for style. Gemini for speed. Grok for surprises.
+
+And the state tracking turned out to be essential. A week later, I needed to know exactly which prompt produced the image we used. It was all there—prompt, platform, timestamp, generation time, file path.
+
+You will forget what made what. The system won't.
+
+---
+
+## The Bigger Picture
+
+The person who figures out how to chain these tools together has a massive advantage over the person clicking through tabs.
+
+We're in a weird moment. AI tools are incredibly powerful but require manual orchestration. Factory is my answer for creative production—research to deployment, tracked and repeatable.
+
+The tools exist. The orchestration didn't. Now it does.
+
+---
+
+*Currently in field testing at ID8Labs.*
