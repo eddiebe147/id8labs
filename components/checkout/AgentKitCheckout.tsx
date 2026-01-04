@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { X, Github, Loader2, AlertCircle, Check, Package, ExternalLink } from 'lucide-react'
-import { m, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { getProduct } from '@/lib/products'
 
 interface AgentKitCheckoutProps {
@@ -89,7 +89,7 @@ export default function AgentKitCheckout({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999]"
           />
 
           {/* Modal */}
@@ -98,7 +98,7 @@ export default function AgentKitCheckout({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-md"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[9999] w-full max-w-md"
           >
             <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
               {/* Header */}
