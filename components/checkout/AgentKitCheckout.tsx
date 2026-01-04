@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { X, Github, Loader2, AlertCircle, Check, Package, ExternalLink } from 'lucide-react'
-import { AnimatePresence, m } from 'framer-motion'
+import { AnimatePresence, m } from '@/components/motion'
 import { getProduct } from '@/lib/products'
 
 interface AgentKitCheckoutProps {
