@@ -35,20 +35,18 @@ export default function Hero() {
             AI as thinking partner, not chatbot. Tools that compound—every session builds on the last.
           </m.p>
 
-          {/* CTA Buttons */}
+          {/* CTA Button */}
           <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
+            className="pt-6"
           >
             <a
-              href="https://id8composer.app"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/lab"
               className="btn btn-primary hover-lift group"
             >
-              Launch ID8Composer
+              Read the Lab Story
               <svg
                 width="20"
                 height="20"
@@ -61,12 +59,6 @@ export default function Hero() {
                 <line x1="5" y1="12" x2="19" y2="12" />
                 <polyline points="12 5 19 12 12 19" />
               </svg>
-            </a>
-            <a
-              href="/lab"
-              className="btn btn-secondary hover-lift"
-            >
-              Read the Lab Story
             </a>
           </m.div>
 
