@@ -32,41 +32,26 @@ interface Stats {
   }
 }
 
-// Safely extract a numeric value from API response
-// Handles both formats: raw number (128) or nested object ({ value: 128 })
-function extractValue(val: unknown): number {
-  if (typeof val === 'number') return val
-  if (val && typeof val === 'object' && 'value' in val) {
-    return typeof (val as { value: unknown }).value === 'number'
-      ? (val as { value: number }).value
-      : 0
-  }
-  if (val !== undefined && val !== null) {
-    console.warn('[Analytics] Unexpected stat format:', val)
-  }
-  return 0
-}
+// Extract number from API response - handles both { value: 128 } and raw 128
+const num = (v: unknown): number =>
+  typeof v === 'number' ? v : (v as { value?: number })?.value ?? 0
 
-// Normalize raw API response to consistent Stats shape
-// This prevents breakage if Umami API response format changes
-function normalizeStats(raw: unknown): Stats | null {
-  if (!raw || typeof raw !== 'object') return null
-
-  const data = raw as Record<string, unknown>
-  const comparison = data.comparison as Record<string, unknown> | undefined
-
+// Normalize Umami API response to consistent shape
+function normalizeStats(raw: Record<string, unknown>): Stats | null {
+  if (!raw) return null
+  const c = raw.comparison as Record<string, unknown> | undefined
   return {
-    pageviews: extractValue(data.pageviews),
-    visitors: extractValue(data.visitors),
-    visits: extractValue(data.visits),
-    bounces: extractValue(data.bounces),
-    totaltime: extractValue(data.totaltime),
+    pageviews: num(raw.pageviews),
+    visitors: num(raw.visitors),
+    visits: num(raw.visits),
+    bounces: num(raw.bounces),
+    totaltime: num(raw.totaltime),
     comparison: {
-      pageviews: extractValue(comparison?.pageviews),
-      visitors: extractValue(comparison?.visitors),
-      visits: extractValue(comparison?.visits),
-      bounces: extractValue(comparison?.bounces),
-      totaltime: extractValue(comparison?.totaltime),
+      pageviews: num(c?.pageviews),
+      visitors: num(c?.visitors),
+      visits: num(c?.visits),
+      bounces: num(c?.bounces),
+      totaltime: num(c?.totaltime),
     }
   }
 }
