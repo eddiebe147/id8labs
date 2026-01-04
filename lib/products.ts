@@ -9,7 +9,7 @@
  */
 
 export type PurchaseType = 'stripe' | 'booking' | 'free'
-export type ProductCategory = 'ai-implementation' | 'claude-code-training' | 'self-paced-course' | 'free-resource' | 'coming-soon'
+export type ProductCategory = 'ai-implementation' | 'claude-code-training' | 'self-paced-course' | 'free-resource' | 'coming-soon' | 'agent-kit'
 
 export interface Product {
   id: string
@@ -30,6 +30,7 @@ export interface Product {
   // Flags
   popular?: boolean
   tier?: string
+  requiresGithub?: boolean // For agent kits that need GitHub username at checkout
 
   // Stripe-specific (for purchaseType: 'stripe')
   stripeProductId?: string // Optional: link to existing Stripe product
@@ -276,6 +277,144 @@ export const PRODUCTS: Record<string, Product> = {
     ],
     successRedirect: '/academy/prompt-engineering-creators',
   },
+
+  // ─────────────────────────────────────────────────────────────
+  // Agent Kits (Stripe checkout + GitHub delivery)
+  // ─────────────────────────────────────────────────────────────
+  'agent-kit-tmnt': {
+    id: 'agent-kit-tmnt',
+    name: 'TMNT Elite',
+    description: 'Complete 9-agent SDK development team. Strategic brain (KRANG), team lead, architect, creative dev, QA, DevOps, and more.',
+    category: 'agent-kit',
+    purchaseType: 'stripe',
+    price: 7900,
+    priceDisplay: '$79',
+    currency: 'usd',
+    popular: true,
+    requiresGithub: true,
+    features: [
+      'KRANG strategic brain with scope protection',
+      'Leonardo team coordination',
+      'Donatello architecture patterns',
+      'Raphael security & code review',
+      'Splinter wisdom & mentorship',
+      'Full DevOps & QA coverage',
+    ],
+    successRedirect: '/products/success?kit=tmnt',
+    accessInstructions: 'Check your email for GitHub repo invite. Clone and start building!',
+  },
+
+  'agent-kit-llc-ops': {
+    id: 'agent-kit-llc-ops',
+    name: 'LLC Ops',
+    description: 'Replace a $50k back office. 9 AI agents for taxes, compliance, asset protection, bookkeeping, and strategic planning.',
+    category: 'agent-kit',
+    purchaseType: 'stripe',
+    price: 4900,
+    priceDisplay: '$49',
+    currency: 'usd',
+    requiresGithub: true,
+    features: [
+      'Tax strategy & planning agent',
+      'Compliance monitoring agent',
+      'Asset protection guidance',
+      'Bookkeeping automation',
+      'Quarterly planning workflows',
+      'Audit preparation agent',
+    ],
+    successRedirect: '/products/success?kit=llc-ops',
+    accessInstructions: 'Check your email for GitHub repo invite. Clone and start building!',
+  },
+
+  'agent-kit-pipeline': {
+    id: 'agent-kit-pipeline',
+    name: 'Pipeline',
+    description: 'Idea-to-exit in 11 stages. 8 AI agents handle validation through exit prep. Decay mechanics keep projects moving.',
+    category: 'agent-kit',
+    purchaseType: 'stripe',
+    price: 4900,
+    priceDisplay: '$49',
+    currency: 'usd',
+    requiresGithub: true,
+    features: [
+      '11-stage development process',
+      'Decay mechanics for momentum',
+      'Checkpoint validation agents',
+      'Scope protection system',
+      'Progress tracking dashboard',
+      'Exit preparation workflows',
+    ],
+    successRedirect: '/products/success?kit=pipeline',
+    accessInstructions: 'Check your email for GitHub repo invite. Clone and start building!',
+  },
+
+  'agent-kit-foundry': {
+    id: 'agent-kit-foundry',
+    name: 'Foundry',
+    description: 'The system that builds systems. Captures patterns, decisions, and failures across projects. Every build makes the next one faster.',
+    category: 'agent-kit',
+    purchaseType: 'stripe',
+    price: 4900,
+    priceDisplay: '$49',
+    currency: 'usd',
+    requiresGithub: true,
+    features: [
+      'Pattern capture & elevation',
+      'Decision audit trails',
+      'Cross-project learning',
+      'Anti-pattern detection',
+      'Knowledge synthesis agent',
+      'Continuous improvement loops',
+    ],
+    successRedirect: '/products/success?kit=foundry',
+    accessInstructions: 'Check your email for GitHub repo invite. Clone and start building!',
+  },
+
+  'agent-kit-factory': {
+    id: 'agent-kit-factory',
+    name: 'Factory',
+    description: 'Midjourney + Grok + Gemini in one tracked workflow. Browser automation handles the tabs. You handle taste.',
+    category: 'agent-kit',
+    purchaseType: 'stripe',
+    price: 3900,
+    priceDisplay: '$39',
+    currency: 'usd',
+    requiresGithub: true,
+    features: [
+      'Multi-AI orchestration',
+      'Browser automation scripts',
+      'Asset tracking system',
+      'Style consistency engine',
+      'Batch processing workflows',
+      'Export automation',
+    ],
+    successRedirect: '/products/success?kit=factory',
+    accessInstructions: 'Check your email for GitHub repo invite. Clone and start building!',
+  },
+
+  'agent-kit-bundle': {
+    id: 'agent-kit-bundle',
+    name: 'Complete Agent Bundle',
+    description: 'All 5 agent kits. 35 agents total. Everything you need to supercharge Claude Code.',
+    category: 'agent-kit',
+    purchaseType: 'stripe',
+    price: 19900,
+    priceDisplay: '$199',
+    originalPrice: 26500, // $79 + $49 + $49 + $49 + $39 = $265
+    currency: 'usd',
+    popular: true,
+    requiresGithub: true,
+    features: [
+      'TMNT Elite (9 agents) - $79 value',
+      'LLC Ops (9 agents) - $49 value',
+      'Pipeline (8 agents) - $49 value',
+      'Foundry (5 agents) - $49 value',
+      'Factory (4 agents) - $39 value',
+      'Save $66 vs buying separately',
+    ],
+    successRedirect: '/products/success?kit=bundle',
+    accessInstructions: 'Check your email for GitHub repo invite. All 5 kits included!',
+  },
 } as const
 
 export type ProductId = keyof typeof PRODUCTS
@@ -325,6 +464,29 @@ export function getAcademyCourses(): Product[] {
     p.category === 'free-resource' || p.category === 'self-paced-course'
   )
 }
+
+export function getAgentKits(): Product[] {
+  return getProductsByCategory('agent-kit')
+}
+
+export function getAgentKitBundle(): Product | undefined {
+  return PRODUCTS['agent-kit-bundle']
+}
+
+export function getIndividualAgentKits(): Product[] {
+  return Object.values(PRODUCTS).filter(p =>
+    p.category === 'agent-kit' && p.id !== 'agent-kit-bundle'
+  )
+}
+
+// Kit IDs included in the bundle
+export const BUNDLE_KIT_IDS = [
+  'agent-kit-tmnt',
+  'agent-kit-llc-ops',
+  'agent-kit-pipeline',
+  'agent-kit-foundry',
+  'agent-kit-factory',
+] as const
 
 // For backwards compatibility with existing checkout code
 // Only includes products that can be purchased via Stripe (have a fixed price)

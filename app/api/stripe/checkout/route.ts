@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { stripeRaw } from '@/lib/stripe-raw'
 import { getProduct, type ProductId } from '@/lib/products'
 import { createClient, createAdminClient } from '@/lib/supabase/server'
+import { isValidGitHubUsername } from '@/lib/github'
 
 // Force Node.js runtime for consistency
 export const runtime = 'nodejs'
@@ -24,7 +25,10 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { productId } = body as { productId: ProductId }
+    const { productId, githubUsername } = body as {
+      productId: ProductId
+      githubUsername?: string
+    }
 
     // Validate product ID and ensure it's a Stripe product
     const product = getProduct(productId)
@@ -47,6 +51,23 @@ export async function POST(request: NextRequest) {
         { error: 'This product requires a custom quote' },
         { status: 400 }
       )
+    }
+
+    // Validate GitHub username for agent kits
+    if (product.requiresGithub) {
+      if (!githubUsername) {
+        return NextResponse.json(
+          { error: 'GitHub username is required for agent kit purchases' },
+          { status: 400 }
+        )
+      }
+
+      if (!isValidGitHubUsername(githubUsername)) {
+        return NextResponse.json(
+          { error: 'Invalid GitHub username format' },
+          { status: 400 }
+        )
+      }
     }
 
     // Check if user has already purchased this course
@@ -74,6 +95,10 @@ export async function POST(request: NextRequest) {
         amount: product.price,
         currency: product.currency,
         status: 'pending',
+        // Include GitHub username for agent kit purchases
+        ...(product.requiresGithub && githubUsername
+          ? { github_username: githubUsername }
+          : {}),
       })
       .select()
       .single()
@@ -145,6 +170,10 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         product_id: productId,
         purchase_id: purchase.id,
+        // Include GitHub username for agent kit webhook processing
+        ...(product.requiresGithub && githubUsername
+          ? { github_username: githubUsername }
+          : {}),
       },
       customer_update: {
         address: 'auto',

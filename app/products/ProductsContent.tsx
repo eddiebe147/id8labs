@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, ExternalLink, Check, Download, Package, Sparkles, Wrench, Zap, Users, Brain, Shield, Code, Database, Terminal } from 'lucide-react'
+import AgentKitCheckout from '@/components/checkout/AgentKitCheckout'
 
 // ============================================
 // FLAGSHIP PRODUCTS - Full feature showcase
@@ -103,6 +105,7 @@ const flagshipProducts: FlagshipProduct[] = [
 // ============================================
 
 interface AgentKit {
+  productId: string
   name: string
   tagline: string
   description: string
@@ -117,6 +120,7 @@ interface AgentKit {
 
 const agentKits: AgentKit[] = [
   {
+    productId: 'agent-kit-tmnt',
     name: 'TMNT Elite',
     tagline: '9-Agent SDK Dev Team',
     description: 'Complete software development team built on Claude SDK. Strategic brain (KRANG), team lead, architect, creative dev, QA, DevOps, and more.',
@@ -140,6 +144,7 @@ const agentKits: AgentKit[] = [
     ],
   },
   {
+    productId: 'agent-kit-llc-ops',
     name: 'LLC Ops',
     tagline: '9-Agent Business Operations',
     description: 'Replace a $50k back office. AI agents for taxes, compliance, asset protection, bookkeeping, and strategic planning.',
@@ -162,6 +167,7 @@ const agentKits: AgentKit[] = [
     ],
   },
   {
+    productId: 'agent-kit-pipeline',
     name: 'Pipeline',
     tagline: '11-Stage Product Methodology',
     description: 'Idea-to-exit in 11 stages. 8 AI agents handle validation through exit prep. Decay mechanics keep projects moving.',
@@ -184,6 +190,7 @@ const agentKits: AgentKit[] = [
     ],
   },
   {
+    productId: 'agent-kit-foundry',
     name: 'Foundry',
     tagline: 'Self-Improving Dev Framework',
     description: 'The system that builds systems. Captures patterns, decisions, and failures across projects. Every build makes the next one faster.',
@@ -206,6 +213,7 @@ const agentKits: AgentKit[] = [
     ],
   },
   {
+    productId: 'agent-kit-factory',
     name: 'Factory',
     tagline: 'Multi-AI Creative Pipeline',
     description: 'Midjourney + Grok + Gemini in one tracked workflow. Browser automation handles the tabs. You handle taste.',
@@ -371,7 +379,15 @@ function FlagshipCard({ product, index }: { product: FlagshipProduct; index: num
   return content
 }
 
-function AgentKitCard({ kit, index }: { kit: AgentKit; index: number }) {
+function AgentKitCard({
+  kit,
+  index,
+  onPurchase,
+}: {
+  kit: AgentKit
+  index: number
+  onPurchase: (productId: string) => void
+}) {
   return (
     <m.div
       initial={{ opacity: 0, y: 20 }}
@@ -429,7 +445,10 @@ function AgentKitCard({ kit, index }: { kit: AgentKit; index: number }) {
       </div>
 
       {/* CTA */}
-      <button className="w-full py-3 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center justify-center gap-2 group">
+      <button
+        onClick={() => onPurchase(kit.productId)}
+        className="w-full py-3 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center justify-center gap-2 group"
+      >
         <Download className="w-4 h-4" />
         Get Kit
         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -472,6 +491,16 @@ function ComingSoonCard({ product }: { product: ComingSoonProduct }) {
 // ============================================
 
 export default function ProductsContent() {
+  const [checkoutProduct, setCheckoutProduct] = useState<string | null>(null)
+
+  const handlePurchase = (productId: string) => {
+    setCheckoutProduct(productId)
+  }
+
+  const handleCloseCheckout = () => {
+    setCheckoutProduct(null)
+  }
+
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] px-6 py-24">
       <div className="max-w-[1200px] mx-auto">
@@ -561,7 +590,10 @@ export default function ProductsContent() {
                   <div className="text-3xl font-bold text-white">${bundlePrice}</div>
                   <div className="text-sm text-emerald-400">Save ${bundleSavings}</div>
                 </div>
-                <button className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center gap-2">
+                <button
+                  onClick={() => handlePurchase('agent-kit-bundle')}
+                  className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center gap-2"
+                >
                   Get Bundle
                   <ArrowRight className="w-4 h-4" />
                 </button>
@@ -572,7 +604,7 @@ export default function ProductsContent() {
           {/* Kit Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {agentKits.map((kit, index) => (
-              <AgentKitCard key={kit.name} kit={kit} index={index} />
+              <AgentKitCard key={kit.name} kit={kit} index={index} onPurchase={handlePurchase} />
             ))}
           </div>
         </section>
@@ -634,6 +666,13 @@ export default function ProductsContent() {
           </div>
         </m.section>
       </div>
+
+      {/* Agent Kit Checkout Modal */}
+      <AgentKitCheckout
+        productId={checkoutProduct || ''}
+        isOpen={checkoutProduct !== null}
+        onClose={handleCloseCheckout}
+      />
     </div>
   )
 }
