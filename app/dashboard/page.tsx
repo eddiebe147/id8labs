@@ -18,17 +18,17 @@ const ComposedChart = dynamic(() => import('recharts').then(mod => mod.ComposedC
 const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false })
 
 interface Stats {
-  pageviews: { value: number }
-  visitors: { value: number }
-  visits: { value: number }
-  bounces: { value: number }
-  totaltime: { value: number }
+  pageviews: number
+  visitors: number
+  visits: number
+  bounces: number
+  totaltime: number
   comparison: {
-    pageviews: { value: number }
-    visitors: { value: number }
-    visits: { value: number }
-    bounces: { value: number }
-    totaltime: { value: number }
+    pageviews: number
+    visitors: number
+    visits: number
+    bounces: number
+    totaltime: number
   }
 }
 
@@ -596,23 +596,23 @@ export default function DashboardPage() {
   }, [fetchData])
 
   const bounceRate = stats
-    ? stats.visits.value > 0
-      ? (stats.bounces.value / stats.visits.value) * 100
+    ? stats.visits > 0
+      ? (stats.bounces / stats.visits) * 100
       : 0
     : 0
   const prevBounceRate = stats?.comparison
-    ? stats.comparison.visits.value > 0
-      ? (stats.comparison.bounces.value / stats.comparison.visits.value) * 100
+    ? stats.comparison.visits > 0
+      ? (stats.comparison.bounces / stats.comparison.visits) * 100
       : 0
     : 0
   const avgDuration = stats
-    ? stats.visits.value > 0
-      ? stats.totaltime.value / stats.visits.value
+    ? stats.visits > 0
+      ? stats.totaltime / stats.visits
       : 0
     : 0
   const prevAvgDuration = stats?.comparison
-    ? stats.comparison.visits.value > 0
-      ? stats.comparison.totaltime.value / stats.comparison.visits.value
+    ? stats.comparison.visits > 0
+      ? stats.comparison.totaltime / stats.comparison.visits
       : 0
     : 0
 
@@ -676,8 +676,8 @@ export default function DashboardPage() {
                 <RealtimeIndicator count={activeVisitors} />
                 <StatCard
                   label="Visitors"
-                  value={stats?.visitors.value || 0}
-                  previousValue={stats?.comparison?.visitors.value}
+                  value={stats?.visitors || 0}
+                  previousValue={stats?.comparison?.visitors}
                   sparklineData={sparklineData}
                   icon={
                     <svg className="w-4 h-4 text-[#FF6B35]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -687,8 +687,8 @@ export default function DashboardPage() {
                 />
                 <StatCard
                   label="Page Views"
-                  value={stats?.pageviews.value || 0}
-                  previousValue={stats?.comparison?.pageviews.value}
+                  value={stats?.pageviews || 0}
+                  previousValue={stats?.comparison?.pageviews}
                   sparklineData={sparklineData}
                   icon={
                     <svg className="w-4 h-4 text-[#FF6B35]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -699,8 +699,8 @@ export default function DashboardPage() {
                 />
                 <StatCard
                   label="Sessions"
-                  value={stats?.visits.value || 0}
-                  previousValue={stats?.comparison?.visits.value}
+                  value={stats?.visits || 0}
+                  previousValue={stats?.comparison?.visits}
                   sparklineData={sparklineData}
                   icon={
                     <svg className="w-4 h-4 text-[#FF6B35]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
