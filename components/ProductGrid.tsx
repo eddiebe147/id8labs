@@ -50,12 +50,29 @@ function DeepStackPreview() {
   )
 }
 
-const products: Product[] = [
-  // FOR CREATORS
+function MiloPreview() {
+  return (
+    <div className="relative w-full h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden border-2 border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)]">
+      <Image
+        src="/products/milo/milo-dashboard.png"
+        alt="MILO - Signal-to-noise task manager with Claude Code integration"
+        fill
+        className="object-cover object-top"
+        sizes="(max-width: 768px) 100vw, 50vw"
+        priority
+      />
+      {/* Subtle gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+    </div>
+  )
+}
+
+// Featured products with screenshots
+const featuredProducts: Product[] = [
   {
     name: 'Composer',
     status: 'shipping',
-    statusLabel: 'v0.8.1 • Live',
+    statusLabel: 'v1.8161 • Live',
     description: 'AI writing partner that actually remembers your story world. Built for 90 Day Fiancé production—context rot solved.',
     link: 'https://id8composer.app',
     external: true,
@@ -65,69 +82,47 @@ const products: Product[] = [
     name: 'DeepStack',
     status: 'shipping',
     statusLabel: 'v2.5.0 • Live',
-    description: 'Trading research with Claude. 30+ analysis tools, thesis tracking, emotion-aware journaling. Blocks revenge trades. Research only.',
+    description: 'Trading research with Claude. 30+ analysis tools, thesis tracking, emotion-aware journaling. Blocks revenge trades.',
     link: 'https://deepstack.trade',
     external: true,
     category: 'builders',
   },
-  // FOR BUILDERS
-  {
-    name: 'LLC Ops',
-    status: 'internal',
-    statusLabel: 'Internal tooling',
-    description: '9 AI agents for taxes, compliance, asset protection. Replace a $50k back office.',
-    link: '/products/llc-ops',
-    category: 'builders',
-  },
-  {
-    name: 'Pipeline',
-    status: 'internal',
-    statusLabel: 'Internal tooling',
-    description: 'Idea-to-exit in 11 stages. 8 AI agents handle validation through exit prep. Decay mechanics keep projects moving.',
-    link: '/products/pipeline',
-    category: 'builders',
-  },
-  {
-    name: 'Factory',
-    status: 'development',
-    statusLabel: 'Field testing',
-    description: 'Midjourney + Grok + Gemini in one tracked workflow. Browser automation handles the tabs. You handle taste.',
-    link: '/products/factory',
-    category: 'builders',
-  },
-  {
-    name: 'Pipeline CLI',
-    status: 'internal',
-    statusLabel: 'Just shipped',
-    description: 'Terminal dashboard for your product portfolio. Decay bars, sparklines, health indicators. Control room aesthetic.',
-    link: '/essays/building-pipeline-cli',
-    category: 'builders',
-  },
-  {
-    name: 'Lexicon',
-    status: 'development',
-    statusLabel: 'Architecture complete',
-    description: 'Story bible as knowledge graph. Characters, relationships, timelines—100 episodes deep, instantly searchable.',
-    link: '/products/lexicon',
-    category: 'creators',
-  },
-  // FOR FUN
-  {
-    name: 'X-Place',
-    status: 'exploration',
-    statusLabel: 'Building in public',
-    description: 'r/place meets X. Shared pixel canvas, cooldown timers, real-time chaos. A social experiment.',
-    link: '/products/xplace',
-    category: 'fun',
-  },
-  // OPEN SOURCE
   {
     name: 'MILO',
     status: 'internal',
     statusLabel: 'Open Source • Free',
     description: 'Signal-to-noise task manager with Claude Code integration. Jobs/Musk-level filtering. 17 MCP tools for natural language task management.',
     link: '/products/milo',
+    external: false,
     category: 'builders',
+  },
+]
+
+// Compact showcase - best of the rest
+const showcaseProducts: Product[] = [
+  {
+    name: 'LLC Ops',
+    status: 'internal',
+    statusLabel: 'Internal',
+    description: '9 AI agents for taxes, compliance, asset protection.',
+    link: '/products/llc-ops',
+    category: 'builders',
+  },
+  {
+    name: 'Pipeline',
+    status: 'internal',
+    statusLabel: 'Internal',
+    description: 'Idea-to-exit in 11 stages. Decay mechanics keep projects moving.',
+    link: '/products/pipeline',
+    category: 'builders',
+  },
+  {
+    name: 'Lexicon',
+    status: 'development',
+    statusLabel: 'In Development',
+    description: 'Story bible as knowledge graph. 100 episodes deep, instantly searchable.',
+    link: '/products/lexicon',
+    category: 'creators',
   },
 ]
 
@@ -138,6 +133,8 @@ function FeaturedCard({ product, index }: { product: Product; index: number }) {
         return <ComposerPreview />
       case 'DeepStack':
         return <DeepStackPreview />
+      case 'MILO':
+        return <MiloPreview />
       default:
         return null
     }
@@ -336,14 +333,8 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
 }
 
 export default function ProductGrid() {
-  const shippingProducts = products.filter(p => p.status === 'shipping')
-  // Exclude shipping products from category sections (they're already featured)
-  const builderProducts = products.filter(p => p.category === 'builders' && p.status !== 'shipping')
-  const creatorProducts = products.filter(p => p.category === 'creators' && p.status !== 'shipping')
-  const funProducts = products.filter(p => p.category === 'fun')
-
   return (
-    <section className="section-spacing bg-zone-text">
+    <section id="products" className="section-spacing bg-zone-text scroll-mt-20">
       <div className="container">
         {/* Two Column Layout - Sticky Header + Products */}
         <div className="grid lg:grid-cols-[1fr_2fr] gap-16 lg:gap-24">
@@ -362,7 +353,7 @@ export default function ProductGrid() {
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[var(--id8-orange)] to-transparent mb-6" />
             <p className="text-xl text-[var(--text-secondary)]">
-              Tools for creators. Infrastructure for builders. Experiments for fun.
+              Tools for creators. Infrastructure for builders.
             </p>
           </m.div>
 
@@ -370,47 +361,41 @@ export default function ProductGrid() {
           <div className="space-y-12">
             {/* Featured Products - Shipping Now */}
             <div>
-              {shippingProducts.map((product, index) => (
+              {featuredProducts.map((product, index) => (
                 <FeaturedCard key={product.name} product={product} index={index} />
               ))}
             </div>
 
-            {/* For Builders */}
+            {/* More from the Lab - Compact Grid */}
             <div>
-              <h3 className="text-2xl font-bold mb-8 text-purple-400">
-                For Builders
+              <h3 className="text-xl font-bold mb-6 text-[var(--text-secondary)]">
+                More from the Lab
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {builderProducts.map((product, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {showcaseProducts.map((product, index) => (
                   <ProductCard key={product.name} product={product} index={index} />
                 ))}
               </div>
-            </div>
 
-            {/* For Creators (non-shipping) */}
-            {creatorProducts.length > 0 && (
-              <div>
-                <h3 className="text-2xl font-bold mb-8 text-[var(--id8-orange)]">
-                  For Creators
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {creatorProducts.map((product, index) => (
-                    <ProductCard key={product.name} product={product} index={index} />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* For Fun */}
-            <div>
-              <h3 className="text-2xl font-bold mb-8 text-cyan-400">
-                For Fun
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {funProducts.map((product, index) => (
-                  <ProductCard key={product.name} product={product} index={index} />
-                ))}
-              </div>
+              {/* See All Link */}
+              <m.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="mt-8"
+              >
+                <Link
+                  href="/products"
+                  className="inline-flex items-center gap-2 text-[var(--id8-orange)] font-semibold hover:gap-3 transition-all"
+                >
+                  See all products
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+              </m.div>
             </div>
           </div>
         </div>

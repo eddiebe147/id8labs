@@ -315,7 +315,7 @@ export default function LabStoryContent() {
             <div className="grid gap-4 my-8">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
-                <span className="font-bold">ID8Composer v0.8.1</span>
+                <span className="font-bold">ID8Composer v1.8161</span>
                 <span className="text-[var(--text-secondary)]">— AI writing with memory</span>
               </div>
               <div className="flex items-center gap-3">

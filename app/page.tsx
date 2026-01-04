@@ -1,9 +1,10 @@
 import Script from 'next/script'
 import Hero from '@/components/Hero'
-import WhatWeAre from '@/components/WhatWeAre'
 import Builder from '@/components/Builder'
 import ProductGrid from '@/components/ProductGrid'
+import Education from '@/components/Education'
 import Mission from '@/components/Mission'
+import HomeNavigation from '@/components/HomeNavigation'
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -115,10 +116,11 @@ export default function Home() {
       >
         {JSON.stringify(softwareSchema)}
       </Script>
+      <HomeNavigation />
       <Hero />
-      <WhatWeAre />
       <Builder />
       <ProductGrid />
+      <Education />
       <Mission />
     </>
   )

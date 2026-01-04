@@ -1,6 +1,6 @@
 # ID8Labs Hub - Pipeline Status
 
-> Last Updated: 2025-12-27
+> Last Updated: 2026-01-03
 > Current Stage: **Stage 11 - LISTEN & ITERATE**
 > Performance Audit Score: **10/10** 🏆
 
@@ -122,6 +122,12 @@
 ### Stage 11: Listen & Iterate 🔄 **CURRENT**
 - **Checkpoint:** "What did we learn?"
 - **Status:** Active - Performance validated, ready for growth
+- **Front Page Redesign (2026-01-03):**
+  - Simplified from 5 sections to 3 sections
+  - New headline: "AI tools that remember"
+  - Updated Composer version to v1.8161
+  - Flagship products (Composer, DeepStack) featured prominently
+  - Other products moved to "More from the Lab" section
 - **Performance Audit (2025-12-27):**
   - Score: **10/10** 🏆
   - Zero Total Blocking Time (TBT)
@@ -142,6 +148,7 @@
 
 | Date | Change | PR |
 |------|--------|-----|
+| 2026-01-03 | **Front Page Redesign** - Simplified to 3 sections, updated versions | - |
 | 2025-12-27 | **Performance Audit: 10/10** - Engine complete | - |
 | 2025-12-27 | Fixed E2E tests for production reliability | #18 |
 | 2025-12-27 | Added unit tests for auth, stripe, canvas-safety | #17 |

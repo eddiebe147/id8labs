@@ -9,7 +9,7 @@ import { m } from '@/components/motion'
  */
 export default function WhatWeAre() {
   return (
-    <section className="relative py-24 bg-zone-text">
+    <section id="what-we-are" className="relative py-24 bg-zone-text scroll-mt-20">
       <div className="container">
         <m.div
           initial={{ opacity: 0, y: 20 }}

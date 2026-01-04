@@ -4,7 +4,7 @@ import { m } from '@/components/motion'
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-zone-text">
+    <section id="hero" className="relative min-h-[90vh] flex items-center overflow-hidden bg-zone-text scroll-mt-20">
       <div className="container relative z-10">
         <m.div
           initial={{ opacity: 0, y: 30 }}
@@ -79,7 +79,7 @@ export default function Hero() {
           >
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full animate-pulse" />
-              <span>Composer v0.8.1</span>
+              <span>Composer v1.8161</span>
             </div>
             <div className="hidden sm:block w-1 h-1 bg-[var(--border)] rounded-full" />
             <div className="flex items-center gap-2">

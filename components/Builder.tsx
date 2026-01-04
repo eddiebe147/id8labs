@@ -4,7 +4,7 @@ import { m } from '@/components/motion'
 
 export default function Builder() {
   return (
-    <section className="section-spacing bg-zone-text">
+    <section id="builder" className="section-spacing bg-zone-text scroll-mt-20">
 
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -81,11 +81,11 @@ export default function Builder() {
               {/* Stats or highlights */}
               <div className="grid grid-cols-2 gap-6 pt-8">
                 <div className="space-y-1">
-                  <p className="text-3xl font-bold text-[var(--id8-orange)]">15+</p>
+                  <p className="text-3xl font-bold text-[var(--id8-orange)]">20+</p>
                   <p className="text-sm text-[var(--text-tertiary)]">Years in Production</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-3xl font-bold text-[var(--id8-orange)]">5</p>
+                  <p className="text-3xl font-bold text-[var(--id8-orange)]">9</p>
                   <p className="text-sm text-[var(--text-tertiary)]">Active Projects</p>
                 </div>
               </div>

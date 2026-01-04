@@ -5,7 +5,7 @@ import { m } from '@/components/motion'
 
 export default function Mission() {
   return (
-    <section className="section-spacing bg-zone-text">
+    <section id="mission" className="section-spacing bg-zone-text scroll-mt-20">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left - Headline (Asymmetric) */}
