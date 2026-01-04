@@ -43,6 +43,14 @@ const UsersIcon = () => (
   </svg>
 )
 
+const AcademyIcon = () => (
+  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+    <path d="M8 7h8M8 11h8M8 15h4"/>
+  </svg>
+)
+
 const ArrowRightIcon = () => (
   <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -66,6 +74,19 @@ const learningPaths = [
     courses: [
       { name: 'AI Conversation Fundamentals', duration: '45 min', href: '/courses/ai-conversation-fundamentals', free: true },
       { name: 'Prompt Engineering for Creators', duration: '9 modules', href: '/academy/prompt-engineering-creators', free: true, isNew: true },
+    ]
+  },
+  {
+    icon: <AcademyIcon />,
+    title: 'AI Academy',
+    description: 'Complete curriculum for knowledge workers. From personal productivity to team scale.',
+    badge: 'Free',
+    badgeColor: 'bg-green-500',
+    courses: [
+      { name: 'AI Partner Mastery', duration: '8 modules', href: '/academy/ai-partner-mastery', free: true, isNew: true },
+      { name: 'AI for Leaders', duration: '8 modules', href: '/academy/ai-for-leaders', free: true, isNew: true },
+      { name: 'Private AI', duration: '8 modules', href: '/academy/private-ai', free: true, isNew: true },
+      { name: 'AI at Scale', duration: '8 modules', href: '/academy/ai-at-scale', free: true, isNew: true },
     ]
   },
   {
@@ -95,9 +116,25 @@ const learningPaths = [
 // Featured courses
 const featuredCourses = [
   {
+    id: 'ai-academy',
+    title: 'AI Academy',
+    subtitle: 'NEW • Complete Curriculum',
+    description: '4 courses, 32 modules covering everything from personal AI partnership to scaling across your organization. The complete journey from AI user to AI leader.',
+    features: [
+      'AI Partner Mastery — work WITH AI, not just use it',
+      'AI for Leaders — strategy and decision-making',
+      'Private AI — data privacy and compliance',
+      'AI at Scale — team adoption and governance',
+    ],
+    href: '/academy/ai-partner-mastery',
+    badge: 'Free',
+    badgeColor: 'bg-green-500',
+    isNew: true,
+  },
+  {
     id: 'prompt-engineering-creators',
     title: 'Prompt Engineering for Creators',
-    subtitle: 'NEW • Free Course',
+    subtitle: 'Free Course',
     description: 'Learn the 9 techniques that make every AI conversation more effective — through real examples from writers, content creators, and indie makers.',
     features: [
       'Real-world examples, not theory',
@@ -108,7 +145,6 @@ const featuredCourses = [
     href: '/academy/prompt-engineering-creators',
     badge: 'Free',
     badgeColor: 'bg-green-500',
-    isNew: true,
   },
   {
     id: 'ai-conversation-fundamentals',
@@ -240,7 +276,7 @@ export default function AcademyPage() {
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
             variants={stagger}
-            className="grid md:grid-cols-3 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {learningPaths.map((path, index) => (
               <m.div

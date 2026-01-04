@@ -415,6 +415,97 @@ export const PRODUCTS: Record<string, Product> = {
     successRedirect: '/products/success?kit=bundle',
     accessInstructions: 'Check your email for GitHub repo invite. All 5 kits included!',
   },
+
+  // ─────────────────────────────────────────────────────────────
+  // AI Academy - 4-Part Curriculum (Free - Education as Lead Gen)
+  // ─────────────────────────────────────────────────────────────
+  'ai-partner-mastery': {
+    id: 'ai-partner-mastery',
+    name: 'AI Partner Mastery',
+    description: 'Learn to work WITH AI, not just use it. 8 modules for writers, consultants, marketers, and knowledge workers who think for a living.',
+    category: 'free-resource',
+    purchaseType: 'free',
+    price: 0,
+    priceDisplay: 'Free',
+    currency: 'usd',
+    features: [
+      'Module 1: Your First Real Conversation',
+      'Module 2: The 4D Framework',
+      'Module 3: From Generic to Specific',
+      'Module 4: The Revision Dance',
+      'Module 5: Building on Previous Work',
+      'Module 6: When AI Gets It Wrong',
+      'Module 7: Your Personal Playbook',
+      'Module 8: The Partner Mindset',
+    ],
+    successRedirect: '/academy/ai-partner-mastery',
+  },
+
+  'ai-for-leaders': {
+    id: 'ai-for-leaders',
+    name: 'AI for Leaders',
+    description: 'Make informed AI decisions for your team or organization. 8 modules for founders, executives, managers, and board members.',
+    category: 'free-resource',
+    purchaseType: 'free',
+    price: 0,
+    priceDisplay: 'Free',
+    currency: 'usd',
+    features: [
+      'Module 1: The Leadership AI Dilemma',
+      'Module 2: Build, Buy, or Partner',
+      'Module 3: Evaluating AI Vendors',
+      'Module 4: The ROI Question',
+      'Module 5: Change Management for AI',
+      'Module 6: AI Governance',
+      'Module 7: Competitive Intelligence',
+      'Module 8: Your AI Strategy',
+    ],
+    successRedirect: '/academy/ai-for-leaders',
+  },
+
+  'private-ai': {
+    id: 'private-ai',
+    name: 'Private AI for Sensitive Work',
+    description: 'Use AI when privacy and compliance matter. 8 modules for consultants, coaches, advisors, and regulated industries.',
+    category: 'free-resource',
+    purchaseType: 'free',
+    price: 0,
+    priceDisplay: 'Free',
+    currency: 'usd',
+    features: [
+      'Module 1: The Privacy Landscape',
+      'Module 2: Your Private AI Setup',
+      'Module 3: The Scrub & Use Method',
+      'Module 4: Boundaries That Work',
+      'Module 5: Client Communication',
+      'Module 6: Your AI Policy',
+      'Module 7: When Things Go Wrong',
+      'Module 8: Staying Current',
+    ],
+    successRedirect: '/academy/private-ai',
+  },
+
+  'ai-at-scale': {
+    id: 'ai-at-scale',
+    name: 'AI at Scale',
+    description: 'Go from personal productivity to team-wide transformation. 8 modules for entrepreneurs, team leads, and agency owners.',
+    category: 'free-resource',
+    purchaseType: 'free',
+    price: 0,
+    priceDisplay: 'Free',
+    currency: 'usd',
+    features: [
+      'Module 1: From You to Your Team',
+      'Module 2: The Cost Reality',
+      'Module 3: Quality at Scale',
+      'Module 4: Teaching Others',
+      'Module 5: Building AI Services',
+      'Module 6: Managing AI Workflows',
+      'Module 7: When AI Fails',
+      'Module 8: Evolving Your System',
+    ],
+    successRedirect: '/academy/ai-at-scale',
+  },
 } as const
 
 export type ProductId = keyof typeof PRODUCTS
