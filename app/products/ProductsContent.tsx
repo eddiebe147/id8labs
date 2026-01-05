@@ -125,7 +125,7 @@ const featuredKits: AgentKit[] = [
     tagline: '9-Agent SDK Dev Team',
     hook: 'Stop hiring. Start shipping.',
     description: 'Complete software development team built on Claude SDK. Strategic brain, architect, code review, QA, DevOps—all coordinated.',
-    price: 79,
+    price: 129,
     agentCount: 9,
     icon: <Users className="w-6 h-6" />,
     popular: true,
@@ -140,9 +140,9 @@ const featuredKits: AgentKit[] = [
     productId: 'agent-kit-llc-ops',
     name: 'LLC Ops',
     tagline: '9-Agent Business Operations',
-    hook: 'Your $50k back office. For $49.',
+    hook: 'Your $50k back office. For $79.',
     description: 'Everything a solo founder hates doing—taxes, compliance, bookkeeping—handled by AI agents built from running a real LLC.',
-    price: 49,
+    price: 79,
     agentCount: 9,
     icon: <Shield className="w-6 h-6" />,
     features: [
@@ -158,7 +158,7 @@ const featuredKits: AgentKit[] = [
     tagline: '11-Stage Product Methodology',
     hook: 'Ideas die in your notes. Ship them instead.',
     description: 'The methodology that took ID8Labs from concept to production. Decay mechanics punish stalling. Hard gates force shipping.',
-    price: 49,
+    price: 79,
     agentCount: 8,
     icon: <Code className="w-6 h-6" />,
     features: [
@@ -537,8 +537,8 @@ export default function ProductsContent() {
                 onClick={() => handlePurchase('agent-kit-bundle')}
                 className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center gap-2"
               >
-                Get All 5 Kits for $199
-                <span className="text-xs opacity-70">(Save $66)</span>
+                Get All 5 Kits for $299
+                <span className="text-xs opacity-70">(Save $116)</span>
               </button>
             </div>
           </m.div>
