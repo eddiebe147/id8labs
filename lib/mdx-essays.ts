@@ -2,7 +2,12 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
-export interface MdxEssay {
+// Simple in-memory cache for essays
+let essaysCache: Essay[] | null = null
+let cacheTimestamp: number = 0
+const CACHE_TTL = 60 * 1000 // 1 minute in development
+
+export interface Essay {
   slug: string
   title: string
   subtitle?: string
@@ -17,6 +22,9 @@ export interface MdxEssay {
   tags?: string[]
   featured?: boolean
 }
+
+// Backwards compatibility type alias
+export type MdxEssay = Essay
 
 const ESSAYS_DIR = path.join(process.cwd(), 'content', 'essays')
 
@@ -86,9 +94,16 @@ function inferCategory(tags?: string[]): 'essay' | 'research' | 'release' {
 }
 
 /**
- * Get all MDX essays from the content/essays directory
+ * Get all essays from the content/essays directory
+ * Results are cached to avoid repeated filesystem reads
  */
-export function getMdxEssays(): MdxEssay[] {
+export function getAllEssays(): Essay[] {
+  // Return cached results if still valid
+  const now = Date.now()
+  if (essaysCache && (now - cacheTimestamp) < CACHE_TTL) {
+    return essaysCache
+  }
+
   // Check if directory exists
   if (!fs.existsSync(ESSAYS_DIR)) {
     console.warn(`Essays directory not found: ${ESSAYS_DIR}`)
@@ -98,7 +113,7 @@ export function getMdxEssays(): MdxEssay[] {
   const files = fs.readdirSync(ESSAYS_DIR)
   const mdxFiles = files.filter(file => file.endsWith('.mdx') || file.endsWith('.md'))
 
-  const essays: MdxEssay[] = []
+  const essays: Essay[] = []
 
   for (const filename of mdxFiles) {
     try {
@@ -118,7 +133,7 @@ export function getMdxEssays(): MdxEssay[] {
       }
 
       // Map frontmatter to Essay interface
-      const essay: MdxEssay = {
+      const essay: Essay = {
         slug,
         title: frontmatter.title || 'Untitled',
         subtitle: frontmatter.subtitle,
@@ -141,15 +156,33 @@ export function getMdxEssays(): MdxEssay[] {
   }
 
   // Sort by date (newest first)
-  return essays.sort((a, b) =>
+  const sorted = essays.sort((a, b) =>
     new Date(b.date).getTime() - new Date(a.date).getTime()
   )
+
+  // Update cache
+  essaysCache = sorted
+  cacheTimestamp = now
+
+  return sorted
+}
+
+// Backwards compatibility alias
+export const getMdxEssays = getAllEssays
+
+/**
+ * Get a single essay by slug
+ */
+export function getEssayBySlug(slug: string): Essay | undefined {
+  return getAllEssays().find(essay => essay.slug === slug)
 }
 
 /**
- * Get a single MDX essay by slug
+ * Get essays filtered by category
  */
-export function getMdxEssayBySlug(slug: string): MdxEssay | undefined {
-  const essays = getMdxEssays()
-  return essays.find(essay => essay.slug === slug)
+export function getEssaysByCategory(category: Essay['category']): Essay[] {
+  return getAllEssays().filter(essay => essay.category === category)
 }
+
+// Backwards compatibility alias
+export const getMdxEssayBySlug = getEssayBySlug

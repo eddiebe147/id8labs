@@ -1,38 +1,13 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { PlayIcon, PauseIcon, DownloadIcon, VolumeIcon, MusicIcon } from '@/components/icons'
 
 interface MiniAudioPlayerProps {
   src: string
   title: string
   downloadName?: string
 }
-
-const PlayIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-    <polygon points="5 3 19 12 5 21 5 3"/>
-  </svg>
-)
-
-const PauseIcon = () => (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-    <rect x="6" y="4" width="4" height="16"/>
-    <rect x="14" y="4" width="4" height="16"/>
-  </svg>
-)
-
-const DownloadIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-  </svg>
-)
-
-const VolumeIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-  </svg>
-)
 
 export default function MiniAudioPlayer({ src, title, downloadName }: MiniAudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -118,11 +93,7 @@ export default function MiniAudioPlayer({ src, title, downloadName }: MiniAudioP
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-id8-orange">
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M9 18V5l12-2v13"/>
-              <circle cx="6" cy="18" r="3"/>
-              <circle cx="18" cy="16" r="3"/>
-            </svg>
+            <MusicIcon />
           </span>
           <span className="text-sm font-medium text-[var(--text-primary)]">{title}</span>
         </div>

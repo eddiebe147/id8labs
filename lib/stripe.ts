@@ -16,15 +16,5 @@ export function getStripe(): Stripe {
   return stripeInstance
 }
 
-// Deprecated: use getStripe() instead
-export const stripe = {
-  get webhooks() {
-    return getStripe().webhooks
-  },
-  get checkout() {
-    return getStripe().checkout
-  },
-}
-
 // Re-export from unified products config for backwards compatibility
 export { COURSE_PRODUCTS, type CourseProductId } from './products'

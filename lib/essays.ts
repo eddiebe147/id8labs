@@ -1,26 +1,16 @@
-import { getMdxEssays, type MdxEssay } from './mdx-essays'
-
-// Re-export the Essay type from MDX essays for backwards compatibility
-export type Essay = MdxEssay
-
 /**
- * Get all essays from MDX files
- * Essays are stored in content/essays/*.mdx
+ * Essays module - re-exports from mdx-essays for backwards compatibility
+ *
+ * Direct imports from '@/lib/mdx-essays' are preferred for new code.
+ * This file exists only for backwards compatibility.
  */
-export function getAllEssays(): Essay[] {
-  return getMdxEssays()
-}
-
-/**
- * Get a single essay by slug
- */
-export function getEssayBySlug(slug: string): Essay | undefined {
-  return getMdxEssays().find(essay => essay.slug === slug)
-}
-
-/**
- * Get essays filtered by category
- */
-export function getEssaysByCategory(category: Essay['category']): Essay[] {
-  return getMdxEssays().filter(essay => essay.category === category)
-}
+export {
+  type Essay,
+  type MdxEssay,
+  getAllEssays,
+  getEssayBySlug,
+  getEssaysByCategory,
+  // Legacy aliases
+  getMdxEssays,
+  getMdxEssayBySlug,
+} from './mdx-essays'

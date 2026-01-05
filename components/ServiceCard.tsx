@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Product } from '@/lib/products'
+import { CheckIcon, ArrowRightIcon, LoadingSpinner } from '@/components/icons'
 
 // Load Cal.com script once
 let calLoaded = false
@@ -36,25 +37,6 @@ interface ServiceCardProps {
   product: Product
   className?: string
 }
-
-const CheckIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="20 6 9 17 4 12"/>
-  </svg>
-)
-
-const ArrowRightIcon = () => (
-  <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 12h14M12 5l7 7-7 7"/>
-  </svg>
-)
-
-const LoadingSpinner = () => (
-  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-  </svg>
-)
 
 export function ServiceCard({ product, className = '' }: ServiceCardProps) {
   const router = useRouter()
@@ -182,7 +164,7 @@ export function ServiceCard({ product, className = '' }: ServiceCardProps) {
             className="flex items-start gap-3 text-[var(--text-secondary)]"
           >
             <span className="text-id8-orange flex-shrink-0 mt-1">
-              <CheckIcon />
+              <CheckIcon className="w-4 h-4" />
             </span>
             <span>{feature}</span>
           </li>
@@ -201,7 +183,7 @@ export function ServiceCard({ product, className = '' }: ServiceCardProps) {
           className="btn btn-primary w-full text-center group inline-flex items-center justify-center gap-2"
         >
           {getButtonText()}
-          <ArrowRightIcon />
+          <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
         </button>
       ) : (
         <button
@@ -214,7 +196,7 @@ export function ServiceCard({ product, className = '' }: ServiceCardProps) {
           ) : (
             <>
               {getButtonText()}
-              <ArrowRightIcon />
+              <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </>
           )}
         </button>
