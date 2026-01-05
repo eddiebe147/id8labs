@@ -6,7 +6,6 @@ import { ScrollReveal } from "@/components/eddie/ui/ScrollReveal";
 import { GlowCard } from "@/components/eddie/ui/GlowCard";
 import { Film, Tv, Video, Building2 } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { brandLogos } from "@/components/eddie/ui/BrandLogos";
 
 export function Credits() {
   const featuredCredits = [
@@ -140,61 +139,44 @@ export function Credits() {
           </div>
         </ScrollReveal>
 
-        {/* Commercial Work - Brand Logos */}
+        {/* Commercial Work */}
         <ScrollReveal delay={0.4} className="mt-16">
           <h3
-            className="text-xl font-semibold mb-8 text-center font-[family-name:var(--font-playfair)] text-shadow"
+            className="text-xl font-semibold mb-6 text-center font-[family-name:var(--font-playfair)] text-shadow"
             style={{ color: "var(--eddie-text-primary)" }}
           >
             Brand Collaborations
           </h3>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-            {resumeData.credits.commercial.map((brand, index) => {
-              const LogoComponent = brandLogos[brand.brand];
-              return (
-                <motion.div
-                  key={brand.brand}
-                  className="flex flex-col items-center gap-2 px-6 py-4 rounded-2xl backdrop-blur-md group cursor-default"
-                  style={{
-                    background: "rgba(255, 252, 248, 0.25)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                  }}
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
-                  whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: prefersReducedMotion ? 0 : index * 0.1, duration: 0.5 }}
-                  whileHover={
-                    prefersReducedMotion
-                      ? undefined
-                      : {
-                          scale: 1.05,
-                          background: "rgba(255, 252, 248, 0.4)",
-                          boxShadow: "0 8px 32px rgba(193, 119, 103, 0.2)",
-                        }
-                  }
+          <div className="flex flex-wrap justify-center gap-4">
+            {resumeData.credits.commercial.map((brand, index) => (
+              <motion.div
+                key={brand.brand}
+                className="px-5 py-2.5 rounded-full backdrop-blur-md"
+                style={{
+                  background: "rgba(255, 252, 248, 0.35)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                }}
+                initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
+                whileInView={prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: prefersReducedMotion ? 0 : index * 0.08 }}
+                whileHover={
+                  prefersReducedMotion
+                    ? undefined
+                    : {
+                        scale: 1.05,
+                        boxShadow: "0 0 20px rgba(255, 160, 122, 0.3)",
+                      }
+                }
+              >
+                <span
+                  className="font-medium"
+                  style={{ color: "var(--eddie-text-primary)" }}
                 >
-                  {LogoComponent ? (
-                    <LogoComponent
-                      color="var(--eddie-text-secondary)"
-                      className="transition-colors duration-300 group-hover:text-[var(--sunrise-coral)]"
-                    />
-                  ) : (
-                    <span
-                      className="font-semibold text-lg transition-colors duration-300"
-                      style={{ color: "var(--eddie-text-secondary)" }}
-                    >
-                      {brand.brand}
-                    </span>
-                  )}
-                  <span
-                    className="text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ color: "var(--eddie-text-light)" }}
-                  >
-                    {brand.brand}
-                  </span>
-                </motion.div>
-              );
-            })}
+                  {brand.brand}
+                </span>
+              </motion.div>
+            ))}
           </div>
         </ScrollReveal>
       </div>
