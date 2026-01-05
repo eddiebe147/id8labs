@@ -2,6 +2,7 @@
 
 import { m } from '@/components/motion'
 import Link from 'next/link'
+import CourseProgress from '@/components/CourseProgress'
 
 // Animation variants
 const fadeUp = {
@@ -70,6 +71,14 @@ export default function Module8Page() {
               </Link>
             </m.div>
 
+            <m.div variants={fadeUp}>
+              <CourseProgress
+                currentModule={8}
+                totalModules={8}
+                courseTitle="AI for Leaders"
+              />
+            </m.div>
+
             <m.div variants={fadeUp} className="flex items-center gap-3 mb-4">
               <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
                 Module 8
@@ -94,6 +103,8 @@ export default function Module8Page() {
             </m.p>
           </m.div>
         </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
       </section>
 
       {/* Content */}
@@ -532,7 +543,7 @@ export default function Module8Page() {
             </ul>
 
             {/* Exercise Box */}
-            <div className="not-prose my-12 p-6 bg-id8-orange/10 border-2 border-id8-orange/30 rounded-xl">
+            <div className="not-prose my-12 p-8 bg-gradient-to-br from-id8-orange/10 to-id8-orange/5 border border-id8-orange/30 rounded-xl">
               <div className="flex items-start gap-3 mb-4">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-id8-orange/20 flex items-center justify-center">
                   <TargetIcon />

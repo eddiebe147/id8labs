@@ -2,6 +2,7 @@
 
 import { m } from '@/components/motion'
 import Link from 'next/link'
+import CourseProgress from '@/components/CourseProgress'
 
 // Animation variants
 const fadeUp = {
@@ -72,13 +73,21 @@ export default function Module4Page() {
               </Link>
             </m.div>
 
-            <m.div variants={fadeUp} className="flex items-center gap-3 mb-4">
-              <span className="px-3 py-1 text-xs font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
-                Module 4
-              </span>
-              <span className="text-sm font-mono text-[var(--text-tertiary)]">
-                45 min
-              </span>
+            <m.div variants={fadeUp}>
+              <CourseProgress
+                currentModule={4}
+                totalModules={8}
+                courseTitle="AI at Scale"
+              />
+            </m.div>
+
+            <m.div
+              variants={fadeUp}
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-id8-orange/10 border border-id8-orange/30 rounded-full text-id8-orange text-sm font-mono mb-6"
+            >
+              <span>Module 4</span>
+              <span className="text-id8-orange/50">•</span>
+              <span>~45 minutes</span>
             </m.div>
 
             <m.h1
@@ -96,6 +105,8 @@ export default function Module4Page() {
             </m.p>
           </m.div>
         </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
       </section>
 
       {/* Content */}
@@ -459,7 +470,7 @@ export default function Module4Page() {
             </div>
 
             {/* Your Turn */}
-            <div className="not-prose my-12 p-6 bg-id8-orange/10 border border-id8-orange/30 rounded-xl">
+            <div className="not-prose my-12 p-8 bg-gradient-to-br from-id8-orange/10 to-id8-orange/5 border border-id8-orange/30 rounded-xl">
               <h2 className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
                 Your Turn
               </h2>
@@ -541,7 +552,7 @@ export default function Module4Page() {
       </section>
 
       {/* Navigation */}
-      <section className="section-spacing bg-[var(--bg-secondary)]">
+      <section className="section-spacing">
         <div className="container">
           <div className="max-w-3xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between gap-4">
