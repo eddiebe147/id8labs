@@ -187,6 +187,20 @@ export const resumeData = {
         years: "",
         featured: false,
       },
+      {
+        title: "Orange County Choppers",
+        network: "Discovery",
+        role: "Camera Operator",
+        years: "",
+        featured: false,
+      },
+      {
+        title: "High on the Hog",
+        network: "A&E",
+        role: "Camera Operator",
+        years: "",
+        featured: false,
+      },
     ],
     scripted: [
       {
@@ -217,7 +231,7 @@ export const resumeData = {
         network: "Reserve Channel",
         role: "Director of Photography / Producer",
         years: "6 countries",
-        featured: true,
+        featured: false,
       },
       {
         title: "In The Grey - Life as a Transgender",
