@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, ExternalLink, Check, Download, Package, Sparkles, Wrench, Zap, Users, Brain, Shield, Code, Database, Terminal } from 'lucide-react'
 import AgentKitCheckout from '@/components/checkout/AgentKitCheckout'
+import AgentKitOnboarding from '@/components/products/AgentKitOnboarding'
 
 // ============================================
 // FLAGSHIP PRODUCTS - Full feature showcase
@@ -572,6 +573,9 @@ export default function ProductsContent() {
           <p className="text-zinc-400 ml-12 mb-8">
             Battle-tested Claude Code agent systems. Download, configure, ship.
           </p>
+
+          {/* Onboarding Guide */}
+          <AgentKitOnboarding />
 
           {/* Bundle Banner */}
           <m.div
