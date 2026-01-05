@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { m } from '@/components/motion'
 import { useProgress } from '@/hooks/useProgress'
 
 interface ResumeButtonProps {
@@ -67,11 +66,7 @@ export default function ResumeButton({ className = '' }: ResumeButtonProps) {
   const { resumePoint, stats } = progress
 
   return (
-    <m.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`${className}`}
-    >
+    <div className={`${className}`}>
       <Link
         href={resumePoint.path}
         className="btn btn-primary group inline-flex items-center gap-2"
@@ -87,6 +82,6 @@ export default function ResumeButton({ className = '' }: ResumeButtonProps) {
           </span>
         )}
       </p>
-    </m.div>
+    </div>
   )
 }

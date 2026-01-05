@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { m } from '@/components/motion'
 import { useProgress } from '@/hooks/useProgress'
 import { COURSES, COURSES_BY_ORDER, FOUNDATION_COURSE } from '@/lib/courses/config'
 
@@ -33,9 +32,7 @@ export default function LearningRoadmap() {
   return (
     <div className="py-8">
       {/* Foundation Course */}
-      <m.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
         className="flex justify-center mb-4"
       >
         <Link
@@ -69,37 +66,22 @@ export default function LearningRoadmap() {
             </div>
           </div>
         </Link>
-      </m.div>
+      </div>
 
       {/* Connecting Line */}
-      <m.div
-        initial={{ scaleY: 0 }}
-        animate={{ scaleY: 1 }}
-        transition={{ delay: 0.2 }}
-        className="flex justify-center mb-4"
-      >
+      <div className="flex justify-center mb-4">
         <div className="w-px h-8 bg-gradient-to-b from-[var(--border)] to-transparent" />
-      </m.div>
+      </div>
 
       {/* Unlock Message */}
       {!isFoundationComplete && (
-        <m.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-center text-sm text-[var(--text-tertiary)] mb-4"
-        >
+        <p className="text-center text-sm text-[var(--text-tertiary)] mb-4">
           Complete foundation to unlock all courses below
-        </m.p>
+        </p>
       )}
 
       {/* Parallel Courses Grid */}
-      <m.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3"
-      >
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {parallelCourses.map((course, index) => {
           const stats = getCourseStats(course.slug)
           const isComplete = stats ? stats.completed >= stats.total : false
@@ -107,12 +89,7 @@ export default function LearningRoadmap() {
           const isLocked = !isFoundationComplete
 
           return (
-            <m.div
-              key={course.slug}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + index * 0.05 }}
-            >
+            <div key={course.slug}>
               {isLocked ? (
                 <div className="p-3 rounded-lg bg-[var(--bg-secondary)]/50 border border-[var(--border)] opacity-50 text-center">
                   <span className="flex items-center justify-center w-6 h-6 mx-auto rounded-full bg-[var(--border)] text-[var(--text-tertiary)] mb-2">
@@ -157,10 +134,10 @@ export default function LearningRoadmap() {
                   )}
                 </Link>
               )}
-            </m.div>
+            </div>
           )
         })}
-      </m.div>
+      </div>
     </div>
   )
 }

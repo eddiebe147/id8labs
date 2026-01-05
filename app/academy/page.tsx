@@ -1,18 +1,20 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { m } from '@/components/motion'
-import { PRODUCTS, getProductsByCategory } from '@/lib/products'
 import { LearningRoadmap, AcademyProgressBar, ResumeButton } from '@/components/progress'
+import { createClient } from '@/lib/supabase/client'
 
-// Animation variants
+// Animation variants - start visible to avoid FOUC if JS fails
 const fadeUp = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 1, y: 0 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
 }
 
 const stagger = {
+  initial: {},
   animate: {
     transition: {
       staggerChildren: 0.1
@@ -21,37 +23,6 @@ const stagger = {
 }
 
 // Icon components
-const BookOpenIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-  </svg>
-)
-
-const GraduationCapIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-  </svg>
-)
-
-const UsersIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-    <circle cx="9" cy="7" r="4"/>
-    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-  </svg>
-)
-
-const AcademyIcon = () => (
-  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-    <path d="M8 7h8M8 11h8M8 15h4"/>
-  </svg>
-)
-
 const ArrowRightIcon = () => (
   <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -64,119 +35,134 @@ const CheckIcon = () => (
   </svg>
 )
 
-// Learning paths data
-const learningPaths = [
+// Full course catalog with all details
+const coursesCatalog = [
   {
-    icon: <BookOpenIcon />,
-    title: 'AI Foundations',
-    description: 'Start here. Learn how to think about AI before touching any tools.',
-    badge: 'Free',
-    badgeColor: 'bg-green-500',
-    courses: [
-      { name: 'AI Conversation Fundamentals', duration: '45 min', href: '/courses/ai-conversation-fundamentals', free: true },
-      { name: 'Prompt Engineering for Creators', duration: '9 modules', href: '/academy/prompt-engineering-creators', free: true, isNew: true },
-    ]
-  },
-  {
-    icon: <AcademyIcon />,
-    title: 'AI Academy',
-    description: 'Complete curriculum for knowledge workers. From personal productivity to team scale.',
-    badge: 'Free',
-    badgeColor: 'bg-green-500',
-    courses: [
-      { name: 'AI Partner Mastery', duration: '8 modules', href: '/academy/ai-partner-mastery', free: true, isNew: true },
-      { name: 'AI for Leaders', duration: '8 modules', href: '/academy/ai-for-leaders', free: true, isNew: true },
-      { name: 'Private AI', duration: '8 modules', href: '/academy/private-ai', free: true, isNew: true },
-      { name: 'AI at Scale', duration: '8 modules', href: '/academy/ai-at-scale', free: true, isNew: true },
-    ]
-  },
-  {
-    icon: <GraduationCapIcon />,
-    title: 'Claude Mastery',
-    description: 'Go from casual user to power user. Build real workflows.',
-    badge: 'Self-Paced',
-    badgeColor: 'bg-id8-orange',
-    courses: [
-      { name: 'Claude Code for Knowledge Workers', duration: '10 modules', href: '/courses/claude-for-knowledge-workers', price: '$99' },
-    ]
-  },
-  {
-    icon: <UsersIcon />,
-    title: 'Live Training',
-    description: 'Work directly with me. Build your project as the curriculum.',
-    badge: 'Instructor-Led',
-    badgeColor: 'bg-purple-500',
-    courses: [
-      { name: 'Claude Code Basics', duration: '90 min', href: '/services#claude-code', price: '$149' },
-      { name: 'Claude Code for Builders', duration: '3 sessions', href: '/services#claude-code', price: '$497' },
-      { name: 'Build With Claude', duration: '6-week cohort', href: '/services#claude-code', price: '$1,497' },
-    ]
-  }
-]
-
-// Featured courses
-const featuredCourses = [
-  {
-    id: 'ai-academy',
-    title: 'AI Academy',
-    subtitle: 'NEW • Complete Curriculum',
-    description: '4 courses, 32 modules covering everything from personal AI partnership to scaling across your organization. The complete journey from AI user to AI leader.',
+    id: 'ai-conversation-fundamentals',
+    title: 'AI Conversation Fundamentals',
+    subtitle: 'Foundation Course',
+    description: 'Start here. Learn how to think about AI conversations before touching any tools. The mental models that make every AI interaction more effective.',
+    modules: 6,
+    duration: '45 min',
+    price: 'Free',
+    priceColor: 'bg-green-500',
+    href: '/courses/ai-conversation-fundamentals',
+    isFoundation: true,
     features: [
-      'AI Partner Mastery — work WITH AI, not just use it',
-      'AI for Leaders — strategy and decision-making',
-      'Private AI — data privacy and compliance',
-      'AI at Scale — team adoption and governance',
-    ],
+      'How to think about AI conversations',
+      'Context, clarity, and iteration',
+      'Self-paced video lessons',
+      'Required to unlock other courses',
+    ]
+  },
+  {
+    id: 'ai-partner-mastery',
+    title: 'AI Partner Mastery',
+    subtitle: 'Work WITH AI',
+    description: 'Go beyond prompts. Learn to work with AI as a partner in your daily workflow. Real collaboration techniques for knowledge workers.',
+    modules: 8,
+    duration: '8 modules',
+    price: 'Free',
+    priceColor: 'bg-green-500',
     href: '/academy/ai-partner-mastery',
-    badge: 'Free',
-    badgeColor: 'bg-green-500',
-    isNew: true,
+    isFoundation: false,
+    features: [
+      'Day-to-day AI collaboration',
+      'Task delegation frameworks',
+      'Quality control techniques',
+      'Build your AI partnership system',
+    ]
   },
   {
     id: 'prompt-engineering-creators',
     title: 'Prompt Engineering for Creators',
-    subtitle: 'Free Course',
-    description: 'Learn the 9 techniques that make every AI conversation more effective — through real examples from writers, content creators, and indie makers.',
+    subtitle: 'Better Prompts & Outputs',
+    description: 'Learn the 9 techniques that make every AI conversation more effective - through real examples from writers, content creators, and indie makers.',
+    modules: 9,
+    duration: '9 modules',
+    price: 'Free',
+    priceColor: 'bg-green-500',
+    href: '/academy/prompt-engineering-creators',
+    isFoundation: false,
+    isNew: true,
     features: [
       'Real-world examples, not theory',
       '9 modules from Anthropic, translated for creators',
       'Before/after prompt comparisons',
       'Build your own prompt library',
-    ],
-    href: '/academy/prompt-engineering-creators',
-    badge: 'Free',
-    badgeColor: 'bg-green-500',
-  },
-  {
-    id: 'ai-conversation-fundamentals',
-    title: 'AI Conversation Fundamentals',
-    subtitle: 'Foundation Course',
-    description: 'The mental models that make every AI interaction more effective. Start here if you\'re new to AI.',
-    features: [
-      'How to think about AI conversations',
-      'Context, clarity, and iteration',
-      'Self-paced video lessons',
-      '45 minutes total',
-    ],
-    href: '/courses/ai-conversation-fundamentals',
-    badge: 'Free',
-    badgeColor: 'bg-green-500',
+    ]
   },
   {
     id: 'claude-for-knowledge-workers',
     title: 'Claude Code for Knowledge Workers',
-    subtitle: 'Premium Course',
-    description: 'Complete 10-module course teaching non-programmers how to use Claude Code. No coding required — just delegation.',
+    subtitle: 'Deep Dive Course',
+    description: 'Complete 10-module course teaching non-programmers how to use Claude Code. No coding required - just delegation. From file processing to building your operating system.',
+    modules: 10,
+    duration: '10 modules',
+    price: 'Free',
+    priceColor: 'bg-green-500',
+    href: '/courses/claude-for-knowledge-workers',
+    isFoundation: false,
     features: [
-      'Module 0 free to try',
+      'Full 10-module course',
       'File processing & document workflows',
       'Research & analysis automation',
       'Build your operating system',
-    ],
-    href: '/courses/claude-for-knowledge-workers',
-    badge: '$99',
-    badgeColor: 'bg-id8-orange',
-    originalPrice: '$197',
+    ]
+  },
+  {
+    id: 'ai-for-leaders',
+    title: 'AI for Leaders',
+    subtitle: 'Organizational Strategy',
+    description: 'Strategic decision-making for leaders adopting AI. From vision to execution, governance to change management.',
+    modules: 8,
+    duration: '8 modules',
+    price: 'Free',
+    priceColor: 'bg-green-500',
+    href: '/academy/ai-for-leaders',
+    isFoundation: false,
+    features: [
+      'Strategic AI vision and roadmaps',
+      'Decision frameworks for AI adoption',
+      'Change management and culture',
+      'Risk and governance',
+    ]
+  },
+  {
+    id: 'ai-at-scale',
+    title: 'AI at Scale',
+    subtitle: 'Team Adoption',
+    description: 'Scale AI across your organization. Processes, standards, measurement, and sustainable team adoption.',
+    modules: 8,
+    duration: '8 modules',
+    price: 'Free',
+    priceColor: 'bg-green-500',
+    href: '/academy/ai-at-scale',
+    isFoundation: false,
+    features: [
+      'Team adoption frameworks',
+      'Process standardization',
+      'Measurement and ROI',
+      'Sustainable scaling practices',
+    ]
+  },
+  {
+    id: 'private-ai',
+    title: 'Private AI',
+    subtitle: 'Security & Compliance',
+    description: 'Data privacy, security, and compliance for AI adoption. Protect your data while leveraging AI capabilities.',
+    modules: 8,
+    duration: '8 modules',
+    price: 'Free',
+    priceColor: 'bg-green-500',
+    href: '/academy/private-ai',
+    isFoundation: false,
+    features: [
+      'Data privacy best practices',
+      'Security frameworks',
+      'Compliance requirements',
+      'Private deployment options',
+    ]
   }
 ]
 
@@ -184,15 +170,15 @@ const featuredCourses = [
 const differentiators = [
   {
     title: 'Real examples, not abstract concepts',
-    description: 'Every technique is taught through actual creator scenarios — writing, research, content, operations.',
+    description: 'Every technique is taught through actual creator scenarios - writing, research, content, operations.',
   },
   {
     title: 'Built by a creator, for creators',
     description: '20+ years in film production taught me systems. Now I translate AI into practical workflows.',
   },
   {
-    title: 'Free foundation, paid depth',
-    description: 'Start with free courses to build mental models. Go deeper only if you want to.',
+    title: 'Everything free, no catches',
+    description: 'All 57 modules across 7 courses are completely free. Learn at your own pace.',
   },
   {
     title: 'Pathways, not random courses',
@@ -201,6 +187,26 @@ const differentiators = [
 ]
 
 export default function AcademyPage() {
+  const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null)
+  const supabase = createClient()
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setIsSignedIn(!!user)
+    }
+
+    checkAuth()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsSignedIn(!!session?.user)
+    })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [supabase])
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -244,10 +250,10 @@ export default function AcademyPage() {
             <m.div variants={fadeUp} className="flex flex-wrap gap-4 items-start">
               <ResumeButton />
               <Link
-                href="#courses"
+                href="#curriculum"
                 className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50"
               >
-                Browse All Courses
+                View Full Curriculum
               </Link>
             </m.div>
           </m.div>
@@ -262,13 +268,13 @@ export default function AcademyPage() {
         <div className="container">
           <div className="text-center mb-8">
             <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Your Learning Path
+              Your Learning Journey
             </p>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-              Start with foundations, then branch out
+              One foundation unlocks six specializations
             </h2>
-            <p className="text-lg text-[var(--text-secondary)] max-w-lg mx-auto">
-              Complete AI Conversation Fundamentals to unlock all courses.
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+              Complete AI Conversation Fundamentals to unlock all advanced courses. Choose your own path based on your goals.
             </p>
           </div>
 
@@ -276,122 +282,219 @@ export default function AcademyPage() {
         </div>
       </section>
 
-      {/* Learning Paths Section */}
-      <section className="section-spacing border-t border-[var(--border)]">
+      {/* Sign In Benefits Section - Only show when not signed in */}
+      {isSignedIn === false && (
+        <section className="py-12 border-t border-[var(--border)]">
+          <div className="container">
+            <m.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="max-w-4xl mx-auto"
+            >
+              <div className="card bg-gradient-to-br from-id8-orange/5 to-transparent border-id8-orange/20">
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  <div className="flex-1">
+                    <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-2">
+                      Free Account
+                    </p>
+                    <h3 className="text-2xl font-bold mb-3">
+                      Sign in to track your progress
+                    </h3>
+                    <p className="text-[var(--text-secondary)] mb-4">
+                      Create a free account to unlock the full learning experience.
+                    </p>
+
+                    <ul className="space-y-3 mb-6">
+                      <li className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500/10 text-green-500">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                          </svg>
+                        </span>
+                        <span className="text-sm"><strong>Save your place</strong> - Resume exactly where you left off</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500/10 text-blue-500">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                          </svg>
+                        </span>
+                        <span className="text-sm"><strong>Add notes</strong> - Capture insights as you learn</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-id8-orange/10 text-id8-orange">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="8" r="7"/>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+                          </svg>
+                        </span>
+                        <span className="text-sm"><strong>Earn certificates</strong> - Showcase your completion</span>
+                      </li>
+                      <li className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-500/10 text-purple-500">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                          </svg>
+                        </span>
+                        <span className="text-sm"><strong>Track completion</strong> - See your progress across all courses</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-col gap-3 w-full md:w-auto">
+                    <Link
+                      href="/auth/signin?redirect=/academy"
+                      className="btn btn-primary text-center group inline-flex items-center justify-center gap-2"
+                    >
+                      Sign In
+                      <ArrowRightIcon />
+                    </Link>
+                    <Link
+                      href="/auth/signup?redirect=/academy"
+                      className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 text-center"
+                    >
+                      Create Free Account
+                    </Link>
+                    <p className="text-xs text-[var(--text-tertiary)] text-center">
+                      No credit card required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </m.div>
+          </div>
+        </section>
+      )}
+
+      {/* Full Course Catalog */}
+      <section className="section-spacing" id="curriculum">
         <div className="container">
           <div className="text-center mb-16">
             <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Learning Paths
+              Complete Curriculum
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              Three paths to AI fluency
+              All courses. All modules. Your journey.
             </h2>
-            <p className="text-lg text-[var(--text-secondary)] max-w-lg mx-auto">
-              Start with foundations for free, then go as deep as you want.
+            <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
+              7 courses, 57 total modules covering everything from AI fundamentals to organizational scaling. Most are free.
             </p>
           </div>
 
+          {/* Foundation Course - Full Width */}
           <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
-            variants={stagger}
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            variants={fadeUp}
+            className="mb-12"
           >
-            {learningPaths.map((path, index) => (
-              <m.div
-                key={index}
-                variants={fadeUp}
-                className="card hover:border-[var(--border-light)] flex flex-col"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-id8-orange">{path.icon}</span>
-                  <span className={`px-2 py-1 text-xs font-mono uppercase tracking-wider ${path.badgeColor} text-white rounded`}>
-                    {path.badge}
+            <div className="card-featured max-w-4xl mx-auto ring-2 ring-id8-orange/30">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-tertiary)]">
+                  {coursesCatalog[0].subtitle}
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-1 text-xs font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
+                    Start Here
+                  </span>
+                  <span className={`px-2 py-1 text-xs font-mono uppercase tracking-wider ${coursesCatalog[0].priceColor} text-white rounded`}>
+                    {coursesCatalog[0].price}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{path.title}</h3>
-                <p className="text-[var(--text-secondary)] mb-6 flex-grow">{path.description}</p>
+              </div>
 
-                <div className="space-y-3 pt-4 border-t border-[var(--border)]">
-                  {path.courses.map((course, courseIndex) => (
-                    <Link
-                      key={courseIndex}
-                      href={course.href}
-                      className="flex items-center justify-between group"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium group-hover:text-id8-orange transition-colors">
-                          {course.name}
-                        </span>
-                        {'isNew' in course && course.isNew && (
-                          <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
-                            New
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-[var(--text-tertiary)]">{course.duration}</span>
-                        {'free' in course && course.free ? (
-                          <span className="text-xs font-mono text-green-500">Free</span>
-                        ) : 'price' in course && course.price && (
-                          <span className="text-xs font-mono text-id8-orange">{course.price}</span>
-                        )}
-                      </div>
-                    </Link>
-                  ))}
+              <div className="grid lg:grid-cols-2 gap-6 items-center">
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">{coursesCatalog[0].title}</h3>
+                  <p className="text-[var(--text-secondary)] mb-4">{coursesCatalog[0].description}</p>
+                  <div className="flex items-center gap-4 text-sm text-[var(--text-tertiary)] mb-4">
+                    <span>{coursesCatalog[0].modules} modules</span>
+                    <span>•</span>
+                    <span>{coursesCatalog[0].duration}</span>
+                  </div>
                 </div>
-              </m.div>
-            ))}
-          </m.div>
-        </div>
-      </section>
 
-      {/* Featured Courses Section */}
-      <section className="section-spacing bg-[var(--bg-secondary)]" id="courses">
-        <div className="container">
-          <div className="text-center mb-16">
-            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Courses
+                <div>
+                  <ul className="space-y-2 mb-6">
+                    {coursesCatalog[0].features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm">
+                        <CheckIcon />
+                        <span className="text-[var(--text-secondary)]">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    href={coursesCatalog[0].href}
+                    className="btn bg-id8-orange text-white hover:bg-id8-orange/90 w-full text-center group inline-flex items-center justify-center gap-2"
+                  >
+                    Start Foundation Course
+                    <ArrowRightIcon />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </m.div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-4 mb-12 max-w-4xl mx-auto">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-[var(--border)]" />
+            <p className="text-sm font-mono uppercase tracking-wider text-[var(--text-tertiary)]">
+              Then choose your path
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              Start learning today
-            </h2>
-            <p className="text-lg text-[var(--text-secondary)] max-w-lg mx-auto">
-              Pick a course based on where you are in your AI journey.
-            </p>
+            <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[var(--border)] to-[var(--border)]" />
           </div>
 
+          {/* Advanced Courses Grid */}
           <m.div
             initial="initial"
             whileInView="animate"
             viewport={{ once: true, margin: "-100px" }}
             variants={stagger}
-            className="grid lg:grid-cols-3 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {featuredCourses.map((course, index) => (
+            {coursesCatalog.slice(1).map((course, index) => (
               <m.div
                 key={course.id}
                 variants={fadeUp}
-                className={`card-featured flex flex-col ${course.isNew ? 'ring-2 ring-id8-orange/50' : ''}`}
+                className={`card-featured flex flex-col ${course.isNew ? 'ring-2 ring-id8-orange/30' : ''}`}
               >
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-tertiary)]">
                     {course.subtitle}
                   </span>
                   <div className="flex items-center gap-2">
+                    {course.isNew && (
+                      <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
+                        New
+                      </span>
+                    )}
                     {course.originalPrice && (
                       <span className="text-xs font-mono text-[var(--text-tertiary)] line-through">
                         {course.originalPrice}
                       </span>
                     )}
-                    <span className={`px-2 py-1 text-xs font-mono uppercase tracking-wider ${course.badgeColor} text-white rounded`}>
-                      {course.badge}
+                    <span className={`px-2 py-1 text-xs font-mono uppercase tracking-wider ${course.priceColor} text-white rounded`}>
+                      {course.price}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="text-xl font-bold mb-3">{course.title}</h3>
+                <h3 className="text-xl font-bold mb-2">{course.title}</h3>
+
+                <div className="flex items-center gap-3 text-sm text-[var(--text-tertiary)] mb-3">
+                  <span className="font-mono">{course.modules} modules</span>
+                  <span>•</span>
+                  <span>{course.duration}</span>
+                </div>
+
                 <p className="text-[var(--text-secondary)] mb-6 flex-grow">{course.description}</p>
 
                 <ul className="space-y-2 mb-6">
@@ -406,12 +509,12 @@ export default function AcademyPage() {
                 <Link
                   href={course.href}
                   className={`btn text-center group inline-flex items-center justify-center gap-2 ${
-                    course.badgeColor === 'bg-green-500'
+                    course.priceColor === 'bg-green-500'
                       ? 'bg-green-500 text-white hover:bg-green-600'
                       : 'btn-primary'
                   }`}
                 >
-                  {course.badge === 'Free' ? 'Start Free' : 'Learn More'}
+                  {course.price === 'Free' ? 'Start Free' : 'Learn More'}
                   <ArrowRightIcon />
                 </Link>
               </m.div>
@@ -421,7 +524,7 @@ export default function AcademyPage() {
       </section>
 
       {/* Why ID8Labs Section */}
-      <section className="section-spacing border-t border-[var(--border)]">
+      <section className="section-spacing bg-[var(--bg-secondary)] border-y border-[var(--border)]">
         <div className="container">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -434,7 +537,7 @@ export default function AcademyPage() {
                 <span className="text-gradient-orange">not watching.</span>
               </h2>
               <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
-                Most AI courses teach abstract concepts. We show you exactly how a newsletter writer, a YouTuber, or an indie maker actually uses these techniques — then you try it yourself.
+                Most AI courses teach abstract concepts. We show you exactly how a newsletter writer, a YouTuber, or an indie maker actually uses these techniques - then you try it yourself.
               </p>
             </div>
 
@@ -492,19 +595,19 @@ export default function AcademyPage() {
               Start with free foundations
             </h2>
             <p className="text-xl text-[var(--text-secondary)] mb-10">
-              The best way to learn AI is to use it. Our free courses give you the mental models — then you practice with your own work.
+              The best way to learn AI is to use it. Our free courses give you the mental models - then you practice with your own work.
             </p>
 
             <Link
-              href="/academy/prompt-engineering-creators"
+              href="/courses/ai-conversation-fundamentals"
               className="btn btn-primary hover-lift group inline-flex items-center gap-3 text-lg px-8 py-4"
             >
-              Start Prompt Engineering Course
+              Start Foundation Course
               <ArrowRightIcon />
             </Link>
 
             <p className="mt-6 text-sm font-mono text-[var(--text-tertiary)]">
-              Free. 9 modules. Real creator examples.
+              Free. 6 modules. 45 minutes. Unlock everything.
             </p>
           </div>
         </div>
