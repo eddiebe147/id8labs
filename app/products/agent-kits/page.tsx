@@ -331,18 +331,11 @@ function FullKitCard({
         </div>
       )}
 
-      {/* Ninja Bandana for TMNT */}
+      {/* Pizza Slice for TMNT */}
       {kit.productId === 'agent-kit-tmnt' && (
-        <div className="absolute -top-2 -right-2 z-10">
-          <div className="relative">
-            {/* Bandana mask shape */}
-            <div className="w-16 h-8 bg-[var(--id8-orange)] rounded-l-full transform rotate-12 shadow-lg" />
-            {/* Bandana tails */}
-            <div className="absolute top-1 -right-4 w-10 h-3 bg-[var(--id8-orange)] rounded-full transform rotate-[30deg] shadow-md" />
-            <div className="absolute top-4 -right-3 w-8 h-2.5 bg-[var(--id8-orange)]/80 rounded-full transform rotate-[45deg] shadow-md" />
-            {/* Eye holes suggestion */}
-            <div className="absolute top-2 left-3 w-2.5 h-1.5 bg-black/40 rounded-full" />
-            <div className="absolute top-2 left-7 w-2.5 h-1.5 bg-black/40 rounded-full" />
+        <div className="absolute -top-3 -right-3 z-10 transform rotate-12">
+          <div className="relative text-4xl" title="Cowabunga!">
+            🍕
           </div>
         </div>
       )}
