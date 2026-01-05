@@ -58,7 +58,7 @@ const agentKits: AgentKit[] = [
     tagline: '9-Agent SDK Dev Team',
     hook: "Stop hiring. Start shipping.",
     description: 'A complete software development team that lives in your terminal. Strategic oversight, architecture decisions, code review, QA, DevOps—all coordinated by AI agents that actually talk to each other.',
-    price: 79,
+    price: 129,
     agentCount: 9,
     icon: <Users className="w-6 h-6" />,
     accentColor: 'blue',
@@ -101,9 +101,9 @@ const agentKits: AgentKit[] = [
     productId: 'agent-kit-llc-ops',
     name: 'LLC Ops',
     tagline: '9-Agent Business Operations',
-    hook: "Your $50k back office. For $49.",
+    hook: "Your $50k back office. For $79.",
     description: "Everything a solo founder hates doing—taxes, compliance, bookkeeping, quarterly planning—handled by AI agents that actually understand LLC operations. Built from running a real Florida LLC.",
-    price: 49,
+    price: 79,
     agentCount: 9,
     icon: <Shield className="w-6 h-6" />,
     accentColor: 'emerald',
@@ -148,7 +148,7 @@ const agentKits: AgentKit[] = [
     tagline: '11-Stage Product Methodology',
     hook: "Ideas die in your notes. Ship them instead.",
     description: "The methodology that took ID8Labs from concept to production. 11 stages with hard gates, decay mechanics that punish stalling, and 8 AI agents that keep you honest. No more half-finished projects.",
-    price: 49,
+    price: 79,
     agentCount: 8,
     icon: <Code className="w-6 h-6" />,
     accentColor: 'violet',
@@ -192,7 +192,7 @@ const agentKits: AgentKit[] = [
     tagline: 'Self-Improving Dev Framework',
     hook: "Every project you build makes the next one faster.",
     description: "The meta-system. Captures patterns, decisions, and failures across all your projects. Learns what works for YOU specifically. After 10 projects, it knows your style better than you do.",
-    price: 49,
+    price: 79,
     agentCount: 5,
     icon: <Brain className="w-6 h-6" />,
     accentColor: 'amber',
@@ -233,7 +233,7 @@ const agentKits: AgentKit[] = [
     tagline: 'Multi-AI Creative Pipeline',
     hook: "Midjourney. Grok. Gemini. One workflow.",
     description: "Stop tab-switching between AI tools. Factory orchestrates Midjourney, Grok, Gemini, and others in one tracked workflow. Browser automation handles the clicking. You handle the taste.",
-    price: 39,
+    price: 49,
     agentCount: 4,
     icon: <Sparkles className="w-6 h-6" />,
     accentColor: 'pink',
@@ -269,7 +269,7 @@ const agentKits: AgentKit[] = [
   },
 ]
 
-const bundlePrice = 199
+const bundlePrice = 299
 const totalIndividualPrice = agentKits.reduce((sum, kit) => sum + kit.price, 0)
 const bundleSavings = totalIndividualPrice - bundlePrice
 const totalAgents = agentKits.reduce((sum, kit) => sum + kit.agentCount, 0)
@@ -678,7 +678,7 @@ function AgentKitsContent() {
               Still deciding?
             </h2>
             <p className="text-zinc-400 mb-8">
-              Start with LLC Ops or Pipeline at $49. See how it transforms your workflow.
+              Start with LLC Ops or Pipeline at $79. See how it transforms your workflow.
               <br />
               Then grab the bundle when you're ready for the full stack.
             </p>
@@ -687,13 +687,13 @@ function AgentKitsContent() {
                 onClick={() => setCheckoutProduct('agent-kit-llc-ops')}
                 className="px-6 py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition-all"
               >
-                Start with LLC Ops ($49)
+                Start with LLC Ops ($79)
               </button>
               <button
                 onClick={() => setCheckoutProduct('agent-kit-bundle')}
                 className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all"
               >
-                Get the Bundle ($199)
+                Get the Bundle ($299)
               </button>
             </div>
           </m.div>
