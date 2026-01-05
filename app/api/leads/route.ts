@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { isValidEmail } from '@/lib/validation'
 
 // Initialize Resend lazily to avoid build-time errors
 let resend: Resend | null = null
@@ -66,8 +67,7 @@ async function handleReadinessLead(body: ReadinessLeadPayload) {
   }
 
   // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email)) {
+  if (!isValidEmail(email)) {
     return NextResponse.json(
       { error: 'Invalid email format' },
       { status: 400 }
@@ -120,8 +120,7 @@ async function handleWaitlistLead(body: WaitlistLeadPayload) {
   }
 
   // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email)) {
+  if (!isValidEmail(email)) {
     return NextResponse.json(
       { error: 'Invalid email format' },
       { status: 400 }

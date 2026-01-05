@@ -526,50 +526,6 @@ export function getProductsByPurchaseType(type: PurchaseType): Product[] {
   return Object.values(PRODUCTS).filter(p => p.purchaseType === type)
 }
 
-export function getStripeProducts(): Product[] {
-  return getProductsByPurchaseType('stripe')
-}
-
-export function getBookingProducts(): Product[] {
-  return getProductsByPurchaseType('booking')
-}
-
-export function getFreeProducts(): Product[] {
-  return getProductsByPurchaseType('free')
-}
-
-export function getLearningProducts(): Product[] {
-  return Object.values(PRODUCTS).filter(p =>
-    p.category === 'self-paced-course' ||
-    p.category === 'free-resource' ||
-    p.category === 'claude-code-training'
-  )
-}
-
-export function getImplementationServices(): Product[] {
-  return getProductsByCategory('ai-implementation')
-}
-
-export function getAcademyCourses(): Product[] {
-  return Object.values(PRODUCTS).filter(p =>
-    p.category === 'free-resource' || p.category === 'self-paced-course'
-  )
-}
-
-export function getAgentKits(): Product[] {
-  return getProductsByCategory('agent-kit')
-}
-
-export function getAgentKitBundle(): Product | undefined {
-  return PRODUCTS['agent-kit-bundle']
-}
-
-export function getIndividualAgentKits(): Product[] {
-  return Object.values(PRODUCTS).filter(p =>
-    p.category === 'agent-kit' && p.id !== 'agent-kit-bundle'
-  )
-}
-
 // Kit IDs included in the bundle
 export const BUNDLE_KIT_IDS = [
   'agent-kit-tmnt',
