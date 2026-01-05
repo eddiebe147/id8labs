@@ -476,11 +476,6 @@ export default function AcademyPage() {
                         New
                       </span>
                     )}
-                    {course.originalPrice && (
-                      <span className="text-xs font-mono text-[var(--text-tertiary)] line-through">
-                        {course.originalPrice}
-                      </span>
-                    )}
                     <span className={`px-2 py-1 text-xs font-mono uppercase tracking-wider ${course.priceColor} text-white rounded`}>
                       {course.price}
                     </span>
