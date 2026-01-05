@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -330,6 +331,19 @@ Let's think through this together before drafting anything:
               Sarah finished her proposal outline in 40 minutes that night. The draft took another 3 hours — not 15. She got the client. But more importantly, she got a system.
             </p>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-1"
+              nextModulePath="/academy/ai-partner-mastery/module-2"
+            />
           </div>
         </div>
       </section>

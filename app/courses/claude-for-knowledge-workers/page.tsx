@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CheckoutButton from '@/components/CheckoutButton'
+import { FoundationGate } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -230,7 +231,8 @@ const faqs = [
 
 export default function ClaudeForKnowledgeWorkersPage() {
   return (
-    <div className="min-h-screen">
+    <FoundationGate>
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center bg-zone-text">
         <div className="container">
@@ -675,6 +677,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
         </div>
       </section>
     </div>
+    </FoundationGate>
   )
 }
 

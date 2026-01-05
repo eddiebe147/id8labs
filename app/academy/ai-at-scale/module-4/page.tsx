@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -546,6 +547,13 @@ export default function Module4Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               Good governance makes AI trustworthy. It enables faster iteration (because you can rollback), better debugging (because you know what changed), and reduced risk (because you can answer hard questions). In the next module, we'll tackle the journey from pilot to production — where governance becomes essential.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-at-scale"
+              moduleSlug="module-4"
+              nextModulePath="/academy/ai-at-scale/module-5"
+            />
 
           </div>
         </div>

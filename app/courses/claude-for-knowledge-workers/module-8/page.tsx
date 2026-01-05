@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import { useState } from 'react'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -718,6 +719,13 @@ Now I want to [NEXT STEP]. Let's pick up from here with a clear focus.`}
           </div>
         </div>
       </section>
+
+      {/* Module Complete */}
+      <ModuleComplete
+        courseSlug="claude-for-knowledge-workers"
+        moduleSlug="module-8"
+        nextModulePath="/courses/claude-for-knowledge-workers/module-9"
+      />
     </div>
   )
 }

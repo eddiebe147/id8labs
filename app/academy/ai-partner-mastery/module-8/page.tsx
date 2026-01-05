@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -533,6 +534,18 @@ EXPECTED TIME: [Total estimated duration]`}
               </p>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-8"
+            />
           </div>
         </div>
       </section>

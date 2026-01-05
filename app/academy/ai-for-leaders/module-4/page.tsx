@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -758,6 +759,13 @@ export default function Module4Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               You now have a concrete hiring roadmap. You know which roles to prioritize, when to bring them on, and how much they'll cost. In the next module, we'll cover how to set budgets that align with AI's unique cost structure — and avoid the hidden expenses that derail projects.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-for-leaders"
+              moduleSlug="module-4"
+              nextModulePath="/academy/ai-for-leaders/module-5"
+            />
 
           </div>
         </div>

@@ -7,6 +7,7 @@ import MiniVideoPlayer from '@/components/MiniVideoPlayer'
 import EmailCapture from '@/components/EmailCapture'
 import Image from 'next/image'
 import { useState } from 'react'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -464,6 +465,13 @@ export default function Module0Page() {
           </div>
         </div>
       </section>
+
+      {/* Module Complete */}
+      <ModuleComplete
+        courseSlug="claude-for-knowledge-workers"
+        moduleSlug="module-0"
+        nextModulePath="/courses/claude-for-knowledge-workers/module-1"
+      />
     </div>
   )
 }

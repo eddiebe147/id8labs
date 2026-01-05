@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -581,6 +582,12 @@ export default function Module4Page() {
             </p>
 
           </div>
+
+          <ModuleComplete
+            courseSlug="private-ai"
+            moduleSlug="module-4"
+            nextModulePath="/academy/private-ai/module-5"
+          />
         </div>
       </section>
 

@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -684,6 +685,13 @@ export default function Module3Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               You've chosen your implementation path. Now comes the people question: who's going to make this happen? In the next module, we'll tackle team structure, roles, and the talent decisions that determine whether AI initiatives succeed or stall.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-for-leaders"
+              moduleSlug="module-3"
+              nextModulePath="/academy/ai-for-leaders/module-4"
+            />
 
           </div>
         </div>

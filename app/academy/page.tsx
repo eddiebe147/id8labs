@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { m } from '@/components/motion'
 import { PRODUCTS, getProductsByCategory } from '@/lib/products'
+import { LearningRoadmap, AcademyProgressBar, ResumeButton } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -229,19 +230,19 @@ export default function AcademyPage() {
 
             <m.p
               variants={fadeUp}
-              className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-2xl mb-10 leading-relaxed"
+              className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-2xl mb-8 leading-relaxed"
             >
               Not another abstract tutorial. Learn prompt engineering and AI workflows through real scenarios from writers, content creators, and indie makers. Start free.
             </m.p>
 
-            <m.div variants={fadeUp} className="flex flex-wrap gap-4">
-              <Link
-                href="/academy/prompt-engineering-creators"
-                className="btn btn-primary hover-lift group inline-flex items-center gap-3"
-              >
-                Start Free Course
-                <ArrowRightIcon />
-              </Link>
+            {/* Progress Bar for logged-in users */}
+            <m.div variants={fadeUp} className="mb-8 max-w-md">
+              <AcademyProgressBar />
+            </m.div>
+
+            {/* Resume Button (shows for logged-in users) or Start buttons */}
+            <m.div variants={fadeUp} className="flex flex-wrap gap-4 items-start">
+              <ResumeButton />
               <Link
                 href="#courses"
                 className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50"
@@ -254,6 +255,25 @@ export default function AcademyPage() {
 
         {/* Bottom border */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />
+      </section>
+
+      {/* Learning Roadmap Section */}
+      <section className="py-16 bg-[var(--bg-secondary)] border-t border-[var(--border)]">
+        <div className="container">
+          <div className="text-center mb-8">
+            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
+              Your Learning Path
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+              Start with foundations, then branch out
+            </h2>
+            <p className="text-lg text-[var(--text-secondary)] max-w-lg mx-auto">
+              Complete AI Conversation Fundamentals to unlock all courses.
+            </p>
+          </div>
+
+          <LearningRoadmap />
+        </div>
       </section>
 
       {/* Learning Paths Section */}

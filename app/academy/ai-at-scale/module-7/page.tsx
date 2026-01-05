@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -545,6 +546,13 @@ export default function Module7Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               Teams are the foundation of everything else. Get the people and structure right, and technology challenges become solvable. Get it wrong, and no amount of budget or tools will save you. Next module: building the architecture that supports your growing AI ambitions for the next decade.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-at-scale"
+              moduleSlug="module-7"
+              nextModulePath="/academy/ai-at-scale/module-8"
+            />
 
           </div>
         </div>

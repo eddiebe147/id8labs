@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -597,6 +598,13 @@ export default function Module5Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               The valley of death between pilot and production is real, but it's not insurmountable. Teams that use systematic approaches, measure what matters, and resist the urge to rush make it across. Next module: keeping your costs under control when you're running at scale.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-at-scale"
+              moduleSlug="module-5"
+              nextModulePath="/academy/ai-at-scale/module-6"
+            />
 
           </div>
         </div>

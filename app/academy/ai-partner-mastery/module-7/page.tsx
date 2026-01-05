@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -519,6 +520,19 @@ Help me:
               Six weeks after building her integration map, Jordan stopped tracking whether she used AI. It had become automatic. Customer escalations that used to take 30 minutes now take 12. Release notes that took 2 hours take 45 minutes. But more importantly, the mental load dropped. She's not making the same decisions over and over. The workflow thinks for her.
             </p>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-7"
+              nextModulePath="/academy/ai-partner-mastery/module-8"
+            />
           </div>
         </div>
       </section>

@@ -2,6 +2,7 @@
 
 import { m } from '@/components/motion'
 import Link from 'next/link'
+import { FoundationGate } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -122,7 +123,8 @@ const audiences = [
 
 export default function PrivateAIPage() {
   return (
-    <div className="min-h-screen">
+    <FoundationGate>
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center bg-zone-text">
         <div className="container">
@@ -484,5 +486,6 @@ export default function PrivateAIPage() {
         </div>
       </section>
     </div>
+    </FoundationGate>
   )
 }

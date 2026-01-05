@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -482,6 +483,19 @@ export default function Module2Page() {
               Sarah built her protocol in 45 minutes on a Sunday morning. She's been using the same document for six months. It's currently on v4.2, and every update makes AI feel more like a team member who actually knows her.
             </p>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-2"
+              nextModulePath="/academy/ai-partner-mastery/module-3"
+            />
           </div>
         </div>
       </section>

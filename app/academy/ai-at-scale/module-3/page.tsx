@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -671,6 +672,13 @@ export default function Module3Page() {
                 </div>
               </div>
             </div>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-at-scale"
+              moduleSlug="module-3"
+              nextModulePath="/academy/ai-at-scale/module-4"
+            />
 
           </div>
         </div>

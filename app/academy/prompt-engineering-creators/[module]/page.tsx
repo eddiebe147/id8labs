@@ -3,6 +3,7 @@
 import { useParams, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { m } from '@/components/motion'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -994,6 +995,13 @@ export default function ModulePage() {
           </div>
         </div>
       </section>
+
+      {/* Module Complete */}
+      <ModuleComplete
+        courseSlug="prompt-engineering-creators"
+        moduleSlug={moduleSlug}
+        nextModulePath={nextModule ? `/academy/prompt-engineering-creators/${nextModule}` : undefined}
+      />
     </div>
   )
 }

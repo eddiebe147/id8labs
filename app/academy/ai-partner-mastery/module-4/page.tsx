@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -529,6 +530,19 @@ Rewrite your version to match those qualities, but keep the substance the same."
               Sarah used to get frustrated when AI didn't nail it on the first try. Now she expects three rounds. She has a checklist. She gives specific feedback. And she gets to "publish-ready" in under 10 minutes, every time.
             </p>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-4"
+              nextModulePath="/academy/ai-partner-mastery/module-5"
+            />
           </div>
         </div>
       </section>

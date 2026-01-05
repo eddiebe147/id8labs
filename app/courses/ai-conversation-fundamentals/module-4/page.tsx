@@ -2,6 +2,7 @@
 
 import { m } from '@/components/motion'
 import Link from 'next/link'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -399,7 +400,13 @@ export default function Module4Page() {
       <section className="section-spacing border-t border-[var(--border)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4 justify-between">
+            <ModuleComplete
+              courseSlug="ai-conversation-fundamentals"
+              moduleSlug="module-4"
+              nextModulePath="/courses/ai-conversation-fundamentals/module-5"
+            />
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-between mt-8">
               <Link
                 href="/courses/ai-conversation-fundamentals/module-3"
                 className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 transition-colors inline-flex items-center gap-2"

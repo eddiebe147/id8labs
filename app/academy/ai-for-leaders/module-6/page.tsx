@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -838,6 +839,13 @@ export default function Module6Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               You now have a framework to identify, assess, and mitigate AI risks systematically. Your risk register is the operational tool that turns this framework into action. Treat it as a living document — review quarterly, update as you deploy new AI systems, and use it to demonstrate responsible AI governance to leadership and regulators.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-for-leaders"
+              moduleSlug="module-6"
+              nextModulePath="/academy/ai-for-leaders/module-7"
+            />
 
           </div>
         </div>

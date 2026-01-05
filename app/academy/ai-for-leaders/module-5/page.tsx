@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -798,6 +799,13 @@ export default function Module5Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               You now have a systematic framework for cutting through vendor hype and making evidence-based decisions. In the next module, we'll shift from buying AI to building it — understanding when to build custom solutions versus buying off the shelf.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-for-leaders"
+              moduleSlug="module-5"
+              nextModulePath="/academy/ai-for-leaders/module-6"
+            />
 
           </div>
         </div>

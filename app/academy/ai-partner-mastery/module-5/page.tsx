@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -511,6 +512,19 @@ Then, for each condition, let's break it down further until we get to concrete, 
               Marcus finished the vendor onboarding redesign in 60 days instead of 90. But more importantly, his team now uses the Decomposition Canvas for every major initiative. They've stopped getting stuck on "where do we even start?" Because they know: you start by breaking it down.
             </p>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-5"
+              nextModulePath="/academy/ai-partner-mastery/module-6"
+            />
           </div>
         </div>
       </section>

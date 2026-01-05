@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -581,6 +582,13 @@ export default function Module2Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               You now have a map of where AI can create value in your organization. In the next module, we'll turn these opportunities into concrete plans with realistic timelines and budgets.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-for-leaders"
+              moduleSlug="module-2"
+              nextModulePath="/academy/ai-for-leaders/module-3"
+            />
 
           </div>
         </div>

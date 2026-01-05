@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -743,6 +744,13 @@ Save the template to ~/Workflows/weekly-review.md so I can reference it every Fr
           </div>
         </div>
       </section>
+
+      {/* Module Complete */}
+      <ModuleComplete
+        courseSlug="claude-for-knowledge-workers"
+        moduleSlug="module-5"
+        nextModulePath="/courses/claude-for-knowledge-workers/module-6"
+      />
     </div>
   )
 }

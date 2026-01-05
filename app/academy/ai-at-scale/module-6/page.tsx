@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -562,6 +563,13 @@ export default function Module6Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               Costs are predictable and controllable if you measure, monitor, and optimize continuously. The organizations that scale AI sustainably are the ones that treat it as a managed investment, not an uncontrolled expense. Next module: scaling your team to match your growing AI ambitions.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-at-scale"
+              moduleSlug="module-6"
+              nextModulePath="/academy/ai-at-scale/module-7"
+            />
 
           </div>
         </div>

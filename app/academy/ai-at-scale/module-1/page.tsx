@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -513,6 +514,13 @@ export default function Module1Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               You now understand the infrastructure that makes AI possible at scale. In the next module, we'll build the MLOps pipelines that keep this infrastructure running — without waking you up at 3am.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-at-scale"
+              moduleSlug="module-1"
+              nextModulePath="/academy/ai-at-scale/module-2"
+            />
 
           </div>
         </div>

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -681,6 +682,13 @@ Turn this into a clear, structured [blog post/email/memo]. Keep my voice and exa
           </div>
         </div>
       </section>
+
+      {/* Module Complete */}
+      <ModuleComplete
+        courseSlug="claude-for-knowledge-workers"
+        moduleSlug="module-3"
+        nextModulePath="/courses/claude-for-knowledge-workers/module-4"
+      />
     </div>
   )
 }

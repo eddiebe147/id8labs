@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -742,6 +743,13 @@ Create a briefing covering: background, key facts, recent developments, and anyt
           </div>
         </div>
       </section>
+
+      {/* Module Complete */}
+      <ModuleComplete
+        courseSlug="claude-for-knowledge-workers"
+        moduleSlug="module-4"
+        nextModulePath="/courses/claude-for-knowledge-workers/module-5"
+      />
     </div>
   )
 }

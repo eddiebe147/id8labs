@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import { useState } from 'react'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -696,6 +697,13 @@ Compile into a research document I can use while writing.`}
           </div>
         </div>
       </section>
+
+      {/* Module Complete */}
+      <ModuleComplete
+        courseSlug="claude-for-knowledge-workers"
+        moduleSlug="module-7"
+        nextModulePath="/courses/claude-for-knowledge-workers/module-8"
+      />
     </div>
   )
 }

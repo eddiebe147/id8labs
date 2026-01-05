@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -612,6 +613,13 @@ export default function Module7Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               You now have a measurement framework that actually works for AI. In the next module, we'll shift from metrics to people — how to lead the organizational change that makes AI adoption successful.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-for-leaders"
+              moduleSlug="module-7"
+              nextModulePath="/academy/ai-for-leaders/module-8"
+            />
 
           </div>
         </div>

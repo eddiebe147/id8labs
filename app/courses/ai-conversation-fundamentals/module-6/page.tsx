@@ -4,6 +4,7 @@ import { m } from '@/components/motion'
 import Link from 'next/link'
 import EmailCapture from '@/components/EmailCapture'
 import CourseFeedback from '@/components/CourseFeedback'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -436,7 +437,12 @@ export default function Module6Page() {
       <section className="section-spacing bg-[var(--bg-secondary)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-4 justify-between">
+            <ModuleComplete
+              courseSlug="ai-conversation-fundamentals"
+              moduleSlug="module-6"
+            />
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-between mt-8">
               <Link
                 href="/courses/ai-conversation-fundamentals/module-5"
                 className="btn bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 transition-colors inline-flex items-center gap-2"

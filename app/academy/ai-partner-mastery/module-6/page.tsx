@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -506,6 +507,19 @@ Compare them. Does the new version match the quality, depth, and specificity of 
               Amara now runs every AI-generated section through her QA checklist before it goes into any grant proposal. She caught two more subtle errors in the next submission. The grant was approved. But more importantly, she sleeps better knowing her verification process is solid.
             </p>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-6"
+              nextModulePath="/academy/ai-partner-mastery/module-7"
+            />
           </div>
         </div>
       </section>

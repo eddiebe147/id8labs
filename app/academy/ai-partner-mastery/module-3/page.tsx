@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -469,6 +470,19 @@ What would that look like?`}
               Marcus shipped the template-based onboarding. It tested 34% better than the old survey approach. But the real win? He now has a conversation flow he can reuse. The next design problem took 12 messages instead of 27. The one after that? Eight. He's not getting faster because AI is better. He's getting faster because he knows how to talk.
             </p>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Module Complete */}
+      <section className="section-spacing bg-[var(--bg-secondary)]">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <ModuleComplete
+              courseSlug="ai-partner-mastery"
+              moduleSlug="module-3"
+              nextModulePath="/academy/ai-partner-mastery/module-4"
+            />
           </div>
         </div>
       </section>

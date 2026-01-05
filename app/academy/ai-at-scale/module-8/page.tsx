@@ -3,6 +3,7 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
+import { ModuleComplete } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -605,6 +606,12 @@ export default function Module8Page() {
             <p className="italic text-[var(--text-secondary)] border-l-2 border-id8-orange pl-4">
               Good architecture is invisible when it works and obvious when it doesn't. The organizations that scale AI successfully are the ones that invested in architecture early, documented their decisions, and built systems designed to evolve. You now have the frameworks to do the same. Go build something that lasts.
             </p>
+
+            {/* Module Complete */}
+            <ModuleComplete
+              courseSlug="ai-at-scale"
+              moduleSlug="module-8"
+            />
 
           </div>
         </div>

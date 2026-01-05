@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { m } from '@/components/motion'
+import { FoundationGate } from '@/components/progress'
 
 // Animation variants
 const fadeUp = {
@@ -154,7 +155,8 @@ const targetAudience = [
 
 export default function PromptEngineeringCreatorsPage() {
   return (
-    <div className="min-h-screen">
+    <FoundationGate>
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-[75vh] flex items-center bg-zone-text">
         <div className="container">
@@ -400,5 +402,6 @@ export default function PromptEngineeringCreatorsPage() {
         </div>
       </section>
     </div>
+    </FoundationGate>
   )
 }
