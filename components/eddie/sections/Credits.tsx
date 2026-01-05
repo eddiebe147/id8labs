@@ -29,20 +29,20 @@ export function Credits() {
           <div
             className="inline-block px-12 py-8 rounded-3xl backdrop-blur-md border-t border-white/20"
             style={{
-              background: "rgba(255, 252, 248, 0.3)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+              background: "rgba(0, 0, 0, 0.45)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
             }}
           >
             <h2
-              className="text-section font-bold font-[family-name:var(--font-playfair)] text-shadow"
-              style={{ color: "var(--eddie-text-primary)" }}
+              className="text-lg md:text-xl font-normal font-[family-name:var(--font-press-start)]"
+              style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
             >
               The Work
             </h2>
             <p
-              className="mt-4 text-lg max-w-2xl mx-auto font-[family-name:var(--font-inter)]"
-              style={{ color: "var(--eddie-text-secondary)" }}
+              className="mt-4 text-xl max-w-2xl mx-auto font-[family-name:var(--font-vt323)]"
+              style={{ color: "rgba(255, 255, 255, 0.7)" }}
             >
               From MTV to TLC to A&E. Stories captured across networks and
               continents.
@@ -70,27 +70,27 @@ export function Credits() {
                 </div>
                 <div className="flex-1">
                   <h3
-                    className="font-semibold font-[family-name:var(--font-playfair)] text-shadow"
-                    style={{ color: "var(--eddie-text-primary)" }}
+                    className="text-lg font-[family-name:var(--font-vt323)]"
+                    style={{ color: "#ffffff" }}
                   >
                     {credit.title}
                   </h3>
                   <p
-                    className="text-sm mt-1"
-                    style={{ color: "var(--sunrise-deep-coral)" }}
+                    className="text-base mt-1 font-[family-name:var(--font-vt323)]"
+                    style={{ color: "#00ff41" }}
                   >
                     {credit.network}
                   </p>
                   <p
-                    className="text-sm mt-2"
-                    style={{ color: "var(--eddie-text-secondary)" }}
+                    className="text-base mt-2 font-[family-name:var(--font-vt323)]"
+                    style={{ color: "rgba(255, 255, 255, 0.6)" }}
                   >
                     {credit.role}
                   </p>
                   {credit.years && (
                     <p
-                      className="text-xs mt-1"
-                      style={{ color: "var(--eddie-text-light)" }}
+                      className="text-sm mt-1 font-[family-name:var(--font-vt323)]"
+                      style={{ color: "rgba(255, 255, 255, 0.4)" }}
                     >
                       {credit.years}
                     </p>
@@ -106,14 +106,14 @@ export function Credits() {
           <div
             className="p-8 rounded-3xl backdrop-blur-md border-t border-white/20"
             style={{
-              background: "rgba(255, 252, 248, 0.35)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+              background: "rgba(0, 0, 0, 0.45)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
             }}
           >
             <h3
-              className="font-semibold mb-6 font-[family-name:var(--font-playfair)] text-shadow"
-              style={{ color: "var(--eddie-text-primary)" }}
+              className="text-sm mb-6 font-[family-name:var(--font-press-start)]"
+              style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
             >
               Additional Credits
             </h3>
@@ -122,14 +122,14 @@ export function Credits() {
                 <div key={credit.title} className="flex items-center gap-2">
                   <span
                     className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                    style={{ background: "var(--sunrise-peach)" }}
+                    style={{ background: "#00ff41" }}
                   />
                   <span
-                    className="text-sm"
-                    style={{ color: "var(--eddie-text-secondary)" }}
+                    className="text-lg font-[family-name:var(--font-vt323)]"
+                    style={{ color: "rgba(255, 255, 255, 0.8)" }}
                   >
                     {credit.title}{" "}
-                    <span style={{ color: "var(--eddie-text-light)" }}>
+                    <span style={{ color: "rgba(255, 255, 255, 0.4)" }}>
                       ({credit.network})
                     </span>
                   </span>
@@ -142,8 +142,8 @@ export function Credits() {
         {/* Commercial Work */}
         <ScrollReveal delay={0.4} className="mt-16">
           <h3
-            className="text-xl font-semibold mb-6 text-center font-[family-name:var(--font-playfair)] text-shadow"
-            style={{ color: "var(--eddie-text-primary)" }}
+            className="text-sm mb-6 text-center font-[family-name:var(--font-press-start)]"
+            style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
           >
             Brand Collaborations
           </h3>
@@ -153,8 +153,8 @@ export function Credits() {
                 key={brand.brand}
                 className="px-5 py-2.5 rounded-full backdrop-blur-md"
                 style={{
-                  background: "rgba(255, 252, 248, 0.35)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  background: "rgba(0, 0, 0, 0.45)",
+                  border: "1px solid rgba(0, 255, 65, 0.3)",
                 }}
                 initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
                 whileInView={prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }}
@@ -165,13 +165,13 @@ export function Credits() {
                     ? undefined
                     : {
                         scale: 1.05,
-                        boxShadow: "0 0 20px rgba(255, 160, 122, 0.3)",
+                        boxShadow: "0 0 20px rgba(0, 255, 65, 0.3)",
                       }
                 }
               >
                 <span
-                  className="font-medium"
-                  style={{ color: "var(--eddie-text-primary)" }}
+                  className="text-lg font-[family-name:var(--font-vt323)]"
+                  style={{ color: "rgba(255, 255, 255, 0.8)" }}
                 >
                   {brand.brand}
                 </span>

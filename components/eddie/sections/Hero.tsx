@@ -25,9 +25,9 @@ export function Hero() {
       <motion.div
         className="text-center px-12 py-16 rounded-3xl backdrop-blur-md border-t border-white/20"
         style={{
-          background: "rgba(255, 252, 248, 0.25)",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+          background: "rgba(0, 0, 0, 0.45)",
+          border: "1px solid rgba(255, 255, 255, 0.15)",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
         }}
         initial={prefersReducedMotion ? undefined : { opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -35,22 +35,22 @@ export function Hero() {
       >
         {/* Name */}
         <h1
-          className="text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight font-[family-name:var(--font-press-start)]"
+          className="text-5xl md:text-6xl lg:text-8xl font-normal tracking-tight font-[family-name:var(--font-climate-crisis)]"
           style={{
-            color: "#00ff41",
-            textShadow: "0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 20px #00ff41",
+            color: "#ffffff",
+            textShadow: "0 0 10px rgba(255,255,255,0.5), 0 0 20px rgba(255,255,255,0.3)",
           }}
         >
           Eddie Belaval
         </h1>
 
         {/* Rotating Title */}
-        <div className="h-12 md:h-16 mt-4 overflow-hidden">
+        <div className="h-12 md:h-16 mt-6 overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.p
               key={titleIndex}
-              className="text-xl md:text-3xl font-normal text-center font-[family-name:var(--font-inter)] text-shadow"
-              style={{ color: "var(--eddie-text-secondary)" }}
+              className="text-sm md:text-base font-normal text-center font-[family-name:var(--font-press-start)]"
+              style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
               initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={prefersReducedMotion ? undefined : { opacity: 0, y: -20 }}
@@ -65,16 +65,16 @@ export function Hero() {
 
         {/* Tagline */}
         <p
-          className="mt-6 text-base md:text-lg max-w-md mx-auto font-[family-name:var(--font-crimson)] italic text-shadow"
-          style={{ color: "var(--eddie-text-secondary)" }}
+          className="mt-6 text-xl md:text-2xl max-w-md mx-auto font-[family-name:var(--font-vt323)]"
+          style={{ color: "rgba(255, 255, 255, 0.8)" }}
         >
           {resumeData.tagline}
         </p>
 
         {/* Location */}
         <p
-          className="mt-4 text-sm"
-          style={{ color: "var(--eddie-text-light)" }}
+          className="mt-4 text-lg font-[family-name:var(--font-vt323)]"
+          style={{ color: "rgba(255, 255, 255, 0.5)" }}
         >
           {resumeData.location}
         </p>

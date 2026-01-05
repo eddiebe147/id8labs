@@ -35,9 +35,9 @@ export function Contact() {
       <div
         className="max-w-4xl mx-auto text-center p-12 rounded-3xl backdrop-blur-md border-t border-white/20"
         style={{
-          background: "rgba(255, 252, 248, 0.35)",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+          background: "rgba(0, 0, 0, 0.45)",
+          border: "1px solid rgba(255, 255, 255, 0.15)",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
         }}
       >
         {/* Location */}
@@ -45,11 +45,11 @@ export function Contact() {
           <div className="flex items-center justify-center gap-2 mb-8">
             <MapPin
               className="w-5 h-5"
-              style={{ color: "var(--sunrise-coral)" }}
+              style={{ color: "#00ff41" }}
             />
             <span
-              className="text-lg"
-              style={{ color: "var(--eddie-text-secondary)" }}
+              className="text-xl font-[family-name:var(--font-vt323)]"
+              style={{ color: "rgba(255, 255, 255, 0.7)" }}
             >
               {resumeData.location}
             </span>
@@ -59,14 +59,14 @@ export function Contact() {
         {/* Heading */}
         <ScrollReveal delay={0.1}>
           <h2
-            className="text-section font-bold mb-4 font-[family-name:var(--font-playfair)] text-shadow"
-            style={{ color: "var(--eddie-text-primary)" }}
+            className="text-lg md:text-xl font-normal mb-4 font-[family-name:var(--font-press-start)]"
+            style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
           >
             Let&apos;s Connect
           </h2>
           <p
-            className="text-lg mb-12 max-w-xl mx-auto font-[family-name:var(--font-inter)]"
-            style={{ color: "var(--eddie-text-secondary)" }}
+            className="text-xl mb-12 max-w-xl mx-auto font-[family-name:var(--font-vt323)]"
+            style={{ color: "rgba(255, 255, 255, 0.7)" }}
           >
             Available for cinematography, story production, and creative
             consulting work.
@@ -84,15 +84,15 @@ export function Contact() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 px-6 py-4 rounded-2xl backdrop-blur-md"
                 style={{
-                  background: "rgba(255, 252, 248, 0.4)",
-                  border: "1px solid rgba(255, 255, 255, 0.4)",
+                  background: "rgba(0, 0, 0, 0.45)",
+                  border: "1px solid rgba(0, 255, 65, 0.3)",
                 }}
                 whileHover={
                   prefersReducedMotion
                     ? undefined
                     : {
                         scale: 1.05,
-                        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.15)",
+                        boxShadow: "0 0 20px rgba(0, 255, 65, 0.3)",
                       }
                 }
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
@@ -102,11 +102,11 @@ export function Contact() {
               >
                 <link.icon
                   className="w-5 h-5"
-                  style={{ color: "var(--sunrise-coral)" }}
+                  style={{ color: "#00ff41" }}
                 />
                 <span
-                  className="font-medium"
-                  style={{ color: "var(--eddie-text-primary)" }}
+                  className="text-lg font-[family-name:var(--font-vt323)]"
+                  style={{ color: "rgba(255, 255, 255, 0.8)" }}
                 >
                   {link.value}
                 </span>
@@ -118,8 +118,8 @@ export function Contact() {
         {/* Footer */}
         <ScrollReveal delay={0.3} className="mt-20">
           <p
-            className="text-sm"
-            style={{ color: "var(--eddie-text-light)" }}
+            className="text-lg font-[family-name:var(--font-vt323)]"
+            style={{ color: "rgba(255, 255, 255, 0.4)" }}
           >
             Designed with early morning Miami light in mind.
           </p>

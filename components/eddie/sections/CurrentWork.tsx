@@ -16,9 +16,9 @@ export function CurrentWork() {
           <div
             className="relative p-12 rounded-3xl overflow-hidden backdrop-blur-md border-t border-white/20"
             style={{
-              background: "rgba(255, 252, 248, 0.35)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+              background: "rgba(0, 0, 0, 0.45)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
             }}
           >
             {/* Decorative Elements */}
@@ -26,7 +26,7 @@ export function CurrentWork() {
               className="absolute top-0 right-0 w-64 h-64 rounded-full"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255, 217, 61, 0.2), transparent)",
+                  "radial-gradient(circle, rgba(0, 255, 65, 0.15), transparent)",
                 filter: "blur(60px)",
               }}
               animate={
@@ -48,40 +48,40 @@ export function CurrentWork() {
               <div className="flex items-center gap-3 mb-6">
                 <Sparkles
                   className="w-8 h-8"
-                  style={{ color: "var(--sunrise-gold)" }}
+                  style={{ color: "#00ff41" }}
                 />
                 <span
-                  className="text-sm font-semibold uppercase tracking-wider"
-                  style={{ color: "var(--sunrise-deep-gold)" }}
+                  className="text-xs font-[family-name:var(--font-press-start)]"
+                  style={{ color: "#00ff41" }}
                 >
                   Currently
                 </span>
               </div>
 
               <h2
-                className="text-3xl md:text-4xl font-bold mb-4 font-[family-name:var(--font-playfair)] text-shadow"
-                style={{ color: "var(--eddie-text-primary)" }}
+                className="text-lg md:text-xl font-normal mb-4 font-[family-name:var(--font-press-start)]"
+                style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
               >
                 {resumeData.currentWork.company}
               </h2>
 
               <p
-                className="text-xl mb-6 font-[family-name:var(--font-crimson)] italic text-shadow"
-                style={{ color: "var(--eddie-text-secondary)" }}
+                className="text-2xl mb-6 font-[family-name:var(--font-vt323)]"
+                style={{ color: "rgba(255, 255, 255, 0.8)" }}
               >
                 {resumeData.currentWork.tagline}
               </p>
 
               <p
-                className="text-lg leading-relaxed max-w-2xl font-[family-name:var(--font-inter)]"
-                style={{ color: "var(--eddie-text-secondary)" }}
+                className="text-xl leading-relaxed max-w-2xl font-[family-name:var(--font-vt323)]"
+                style={{ color: "rgba(255, 255, 255, 0.6)" }}
               >
                 {resumeData.currentWork.description}
               </p>
 
               <motion.div
-                className="mt-8 inline-flex items-center gap-2 text-sm font-medium"
-                style={{ color: "var(--sunrise-coral)" }}
+                className="mt-8 inline-flex items-center gap-2 text-lg font-[family-name:var(--font-vt323)]"
+                style={{ color: "#00ff41" }}
                 whileHover={prefersReducedMotion ? undefined : { x: 5 }}
               >
                 <span>Building in public</span>

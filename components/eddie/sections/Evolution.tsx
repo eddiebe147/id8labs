@@ -40,20 +40,20 @@ export function Evolution() {
           <div
             className="inline-block px-12 py-8 rounded-3xl backdrop-blur-md border-t border-white/20"
             style={{
-              background: "rgba(255, 252, 248, 0.3)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+              background: "rgba(0, 0, 0, 0.45)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
             }}
           >
             <h2
-              className="text-section font-bold font-[family-name:var(--font-playfair)] text-shadow"
-              style={{ color: "var(--eddie-text-primary)" }}
+              className="text-lg md:text-xl font-normal font-[family-name:var(--font-press-start)]"
+              style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
             >
               The Journey
             </h2>
             <p
-              className="mt-4 text-lg max-w-2xl mx-auto font-[family-name:var(--font-inter)]"
-              style={{ color: "var(--eddie-text-secondary)" }}
+              className="mt-4 text-xl max-w-2xl mx-auto font-[family-name:var(--font-vt323)]"
+              style={{ color: "rgba(255, 255, 255, 0.7)" }}
             >
               From behind the camera to shaping narratives to building tools.
               Each chapter shaped the next.
@@ -113,43 +113,43 @@ export function Evolution() {
                     <div
                       className="p-8 rounded-3xl backdrop-blur-md border-t border-white/20"
                       style={{
-                        background: "rgba(255, 252, 248, 0.35)",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+                        background: "rgba(0, 0, 0, 0.45)",
+                        border: "1px solid rgba(255, 255, 255, 0.15)",
+                        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
                       }}
                     >
                       {/* Mobile Icon */}
                       <div
                         className="w-12 h-12 rounded-full flex items-center justify-center mb-4 md:hidden"
                         style={{
-                          background:
-                            "linear-gradient(135deg, var(--sunrise-coral), var(--sunrise-peach))",
+                          background: "rgba(0, 255, 65, 0.2)",
+                          border: "1px solid #00ff41",
                         }}
                       >
-                        <Icon className="w-5 h-5 text-white" />
+                        <Icon className="w-5 h-5" style={{ color: "#00ff41" }} />
                       </div>
 
                       <span
-                        className="text-sm font-semibold uppercase tracking-wider"
-                        style={{ color: "var(--sunrise-coral)" }}
+                        className="text-xs font-[family-name:var(--font-press-start)]"
+                        style={{ color: "#00ff41" }}
                       >
                         {chapter.phase}
                       </span>
                       <h3
-                        className="text-2xl md:text-3xl font-bold mt-2 font-[family-name:var(--font-playfair)] text-shadow"
-                        style={{ color: "var(--eddie-text-primary)" }}
+                        className="text-2xl md:text-3xl mt-2 font-[family-name:var(--font-vt323)]"
+                        style={{ color: "#ffffff" }}
                       >
                         {chapter.title}
                       </h3>
                       <p
-                        className="text-sm mt-1"
-                        style={{ color: "var(--eddie-text-light)" }}
+                        className="text-lg mt-1 font-[family-name:var(--font-vt323)]"
+                        style={{ color: "rgba(255, 255, 255, 0.5)" }}
                       >
                         {chapter.years}
                       </p>
                       <p
-                        className="mt-4 leading-relaxed font-[family-name:var(--font-inter)]"
-                        style={{ color: "var(--eddie-text-secondary)" }}
+                        className="mt-4 text-lg leading-relaxed font-[family-name:var(--font-vt323)]"
+                        style={{ color: "rgba(255, 255, 255, 0.7)" }}
                       >
                         {chapter.description}
                       </p>
@@ -157,12 +157,12 @@ export function Evolution() {
                         {chapter.highlights.map((highlight, i) => (
                           <li
                             key={i}
-                            className="flex items-start gap-2 text-sm"
-                            style={{ color: "var(--eddie-text-secondary)" }}
+                            className="flex items-start gap-2 text-lg font-[family-name:var(--font-vt323)]"
+                            style={{ color: "rgba(255, 255, 255, 0.6)" }}
                           >
                             <span
                               className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
-                              style={{ background: "var(--sunrise-gold)" }}
+                              style={{ background: "#00ff41" }}
                             />
                             {highlight}
                           </li>
