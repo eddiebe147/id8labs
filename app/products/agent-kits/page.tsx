@@ -44,6 +44,7 @@ interface AgentKit {
   accentColor: string
   popular?: boolean
   origin?: string // Origin story for the kit
+  originLink?: string // Link to full origin essay
   // Detailed specs
   agents: { name: string; role: string }[]
   features: string[]
@@ -64,7 +65,8 @@ const agentKits: AgentKit[] = [
     icon: <Users className="w-6 h-6" />,
     accentColor: 'blue',
     popular: true,
-    origin: "Inspired by @PrajwalTomar_'s post about structured AI development, I went full ninja. Leo handles strategic planning and roadmaps. Donnie breaks down systems and APIs. Mikey builds beautiful UIs. Raph catches bugs and security issues. Plus the extended crew: Splinter for wisdom, Casey for DevOps, April for docs. Each agent has their turtle personality but follows proper handoff protocols. They coordinate automatically, reference each other's work, and teach best practices while you build.",
+    origin: "I kept treating Claude like one person who could do everything—and nothing connected. Then I realized: I didn't have a mental model for how dev teams work. But I understood the Ninja Turtles. Leo plans, Donnie architects, Mikey builds, Raph enforces. Familiar relationships became scaffolding for new understanding.",
+    originLink: "/essays/cowabunga-tmnt-ai-dev-team",
     agents: [
       { name: 'KRANG', role: 'Strategic Brain - Scope protection, priority management' },
       { name: 'Leonardo', role: 'Team Lead - Coordination, task delegation' },
@@ -333,8 +335,8 @@ function FullKitCard({
 
       {/* Pizza Slice for TMNT */}
       {kit.productId === 'agent-kit-tmnt' && (
-        <div className="absolute -top-3 -right-3 z-10 transform rotate-12">
-          <div className="relative text-4xl" title="Cowabunga!">
+        <div className="absolute -top-4 -right-4 z-10 transform rotate-12">
+          <div className="relative text-6xl drop-shadow-lg" title="Cowabunga!">
             🍕
           </div>
         </div>
@@ -373,7 +375,16 @@ function FullKitCard({
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xs font-semibold text-[var(--id8-orange)] uppercase tracking-wider">Origin Story</span>
             </div>
-            <p className="text-sm text-zinc-400 leading-relaxed italic">{kit.origin}</p>
+            <p className="text-sm text-zinc-400 leading-relaxed italic mb-2">{kit.origin}</p>
+            {kit.originLink && (
+              <Link
+                href={kit.originLink}
+                className="inline-flex items-center gap-1 text-sm text-[var(--id8-orange)] hover:underline"
+              >
+                Read the full story
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            )}
           </div>
         )}
 
