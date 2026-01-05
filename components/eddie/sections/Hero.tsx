@@ -35,8 +35,11 @@ export function Hero() {
       >
         {/* Name */}
         <h1
-          className="text-hero font-normal tracking-tight font-[family-name:var(--font-sixtyfour)] text-shadow"
-          style={{ color: "var(--eddie-text-primary)" }}
+          className="text-4xl md:text-5xl lg:text-6xl font-normal tracking-tight font-[family-name:var(--font-press-start)]"
+          style={{
+            color: "#00ff41",
+            textShadow: "0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 20px #00ff41",
+          }}
         >
           Eddie Belaval
         </h1>
