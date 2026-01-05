@@ -17,14 +17,14 @@ export function Skills() {
           <div
             className="inline-block px-12 py-8 rounded-3xl backdrop-blur-md border-t border-white/20"
             style={{
-              background: "rgba(255, 252, 248, 0.3)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+              background: "rgba(0, 0, 0, 0.45)",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
             }}
           >
             <h2
-              className="text-section font-bold font-[family-name:var(--font-playfair)] text-shadow"
-              style={{ color: "var(--eddie-text-primary)" }}
+              className="text-lg md:text-xl font-normal font-[family-name:var(--font-press-start)]"
+              style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
             >
               The Craft
             </h2>
@@ -39,9 +39,9 @@ export function Skills() {
                 key={cert.name}
                 className="flex items-center gap-3 px-6 py-4 rounded-2xl backdrop-blur-md border-t border-white/20"
                 style={{
-                  background: "rgba(255, 252, 248, 0.4)",
-                  border: "1px solid rgba(255, 255, 255, 0.4)",
-                  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+                  background: "rgba(0, 0, 0, 0.45)",
+                  border: "1px solid rgba(0, 255, 65, 0.3)",
+                  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
                 }}
                 initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                 whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
@@ -50,11 +50,11 @@ export function Skills() {
               >
                 <Award
                   className="w-6 h-6"
-                  style={{ color: "var(--sunrise-deep-gold)" }}
+                  style={{ color: "#00ff41" }}
                 />
                 <span
-                  className="font-semibold font-[family-name:var(--font-playfair)]"
-                  style={{ color: "var(--eddie-text-primary)" }}
+                  className="text-lg font-[family-name:var(--font-vt323)]"
+                  style={{ color: "#ffffff" }}
                 >
                   {cert.name}
                 </span>
@@ -70,24 +70,24 @@ export function Skills() {
             <div
               className="p-8 rounded-3xl h-full backdrop-blur-md border-t border-white/20"
               style={{
-                background: "rgba(255, 252, 248, 0.35)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
-                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+                background: "rgba(0, 0, 0, 0.45)",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
               }}
             >
               <div className="flex items-center gap-3 mb-6">
                 <div
                   className="p-2 rounded-lg"
-                  style={{ background: "rgba(255, 107, 107, 0.1)" }}
+                  style={{ background: "rgba(0, 255, 65, 0.1)" }}
                 >
                   <Camera
                     className="w-5 h-5"
-                    style={{ color: "var(--sunrise-coral)" }}
+                    style={{ color: "#00ff41" }}
                   />
                 </div>
                 <h3
-                  className="font-semibold font-[family-name:var(--font-playfair)] text-shadow"
-                  style={{ color: "var(--eddie-text-primary)" }}
+                  className="text-sm font-[family-name:var(--font-press-start)]"
+                  style={{ color: "#00ff41" }}
                 >
                   Production
                 </h3>
@@ -96,10 +96,10 @@ export function Skills() {
                 {resumeData.skills.map((skill, index) => (
                   <motion.span
                     key={skill}
-                    className="px-3 py-1.5 rounded-full text-sm"
+                    className="px-3 py-1.5 rounded-full text-lg font-[family-name:var(--font-vt323)]"
                     style={{
-                      background: "rgba(255, 107, 107, 0.1)",
-                      color: "var(--eddie-text-secondary)",
+                      background: "rgba(0, 255, 65, 0.1)",
+                      color: "rgba(255, 255, 255, 0.8)",
                     }}
                     initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
                     whileInView={prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }}
@@ -118,24 +118,24 @@ export function Skills() {
             <div
               className="p-8 rounded-3xl h-full backdrop-blur-md border-t border-white/20"
               style={{
-                background: "rgba(255, 252, 248, 0.35)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
-                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+                background: "rgba(0, 0, 0, 0.45)",
+                border: "1px solid rgba(255, 255, 255, 0.15)",
+                boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
               }}
             >
               <div className="flex items-center gap-3 mb-6">
                 <div
                   className="p-2 rounded-lg"
-                  style={{ background: "rgba(127, 219, 218, 0.1)" }}
+                  style={{ background: "rgba(0, 255, 65, 0.1)" }}
                 >
                   <Code
                     className="w-5 h-5"
-                    style={{ color: "var(--miami-aqua)" }}
+                    style={{ color: "#00ff41" }}
                   />
                 </div>
                 <h3
-                  className="font-semibold font-[family-name:var(--font-playfair)] text-shadow"
-                  style={{ color: "var(--eddie-text-primary)" }}
+                  className="text-sm font-[family-name:var(--font-press-start)]"
+                  style={{ color: "#00ff41" }}
                 >
                   Technology
                 </h3>
@@ -144,10 +144,10 @@ export function Skills() {
                 {resumeData.techSkills.map((skill, index) => (
                   <motion.span
                     key={skill}
-                    className="px-3 py-1.5 rounded-full text-sm"
+                    className="px-3 py-1.5 rounded-full text-lg font-[family-name:var(--font-vt323)]"
                     style={{
-                      background: "rgba(127, 219, 218, 0.1)",
-                      color: "var(--eddie-text-secondary)",
+                      background: "rgba(0, 255, 65, 0.1)",
+                      color: "rgba(255, 255, 255, 0.8)",
                     }}
                     initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
                     whileInView={prefersReducedMotion ? undefined : { opacity: 1, scale: 1 }}

@@ -22,8 +22,8 @@ export function Stats() {
               key={stat.label}
               className="text-center p-6 rounded-2xl backdrop-blur-md"
               style={{
-                background: "rgba(255, 252, 248, 0.25)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
+                background: "rgba(0, 0, 0, 0.45)",
+                border: "1px solid rgba(0, 255, 65, 0.2)",
               }}
               initial={prefersReducedMotion ? undefined : { opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -34,14 +34,14 @@ export function Stats() {
               }}
             >
               <div
-                className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-playfair)] text-shadow"
-                style={{ color: "var(--eddie-text-primary)" }}
+                className="text-3xl md:text-4xl font-[family-name:var(--font-vt323)]"
+                style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
               >
                 {stat.value}
               </div>
               <div
-                className="text-xs md:text-sm mt-1 font-[family-name:var(--font-inter)]"
-                style={{ color: "var(--eddie-text-secondary)" }}
+                className="text-lg mt-1 font-[family-name:var(--font-vt323)]"
+                style={{ color: "rgba(255, 255, 255, 0.6)" }}
               >
                 {stat.label}
               </div>
