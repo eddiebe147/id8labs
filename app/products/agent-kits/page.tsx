@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { m } from '@/components/motion'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import {
   ArrowRight,
   Check,
@@ -467,9 +468,24 @@ function FullKitCard({
 // MAIN PAGE COMPONENT
 // ============================================
 
-export default function AgentKitsPage() {
+function AgentKitsContent() {
   const [checkoutProduct, setCheckoutProduct] = useState<string | null>(null)
   const [expandedKit, setExpandedKit] = useState<string | null>(null)
+  const searchParams = useSearchParams()
+
+  // Auto-open checkout modal if redirected back from sign-in
+  useEffect(() => {
+    const checkoutParam = searchParams.get('checkout')
+    if (checkoutParam) {
+      // Validate the product ID exists
+      const validProductIds = agentKits.map(k => k.productId).concat(['agent-kit-bundle'])
+      if (validProductIds.includes(checkoutParam)) {
+        setCheckoutProduct(checkoutParam)
+        // Clean up URL without triggering a reload
+        window.history.replaceState({}, '', '/products/agent-kits')
+      }
+    }
+  }, [searchParams])
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
@@ -691,5 +707,17 @@ export default function AgentKitsPage() {
         onClose={() => setCheckoutProduct(null)}
       />
     </div>
+  )
+}
+
+export default function AgentKitsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="animate-pulse text-zinc-500">Loading...</div>
+      </div>
+    }>
+      <AgentKitsContent />
+    </Suspense>
   )
 }

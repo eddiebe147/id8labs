@@ -1,9 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, Github, Loader2, AlertCircle, Check, Package, ExternalLink } from 'lucide-react'
+import { X, Github, Loader2, AlertCircle, Check, Package, ExternalLink, LogIn } from 'lucide-react'
 import { AnimatePresence, m } from '@/components/motion'
 import { getProduct } from '@/lib/products'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
+import type { User } from '@supabase/supabase-js'
 
 interface AgentKitCheckoutProps {
   productId: string
@@ -20,8 +23,23 @@ export default function AgentKitCheckout({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isValid, setIsValid] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+  const router = useRouter()
+  const supabase = createClient()
 
   const product = getProduct(productId)
+
+  // Check auth state when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setIsCheckingAuth(true)
+      supabase.auth.getUser().then(({ data: { user } }) => {
+        setUser(user)
+        setIsCheckingAuth(false)
+      })
+    }
+  }, [isOpen, supabase.auth])
 
   // Validate GitHub username format
   useEffect(() => {
@@ -40,8 +58,16 @@ export default function AgentKitCheckout({
       setGithubUsername('')
       setError(null)
       setIsLoading(false)
+      setIsCheckingAuth(true)
     }
   }, [isOpen])
+
+  function handleSignIn() {
+    // Redirect to sign-in with return URL
+    const returnUrl = `/products/agent-kits?checkout=${productId}`
+    router.push(`/sign-in?redirect=${encodeURIComponent(returnUrl)}`)
+    onClose()
+  }
 
   async function handleCheckout() {
     if (!isValid || !product) return
@@ -124,99 +150,158 @@ export default function AgentKitCheckout({
 
               {/* Content */}
               <div className="p-6 space-y-6">
-                {/* Price */}
-                <div className="flex items-baseline justify-between">
-                  <div>
-                    <span className="text-3xl font-bold text-white">{product.priceDisplay}</span>
-                    {product.originalPrice && (
-                      <span className="ml-2 text-lg text-zinc-500 line-through">
-                        ${(product.originalPrice / 100).toFixed(0)}
-                      </span>
-                    )}
+                {/* Loading Auth State */}
+                {isCheckingAuth ? (
+                  <div className="flex items-center justify-center py-8">
+                    <Loader2 className="w-8 h-8 text-[var(--id8-orange)] animate-spin" />
                   </div>
-                  {productId === 'agent-kit-bundle' && (
-                    <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                      Save $66
-                    </span>
-                  )}
-                </div>
-
-                {/* GitHub Username Input */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-zinc-300">
-                    Your GitHub Username
-                  </label>
-                  <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">
-                      <Github className="w-5 h-5" />
+                ) : !user ? (
+                  /* Sign In Required */
+                  <>
+                    <div className="text-center py-4">
+                      <div className="mx-auto w-16 h-16 rounded-2xl bg-[var(--id8-orange)]/10 flex items-center justify-center mb-4">
+                        <LogIn className="w-8 h-8 text-[var(--id8-orange)]" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-white mb-2">Sign in to continue</h3>
+                      <p className="text-zinc-400 text-sm">
+                        Create an account or sign in to purchase {product.name}
+                      </p>
                     </div>
-                    <input
-                      type="text"
-                      value={githubUsername}
-                      onChange={(e) => setGithubUsername(e.target.value)}
-                      placeholder="username"
-                      className="w-full pl-11 pr-10 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--id8-orange)]/50 focus:ring-1 focus:ring-[var(--id8-orange)]/50 transition-all"
-                    />
-                    {githubUsername && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        {isValid ? (
-                          <Check className="w-5 h-5 text-emerald-500" />
-                        ) : (
-                          <AlertCircle className="w-5 h-5 text-amber-500" />
+
+                    {/* Price Preview */}
+                    <div className="flex items-baseline justify-center gap-2 py-4 border-y border-white/10">
+                      <span className="text-3xl font-bold text-white">{product.priceDisplay}</span>
+                      {product.originalPrice && (
+                        <span className="text-lg text-zinc-500 line-through">
+                          ${(product.originalPrice / 100).toFixed(0)}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* What's Included */}
+                    <div>
+                      <p className="text-xs text-zinc-500 uppercase tracking-wider mb-3">What you get</p>
+                      <ul className="space-y-2">
+                        {product.features.slice(0, 4).map((feature) => (
+                          <li key={feature} className="flex items-start gap-2 text-sm text-zinc-300">
+                            <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <button
+                      onClick={handleSignIn}
+                      className="w-full py-3.5 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center justify-center gap-2"
+                    >
+                      <LogIn className="w-5 h-5" />
+                      Sign In to Purchase
+                    </button>
+                    <p className="text-center text-xs text-zinc-500">
+                      You'll be redirected back here after signing in
+                    </p>
+                  </>
+                ) : (
+                  /* Authenticated - Show Checkout Form */
+                  <>
+                    {/* Price */}
+                    <div className="flex items-baseline justify-between">
+                      <div>
+                        <span className="text-3xl font-bold text-white">{product.priceDisplay}</span>
+                        {product.originalPrice && (
+                          <span className="ml-2 text-lg text-zinc-500 line-through">
+                            ${(product.originalPrice / 100).toFixed(0)}
+                          </span>
                         )}
                       </div>
+                      {productId === 'agent-kit-bundle' && (
+                        <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          Save $66
+                        </span>
+                      )}
+                    </div>
+
+                    {/* GitHub Username Input */}
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-zinc-300">
+                        Your GitHub Username
+                      </label>
+                      <div className="relative">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">
+                          <Github className="w-5 h-5" />
+                        </div>
+                        <input
+                          type="text"
+                          value={githubUsername}
+                          onChange={(e) => setGithubUsername(e.target.value)}
+                          placeholder="username"
+                          className="w-full pl-11 pr-10 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[var(--id8-orange)]/50 focus:ring-1 focus:ring-[var(--id8-orange)]/50 transition-all"
+                        />
+                        {githubUsername && (
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                            {isValid ? (
+                              <Check className="w-5 h-5 text-emerald-500" />
+                            ) : (
+                              <AlertCircle className="w-5 h-5 text-amber-500" />
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-zinc-500">
+                        We'll add you as a collaborator to access the kit repo
+                      </p>
+                    </div>
+
+                    {/* Error Message */}
+                    {error && (
+                      <div className="flex items-start gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                        <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-red-400">{error}</p>
+                      </div>
                     )}
-                  </div>
-                  <p className="text-xs text-zinc-500">
-                    We'll add you as a collaborator to access the kit repo
+
+                    {/* What's Included */}
+                    <div className="pt-4 border-t border-white/10">
+                      <p className="text-xs text-zinc-500 uppercase tracking-wider mb-3">What you get</p>
+                      <ul className="space-y-2">
+                        {product.features.slice(0, 4).map((feature) => (
+                          <li key={feature} className="flex items-start gap-2 text-sm text-zinc-300">
+                            <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Footer - Only show checkout button when authenticated */}
+              {!isCheckingAuth && user && (
+                <div className="p-6 border-t border-white/10 bg-white/[0.02]">
+                  <button
+                    onClick={handleCheckout}
+                    disabled={!isValid || isLoading}
+                    className="w-full py-3.5 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        Continue to Payment
+                        <ExternalLink className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                  <p className="text-center text-xs text-zinc-500 mt-3">
+                    Secure checkout powered by Stripe
                   </p>
                 </div>
-
-                {/* Error Message */}
-                {error && (
-                  <div className="flex items-start gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
-                    <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-red-400">{error}</p>
-                  </div>
-                )}
-
-                {/* What's Included */}
-                <div className="pt-4 border-t border-white/10">
-                  <p className="text-xs text-zinc-500 uppercase tracking-wider mb-3">What you get</p>
-                  <ul className="space-y-2">
-                    {product.features.slice(0, 4).map((feature) => (
-                      <li key={feature} className="flex items-start gap-2 text-sm text-zinc-300">
-                        <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="p-6 border-t border-white/10 bg-white/[0.02]">
-                <button
-                  onClick={handleCheckout}
-                  disabled={!isValid || isLoading}
-                  className="w-full py-3.5 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      Continue to Payment
-                      <ExternalLink className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-                <p className="text-center text-xs text-zinc-500 mt-3">
-                  Secure checkout powered by Stripe
-                </p>
-              </div>
+              )}
             </div>
           </m.div>
         </>
