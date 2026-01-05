@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { getEssayBySlug, getAllEssays } from '@/lib/essays'
 
 // Revalidate every hour to pick up scheduled posts
@@ -95,6 +96,7 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
         <div className="container">
           <div className="max-w-3xl mx-auto prose-essay">
             <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
               components={{
                 h1: ({ children }) => <h2 className="mb-6 mt-12 first:mt-0">{children}</h2>,
                 h2: ({ children }) => <h3 className="mb-4 mt-10">{children}</h3>,
@@ -108,6 +110,20 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
                 ),
                 hr: () => <hr className="my-12 border-[var(--border)]" />,
                 em: ({ children }) => <em className="italic text-[var(--text-secondary)]">{children}</em>,
+                table: ({ children }) => (
+                  <div className="overflow-x-auto mb-6">
+                    <table className="w-full border-collapse text-sm">{children}</table>
+                  </div>
+                ),
+                thead: ({ children }) => <thead className="border-b border-[var(--border)]">{children}</thead>,
+                tbody: ({ children }) => <tbody>{children}</tbody>,
+                tr: ({ children }) => <tr className="border-b border-[var(--border)]/50">{children}</tr>,
+                th: ({ children }) => (
+                  <th className="py-3 px-4 text-left font-semibold text-[var(--text-primary)]">{children}</th>
+                ),
+                td: ({ children }) => (
+                  <td className="py-3 px-4 text-[var(--text-secondary)]">{children}</td>
+                ),
               }}
             >
               {essay.content}
