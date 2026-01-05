@@ -169,6 +169,24 @@ export default function ContactPage() {
           </div>
         </section>
 
+        {/* About Me */}
+        <section className="text-center pt-8 pb-8 border-t border-[var(--border)]">
+          <h3 className="text-lg font-bold mb-4">About Me</h3>
+          <p className="text-[var(--text-secondary)] mb-6 max-w-xl mx-auto">
+            15+ years in production. Cinematographer turned Story Producer turned Tech Builder.
+          </p>
+          <Link
+            href="/eddie"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--id8-orange)] text-white font-semibold rounded-lg hover:bg-[var(--id8-orange-hover)] transition-colors"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            View Full Resume
+          </Link>
+        </section>
+
         {/* Direct Links */}
         <section className="text-center pt-8">
           <p className="text-sm text-[var(--text-secondary)] mb-4">

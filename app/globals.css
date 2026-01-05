@@ -96,6 +96,44 @@
 }
 
 /* ============================================
+   EDDIE RESUME - Miami Sunrise Theme
+   ============================================ */
+:root {
+  /* Sunrise Core - pulled from actual golden hour light */
+  --sunrise-coral: #C17767;
+  --sunrise-peach: #D4A574;
+  --sunrise-gold: #C9A86C;
+  --sunrise-pink: #D4A5A0;
+  --sunrise-amber: #C4956A;
+  --sunrise-honey: #D4B896;
+  --sunrise-deep-gold: #A67C52;
+
+  /* Eddie Resume Text */
+  --eddie-text-primary: #2C2422;
+  --eddie-text-secondary: #5C4D4A;
+  --eddie-text-light: #8B7B78;
+}
+
+/* Eddie Resume Typography */
+.text-hero {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1;
+}
+
+.text-section {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.text-shadow {
+  text-shadow: 0 2px 10px rgba(44, 36, 34, 0.3);
+}
+
+.glow-coral {
+  box-shadow: 0 0 30px rgba(193, 119, 103, 0.4);
+}
+
+/* ============================================
    BASE STYLES
    ============================================ */
 

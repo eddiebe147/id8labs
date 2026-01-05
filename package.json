@@ -41,7 +41,8 @@
     "remark-gfm": "^4.0.1",
     "resend": "^6.6.0",
     "simplex-noise": "^4.0.3",
-    "stripe": "^20.1.0"
+    "stripe": "^20.1.0",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
