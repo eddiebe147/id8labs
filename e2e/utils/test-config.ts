@@ -69,6 +69,15 @@ export const routes = {
   courses: '/courses',
   services: '/services',
   resources: '/resources',
+  // Academy routes
+  academy: '/academy',
+  academyFoundation: '/courses/ai-conversation-fundamentals',
+  academyPartnerMastery: '/academy/ai-partner-mastery',
+  academyPromptEngineering: '/academy/prompt-engineering-creators',
+  academyKnowledgeWorkers: '/courses/claude-for-knowledge-workers',
+  academyLeaders: '/academy/ai-for-leaders',
+  academyAtScale: '/academy/ai-at-scale',
+  academyPrivateAI: '/academy/private-ai',
 } as const;
 
 /**
@@ -101,4 +110,65 @@ export const testIds = {
   emailInput: 'email-input',
   submitButton: 'submit-button',
   leadMagnetModal: 'lead-magnet-modal',
+
+  // Academy
+  academyHero: 'academy-hero',
+  academyProgressBar: 'academy-progress-bar',
+  academyResumeButton: 'academy-resume-button',
+  academyCourseGrid: 'academy-course-grid',
+  academyCourseCard: 'academy-course-card',
+  academyRoadmap: 'academy-roadmap',
+  foundationGate: 'foundation-gate',
+  moduleComplete: 'module-complete',
+  moduleContent: 'module-content',
 } as const;
+
+/**
+ * Academy course data for testing
+ */
+export const academyCourses = {
+  foundation: {
+    slug: 'ai-conversation-fundamentals',
+    title: 'AI Conversation Fundamentals',
+    path: '/courses/ai-conversation-fundamentals',
+    modules: 6,
+  },
+  partnerMastery: {
+    slug: 'ai-partner-mastery',
+    title: 'AI Partner Mastery',
+    path: '/academy/ai-partner-mastery',
+    modules: 8,
+  },
+  promptEngineering: {
+    slug: 'prompt-engineering-creators',
+    title: 'Prompt Engineering for Creators',
+    path: '/academy/prompt-engineering-creators',
+    modules: 9,
+  },
+  knowledgeWorkers: {
+    slug: 'claude-for-knowledge-workers',
+    title: 'Claude for Knowledge Workers',
+    path: '/courses/claude-for-knowledge-workers',
+    modules: 10,
+  },
+  leaders: {
+    slug: 'ai-for-leaders',
+    title: 'AI for Leaders',
+    path: '/academy/ai-for-leaders',
+    modules: 8,
+  },
+  atScale: {
+    slug: 'ai-at-scale',
+    title: 'AI at Scale',
+    path: '/academy/ai-at-scale',
+    modules: 8,
+  },
+  privateAI: {
+    slug: 'private-ai',
+    title: 'Private AI',
+    path: '/academy/private-ai',
+    modules: 8,
+  },
+} as const;
+
+export const TOTAL_MODULES = 57; // Sum of all course modules

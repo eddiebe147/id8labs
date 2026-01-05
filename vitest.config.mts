@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'happy-dom',
+    environmentOptions: {
+      happyDOM: {
+        url: 'http://localhost:3000',
+      },
+    },
     globals: true,
     setupFiles: ['./tests/setup.ts'],
     include: [
