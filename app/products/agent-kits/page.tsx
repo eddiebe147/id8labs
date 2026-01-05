@@ -43,6 +43,7 @@ interface AgentKit {
   icon: React.ReactNode
   accentColor: string
   popular?: boolean
+  origin?: string // Origin story for the kit
   // Detailed specs
   agents: { name: string; role: string }[]
   features: string[]
@@ -63,6 +64,7 @@ const agentKits: AgentKit[] = [
     icon: <Users className="w-6 h-6" />,
     accentColor: 'blue',
     popular: true,
+    origin: "Inspired by @PrajwalTomar_'s post about structured AI development, I went full ninja. Leo handles strategic planning and roadmaps. Donnie breaks down systems and APIs. Mikey builds beautiful UIs. Raph catches bugs and security issues. Plus the extended crew: Splinter for wisdom, Casey for DevOps, April for docs. Each agent has their turtle personality but follows proper handoff protocols. They coordinate automatically, reference each other's work, and teach best practices while you build.",
     agents: [
       { name: 'KRANG', role: 'Strategic Brain - Scope protection, priority management' },
       { name: 'Leonardo', role: 'Team Lead - Coordination, task delegation' },
@@ -329,6 +331,22 @@ function FullKitCard({
         </div>
       )}
 
+      {/* Ninja Bandana for TMNT */}
+      {kit.productId === 'agent-kit-tmnt' && (
+        <div className="absolute -top-2 -right-2 z-10">
+          <div className="relative">
+            {/* Bandana mask shape */}
+            <div className="w-16 h-8 bg-[var(--id8-orange)] rounded-l-full transform rotate-12 shadow-lg" />
+            {/* Bandana tails */}
+            <div className="absolute top-1 -right-4 w-10 h-3 bg-[var(--id8-orange)] rounded-full transform rotate-[30deg] shadow-md" />
+            <div className="absolute top-4 -right-3 w-8 h-2.5 bg-[var(--id8-orange)]/80 rounded-full transform rotate-[45deg] shadow-md" />
+            {/* Eye holes suggestion */}
+            <div className="absolute top-2 left-3 w-2.5 h-1.5 bg-black/40 rounded-full" />
+            <div className="absolute top-2 left-7 w-2.5 h-1.5 bg-black/40 rounded-full" />
+          </div>
+        </div>
+      )}
+
       {/* Main Content */}
       <div className="p-6 md:p-8">
         {/* Header */}
@@ -355,6 +373,16 @@ function FullKitCard({
 
         {/* Description */}
         <p className="text-zinc-300 leading-relaxed mb-6">{kit.description}</p>
+
+        {/* Origin Story (if exists) */}
+        {kit.origin && (
+          <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/10 border-l-4 border-l-[var(--id8-orange)]">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs font-semibold text-[var(--id8-orange)] uppercase tracking-wider">Origin Story</span>
+            </div>
+            <p className="text-sm text-zinc-400 leading-relaxed italic">{kit.origin}</p>
+          </div>
+        )}
 
         {/* Key Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
