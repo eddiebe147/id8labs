@@ -4,9 +4,8 @@ import { useState } from 'react'
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ExternalLink, Check, Download, Package, Sparkles, Wrench, Zap, Users, Brain, Shield, Code, Database, Terminal } from 'lucide-react'
+import { ArrowRight, ExternalLink, Check, Download, Package, Sparkles, Wrench, Zap, Users, Brain, Shield, Code, Database, Terminal, Star } from 'lucide-react'
 import AgentKitCheckout from '@/components/checkout/AgentKitCheckout'
-import AgentKitOnboarding from '@/components/products/AgentKitOnboarding'
 
 // ============================================
 // FLAGSHIP PRODUCTS - Full feature showcase
@@ -109,137 +108,70 @@ interface AgentKit {
   productId: string
   name: string
   tagline: string
+  hook: string
   description: string
   price: number
-  originalPrice?: number
   agentCount: number
   icon: React.ReactNode
   features: string[]
-  included: string[]
   popular?: boolean
 }
 
-const agentKits: AgentKit[] = [
+// Featured kits for main products page (3 only)
+const featuredKits: AgentKit[] = [
   {
     productId: 'agent-kit-tmnt',
     name: 'TMNT Elite',
     tagline: '9-Agent SDK Dev Team',
-    description: 'Complete software development team built on Claude SDK. Strategic brain (KRANG), team lead, architect, creative dev, QA, DevOps, and more.',
+    hook: 'Stop hiring. Start shipping.',
+    description: 'Complete software development team built on Claude SDK. Strategic brain, architect, code review, QA, DevOps—all coordinated.',
     price: 79,
     agentCount: 9,
     icon: <Users className="w-6 h-6" />,
     popular: true,
     features: [
-      'KRANG strategic brain with scope protection',
-      'Leonardo team coordination',
-      'Donatello architecture patterns',
-      'Raphael security & code review',
-      'Splinter wisdom & mentorship',
-      'Full DevOps & QA coverage',
-    ],
-    included: [
-      '9 SDK agent configurations',
-      'Orchestration system',
-      'Pattern library',
-      'Setup documentation',
+      'Multi-agent orchestration',
+      'Scope creep protection',
+      'Automatic code review',
+      'Security scanning',
     ],
   },
   {
     productId: 'agent-kit-llc-ops',
     name: 'LLC Ops',
     tagline: '9-Agent Business Operations',
-    description: 'Replace a $50k back office. AI agents for taxes, compliance, asset protection, bookkeeping, and strategic planning.',
+    hook: 'Your $50k back office. For $49.',
+    description: 'Everything a solo founder hates doing—taxes, compliance, bookkeeping—handled by AI agents built from running a real LLC.',
     price: 49,
     agentCount: 9,
     icon: <Shield className="w-6 h-6" />,
     features: [
-      'Tax strategy & planning',
-      'Compliance monitoring',
-      'Asset protection guidance',
-      'Bookkeeping automation',
-      'Quarterly planning',
+      'Tax strategy & estimates',
+      'Compliance calendar',
       'Audit preparation',
-    ],
-    included: [
-      '9 agent prompts',
-      'CLAUDE.md framework',
-      'Slash commands',
-      'Workflow templates',
+      'Cash flow projections',
     ],
   },
   {
     productId: 'agent-kit-pipeline',
     name: 'Pipeline',
     tagline: '11-Stage Product Methodology',
-    description: 'Idea-to-exit in 11 stages. 8 AI agents handle validation through exit prep. Decay mechanics keep projects moving.',
+    hook: 'Ideas die in your notes. Ship them instead.',
+    description: 'The methodology that took ID8Labs from concept to production. Decay mechanics punish stalling. Hard gates force shipping.',
     price: 49,
     agentCount: 8,
     icon: <Code className="w-6 h-6" />,
     features: [
-      '11-stage development process',
-      'Decay mechanics for momentum',
-      'Checkpoint validation',
+      '11 stages with hard gates',
+      'Decay mechanics',
       'Scope protection',
-      'Progress tracking',
-      'Exit preparation',
-    ],
-    included: [
-      '8 stage-specific agents',
-      'PIPELINE_STATUS.md template',
-      'Decay calculation system',
-      'Gate checklists',
-    ],
-  },
-  {
-    productId: 'agent-kit-foundry',
-    name: 'Foundry',
-    tagline: 'Self-Improving Dev Framework',
-    description: 'The system that builds systems. Captures patterns, decisions, and failures across projects. Every build makes the next one faster.',
-    price: 49,
-    agentCount: 5,
-    icon: <Brain className="w-6 h-6" />,
-    features: [
-      'Pattern capture & elevation',
-      'Decision audit trails',
-      'Cross-project learning',
-      'Anti-pattern detection',
-      'Knowledge synthesis',
-      'Continuous improvement',
-    ],
-    included: [
-      '5 specialized agents',
-      'Pattern library starter',
-      'ADR templates',
-      'Learning protocols',
-    ],
-  },
-  {
-    productId: 'agent-kit-factory',
-    name: 'Factory',
-    tagline: 'Multi-AI Creative Pipeline',
-    description: 'Midjourney + Grok + Gemini in one tracked workflow. Browser automation handles the tabs. You handle taste.',
-    price: 39,
-    agentCount: 4,
-    icon: <Sparkles className="w-6 h-6" />,
-    features: [
-      'Multi-AI orchestration',
-      'Browser automation',
-      'Asset tracking',
-      'Style consistency',
-      'Batch processing',
-      'Export workflows',
-    ],
-    included: [
-      '4 orchestration agents',
-      'Automation scripts',
-      'Prompt templates',
-      'Asset organization system',
+      'Built-in accountability',
     ],
   },
 ]
 
-const bundlePrice = 199
-const bundleSavings = agentKits.reduce((sum, kit) => sum + kit.price, 0) - bundlePrice
+const totalKits = 5
+const totalAgents = 35
 
 // ============================================
 // IN DEVELOPMENT - Coming soon products
@@ -380,7 +312,7 @@ function FlagshipCard({ product, index }: { product: FlagshipProduct; index: num
   return content
 }
 
-function AgentKitCard({
+function FeaturedKitCard({
   kit,
   index,
   onPurchase,
@@ -402,8 +334,9 @@ function AgentKitCard({
       }`}
     >
       {kit.popular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-[var(--id8-orange)] text-white text-xs font-bold rounded-full">
-          MOST POPULAR
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-[var(--id8-orange)] text-white text-xs font-bold rounded-full flex items-center gap-1">
+          <Star className="w-3 h-3" />
+          POPULAR
         </div>
       )}
 
@@ -418,31 +351,23 @@ function AgentKitCard({
         </div>
       </div>
 
-      {/* Name & Description */}
+      {/* Name & Hook */}
       <h3 className="text-xl font-bold text-white mb-1">{kit.name}</h3>
-      <p className="text-sm text-[var(--id8-orange)]/80 font-medium mb-3">{kit.tagline}</p>
+      <p className="text-sm text-[var(--id8-orange)]/80 font-medium mb-2">{kit.tagline}</p>
+
+      {/* The "Sell This Pen" Hook */}
+      <p className="text-lg font-semibold text-white mb-3">"{kit.hook}"</p>
+
       <p className="text-sm text-zinc-400 leading-relaxed mb-6">{kit.description}</p>
 
       {/* Features */}
       <div className="space-y-2 mb-6 flex-grow">
-        {kit.features.slice(0, 4).map((feature) => (
+        {kit.features.map((feature) => (
           <div key={feature} className="flex items-start gap-2 text-sm text-zinc-300">
             <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
             {feature}
           </div>
         ))}
-      </div>
-
-      {/* What's Included */}
-      <div className="pt-4 border-t border-white/10 mb-6">
-        <p className="text-xs text-zinc-500 uppercase tracking-wider mb-2">Includes</p>
-        <div className="flex flex-wrap gap-2">
-          {kit.included.map((item) => (
-            <span key={item} className="px-2 py-1 text-xs bg-white/5 rounded-md text-zinc-400">
-              {item}
-            </span>
-          ))}
-        </div>
       </div>
 
       {/* CTA */}
@@ -554,63 +479,69 @@ export default function ProductsContent() {
           </div>
         </section>
 
-        {/* ===== AGENT KITS STORE ===== */}
+        {/* ===== AGENT KITS PREVIEW ===== */}
         <section className="mb-24">
           <m.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center gap-3 mb-3"
+            className="flex items-center justify-between mb-3"
           >
-            <div className="p-2 rounded-lg bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]">
-              <Package className="w-5 h-5" />
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]">
+                <Package className="w-5 h-5" />
+              </div>
+              <h2 className="text-2xl font-bold text-white">Agent Kits</h2>
+              <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] border border-[var(--id8-orange)]/20">
+                {totalKits} Kits • {totalAgents} Agents
+              </span>
             </div>
-            <h2 className="text-2xl font-bold text-white">Agent Kits</h2>
-            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] border border-[var(--id8-orange)]/20">
-              Download & Use
-            </span>
+            <Link
+              href="/products/agent-kits"
+              className="hidden md:flex items-center gap-2 text-sm text-[var(--id8-orange)] hover:gap-3 transition-all font-medium"
+            >
+              View All Kits
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </m.div>
           <p className="text-zinc-400 ml-12 mb-8">
-            Battle-tested Claude Code agent systems. Download, configure, ship.
+            Complete AI agent systems. Not prompts—production-tested frameworks.
           </p>
 
-          {/* Onboarding Guide */}
-          <AgentKitOnboarding />
+          {/* Featured Kits Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {featuredKits.map((kit, index) => (
+              <FeaturedKitCard key={kit.name} kit={kit} index={index} onPurchase={handlePurchase} />
+            ))}
+          </div>
 
-          {/* Bundle Banner */}
+          {/* View All CTA */}
           <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-8 p-6 rounded-2xl border border-[var(--id8-orange)]/30 bg-gradient-to-r from-[var(--id8-orange)]/10 to-transparent"
+            className="p-6 rounded-2xl border border-white/10 bg-white/[0.02] text-center"
           >
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div>
-                <h3 className="text-xl font-bold text-white mb-1">Complete Agent Bundle</h3>
-                <p className="text-zinc-400">All 5 kits • 35 agents • Everything you need</p>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="text-right">
-                  <div className="text-3xl font-bold text-white">${bundlePrice}</div>
-                  <div className="text-sm text-emerald-400">Save ${bundleSavings}</div>
-                </div>
-                <button
-                  onClick={() => handlePurchase('agent-kit-bundle')}
-                  className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center gap-2"
-                >
-                  Get Bundle
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
+            <p className="text-zinc-400 mb-4">
+              Plus <span className="text-white font-semibold">2 more kits</span>: Foundry (self-improving dev framework) & Factory (multi-AI creative pipeline)
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/products/agent-kits"
+                className="px-6 py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition-all flex items-center gap-2 group"
+              >
+                See All Kits & Full Specs
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <button
+                onClick={() => handlePurchase('agent-kit-bundle')}
+                className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center gap-2"
+              >
+                Get All 5 Kits for $199
+                <span className="text-xs opacity-70">(Save $66)</span>
+              </button>
             </div>
           </m.div>
-
-          {/* Kit Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {agentKits.map((kit, index) => (
-              <AgentKitCard key={kit.name} kit={kit} index={index} onPurchase={handlePurchase} />
-            ))}
-          </div>
         </section>
 
         {/* ===== IN DEVELOPMENT ===== */}
