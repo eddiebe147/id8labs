@@ -124,18 +124,18 @@ export default function AgentKitCheckout({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[9999] w-full max-w-md"
+            className="fixed inset-x-0 top-0 bottom-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
           >
-            <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+            <div className="bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden w-full max-w-md my-auto">
               {/* Header */}
-              <div className="p-6 border-b border-white/10">
+              <div className="p-4 sm:p-6 border-b border-white/10">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]">
+                    <div className="p-2 sm:p-2.5 rounded-xl bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]">
                       <Package className="w-5 h-5" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-white">{product.name}</h2>
+                      <h2 className="text-lg sm:text-xl font-bold text-white">{product.name}</h2>
                       <p className="text-sm text-zinc-400">Agent Kit</p>
                     </div>
                   </div>
@@ -149,7 +149,7 @@ export default function AgentKitCheckout({
               </div>
 
               {/* Content */}
-              <div className="p-6 space-y-6">
+              <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 {/* Loading Auth State */}
                 {isCheckingAuth ? (
                   <div className="flex items-center justify-center py-8">
@@ -158,19 +158,19 @@ export default function AgentKitCheckout({
                 ) : !user ? (
                   /* Sign In Required */
                   <>
-                    <div className="text-center py-4">
-                      <div className="mx-auto w-16 h-16 rounded-2xl bg-[var(--id8-orange)]/10 flex items-center justify-center mb-4">
-                        <LogIn className="w-8 h-8 text-[var(--id8-orange)]" />
+                    <div className="text-center py-2 sm:py-4">
+                      <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-[var(--id8-orange)]/10 flex items-center justify-center mb-3 sm:mb-4">
+                        <LogIn className="w-6 h-6 sm:w-8 sm:h-8 text-[var(--id8-orange)]" />
                       </div>
-                      <h3 className="text-xl font-semibold text-white mb-2">Sign in to continue</h3>
+                      <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Sign in to continue</h3>
                       <p className="text-zinc-400 text-sm">
                         Create an account or sign in to purchase {product.name}
                       </p>
                     </div>
 
                     {/* Price Preview */}
-                    <div className="flex items-baseline justify-center gap-2 py-4 border-y border-white/10">
-                      <span className="text-3xl font-bold text-white">{product.priceDisplay}</span>
+                    <div className="flex items-baseline justify-center gap-2 py-3 sm:py-4 border-y border-white/10">
+                      <span className="text-2xl sm:text-3xl font-bold text-white">{product.priceDisplay}</span>
                       {product.originalPrice && (
                         <span className="text-lg text-zinc-500 line-through">
                           ${(product.originalPrice / 100).toFixed(0)}
@@ -193,7 +193,7 @@ export default function AgentKitCheckout({
 
                     <button
                       onClick={handleSignIn}
-                      className="w-full py-3.5 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center justify-center gap-2"
+                      className="w-full py-3 sm:py-3.5 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center justify-center gap-2"
                     >
                       <LogIn className="w-5 h-5" />
                       Sign In to Purchase
@@ -208,7 +208,7 @@ export default function AgentKitCheckout({
                     {/* Price */}
                     <div className="flex items-baseline justify-between">
                       <div>
-                        <span className="text-3xl font-bold text-white">{product.priceDisplay}</span>
+                        <span className="text-2xl sm:text-3xl font-bold text-white">{product.priceDisplay}</span>
                         {product.originalPrice && (
                           <span className="ml-2 text-lg text-zinc-500 line-through">
                             ${(product.originalPrice / 100).toFixed(0)}
@@ -279,11 +279,11 @@ export default function AgentKitCheckout({
 
               {/* Footer - Only show checkout button when authenticated */}
               {!isCheckingAuth && user && (
-                <div className="p-6 border-t border-white/10 bg-white/[0.02]">
+                <div className="p-4 sm:p-6 border-t border-white/10 bg-white/[0.02]">
                   <button
                     onClick={handleCheckout}
                     disabled={!isValid || isLoading}
-                    className="w-full py-3.5 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-3 sm:py-3.5 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isLoading ? (
                       <>
