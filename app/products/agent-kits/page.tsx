@@ -66,7 +66,7 @@ const agentKits: AgentKit[] = [
     accentColor: 'blue',
     popular: true,
     origin: "I kept treating Claude like one person who could do everything—and nothing connected. Then I realized: I didn't have a mental model for how dev teams work. But I understood the Ninja Turtles. Leo plans, Donnie architects, Mikey builds, Raph enforces. Familiar relationships became scaffolding for new understanding.",
-    originLink: "/essays/cowabunga-tmnt-ai-dev-team",
+    originLink: "/essays/tmnt-2-from-learning-tool-to-production-beast",
     agents: [
       { name: 'KRANG', role: 'Strategic Brain - Scope protection, priority management' },
       { name: 'Leonardo', role: 'Team Lead - Coordination, task delegation' },
