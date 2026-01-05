@@ -6,8 +6,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
-import { PurchaseGate } from '@/components/PurchaseGate'
-import AuthGate from '@/components/auth/AuthGate'
 
 // Animation variants
 const fadeUp = {
@@ -184,8 +182,6 @@ const emailPatterns = [
 
 export default function Module3Page() {
   return (
-    <AuthGate moduleName="Module 3: Advanced Prompting">
-    <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 3: Advanced Prompting">
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
@@ -686,7 +682,5 @@ Turn this into a clear, structured [blog post/email/memo]. Keep my voice and exa
         </div>
       </section>
     </div>
-    </PurchaseGate>
-    </AuthGate>
   )
 }

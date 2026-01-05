@@ -5,8 +5,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
-import { PurchaseGate } from '@/components/PurchaseGate'
-import AuthGate from '@/components/auth/AuthGate'
 import { useState } from 'react'
 
 // Animation variants
@@ -176,8 +174,6 @@ const troubleshooting = [
 
 export default function Module1Page() {
   return (
-    <AuthGate moduleName="Module 1: Your First Delegation">
-    <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 1: Your First Delegation">
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
@@ -672,7 +668,5 @@ export default function Module1Page() {
         </div>
       </section>
     </div>
-    </PurchaseGate>
-    </AuthGate>
   )
 }

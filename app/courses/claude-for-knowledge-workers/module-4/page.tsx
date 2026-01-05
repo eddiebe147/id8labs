@@ -6,8 +6,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import MiniAudioPlayer from '@/components/MiniAudioPlayer'
 import MiniVideoPlayer from '@/components/MiniVideoPlayer'
-import { PurchaseGate } from '@/components/PurchaseGate'
-import AuthGate from '@/components/auth/AuthGate'
 
 // Animation variants
 const fadeUp = {
@@ -208,8 +206,6 @@ const actionPatterns = [
 
 export default function Module4Page() {
   return (
-    <AuthGate moduleName="Module 4: Automation & Efficiency">
-    <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 4: Automation & Efficiency">
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
@@ -747,7 +743,5 @@ Create a briefing covering: background, key facts, recent developments, and anyt
         </div>
       </section>
     </div>
-    </PurchaseGate>
-    </AuthGate>
   )
 }

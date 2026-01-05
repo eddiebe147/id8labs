@@ -3,7 +3,6 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import { useState } from 'react'
-import { PurchaseGate } from '@/components/PurchaseGate'
 
 // Animation variants
 const fadeUp = {
@@ -149,7 +148,6 @@ function MentorNote({ children }: { children: React.ReactNode }) {
 
 export default function Module8Page() {
   return (
-    <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 8: Managing Long Sessions">
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
@@ -721,6 +719,5 @@ Now I want to [NEXT STEP]. Let's pick up from here with a clear focus.`}
         </div>
       </section>
     </div>
-    </PurchaseGate>
   )
 }

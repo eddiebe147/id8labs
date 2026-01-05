@@ -3,7 +3,6 @@
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import { useState } from 'react'
-import { PurchaseGate } from '@/components/PurchaseGate'
 
 // Animation variants
 const fadeUp = {
@@ -167,7 +166,6 @@ function ToolCard({ name, icon, description, status }: { name: string; icon: Rea
 
 export default function Module7Page() {
   return (
-    <PurchaseGate productId="claude-for-knowledge-workers" moduleName="Module 7: Connecting Your Tools">
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-zone-text">
@@ -699,6 +697,5 @@ Compile into a research document I can use while writing.`}
         </div>
       </section>
     </div>
-    </PurchaseGate>
   )
 }
