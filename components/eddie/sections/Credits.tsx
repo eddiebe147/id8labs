@@ -35,7 +35,7 @@ export function Credits() {
             }}
           >
             <h2
-              className="text-lg md:text-xl font-normal font-[family-name:var(--font-press-start)]"
+              className="text-xl md:text-2xl font-normal font-[family-name:var(--font-press-start)]"
               style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
             >
               The Work
@@ -112,7 +112,7 @@ export function Credits() {
             }}
           >
             <h3
-              className="text-sm mb-6 font-[family-name:var(--font-press-start)]"
+              className="text-base mb-6 font-[family-name:var(--font-press-start)]"
               style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
             >
               Additional Credits
@@ -142,7 +142,7 @@ export function Credits() {
         {/* Commercial Work */}
         <ScrollReveal delay={0.4} className="mt-16">
           <h3
-            className="text-sm mb-6 text-center font-[family-name:var(--font-press-start)]"
+            className="text-base mb-6 text-center font-[family-name:var(--font-press-start)]"
             style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
           >
             Brand Collaborations

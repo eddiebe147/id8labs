@@ -23,7 +23,7 @@ export function Skills() {
             }}
           >
             <h2
-              className="text-lg md:text-xl font-normal font-[family-name:var(--font-press-start)]"
+              className="text-xl md:text-2xl font-normal font-[family-name:var(--font-press-start)]"
               style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
             >
               The Craft
@@ -86,7 +86,7 @@ export function Skills() {
                   />
                 </div>
                 <h3
-                  className="text-sm font-[family-name:var(--font-press-start)]"
+                  className="text-base font-[family-name:var(--font-press-start)]"
                   style={{ color: "#00ff41" }}
                 >
                   Production
@@ -134,7 +134,7 @@ export function Skills() {
                   />
                 </div>
                 <h3
-                  className="text-sm font-[family-name:var(--font-press-start)]"
+                  className="text-base font-[family-name:var(--font-press-start)]"
                   style={{ color: "#00ff41" }}
                 >
                   Technology

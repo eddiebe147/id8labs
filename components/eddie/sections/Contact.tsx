@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { resumeData } from "@/lib/eddie-constants";
 import { ScrollReveal } from "@/components/eddie/ui/ScrollReveal";
-import { MapPin, Mail, Globe, Linkedin } from "lucide-react";
+import { MapPin, Mail, Linkedin } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 export function Contact() {
@@ -13,12 +13,6 @@ export function Contact() {
       label: "Email",
       value: resumeData.social.email,
       href: `mailto:${resumeData.social.email}`,
-    },
-    {
-      icon: Globe,
-      label: "Website",
-      value: resumeData.social.website,
-      href: `https://${resumeData.social.website}`,
     },
     {
       icon: Linkedin,
@@ -59,7 +53,7 @@ export function Contact() {
         {/* Heading */}
         <ScrollReveal delay={0.1}>
           <h2
-            className="text-lg md:text-xl font-normal mb-4 font-[family-name:var(--font-press-start)]"
+            className="text-xl md:text-2xl font-normal mb-4 font-[family-name:var(--font-press-start)]"
             style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
           >
             Let&apos;s Connect
