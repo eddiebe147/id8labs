@@ -54,17 +54,18 @@ export function LabStoryPreview() {
           className="space-y-6 text-lg text-text-secondary leading-relaxed mb-12"
         >
           <p>
-            For 20 years, I worked as a TV producer drowning in AI outputs with
-            no way to organize them into compelling stories.
+            The bottleneck in creative work isn&apos;t generating ideas.
+            It&apos;s the cognitive load of holding complex projects in your head
+            while trying to develop them.
           </p>
           <p>
-            Every tool was built by engineers who&apos;d never faced a creative
-            deadline. They made &apos;writing assistants&apos; when we needed
-            &apos;composition platforms.&apos;
+            Every tool I saw treated AI like a magic content generator. Nobody was
+            building tools that handle the repetitive mental work so your brain
+            can operate at the level where breakthroughs happen.
           </p>
           <p className="text-text-primary font-medium">
-            So I built the lab I wished existed. Tools made by someone who
-            actually uses them. Battle-tested in real production.
+            So I built the lab I wished existed. AI as an auxiliary layer of the brain.
+            Handle the low-level work. Free up bandwidth for real thinking.
           </p>
         </m.div>
 

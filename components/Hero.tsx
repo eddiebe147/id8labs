@@ -32,7 +32,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-3xl mx-auto font-medium leading-relaxed"
           >
-            AI as thinking partner, not chatbot. Tools that compound—every session builds on the last.
+            AI as an auxiliary layer of the brain. Handle the repetitive work so there's bandwidth for real thinking.
           </m.p>
 
           {/* CTA Button */}

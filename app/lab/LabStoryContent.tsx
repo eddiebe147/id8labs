@@ -168,15 +168,16 @@ export default function LabStoryContent() {
         {/* The Problem */}
         <StickySection id="problem" title="The Problem I Couldn't Ignore">
           <p>
-            AI showed up and everyone treated it like a magic content generator. Write me a script.
-            Make me a story. Give me ten ideas. Make no mistakes.
+            AI showed up and everyone celebrated the wrong thing.
           </p>
           <p>
-            But nobody was building tools for how creative people actually work.
+            "It can write!" they said. "It can generate ideas!" As if the bottleneck in creative work
+            was ever the generation of raw material.
           </p>
           <p>
-            We don't generate and move on. We iterate. We build context over weeks and months. We refine.
-            We return to old ideas with new understanding. We need our tools to remember what we've already figured out.
+            The real bottleneck is cognitive. It's the mental load of holding a complex project in your
+            head while simultaneously trying to develop it. It's the bandwidth consumed by remembering
+            what you've already decided so you can focus on what comes next.
           </p>
           <p>
             Every AI session started the same way: re-uploading documents, re-explaining characters,
@@ -186,10 +187,16 @@ export default function LabStoryContent() {
             Context rot.
           </p>
           <p>
-            It was killing momentum and wasting creative energy on repetition instead of development.
+            But the real problem wasn't that the AI forgot. It was what that forgetting cost me:
+            creative bandwidth. Every time I had to rebuild context, that was mental energy
+            not available for actual creative work. Repetitive cognitive labor masquerading as progress.
           </p>
           <p>
-            So I built ID8Composer to solve it. That was the first product. It wasn't the last.
+            I needed tools that would handle the low-level memory work so my brain could operate
+            at the level where creative breakthroughs actually happen.
+          </p>
+          <p>
+            So I built ID8Composer. That was the first product. It wasn't the last.
           </p>
         </StickySection>
 
@@ -199,11 +206,19 @@ export default function LabStoryContent() {
             I don't build from whiteboards. I build from the field.
           </p>
           <p>
-            Every feature in every tool exists because I personally hit a wall and needed a solution right then.
-            Battle-tested in real production environments. Refined through actual creative work, not focus groups.
+            Every tool starts with friction I personally experienced. Not "wouldn't it be nice if"—but
+            "I need this right now or this project fails." Battle-tested in real production environments.
+            Refined through actual creative work, not focus groups.
           </p>
-          <p className="font-bold">
-            That's the ID8Labs difference.
+          <p>
+            The question I ask: <span className="font-bold">What cognitive work shouldn't I be doing?</span>
+          </p>
+          <p>
+            What's repetitive? What's taxing my working memory without generating insight? What could
+            a system handle so I can think about the things that actually require human judgment?
+          </p>
+          <p>
+            That's the filter. That's what makes an ID8Labs tool worth building.
           </p>
           <p>
             I see patterns across domains that other people miss. Filmmaking and mycology have more in common
@@ -212,71 +227,96 @@ export default function LabStoryContent() {
             build guardrails against your own worst instincts.
           </p>
           <p>
-            The best tools come from recognizing those connections.
+            Cross-domain pattern recognition is itself a form of cognitive leverage. Insights from one field
+            become tools in another.
           </p>
         </StickySection>
 
         {/* What This Lab Has Become */}
         <StickySection id="what-lab-became" title="What This Lab Has Become">
           <p>
-            ID8Labs started as a workshop where I solved problems that tools ignored.
-            It's grown into something more structured.
+            ID8Labs started as a workshop where I solved problems that other tools ignored.
+            It's grown into something more structured—three lanes, each targeting different
+            kinds of cognitive work to offload.
           </p>
-          <p>
-            Now there are three lanes:
-          </p>
-          <div className="pl-6 border-l-4 border-id8-orange space-y-4 rounded-subtle">
-            <p>
-              <span className="font-bold text-id8-orange">For Creators</span> — Tools that treat AI as a creative partner
-              with memory. ID8Composer is the flagship: context management, knowledge bases, writing assistance
-              that actually remembers your story world.
-            </p>
-            <p>
-              <span className="font-bold text-[#A855F7]">For Builders</span> — Developer infrastructure and research tools.
-              DeepStack for trading and predictive market research. Pipeline CLI for visual project management.
-              The tools I build to build everything else.
-            </p>
-            <p>
-              <span className="font-bold text-[#06B6D4]">For Fun</span> — Experiments. The weird stuff that might become
-              products or might just be interesting. Because not everything needs a business case to be worth building.
-            </p>
+          <div className="pl-6 border-l-4 border-id8-orange space-y-6 rounded-subtle">
+            <div>
+              <p className="font-bold text-id8-orange mb-1">For Creators</p>
+              <p className="text-[var(--text-secondary)] text-sm mb-2">Offload: context management, continuity tracking</p>
+              <p>
+                ID8Composer handles the memory work so you can focus on the creative work. Knowledge bases,
+                context persistence, writing assistance that actually remembers your story world across sessions.
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-[#A855F7] mb-1">For Builders</p>
+              <p className="text-[var(--text-secondary)] text-sm mb-2">Offload: pattern recognition, data processing</p>
+              <p>
+                DeepStack handles market analysis so you can focus on decision-making. Pipeline CLI handles
+                project state tracking so you can focus on the work itself. Infrastructure for people
+                who build things.
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-[#06B6D4] mb-1">For Fun</p>
+              <p className="text-[var(--text-secondary)] text-sm mb-2">Offload: nothing specific—this is play</p>
+              <p>
+                Experiments. The weird stuff that might become products or might just be interesting.
+                Not everything needs a business case. Sometimes you build to learn what's possible.
+              </p>
+            </div>
           </div>
           <p className="text-[var(--text-secondary)] font-medium italic">
-            Products get personality. The lab stays focused.
+            Products get personality. The lab stays focused on the thesis.
           </p>
         </StickySection>
 
         {/* The Philosophy */}
         <StickySection id="philosophy" title="The Philosophy">
-          <p className="text-2xl font-bold text-id8-orange mb-8">
-            Tools for creators. Infrastructure for builders.
+          <p className="text-2xl font-bold text-id8-orange mb-4">
+            AI as an auxiliary layer of the brain.
           </p>
-          <div>
-            <p className="font-bold text-id8-orange mb-2">AI should augment thinking, not replace it.</p>
-            <p>
-              These tools treat AI as a creative partner with functional memory—not a black box that
-              forgets everything between sessions.
-            </p>
-          </div>
-          <div>
-            <p className="font-bold text-id8-orange mb-2">Build comprehensive systems, not isolated features.</p>
-            <p>
-              A feature solves one problem. A system solves a category of problems. I'm interested in systems.
-            </p>
-          </div>
-          <div>
-            <p className="font-bold text-id8-orange mb-2">Learn by building, not by theorizing.</p>
-            <p>
-              I'm not interested in the hypothetical best way to do something. I'm interested in what
-              actually works when you're under deadline pressure with real stakes.
-            </p>
-          </div>
-          <div>
-            <p className="font-bold text-id8-orange mb-2">See the connections other people miss.</p>
-            <p>
-              Multidisciplinary thinking isn't a nice-to-have. It's the entire point. The innovations
-              happen at the intersections.
-            </p>
+          <p className="text-xl mb-8">
+            Handle the low-level repetitive work so there's bandwidth for high-level creative thinking.
+          </p>
+          <p>
+            That's the core thesis. Not AI as replacement. Not AI as magic content machine. AI as cognitive
+            extension—an additional layer of processing that handles the work your brain shouldn't waste
+            cycles on.
+          </p>
+          <p>
+            When you're building a story world, you shouldn't burn mental energy remembering what you
+            decided three weeks ago about a character's backstory. When you're analyzing markets, you
+            shouldn't spend hours on data formatting. When you're managing projects, you shouldn't
+            track decay patterns manually.
+          </p>
+          <p>
+            The brain has limited bandwidth. Every cycle spent on repetitive cognitive work is a cycle
+            not available for the creative leaps, the strategic insights, the connections that actually matter.
+          </p>
+          <p className="font-bold">
+            The tools I build are designed around this principle.
+          </p>
+          <div className="mt-8 space-y-6">
+            <div>
+              <p className="font-bold text-id8-orange mb-2">Offload context management.</p>
+              <p>
+                Let the system remember so you can focus on creating. That's what ID8Composer does.
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-id8-orange mb-2">Automate the pattern recognition.</p>
+              <p>
+                Let the system surface signals so you can focus on decisions. That's what DeepStack does.
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-id8-orange mb-2">Build systems, not features.</p>
+              <p>
+                A feature solves one problem once. A system solves categories of problems continuously.
+                The goal is compounding leverage—tools that get more valuable as you use them.
+              </p>
+            </div>
           </div>
         </StickySection>
 
@@ -287,13 +327,19 @@ export default function LabStoryContent() {
             make this the right moment to transition.
           </p>
           <p>
-            But more importantly: tools like Claude Code have arrived. For the first time, someone with
-            deep domain expertise can actually build professional software without needing to become a
-            full-time engineer first.
+            But more importantly: tools like Claude Code have arrived. Not just AI that can write—AI
+            that can be directed as a thinking extension. For the first time, someone with deep domain
+            expertise can actually build professional software by focusing on what to build while the
+            AI handles how to build it.
+          </p>
+          <p>
+            That's the thesis in action. I'm using AI as cognitive leverage to build tools that provide
+            cognitive leverage. It's recursive.
           </p>
           <p>
             I can take everything I learned in two decades of production—the problems nobody's solving,
-            the workflows nobody's optimizing, the tools that should exist but don't—and actually build them myself.
+            the workflows nobody's optimizing, the cognitive burdens nobody's offloading—and actually
+            build solutions myself.
           </p>
           <p className="font-bold">
             That's what this lab is. The convergence of twenty years of knowing what's broken and the
@@ -309,24 +355,24 @@ export default function LabStoryContent() {
         <StickySection id="shipping" title="What's Shipping">
           <div className="py-8 px-6 border border-[var(--border)] rounded-soft bg-[var(--bg-secondary)]">
             <p>
-              This lab is where I figure things out in public. The products that ship are the successful
-              experiments. The ones that don't ship are the lessons learned.
+              This lab is where I figure things out in public. Every product is a specific answer to:
+              "What cognitive work can I offload?"
             </p>
             <div className="grid gap-4 my-8">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
                 <span className="font-bold">ID8Composer v1.8161</span>
-                <span className="text-[var(--text-secondary)]">— AI writing with memory</span>
+                <span className="text-[var(--text-secondary)]">— Offloads context & continuity</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
                 <span className="font-bold">DeepStack v2.5.0</span>
-                <span className="text-[var(--text-secondary)]">— Trading & predictive market research</span>
+                <span className="text-[var(--text-secondary)]">— Offloads pattern recognition</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
                 <span className="font-bold">Pipeline CLI</span>
-                <span className="text-[var(--text-secondary)]">— Visual project dashboard</span>
+                <span className="text-[var(--text-secondary)]">— Offloads project state tracking</span>
               </div>
             </div>
             <p className="font-bold">
