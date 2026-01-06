@@ -8,8 +8,6 @@ import {
   ArrowRight,
   Check,
   Download,
-  Package,
-  Sparkles,
   Users,
   Brain,
   Shield,
@@ -24,259 +22,325 @@ import {
   Terminal,
   ChevronDown,
   Star,
+  Briefcase,
+  TrendingUp,
+  Palette,
+  Search,
+  Settings,
+  MessageSquare,
 } from 'lucide-react'
 import AgentKitCheckout from '@/components/checkout/AgentKitCheckout'
 import AgentKitOnboarding from '@/components/products/AgentKitOnboarding'
 
 // ============================================
-// AGENT KITS DATA - Full specifications
+// C-SUITE PERSONAS DATA
 // ============================================
 
-interface AgentKit {
+interface Persona {
   productId: string
   name: string
+  role: string
   tagline: string
-  hook: string // The "sell this pen" line
+  hook: string
   description: string
   price: number
-  agentCount: number
+  skillCount: number
   icon: React.ReactNode
   accentColor: string
   popular?: boolean
-  origin?: string // Origin story for the kit
-  originLink?: string // Link to full origin essay
+  voiceExample: string
   // Detailed specs
-  agents: { name: string; role: string }[]
+  coreSkills: string[]
+  mcps: { name: string; purpose: string }[]
+  plugins: string[]
+  triggers: string[]
   features: string[]
-  included: string[]
-  useCases: string[]
-  roi: string // Return on investment statement
+  perfectFor: string[]
+  roi: string
 }
 
-const agentKits: AgentKit[] = [
+const personas: Persona[] = [
   {
-    productId: 'agent-kit-tmnt',
-    name: 'TMNT Elite',
-    tagline: '9-Agent SDK Dev Team',
+    productId: 'persona-builder',
+    name: 'The Builder',
+    role: 'CTO / Technical Lead',
+    tagline: 'Ships production code',
     hook: "Stop hiring. Start shipping.",
-    description: 'A complete software development team that lives in your terminal. Strategic oversight, architecture decisions, code review, QA, DevOps—all coordinated by AI agents that actually talk to each other.',
-    price: 129,
-    agentCount: 9,
-    icon: <Users className="w-6 h-6" />,
+    description: "Your technical co-founder. 15 years of shipping production systems. Writes code that works, ships features that matter, keeps technical debt manageable. Direct, efficient, pragmatic.",
+    price: 79,
+    skillCount: 27,
+    icon: <Code className="w-6 h-6" />,
     accentColor: 'blue',
     popular: true,
-    origin: "I kept treating Claude like one person who could do everything—and nothing connected. Then I realized: I didn't have a mental model for how dev teams work. But I understood the Ninja Turtles. Leo plans, Donnie architects, Mikey builds, Raph enforces. Familiar relationships became scaffolding for new understanding.",
-    originLink: "/essays/tmnt-2-from-learning-tool-to-production-beast",
-    agents: [
-      { name: 'KRANG', role: 'Strategic Brain - Scope protection, priority management' },
-      { name: 'Leonardo', role: 'Team Lead - Coordination, task delegation' },
-      { name: 'Donatello', role: 'Architect - System design, patterns, tech decisions' },
-      { name: 'Raphael', role: 'Security & Review - Code quality, vulnerability scanning' },
-      { name: 'Michelangelo', role: 'Creative Dev - UI/UX, prototyping, experiments' },
-      { name: 'Splinter', role: 'Mentor - Best practices, learning, wisdom' },
-      { name: 'April', role: 'Communications - Docs, changelogs, user-facing copy' },
-      { name: 'Casey', role: 'DevOps - CI/CD, deployment, infrastructure' },
-      { name: 'Shredder', role: 'QA Adversary - Break things, edge cases, stress tests' },
+    voiceExample: "Here's the implementation. Three files modified. Tests passing. Ready for review.",
+    coreSkills: [
+      'Python', 'JavaScript/TypeScript', 'React', 'Node.js', 'SQL',
+      'API Integration', 'Docker', 'GitHub Actions', 'Cloud Deploy',
+      'Serverless', 'Infrastructure as Code', 'Prompt Engineering',
+      'Agent Design', 'MCP Builder', 'API Docs', 'README',
+      'Wireframes', 'Frontend Design', 'React Components', 'Landing Pages',
     ],
+    mcps: [
+      { name: 'GitHub', purpose: 'Code management, PRs, issues' },
+      { name: 'Supabase', purpose: 'Database, auth, edge functions' },
+      { name: 'Playwright', purpose: 'Testing, browser automation' },
+    ],
+    plugins: ['testing-suite', 'feature-dev', 'git-workflow'],
+    triggers: ['build', 'implement', 'code', 'deploy', 'fix', 'debug', 'test', 'API', 'database', 'architecture'],
     features: [
-      'Multi-agent orchestration with handoffs',
-      'Scope creep protection built-in',
-      'Automatic code review on every change',
-      'Architecture decision records',
-      'Security scanning integrated',
-      'Documentation generated automatically',
+      'Full-stack development (React, Node, Python)',
+      'Database design and optimization',
+      'CI/CD pipeline management',
+      'Code review and quality gates',
+      'Performance optimization',
+      'AI/ML integration',
     ],
-    included: [
-      '9 fully configured SDK agents',
-      'Orchestration system with handoff protocols',
-      'Pattern library (50+ patterns)',
-      'CLAUDE.md framework',
-      'Setup wizard for 5-minute install',
-    ],
-    useCases: [
+    perfectFor: [
       'Solo founders building MVPs',
-      'Small teams needing senior oversight',
-      'Agencies handling multiple client projects',
+      'Teams needing senior technical oversight',
       'Developers wanting code review on every commit',
     ],
     roi: 'Replaces $15-20k/month in senior developer oversight',
   },
   {
-    productId: 'agent-kit-llc-ops',
-    name: 'LLC Ops',
-    tagline: '9-Agent Business Operations',
-    hook: "Your $50k back office. For $79.",
-    description: "Everything a solo founder hates doing—taxes, compliance, bookkeeping, quarterly planning—handled by AI agents that actually understand LLC operations. Built from running a real Florida LLC.",
+    productId: 'persona-ceo',
+    name: 'The CEO',
+    role: 'Strategic Lead / Founder',
+    tagline: 'Sets the vision, makes the calls',
+    hook: "Clarity over consensus. Speed over perfection.",
+    description: "Your strategic partner. Makes decisions with incomplete information—and owns them. Sees around corners. Keeps you focused on what actually matters. Delegates ruthlessly.",
     price: 79,
-    agentCount: 9,
+    skillCount: 23,
+    icon: <Briefcase className="w-6 h-6" />,
+    accentColor: 'violet',
+    voiceExample: "Here's my decision. This aligns with our Q2 goals. Builder: ship by Friday. CMO: prep launch messaging.",
+    coreSkills: [
+      'Project Planning', 'Roadmap', 'Sprint Planning', 'OKRs',
+      'KPI Dashboard', 'Risk Assessment', 'Prioritization',
+      'Meeting Agenda', 'Decision Log', 'Strategy Framework',
+      'SWOT Analysis', 'Business Plan', 'Pitch Deck', 'One-Pager',
+    ],
+    mcps: [
+      { name: 'Memory', purpose: 'Long-term context and decisions' },
+      { name: 'Notion', purpose: 'Strategic documents, roadmaps' },
+    ],
+    plugins: ['operations-manager', 'strategic-think-tank'],
+    triggers: ['strategy', 'decision', 'priority', 'roadmap', 'vision', 'goals', 'pivot', 'focus', 'should we'],
+    features: [
+      'Strategic planning and vision setting',
+      'Priority management and resource allocation',
+      'Decision-making frameworks',
+      'Team coordination and delegation',
+      'OKR setting and tracking',
+      'Risk assessment and mitigation',
+    ],
+    perfectFor: [
+      'Founders needing strategic clarity',
+      'Teams with priority conflicts',
+      'Anyone drowning in decisions',
+    ],
+    roi: 'Ships 3-5x more by eliminating decision paralysis',
+  },
+  {
+    productId: 'persona-cfo',
+    name: 'The CFO',
+    role: 'Finance & Compliance',
+    tagline: 'Protects the money, manages the risk',
+    hook: "Your $50k back office. For $79.",
+    description: "Your financial guardian. 20 years in finance, from Big 4 to startup CFO. Protects cash, manages risk, keeps you compliant. Cautious, precise, protective.",
+    price: 79,
+    skillCount: 15,
     icon: <Shield className="w-6 h-6" />,
     accentColor: 'emerald',
-    agents: [
-      { name: 'Tax Strategist', role: 'Deduction tracking, quarterly estimates, S-Corp analysis' },
-      { name: 'Compliance Monitor', role: 'Filing deadlines, annual reports, state requirements' },
-      { name: 'Asset Protector', role: 'Liability shields, insurance review, structure optimization' },
-      { name: 'Bookkeeper', role: 'Transaction categorization, P&L, balance sheets' },
-      { name: 'Cash Flow Analyst', role: 'Runway projections, burn rate, revenue forecasting' },
-      { name: 'Quarterly Planner', role: 'OKRs, milestone tracking, strategic planning' },
-      { name: 'Audit Preparer', role: 'Documentation, evidence gathering, red flag detection' },
-      { name: 'Benefits Advisor', role: 'Retirement options, health insurance, tax-advantaged accounts' },
-      { name: 'Mentor', role: 'LLC education, decision frameworks, founder coaching' },
+    voiceExample: "Before we proceed, let me review the numbers. Runway impact: 0.8 months. Tax note: deductible under Section 179.",
+    coreSkills: [
+      'Financial Model', 'Budget Template', 'Expense Report',
+      'Invoice Processing', 'Revenue Forecast', 'NDA',
+      'Terms of Service', 'Privacy Policy', 'Contract Review',
+      'Compliance Checklist', 'Business Plan', 'Pitch Deck',
     ],
+    mcps: [
+      { name: 'Supabase', purpose: 'Financial data storage' },
+    ],
+    plugins: ['llc-ops'],
+    triggers: ['finance', 'budget', 'expense', 'tax', 'compliance', 'legal', 'contract', 'revenue', 'cost', 'runway'],
     features: [
       'Automatic expense categorization',
       'Quarterly tax estimate calculations',
       'Compliance calendar with reminders',
-      'Audit-ready documentation',
+      'Contract review and analysis',
       'Cash flow projections',
       'S-Corp election analysis',
     ],
-    included: [
-      '9 specialized business agents',
-      'CLAUDE.md with LLC context',
-      'Slash commands for common tasks',
-      'Workflow templates',
-      'Notion integration guides',
-      'Setup wizard',
-    ],
-    useCases: [
+    perfectFor: [
       'Solo founders managing their own LLC',
-      'Freelancers transitioning to LLC structure',
-      'Small business owners without a bookkeeper',
       'Anyone who hates tax season',
+      'Founders without a bookkeeper',
     ],
-    roi: 'Replaces $50k+/year in accountant, bookkeeper, and advisor fees',
+    roi: 'Replaces $50k+/year in accountant and advisor fees',
   },
   {
-    productId: 'agent-kit-pipeline',
-    name: 'Pipeline',
-    tagline: '11-Stage Product Methodology',
-    hook: "Ideas die in your notes. Ship them instead.",
-    description: "The methodology that took ID8Labs from concept to production. 11 stages with hard gates, decay mechanics that punish stalling, and 8 AI agents that keep you honest. No more half-finished projects.",
+    productId: 'persona-cmo',
+    name: 'The CMO',
+    role: 'Growth & Content',
+    tagline: 'Builds the audience, drives the growth',
+    hook: "Distribution beats creation. Every time.",
+    description: "Your growth engine. Former head of growth at a unicorn. Knows what makes content spread and campaigns convert. Energetic, creative, audience-obsessed.",
     price: 79,
-    agentCount: 8,
-    icon: <Code className="w-6 h-6" />,
-    accentColor: 'violet',
-    agents: [
-      { name: 'Concept Lock', role: 'Forces one-sentence clarity before anything else' },
-      { name: 'Scope Fence', role: 'Defines boundaries, creates "not yet" list' },
-      { name: 'Architecture Scout', role: 'Stack decisions, component mapping' },
-      { name: 'Foundation Builder', role: 'Scaffolding, auth, database, deploy pipeline' },
-      { name: 'Feature Blocker', role: 'Vertical slices only, no half-builds allowed' },
-      { name: 'Integration Tester', role: 'Connects all pieces, validates data flow' },
-      { name: 'Polish Agent', role: 'Error states, loading states, edge cases' },
-      { name: 'Launch Prep', role: 'Docs, onboarding, analytics, marketing ready' },
-    ],
-    features: [
-      '11 stages with explicit gates',
-      'Decay mechanics (projects lose points when stalled)',
-      'Checkpoint validation before advancement',
-      'PIPELINE_STATUS.md tracking',
-      'Override protocols with audit trail',
-      'Built-in scope creep detection',
-    ],
-    included: [
-      '8 stage-specific agents',
-      'PIPELINE_STATUS.md template',
-      'Decay calculation system',
-      'Gate checklists for each stage',
-      'Override documentation',
-      'Setup wizard',
-    ],
-    useCases: [
-      'Serial builders with too many unfinished projects',
-      'Teams that struggle to ship',
-      'Founders who over-engineer MVPs',
-      'Anyone who needs external accountability',
-    ],
-    roi: 'Ships 3-5x more projects by eliminating abandonment',
-  },
-  {
-    productId: 'agent-kit-foundry',
-    name: 'Foundry',
-    tagline: 'Self-Improving Dev Framework',
-    hook: "Every project you build makes the next one faster.",
-    description: "The meta-system. Captures patterns, decisions, and failures across all your projects. Learns what works for YOU specifically. After 10 projects, it knows your style better than you do.",
-    price: 79,
-    agentCount: 5,
-    icon: <Brain className="w-6 h-6" />,
-    accentColor: 'amber',
-    agents: [
-      { name: 'Pattern Extractor', role: 'Identifies reusable patterns from your code' },
-      { name: 'Decision Archaeologist', role: 'Records why you made each choice' },
-      { name: 'Anti-Pattern Detector', role: 'Catches mistakes before you repeat them' },
-      { name: 'Cross-Project Synthesizer', role: 'Connects learnings across all projects' },
-      { name: 'Evolution Tracker', role: 'Measures improvement over time' },
-    ],
-    features: [
-      'Automatic pattern extraction',
-      'Architecture Decision Records (ADRs)',
-      'Anti-pattern library with explanations',
-      'Cross-project knowledge graph',
-      'Improvement metrics over time',
-      'Personal style codification',
-    ],
-    included: [
-      '5 learning-focused agents',
-      'Pattern library starter kit',
-      'ADR templates',
-      'Knowledge graph structure',
-      'Learning protocols',
-      'Setup wizard',
-    ],
-    useCases: [
-      'Developers building multiple projects',
-      'Teams wanting institutional knowledge',
-      'Anyone tired of solving the same problems',
-      'Builders who want compounding returns',
-    ],
-    roi: 'Reduces time-to-ship by 40% after 5 projects',
-  },
-  {
-    productId: 'agent-kit-factory',
-    name: 'Factory',
-    tagline: 'Multi-AI Creative Pipeline',
-    hook: "Midjourney. Grok. Gemini. One workflow.",
-    description: "Stop tab-switching between AI tools. Factory orchestrates Midjourney, Grok, Gemini, and others in one tracked workflow. Browser automation handles the clicking. You handle the taste.",
-    price: 49,
-    agentCount: 4,
-    icon: <Sparkles className="w-6 h-6" />,
+    skillCount: 40,
+    icon: <TrendingUp className="w-6 h-6" />,
     accentColor: 'pink',
-    agents: [
-      { name: 'Orchestrator', role: 'Routes tasks to the right AI tool' },
-      { name: 'Prompt Engineer', role: 'Optimizes prompts for each platform' },
-      { name: 'Asset Tracker', role: 'Organizes outputs, maintains versions' },
-      { name: 'Style Guardian', role: 'Ensures consistency across generations' },
+    voiceExample: "This could go viral if we position it right. Here's the hook. Let's test it on Twitter first.",
+    coreSkills: [
+      'Email Composer', 'Cold Outreach', 'Newsletter', 'LinkedIn Posts',
+      'Twitter Threads', 'Instagram Captions', 'YouTube Descriptions',
+      'Blog Posts', 'Copywriting', 'Ad Copy', 'Taglines', 'Storytelling',
+      'Sales Playbook', 'Customer Persona', 'Marketing Brief', 'GTM Plan',
+      'Press Release', 'Case Study',
     ],
+    mcps: [
+      { name: 'Firecrawl', purpose: 'Web research, competitor analysis' },
+      { name: 'Playwright', purpose: 'Social media automation' },
+    ],
+    plugins: ['social-media-manager', 'content-publishing', 'x-viral-optimizer'],
+    triggers: ['marketing', 'content', 'social', 'audience', 'growth', 'brand', 'campaign', 'viral', 'launch'],
     features: [
-      'Multi-AI tool orchestration',
-      'Browser automation via Playwright',
-      'Centralized asset management',
-      'Style consistency enforcement',
-      'Batch processing support',
-      'Version tracking for iterations',
+      'Multi-platform content strategy',
+      'Viral hook crafting',
+      'Launch coordination',
+      'Email marketing automation',
+      'SEO optimization',
+      'Audience research and personas',
     ],
-    included: [
-      '4 creative orchestration agents',
-      'Playwright automation scripts',
-      'Prompt template library',
-      'Asset organization system',
-      'Platform integration guides',
-      'Setup wizard',
+    perfectFor: [
+      'Founders launching products',
+      'Teams needing content strategy',
+      'Anyone building an audience',
     ],
-    useCases: [
-      'Content creators using multiple AI tools',
-      'Designers needing consistent outputs',
-      'Marketing teams with high volume needs',
-      'Anyone drowning in browser tabs',
+    roi: 'Saves 15+ hours/week on content creation',
+  },
+  {
+    productId: 'persona-coo',
+    name: 'The COO',
+    role: 'Operations & Process',
+    tagline: 'Makes things run smoothly',
+    hook: "Good systems free people to do their best work.",
+    description: "Your operations backbone. Turns chaos into systems. Documents what works. Makes sure handoffs don't drop. Systematic, organized, process-driven.",
+    price: 49,
+    skillCount: 19,
+    icon: <Settings className="w-6 h-6" />,
+    accentColor: 'amber',
+    voiceExample: "Let me document this as an SOP for next time. Here's the process. Who owns this?",
+    coreSkills: [
+      'Project Plan', 'Roadmap', 'Sprint Planning', 'Task Breakdown',
+      'Checklist Generator', 'SOP', 'Meeting Agenda', 'Facilitation Guide',
+      'Retrospective', 'Decision Log', 'RACI Matrix',
+      'Job Description', 'Interview Questions', 'Onboarding Docs',
     ],
-    roi: 'Saves 10+ hours/week on AI tool management',
+    mcps: [
+      { name: 'Notion', purpose: 'Documentation, wikis, databases' },
+    ],
+    plugins: ['operations-manager'],
+    triggers: ['process', 'operations', 'workflow', 'SOP', 'efficiency', 'team', 'hiring', 'onboarding', 'meeting'],
+    features: [
+      'SOP creation and management',
+      'Meeting facilitation and agendas',
+      'Onboarding documentation',
+      'Process optimization',
+      'Team coordination',
+      'Retrospective facilitation',
+    ],
+    perfectFor: [
+      'Teams scaling operations',
+      'Founders tired of reinventing wheels',
+      'Anyone needing better documentation',
+    ],
+    roi: 'Reduces operational overhead by 40%',
+  },
+  {
+    productId: 'persona-creative',
+    name: 'The Creative Director',
+    role: 'Design & Media',
+    tagline: 'Shapes the look, guards the brand',
+    hook: "Good design is invisible. Great design is unforgettable.",
+    description: "Your visual guardian. Former agency creative lead. Obsessed with typography, color, and the details that make design sing. Taste-driven, precise, brand-protective.",
+    price: 49,
+    skillCount: 30,
+    icon: <Palette className="w-6 h-6" />,
+    accentColor: 'rose',
+    voiceExample: "The visual hierarchy needs work. CTA competes with headline. Here's the fix—specific hex values included.",
+    coreSkills: [
+      'Logo Concepts', 'Brand Guidelines', 'Color Palettes', 'Typography Pairing',
+      'Mood Boards', 'Infographics', 'Wireframes', 'Frontend Design',
+      'Landing Pages', 'Flowcharts', 'System Diagrams', 'Storytelling',
+      'Scripts', 'Shot List', 'Story Beats', 'Treatment',
+    ],
+    mcps: [
+      { name: 'Playwright', purpose: 'Visual testing, screenshots' },
+    ],
+    plugins: ['nana-image-generator', 'notebooklm-producer'],
+    triggers: ['design', 'visual', 'brand', 'logo', 'colors', 'typography', 'layout', 'UI', 'UX', 'aesthetic'],
+    features: [
+      'Brand identity development',
+      'UI/UX design specs',
+      'Image generation prompting',
+      'Design system creation',
+      'Visual quality review',
+      'Media production planning',
+    ],
+    perfectFor: [
+      'Teams needing brand consistency',
+      'Founders without design skills',
+      'Anyone creating visual content',
+    ],
+    roi: 'Saves $5k+/project in design costs',
+  },
+  {
+    productId: 'persona-analyst',
+    name: 'The Analyst',
+    role: 'Research & Intelligence',
+    tagline: 'Finds the truth in the data',
+    hook: "Data without context is noise. I find the signal.",
+    description: "Your research engine. Former McKinsey analyst. Turns ambiguity into clarity through research. Thorough, objective, evidence-based. Always cites sources.",
+    price: 49,
+    skillCount: 19,
+    icon: <Search className="w-6 h-6" />,
+    accentColor: 'cyan',
+    voiceExample: "The data suggests three possible interpretations. Here's what the evidence shows. Confidence: High.",
+    coreSkills: [
+      'Web Research', 'Competitive Analysis', 'Market Research',
+      'Academic Research', 'Patent Search', 'News Monitoring',
+      'Data Cleaning', 'Exploratory Analysis', 'Statistical Analysis',
+      'Sentiment Analysis', 'Trend Analysis', 'Survey Analysis',
+      'Literature Review', 'Report Synthesis', 'SWOT Analysis',
+    ],
+    mcps: [
+      { name: 'Perplexity', purpose: 'AI-powered research' },
+      { name: 'Firecrawl', purpose: 'Web scraping and research' },
+    ],
+    plugins: ['market-intelligence-analyst'],
+    triggers: ['research', 'data', 'analysis', 'market', 'competitive', 'trend', 'report', 'insights', 'study'],
+    features: [
+      'Market sizing and research',
+      'Competitive landscape analysis',
+      'Trend identification',
+      'Data synthesis and reporting',
+      'Due diligence support',
+      'Confidence-level assessments',
+    ],
+    perfectFor: [
+      'Founders entering new markets',
+      'Teams needing competitive intel',
+      'Anyone making data-driven decisions',
+    ],
+    roi: 'Saves 20+ hours/week on research',
   },
 ]
 
-const bundlePrice = 299
-const totalIndividualPrice = agentKits.reduce((sum, kit) => sum + kit.price, 0)
-const bundleSavings = totalIndividualPrice - bundlePrice
-const totalAgents = agentKits.reduce((sum, kit) => sum + kit.agentCount, 0)
+const cSuitePrice = 299
+const totalIndividualPrice = personas.reduce((sum, p) => sum + p.price, 0)
+const cSuiteSavings = totalIndividualPrice - cSuitePrice
+const totalSkills = personas.reduce((sum, p) => sum + p.skillCount, 0)
 
 // ============================================
 // COMPONENTS
@@ -296,13 +360,13 @@ function ValueProp({ icon, title, description }: { icon: React.ReactNode; title:
   )
 }
 
-function FullKitCard({
-  kit,
+function PersonaCard({
+  persona,
   onPurchase,
   isExpanded,
   onToggle,
 }: {
-  kit: AgentKit
+  persona: Persona
   onPurchase: (productId: string) => void
   isExpanded: boolean
   onToggle: () => void
@@ -313,6 +377,18 @@ function FullKitCard({
     violet: 'border-violet-500/30 bg-violet-500/5',
     amber: 'border-amber-500/30 bg-amber-500/5',
     pink: 'border-pink-500/30 bg-pink-500/5',
+    rose: 'border-rose-500/30 bg-rose-500/5',
+    cyan: 'border-cyan-500/30 bg-cyan-500/5',
+  }
+
+  const textColorMap: Record<string, string> = {
+    blue: 'text-blue-400',
+    emerald: 'text-emerald-400',
+    violet: 'text-violet-400',
+    amber: 'text-amber-400',
+    pink: 'text-pink-400',
+    rose: 'text-rose-400',
+    cyan: 'text-cyan-400',
   }
 
   return (
@@ -321,24 +397,15 @@ function FullKitCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       className={`relative rounded-2xl border transition-all ${
-        kit.popular
+        persona.popular
           ? 'border-[var(--id8-orange)]/50 shadow-[0_0_60px_-15px_rgba(255,107,0,0.4)]'
           : 'border-white/10 hover:border-white/20'
       } bg-white/[0.02]`}
     >
-      {kit.popular && (
+      {persona.popular && (
         <div className="absolute -top-3 left-6 px-3 py-1 bg-[var(--id8-orange)] text-white text-xs font-bold rounded-full flex items-center gap-1">
           <Star className="w-3 h-3" />
           MOST POPULAR
-        </div>
-      )}
-
-      {/* Pizza Slice for TMNT */}
-      {kit.productId === 'agent-kit-tmnt' && (
-        <div className="absolute -top-4 -right-4 z-10 transform rotate-12">
-          <div className="relative text-6xl drop-shadow-lg" title="Cowabunga!">
-            🍕
-          </div>
         </div>
       )}
 
@@ -347,50 +414,40 @@ function FullKitCard({
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className={`p-3 rounded-xl ${colorMap[kit.accentColor]} text-white`}>
-              {kit.icon}
+            <div className={`p-3 rounded-xl ${colorMap[persona.accentColor]} text-white`}>
+              {persona.icon}
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-white">{kit.name}</h3>
-              <p className="text-sm text-zinc-400">{kit.tagline}</p>
+              <h3 className="text-2xl font-bold text-white">{persona.name}</h3>
+              <p className="text-sm text-zinc-400">{persona.role}</p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-3xl font-bold text-white">${kit.price}</div>
-            <div className="text-xs text-zinc-500">{kit.agentCount} agents</div>
+            <div className="text-3xl font-bold text-white">${persona.price}</div>
+            <div className="text-xs text-zinc-500">{persona.skillCount} skills</div>
           </div>
         </div>
 
-        {/* Hook - The "Sell This Pen" Line */}
+        {/* Hook */}
         <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/10">
-          <p className="text-xl font-semibold text-[var(--id8-orange)]">"{kit.hook}"</p>
+          <p className="text-xl font-semibold text-[var(--id8-orange)]">"{persona.hook}"</p>
         </div>
 
         {/* Description */}
-        <p className="text-zinc-300 leading-relaxed mb-6">{kit.description}</p>
+        <p className="text-zinc-300 leading-relaxed mb-6">{persona.description}</p>
 
-        {/* Origin Story (if exists) */}
-        {kit.origin && (
-          <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/10 border-l-4 border-l-[var(--id8-orange)]">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xs font-semibold text-[var(--id8-orange)] uppercase tracking-wider">Origin Story</span>
-            </div>
-            <p className="text-sm text-zinc-400 leading-relaxed italic mb-2">{kit.origin}</p>
-            {kit.originLink && (
-              <Link
-                href={kit.originLink}
-                className="inline-flex items-center gap-1 text-sm text-[var(--id8-orange)] hover:underline"
-              >
-                Read the full story
-                <ArrowRight className="w-3 h-3" />
-              </Link>
-            )}
+        {/* Voice Example */}
+        <div className="mb-6 p-4 rounded-xl bg-white/5 border border-white/10 border-l-4 border-l-[var(--id8-orange)]">
+          <div className="flex items-center gap-2 mb-2">
+            <MessageSquare className="w-4 h-4 text-[var(--id8-orange)]" />
+            <span className="text-xs font-semibold text-[var(--id8-orange)] uppercase tracking-wider">Voice Sample</span>
           </div>
-        )}
+          <p className="text-sm text-zinc-400 leading-relaxed italic">"{persona.voiceExample}"</p>
+        </div>
 
         {/* Key Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
-          {kit.features.map((feature) => (
+          {persona.features.map((feature) => (
             <div key={feature} className="flex items-start gap-2 text-sm">
               <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
               <span className="text-zinc-300">{feature}</span>
@@ -404,7 +461,7 @@ function FullKitCard({
             <DollarSign className="w-4 h-4 text-emerald-400" />
             <span className="text-sm font-semibold text-emerald-400">Return on Investment</span>
           </div>
-          <p className="text-emerald-200 text-sm">{kit.roi}</p>
+          <p className="text-emerald-200 text-sm">{persona.roi}</p>
         </div>
 
         {/* Expand/Collapse Button */}
@@ -412,7 +469,7 @@ function FullKitCard({
           onClick={onToggle}
           className="w-full flex items-center justify-center gap-2 py-3 text-sm text-zinc-400 hover:text-white transition-colors"
         >
-          {isExpanded ? 'Hide Details' : 'Show All Agents & Specs'}
+          {isExpanded ? 'Hide Details' : 'Show Skills, MCPs & Triggers'}
           <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
         </button>
 
@@ -423,49 +480,93 @@ function FullKitCard({
             animate={{ opacity: 1, height: 'auto' }}
             className="border-t border-white/10 pt-6 mt-4"
           >
-            {/* Agents List */}
+            {/* MCPs */}
             <div className="mb-6">
               <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                <Users className="w-4 h-4 text-[var(--id8-orange)]" />
-                All {kit.agentCount} Agents
+                <Terminal className="w-4 h-4 text-[var(--id8-orange)]" />
+                MCP Integrations
               </h4>
-              <div className="space-y-3">
-                {kit.agents.map((agent) => (
-                  <div key={agent.name} className="flex items-start gap-3 p-3 rounded-lg bg-white/5">
-                    <div className="w-2 h-2 rounded-full bg-[var(--id8-orange)] mt-2 flex-shrink-0" />
+              <div className="space-y-2">
+                {persona.mcps.map((mcp) => (
+                  <div key={mcp.name} className="flex items-center gap-3 p-3 rounded-lg bg-white/5">
+                    <div className="w-2 h-2 rounded-full bg-[var(--id8-orange)] flex-shrink-0" />
                     <div>
-                      <span className="font-medium text-white">{agent.name}</span>
-                      <p className="text-sm text-zinc-400">{agent.role}</p>
+                      <span className="font-medium text-white">{mcp.name}</span>
+                      <span className="text-zinc-500 ml-2">— {mcp.purpose}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* What's Included */}
+            {/* Plugins */}
             <div className="mb-6">
               <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                <Package className="w-4 h-4 text-[var(--id8-orange)]" />
-                What's Included
+                <Layers className="w-4 h-4 text-[var(--id8-orange)]" />
+                Plugins
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {kit.included.map((item) => (
-                  <div key={item} className="flex items-center gap-2 text-sm text-zinc-300">
-                    <Check className="w-4 h-4 text-emerald-500" />
-                    {item}
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {persona.plugins.map((plugin) => (
+                  <span
+                    key={plugin}
+                    className={`px-3 py-1.5 rounded-full text-xs bg-white/5 border border-white/10 ${textColorMap[persona.accentColor]}`}
+                  >
+                    {plugin}
+                  </span>
                 ))}
               </div>
             </div>
 
-            {/* Use Cases */}
+            {/* Core Skills */}
+            <div className="mb-6">
+              <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                <Brain className="w-4 h-4 text-[var(--id8-orange)]" />
+                Core Skills ({persona.skillCount})
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {persona.coreSkills.slice(0, 12).map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-2 py-1 rounded text-xs bg-white/5 text-zinc-400"
+                  >
+                    {skill}
+                  </span>
+                ))}
+                {persona.coreSkills.length > 12 && (
+                  <span className="px-2 py-1 rounded text-xs bg-white/10 text-zinc-300">
+                    +{persona.coreSkills.length - 12} more
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Trigger Keywords */}
+            <div className="mb-6">
+              <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                <Zap className="w-4 h-4 text-[var(--id8-orange)]" />
+                Auto-Triggers
+              </h4>
+              <p className="text-xs text-zinc-500 mb-2">Automatically activates when you mention:</p>
+              <div className="flex flex-wrap gap-2">
+                {persona.triggers.map((trigger) => (
+                  <code
+                    key={trigger}
+                    className="px-2 py-1 rounded text-xs bg-zinc-800 text-zinc-300 font-mono"
+                  >
+                    {trigger}
+                  </code>
+                ))}
+              </div>
+            </div>
+
+            {/* Perfect For */}
             <div>
               <h4 className="text-sm font-semibold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                 <Target className="w-4 h-4 text-[var(--id8-orange)]" />
                 Perfect For
               </h4>
               <div className="flex flex-wrap gap-2">
-                {kit.useCases.map((useCase) => (
+                {persona.perfectFor.map((useCase) => (
                   <span
                     key={useCase}
                     className="px-3 py-1.5 rounded-full text-xs bg-white/5 border border-white/10 text-zinc-300"
@@ -480,15 +581,15 @@ function FullKitCard({
 
         {/* CTA */}
         <button
-          onClick={() => onPurchase(kit.productId)}
+          onClick={() => onPurchase(persona.productId)}
           className={`w-full mt-6 py-4 px-6 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 group ${
-            kit.popular
+            persona.popular
               ? 'bg-[var(--id8-orange)] text-white hover:bg-[var(--id8-orange)]/90'
               : 'bg-white/10 text-white hover:bg-white/20'
           }`}
         >
           <Download className="w-5 h-5" />
-          Get {kit.name}
+          Hire {persona.name}
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
@@ -502,18 +603,15 @@ function FullKitCard({
 
 function AgentKitsContent() {
   const [checkoutProduct, setCheckoutProduct] = useState<string | null>(null)
-  const [expandedKit, setExpandedKit] = useState<string | null>(null)
+  const [expandedPersona, setExpandedPersona] = useState<string | null>(null)
   const searchParams = useSearchParams()
 
-  // Auto-open checkout modal if redirected back from sign-in
   useEffect(() => {
     const checkoutParam = searchParams.get('checkout')
     if (checkoutParam) {
-      // Validate the product ID exists
-      const validProductIds = agentKits.map(k => k.productId).concat(['agent-kit-bundle'])
+      const validProductIds = personas.map(p => p.productId).concat(['c-suite-bundle'])
       if (validProductIds.includes(checkoutParam)) {
         setCheckoutProduct(checkoutParam)
-        // Clean up URL without triggering a reload
         window.history.replaceState({}, '', '/products/agent-kits')
       }
     }
@@ -523,11 +621,9 @@ function AgentKitsContent() {
     <div className="min-h-screen bg-[var(--bg-primary)]">
       {/* Hero Section */}
       <section className="relative px-6 pt-24 pb-16 overflow-hidden">
-        {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--id8-orange)]/5 via-transparent to-transparent" />
 
         <div className="relative max-w-[1200px] mx-auto">
-          {/* Back Link */}
           <Link
             href="/products"
             className="group inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-white mb-8 transition-colors"
@@ -536,7 +632,6 @@ function AgentKitsContent() {
             Back to Products
           </Link>
 
-          {/* Hero Content */}
           <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -545,41 +640,44 @@ function AgentKitsContent() {
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]">
-                <Package className="w-6 h-6" />
+                <Users className="w-6 h-6" />
               </div>
-              <span className="text-sm font-medium text-[var(--id8-orange)]">Agent Kits</span>
+              <span className="text-sm font-medium text-[var(--id8-orange)]">AI Executive Team</span>
             </div>
 
             <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
-              AI teams that actually
-              <span className="text-[var(--id8-orange)]"> work.</span>
+              Your AI
+              <span className="text-[var(--id8-orange)]"> C-Suite.</span>
             </h1>
 
-            <p className="text-xl text-zinc-400 leading-relaxed mb-8">
-              Not prompts. Not templates. Complete agent systems built from years of production use.
-              <span className="text-zinc-300"> Configure once, delegate forever.</span>
+            <p className="text-xl text-zinc-400 leading-relaxed mb-4">
+              Not just agents. <span className="text-zinc-200">Colleagues.</span>
+            </p>
+            <p className="text-lg text-zinc-400 leading-relaxed mb-8">
+              7 AI executives, each with distinct expertise, voice, and judgment.
+              Talk to them like team members. They collaborate automatically when tasks span domains.
             </p>
 
             {/* Stats */}
             <div className="flex flex-wrap gap-8 mb-8">
               <div>
-                <div className="text-3xl font-bold text-white">{totalAgents}</div>
-                <div className="text-sm text-zinc-500">Total Agents</div>
+                <div className="text-3xl font-bold text-white">7</div>
+                <div className="text-sm text-zinc-500">Executive Personas</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white">5</div>
-                <div className="text-sm text-zinc-500">Complete Kits</div>
+                <div className="text-3xl font-bold text-white">{totalSkills}+</div>
+                <div className="text-sm text-zinc-500">Bundled Skills</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white">1</div>
-                <div className="text-sm text-zinc-500">Year of Development</div>
+                <div className="text-3xl font-bold text-white">187</div>
+                <div className="text-sm text-zinc-500">Skills Coming</div>
               </div>
             </div>
           </m.div>
         </div>
       </section>
 
-      {/* Value Props Section */}
+      {/* How It Works */}
       <section className="px-6 py-16 border-y border-white/10 bg-white/[0.01]">
         <div className="max-w-[1200px] mx-auto">
           <m.h2
@@ -588,52 +686,52 @@ function AgentKitsContent() {
             viewport={{ once: true }}
             className="text-2xl font-bold text-white mb-12 text-center"
           >
-            Why Agent Kits?
+            Why Personas?
           </m.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ValueProp
-              icon={<Clock className="w-6 h-6" />}
-              title="5-Minute Setup"
-              description="Each kit includes a Setup Wizard. Claude walks you through everything—no manual configuration needed."
+              icon={<MessageSquare className="w-6 h-6" />}
+              title="Talk Like Colleagues"
+              description="'Hey Builder, implement this API.' 'CEO, should we pursue this opportunity?' Natural delegation to the right expert."
             />
             <ValueProp
-              icon={<Layers className="w-6 h-6" />}
-              title="Production-Tested"
-              description="Every kit was built to solve real problems. LLC Ops runs an actual LLC. TMNT Elite ships real software."
+              icon={<Brain className="w-6 h-6" />}
+              title="Distinct Expertise"
+              description="Each persona has specialized skills, MCPs, and judgment. The CFO thinks differently than the CMO."
             />
             <ValueProp
               icon={<GitBranch className="w-6 h-6" />}
-              title="Multi-Agent Coordination"
-              description="Agents talk to each other. The architect informs the developer. The reviewer catches what the builder missed."
-            />
-            <ValueProp
-              icon={<FileText className="w-6 h-6" />}
-              title="Complete Systems"
-              description="Not just prompts—full CLAUDE.md frameworks, slash commands, workflow templates, and documentation."
-            />
-            <ValueProp
-              icon={<Terminal className="w-6 h-6" />}
-              title="Claude Code Native"
-              description="Built specifically for Claude Code CLI. Use natural language to invoke any agent, anytime."
+              title="Auto-Collaboration"
+              description="Cross-domain tasks automatically convene the right personas. Launch a feature? Builder + CMO + CFO coordinate."
             />
             <ValueProp
               icon={<Zap className="w-6 h-6" />}
-              title="Immediate ROI"
-              description="Stop paying for senior oversight, back office, or productivity tools. One purchase, unlimited use."
+              title="Keyword Triggers"
+              description="Say 'budget' and the CFO activates. Say 'deploy' and the Builder steps up. Smart routing built-in."
+            />
+            <ValueProp
+              icon={<FileText className="w-6 h-6" />}
+              title="187 Skills Included"
+              description="Full skill marketplace access. Each persona comes equipped with 15-40 relevant skills from the library."
+            />
+            <ValueProp
+              icon={<Clock className="w-6 h-6" />}
+              title="5-Minute Setup"
+              description="Drop the persona files in ~/.claude/personas/. Instant access to your entire executive team."
             />
           </div>
         </div>
       </section>
 
-      {/* Onboarding Section */}
+      {/* Onboarding */}
       <section className="px-6 py-16">
         <div className="max-w-[1200px] mx-auto">
           <AgentKitOnboarding />
         </div>
       </section>
 
-      {/* Bundle Banner */}
+      {/* C-Suite Bundle Banner */}
       <section className="px-6 pb-8">
         <div className="max-w-[1200px] mx-auto">
           <m.div
@@ -645,25 +743,25 @@ function AgentKitsContent() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Package className="w-5 h-5 text-[var(--id8-orange)]" />
+                  <Users className="w-5 h-5 text-[var(--id8-orange)]" />
                   <span className="text-sm font-semibold text-[var(--id8-orange)] uppercase tracking-wider">Best Value</span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Complete Agent Bundle</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">Full C-Suite</h3>
                 <p className="text-zinc-400">
-                  All 5 kits • {totalAgents} agents • Everything you need to build, ship, and run a business
+                  All 7 personas • {totalSkills}+ skills • Auto-collaboration mode • Complete executive team
                 </p>
               </div>
               <div className="flex items-center gap-6">
                 <div className="text-right">
                   <div className="text-sm text-zinc-500 line-through">${totalIndividualPrice}</div>
-                  <div className="text-4xl font-bold text-white">${bundlePrice}</div>
-                  <div className="text-sm font-semibold text-emerald-400">Save ${bundleSavings}</div>
+                  <div className="text-4xl font-bold text-white">${cSuitePrice}</div>
+                  <div className="text-sm font-semibold text-emerald-400">Save ${cSuiteSavings}</div>
                 </div>
                 <button
-                  onClick={() => setCheckoutProduct('agent-kit-bundle')}
+                  onClick={() => setCheckoutProduct('c-suite-bundle')}
                   className="px-8 py-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center gap-2 group"
                 >
-                  Get Bundle
+                  Hire the Team
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
@@ -672,7 +770,7 @@ function AgentKitsContent() {
         </div>
       </section>
 
-      {/* All Kits Section */}
+      {/* All Personas */}
       <section className="px-6 py-16">
         <div className="max-w-[1200px] mx-auto">
           <m.h2
@@ -681,20 +779,64 @@ function AgentKitsContent() {
             viewport={{ once: true }}
             className="text-2xl font-bold text-white mb-8"
           >
-            All Agent Kits
+            Meet the Team
           </m.h2>
 
           <div className="space-y-8">
-            {agentKits.map((kit) => (
-              <FullKitCard
-                key={kit.productId}
-                kit={kit}
+            {personas.map((persona) => (
+              <PersonaCard
+                key={persona.productId}
+                persona={persona}
                 onPurchase={setCheckoutProduct}
-                isExpanded={expandedKit === kit.productId}
-                onToggle={() => setExpandedKit(expandedKit === kit.productId ? null : kit.productId)}
+                isExpanded={expandedPersona === persona.productId}
+                onToggle={() => setExpandedPersona(expandedPersona === persona.productId ? null : persona.productId)}
               />
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Org Chart */}
+      <section className="px-6 py-16 border-t border-white/10">
+        <div className="max-w-[800px] mx-auto">
+          <m.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h2 className="text-2xl font-bold text-white mb-4">
+              They Work Together
+            </h2>
+            <p className="text-zinc-400 mb-8">
+              The CEO coordinates. The Builder implements. The CFO reviews costs.
+              <br />
+              Auto-collaboration for cross-domain tasks.
+            </p>
+
+            {/* Simple Org Chart */}
+            <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+              <pre className="text-xs md:text-sm text-zinc-400 font-mono leading-relaxed">
+{`                    ┌─────────────┐
+                    │   The CEO   │
+                    └──────┬──────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   ┌────▼────┐       ┌─────▼─────┐      ┌─────▼─────┐
+   │ Builder │       │    CMO    │      │    CFO    │
+   └────┬────┘       └─────┬─────┘      └───────────┘
+        │                  │
+   ┌────▼────┐       ┌─────▼─────┐
+   │Creative │       │  Analyst  │
+   └─────────┘       └───────────┘
+
+        ┌─────────────┐
+        │    COO      │ (Cross-functional)
+        └─────────────┘`}
+              </pre>
+            </div>
+          </m.div>
         </div>
       </section>
 
@@ -707,25 +849,25 @@ function AgentKitsContent() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl font-bold text-white mb-4">
-              Still deciding?
+              Start with one. Scale to seven.
             </h2>
             <p className="text-zinc-400 mb-8">
-              Start with LLC Ops or Pipeline at $79. See how it transforms your workflow.
+              Most founders start with The Builder + The CEO.
               <br />
-              Then grab the bundle when you're ready for the full stack.
+              Add personas as your needs grow.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
-                onClick={() => setCheckoutProduct('agent-kit-llc-ops')}
+                onClick={() => setCheckoutProduct('persona-builder')}
                 className="px-6 py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition-all"
               >
-                Start with LLC Ops ($79)
+                Start with The Builder ($79)
               </button>
               <button
-                onClick={() => setCheckoutProduct('agent-kit-bundle')}
+                onClick={() => setCheckoutProduct('c-suite-bundle')}
                 className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all"
               >
-                Get the Bundle ($299)
+                Hire Full C-Suite ($299)
               </button>
             </div>
           </m.div>
