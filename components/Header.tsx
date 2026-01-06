@@ -65,28 +65,22 @@ export default function Header() {
                     <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">New</span>
                     <div>
                       <p className="font-medium text-sm">Prompt Engineering for Creators</p>
-                      <p className="text-xs text-[var(--text-tertiary)]">9 modules • Free</p>
+                      <p className="text-xs text-[var(--text-tertiary)]">9 modules • Better prompts & outputs</p>
                     </div>
                   </Link>
                   <Link
                     href="/academy/ai-partner-mastery"
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
+                    className="block px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
-                    <div>
-                      <p className="font-medium text-sm">AI Partner Mastery</p>
-                      <p className="text-xs text-[var(--text-tertiary)]">8 modules • Work with AI daily</p>
-                    </div>
+                    <p className="font-medium text-sm">AI Partner Mastery</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">8 modules • Work with AI daily</p>
                   </Link>
                   <Link
                     href="/courses/claude-for-knowledge-workers"
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
+                    className="block px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
-                    <div>
-                      <p className="font-medium text-sm">Claude Code for Knowledge Workers</p>
-                      <p className="text-xs text-[var(--text-tertiary)]">10 modules • Full delegation course</p>
-                    </div>
+                    <p className="font-medium text-sm">Claude Code for Knowledge Workers</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">10 modules • Full delegation course</p>
                   </Link>
 
                   <div className="my-2 mx-4 h-px bg-[var(--border)]" />
@@ -97,33 +91,24 @@ export default function Header() {
                   </div>
                   <Link
                     href="/academy/ai-for-leaders"
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
+                    className="block px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
-                    <div>
-                      <p className="font-medium text-sm">AI for Leaders</p>
-                      <p className="text-xs text-[var(--text-tertiary)]">8 modules • Strategic adoption</p>
-                    </div>
+                    <p className="font-medium text-sm">AI for Leaders</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">8 modules • Strategic adoption</p>
                   </Link>
                   <Link
                     href="/academy/ai-at-scale"
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
+                    className="block px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
-                    <div>
-                      <p className="font-medium text-sm">AI at Scale</p>
-                      <p className="text-xs text-[var(--text-tertiary)]">8 modules • Team adoption</p>
-                    </div>
+                    <p className="font-medium text-sm">AI at Scale</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">8 modules • Team adoption</p>
                   </Link>
                   <Link
                     href="/academy/private-ai"
-                    className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
+                    className="block px-4 py-2.5 hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">Free</span>
-                    <div>
-                      <p className="font-medium text-sm">Private AI</p>
-                      <p className="text-xs text-[var(--text-tertiary)]">8 modules • Security & compliance</p>
-                    </div>
+                    <p className="font-medium text-sm">Private AI</p>
+                    <p className="text-xs text-[var(--text-tertiary)]">8 modules • Security & compliance</p>
                   </Link>
 
                   <div className="my-2 mx-4 h-px bg-[var(--border)]" />
@@ -226,22 +211,21 @@ export default function Header() {
               <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-4 pt-2">For Individuals</p>
               <Link
                 href="/academy/prompt-engineering-creators"
-                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-green-500 text-white rounded">New</span>
                 Prompt Engineering
               </Link>
               <Link
                 href="/academy/ai-partner-mastery"
-                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 AI Partner Mastery
               </Link>
               <Link
                 href="/courses/claude-for-knowledge-workers"
-                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Claude Code Course
@@ -250,21 +234,21 @@ export default function Header() {
               <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-4 pt-2">For Organizations</p>
               <Link
                 href="/academy/ai-for-leaders"
-                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 AI for Leaders
               </Link>
               <Link
                 href="/academy/ai-at-scale"
-                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 AI at Scale
               </Link>
               <Link
                 href="/academy/private-ai"
-                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Private AI
