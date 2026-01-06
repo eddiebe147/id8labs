@@ -224,7 +224,7 @@ export default function AcademyPage() {
               variants={fadeUp}
               className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-2xl mb-8 leading-relaxed"
             >
-              Not another abstract tutorial. Learn prompt engineering and AI workflows through real scenarios from writers, content creators, and indie makers.
+              Not another abstract tutorial. Learn prompt engineering and AI workflows through real scenarios from writers, content creators, and indie makers. All courses free.
             </m.p>
 
             {/* Progress Bar for logged-in users */}
