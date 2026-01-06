@@ -18,7 +18,8 @@
     "queue:list": "npx tsx scripts/content-queue.ts list",
     "queue:stats": "npx tsx scripts/content-queue.ts stats",
     "queue:process": "npx tsx scripts/content-queue.ts process",
-    "queue:next": "npx tsx scripts/content-queue.ts next"
+    "queue:next": "npx tsx scripts/content-queue.ts next",
+    "import:skills": "npx tsx scripts/import-skills-from-manifest.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
