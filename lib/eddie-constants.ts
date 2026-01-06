@@ -192,14 +192,14 @@ export const resumeData = {
         network: "Discovery",
         role: "Camera Operator",
         years: "",
-        featured: false,
+        featured: true,
       },
       {
         title: "High on the Hog",
-        network: "A&E",
+        network: "Netflix",
         role: "Camera Operator",
         years: "",
-        featured: false,
+        featured: true,
       },
     ],
     scripted: [
