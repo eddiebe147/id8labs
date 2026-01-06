@@ -64,7 +64,7 @@ export const resumeData = {
       description:
         "Moving from behind the camera to shaping the narrative. Years of watching human behavior through a lens taught me what makes stories resonate—authenticity, tension, and emotional truth.",
       highlights: [
-        "90 Day Fiance: The Other Way (TLC) - Produced storylines across international locations",
+        "90 Day Fiancé: Diaries/The Other Way/HEA (TLC) - Produced storylines across international locations",
         "Developed character arcs and narrative beats for multi-episode story threads",
         "Bridged technical crew and creative vision as someone who'd done both",
       ],
@@ -111,10 +111,10 @@ export const resumeData = {
   credits: {
     realityTV: [
       {
-        title: "90 Day Fiance: The Other Way",
+        title: "90 Day Fiancé: Diaries/The Other Way/HEA",
         network: "TLC",
         role: "Story Producer",
-        years: "2019-2021",
+        years: "2021-present",
         featured: true,
       },
       {
