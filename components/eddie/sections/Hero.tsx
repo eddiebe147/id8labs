@@ -49,7 +49,7 @@ export function Hero() {
           <AnimatePresence mode="wait">
             <motion.p
               key={titleIndex}
-              className="text-sm md:text-base font-normal text-center font-[family-name:var(--font-press-start)]"
+              className="text-base md:text-lg font-normal text-center font-[family-name:var(--font-press-start)]"
               style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
               initial={prefersReducedMotion ? undefined : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

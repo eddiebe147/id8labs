@@ -51,7 +51,7 @@ export function CurrentWork() {
                   style={{ color: "#00ff41" }}
                 />
                 <span
-                  className="text-xs font-[family-name:var(--font-press-start)]"
+                  className="text-sm font-[family-name:var(--font-press-start)]"
                   style={{ color: "#00ff41" }}
                 >
                   Currently
@@ -59,7 +59,7 @@ export function CurrentWork() {
               </div>
 
               <h2
-                className="text-lg md:text-xl font-normal mb-4 font-[family-name:var(--font-press-start)]"
+                className="text-xl md:text-2xl font-normal mb-4 font-[family-name:var(--font-press-start)]"
                 style={{ color: "#00ff41", textShadow: "0 0 5px #00ff41" }}
               >
                 {resumeData.currentWork.company}

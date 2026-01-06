@@ -303,8 +303,7 @@ export const resumeData = {
   },
 
   social: {
-    email: "eddie.belaval@gmail.com",
-    website: "eddiebelaval.com",
+    email: "eb@id8labs.tech",
     linkedin: "linkedin.com/in/eddiebelaval",
   },
 } as const;
