@@ -23,7 +23,7 @@ export default function Header() {
             </Link>
             <Link href="/skills" className="text-base hover:text-[var(--id8-orange)] transition-colors flex items-center gap-1.5">
               <span className="text-lg">⚡</span>
-              Skills
+              StackShack
             </Link>
             <Link href="/services" className="text-base hover:opacity-70 transition-opacity">
               Services
@@ -191,7 +191,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="text-xl">⚡</span>
-              Skills Marketplace
+              StackShack
             </Link>
             <Link
               href="/services"

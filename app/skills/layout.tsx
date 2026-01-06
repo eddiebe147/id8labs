@@ -2,15 +2,15 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Skills Marketplace | ID8Labs',
-    default: 'Skills Marketplace | ID8Labs',
+    template: '%s | StackShack | ID8Labs',
+    default: 'StackShack | ID8Labs',
   },
   description:
-    'Discover 187+ production-quality Claude Code skills. Search, install, and build your custom AI workflow stack.',
+    'Free skills & agents for Claude Code. 228+ tools to build your AI workflow stack.',
   openGraph: {
-    title: 'Skills Marketplace | ID8Labs',
+    title: 'StackShack | Free Skills & Agents for Claude',
     description:
-      'Discover 187+ production-quality Claude Code skills. Search, install, and build your custom AI workflow stack.',
+      'Free skills & agents for Claude Code. 228+ tools to build your AI workflow stack.',
     type: 'website',
   },
 }

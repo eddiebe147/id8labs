@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: skill.name,
     description: skill.description,
     openGraph: {
-      title: `${skill.name} | Skills Marketplace`,
+      title: `${skill.name} | StackShack`,
       description: skill.description,
       type: 'article',
     },

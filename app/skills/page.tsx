@@ -49,26 +49,25 @@ export default async function SkillsMarketplacePage() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] rounded-full text-sm font-medium">
               <Package className="w-4 h-4" />
-              {counts.published}+ Skills Available
+              {counts.published}+ Skills & Agents
             </div>
 
-            {/* Title */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-              Skills{' '}
-              <span className="text-gradient-orange">Marketplace</span>
+            {/* StackShack Logo */}
+            <h1 className="text-3xl md:text-5xl lg:text-6xl mb-6" style={{ fontFamily: 'var(--font-press-start)' }}>
+              <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">STACK</span>
+              <span className="text-[#FF6B00] drop-shadow-[0_0_20px_#FF6B00]">SHACK</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-xl md:text-2xl text-[var(--text-secondary)] mb-10 max-w-2xl mx-auto">
-              Production-quality Claude Code skills. Search, install, and build
-              your custom AI workflow stack.
+              Free skills & agents for Claude Code. Build your stack.
             </p>
 
             {/* Search Bar */}
             <div className="flex justify-center mb-8">
               <Suspense fallback={<SearchBarSkeleton />}>
                 <SkillSearchBar
-                  placeholder={`Search ${counts.published}+ skills...`}
+                  placeholder={`Search ${counts.published}+ skills & agents...`}
                   autoFocus
                 />
               </Suspense>
@@ -220,11 +219,10 @@ export default async function SkillsMarketplacePage() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to supercharge your workflow?
+              Build your stack. Ship faster.
             </h2>
             <p className="text-xl text-[var(--text-secondary)] mb-8">
-              Start building your custom skill stack today. It&apos;s free and
-              takes just seconds to install.
+              All skills and agents are 100% free. Install in seconds.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/skills/starter-kits" className="btn btn-primary">
