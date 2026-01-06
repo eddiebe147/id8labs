@@ -44,8 +44,6 @@ const coursesCatalog = [
     description: 'Start here. Learn how to think about AI conversations before touching any tools. The mental models that make every AI interaction more effective.',
     modules: 6,
     duration: '45 min',
-    price: 'Free',
-    priceColor: 'bg-green-500',
     href: '/courses/ai-conversation-fundamentals',
     isFoundation: true,
     features: [
@@ -62,8 +60,6 @@ const coursesCatalog = [
     description: 'Go beyond prompts. Learn to work with AI as a partner in your daily workflow. Real collaboration techniques for knowledge workers.',
     modules: 8,
     duration: '8 modules',
-    price: 'Free',
-    priceColor: 'bg-green-500',
     href: '/academy/ai-partner-mastery',
     isFoundation: false,
     features: [
@@ -80,8 +76,6 @@ const coursesCatalog = [
     description: 'Learn the 9 techniques that make every AI conversation more effective - through real examples from writers, content creators, and indie makers.',
     modules: 9,
     duration: '9 modules',
-    price: 'Free',
-    priceColor: 'bg-green-500',
     href: '/academy/prompt-engineering-creators',
     isFoundation: false,
     isNew: true,
@@ -99,8 +93,6 @@ const coursesCatalog = [
     description: 'Complete 10-module course teaching non-programmers how to use Claude Code. No coding required - just delegation. From file processing to building your operating system.',
     modules: 10,
     duration: '10 modules',
-    price: 'Free',
-    priceColor: 'bg-green-500',
     href: '/courses/claude-for-knowledge-workers',
     isFoundation: false,
     features: [
@@ -117,8 +109,6 @@ const coursesCatalog = [
     description: 'Strategic decision-making for leaders adopting AI. From vision to execution, governance to change management.',
     modules: 8,
     duration: '8 modules',
-    price: 'Free',
-    priceColor: 'bg-green-500',
     href: '/academy/ai-for-leaders',
     isFoundation: false,
     features: [
@@ -135,8 +125,6 @@ const coursesCatalog = [
     description: 'Scale AI across your organization. Processes, standards, measurement, and sustainable team adoption.',
     modules: 8,
     duration: '8 modules',
-    price: 'Free',
-    priceColor: 'bg-green-500',
     href: '/academy/ai-at-scale',
     isFoundation: false,
     features: [
@@ -153,8 +141,6 @@ const coursesCatalog = [
     description: 'Data privacy, security, and compliance for AI adoption. Protect your data while leveraging AI capabilities.',
     modules: 8,
     duration: '8 modules',
-    price: 'Free',
-    priceColor: 'bg-green-500',
     href: '/academy/private-ai',
     isFoundation: false,
     features: [
@@ -177,8 +163,8 @@ const differentiators = [
     description: '20+ years in film production taught me systems. Now I translate AI into practical workflows.',
   },
   {
-    title: 'Everything free, no catches',
-    description: 'All 57 modules across 7 courses are completely free. Learn at your own pace.',
+    title: 'No paywalls, no upsells',
+    description: 'All 57 modules across 7 courses. No gated content. Learn at your own pace.',
   },
   {
     title: 'Pathways, not random courses',
@@ -238,7 +224,7 @@ export default function AcademyPage() {
               variants={fadeUp}
               className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-2xl mb-8 leading-relaxed"
             >
-              Not another abstract tutorial. Learn prompt engineering and AI workflows through real scenarios from writers, content creators, and indie makers. Start free.
+              Not another abstract tutorial. Learn prompt engineering and AI workflows through real scenarios from writers, content creators, and indie makers.
             </m.p>
 
             {/* Progress Bar for logged-in users */}
@@ -297,13 +283,13 @@ export default function AcademyPage() {
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="flex-1">
                     <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-2">
-                      Free Account
+                      Your Account
                     </p>
                     <h3 className="text-2xl font-bold mb-3">
                       Sign in to track your progress
                     </h3>
                     <p className="text-[var(--text-secondary)] mb-4">
-                      Create a free account to unlock the full learning experience.
+                      Create an account to unlock the full learning experience.
                     </p>
 
                     <ul className="space-y-3 mb-6">
@@ -359,7 +345,7 @@ export default function AcademyPage() {
                       href="/auth/signup?redirect=/academy"
                       className="btn bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] hover:border-id8-orange/50 text-center"
                     >
-                      Create Free Account
+                      Create Account
                     </Link>
                     <p className="text-xs text-[var(--text-tertiary)] text-center">
                       No credit card required
@@ -383,7 +369,7 @@ export default function AcademyPage() {
               All courses. All modules. Your journey.
             </h2>
             <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-              7 courses, 57 total modules covering everything from AI fundamentals to organizational scaling. Most are free.
+              7 courses, 57 total modules covering everything from AI fundamentals to organizational scaling.
             </p>
           </div>
 
@@ -400,14 +386,9 @@ export default function AcademyPage() {
                 <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-tertiary)]">
                   {coursesCatalog[0].subtitle}
                 </span>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-1 text-xs font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
-                    Start Here
-                  </span>
-                  <span className={`px-2 py-1 text-xs font-mono uppercase tracking-wider ${coursesCatalog[0].priceColor} text-white rounded`}>
-                    {coursesCatalog[0].price}
-                  </span>
-                </div>
+                <span className="px-2 py-1 text-xs font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
+                  Start Here
+                </span>
               </div>
 
               <div className="grid lg:grid-cols-2 gap-6 items-center">
@@ -470,16 +451,11 @@ export default function AcademyPage() {
                   <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-tertiary)]">
                     {course.subtitle}
                   </span>
-                  <div className="flex items-center gap-2">
-                    {course.isNew && (
-                      <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
-                        New
-                      </span>
-                    )}
-                    <span className={`px-2 py-1 text-xs font-mono uppercase tracking-wider ${course.priceColor} text-white rounded`}>
-                      {course.price}
+                  {course.isNew && (
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange/20 text-id8-orange rounded">
+                      New
                     </span>
-                  </div>
+                  )}
                 </div>
 
                 <h3 className="text-xl font-bold mb-2">{course.title}</h3>
@@ -503,13 +479,9 @@ export default function AcademyPage() {
 
                 <Link
                   href={course.href}
-                  className={`btn text-center group inline-flex items-center justify-center gap-2 ${
-                    course.priceColor === 'bg-green-500'
-                      ? 'bg-green-500 text-white hover:bg-green-600'
-                      : 'btn-primary'
-                  }`}
+                  className="btn btn-primary text-center group inline-flex items-center justify-center gap-2"
                 >
-                  {course.price === 'Free' ? 'Start Free' : 'Learn More'}
+                  Start Course
                   <ArrowRightIcon />
                 </Link>
               </m.div>
@@ -587,10 +559,10 @@ export default function AcademyPage() {
         <div className="container relative">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-              Start with free foundations
+              Start with foundations
             </h2>
             <p className="text-xl text-[var(--text-secondary)] mb-10">
-              The best way to learn AI is to use it. Our free courses give you the mental models - then you practice with your own work.
+              The best way to learn AI is to use it. Get the mental models first, then practice with your own work.
             </p>
 
             <Link
@@ -602,7 +574,7 @@ export default function AcademyPage() {
             </Link>
 
             <p className="mt-6 text-sm font-mono text-[var(--text-tertiary)]">
-              Free. 6 modules. 45 minutes. Unlock everything.
+              6 modules. 45 minutes. Unlocks everything.
             </p>
           </div>
         </div>
