@@ -70,26 +70,26 @@ export function Credits() {
                 </div>
                 <div className="flex-1">
                   <h3
-                    className="text-lg font-[family-name:var(--font-vt323)]"
+                    className="text-xl md:text-2xl font-[family-name:var(--font-vt323)]"
                     style={{ color: "#ffffff" }}
                   >
                     {credit.title}
                   </h3>
                   <p
-                    className="text-base mt-1 font-[family-name:var(--font-vt323)]"
+                    className="text-lg mt-1 font-[family-name:var(--font-vt323)]"
                     style={{ color: "#00ff41" }}
                   >
                     {credit.network}
                   </p>
                   <p
-                    className="text-base mt-2 font-[family-name:var(--font-vt323)]"
+                    className="text-lg mt-2 font-[family-name:var(--font-vt323)]"
                     style={{ color: "rgba(255, 255, 255, 0.6)" }}
                   >
                     {credit.role}
                   </p>
                   {credit.years && (
                     <p
-                      className="text-sm mt-1 font-[family-name:var(--font-vt323)]"
+                      className="text-base mt-1 font-[family-name:var(--font-vt323)]"
                       style={{ color: "rgba(255, 255, 255, 0.4)" }}
                     >
                       {credit.years}
