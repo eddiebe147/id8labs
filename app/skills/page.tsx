@@ -11,6 +11,7 @@ import { SkillCard } from '@/components/skills/SkillCard'
 import { SkillSearchBar } from '@/components/skills/SkillSearchBar'
 import { CategoryTabs } from '@/components/skills/CategoryTabs'
 import { SkillStarterKits } from '@/components/skills/SkillStarterKits'
+import { StackShackLogo } from '@/components/StackShackLogo'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -53,9 +54,8 @@ export default async function SkillsMarketplacePage() {
             </div>
 
             {/* StackShack Logo */}
-            <h1 className="text-3xl md:text-5xl lg:text-6xl mb-6" style={{ fontFamily: 'var(--font-press-start)' }}>
-              <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">STACK</span>
-              <span className="text-[#FF6B00] drop-shadow-[0_0_20px_#FF6B00]">SHACK</span>
+            <h1 className="mb-6">
+              <StackShackLogo size="xl" />
             </h1>
 
             {/* Subtitle */}

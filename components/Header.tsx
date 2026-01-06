@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import BrandName from './BrandName'
+import { StackShackLogo } from './StackShackLogo'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -21,9 +22,9 @@ export default function Header() {
             <Link href="/products" className="text-base hover:opacity-70 transition-opacity">
               Products
             </Link>
-            <Link href="/skills" className="text-base hover:text-[var(--id8-orange)] transition-colors flex items-center gap-1.5">
+            <Link href="/skills" className="hover:opacity-80 transition-opacity flex items-center gap-2">
               <span className="text-lg">⚡</span>
-              StackShack
+              <StackShackLogo size="sm" />
             </Link>
             <Link href="/services" className="text-base hover:opacity-70 transition-opacity">
               Services
@@ -187,11 +188,11 @@ export default function Header() {
             </Link>
             <Link
               href="/skills"
-              className="flex items-center gap-2 text-lg hover:text-[var(--id8-orange)] transition-colors"
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="text-xl">⚡</span>
-              StackShack
+              <StackShackLogo size="md" />
             </Link>
             <Link
               href="/services"
