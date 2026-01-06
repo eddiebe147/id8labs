@@ -43,6 +43,7 @@ export interface SkillFilters {
   qualityTier?: 'bronze' | 'silver' | 'gold' | 'platinum'
   minRating?: number
   sortBy?: 'newest' | 'popular' | 'rating' | 'installs'
+  itemType?: 'skills' | 'agents' | 'all' // Filter by skills vs agents
   limit?: number
   offset?: number
 }
@@ -87,6 +88,12 @@ export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]>
   }
   if (filters.minRating) {
     query = query.gte('avg_rating', filters.minRating)
+  }
+  // Filter by item type (skills vs agents)
+  if (filters.itemType === 'agents') {
+    query = query.contains('tags', ['agent'])
+  } else if (filters.itemType === 'skills') {
+    query = query.not('tags', 'cs', '{agent}') // not contains 'agent'
   }
 
   // Apply sorting

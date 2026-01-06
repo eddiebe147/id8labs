@@ -55,6 +55,7 @@ begin
 end;
 $$ language plpgsql;
 
+drop trigger if exists newsletter_subscribers_updated on public.newsletter_subscribers;
 create trigger newsletter_subscribers_updated
   before update on public.newsletter_subscribers
   for each row execute procedure update_newsletter_subscriber_timestamp();
@@ -76,6 +77,7 @@ end;
 $$ language plpgsql;
 
 -- Trigger to auto-add Academy members to newsletter
+drop trigger if exists academy_member_newsletter_signup on public.email_sequences;
 create trigger academy_member_newsletter_signup
   after insert on public.email_sequences
   for each row execute procedure add_academy_member_to_newsletter();

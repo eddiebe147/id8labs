@@ -59,15 +59,18 @@ create table if not exists public.publishing_windows (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Default windows: 9am-8pm, 7 days a week
-insert into public.publishing_windows (day_of_week, start_hour, end_hour) values
+-- Default windows: 9am-8pm, 7 days a week (only insert if empty)
+insert into public.publishing_windows (day_of_week, start_hour, end_hour)
+select * from (values
   (0, 9, 20), -- Sunday
   (1, 9, 20), -- Monday
   (2, 9, 20), -- Tuesday
   (3, 9, 20), -- Wednesday
   (4, 9, 20), -- Thursday
   (5, 9, 20), -- Friday
-  (6, 9, 20); -- Saturday
+  (6, 9, 20)  -- Saturday
+) as v(day_of_week, start_hour, end_hour)
+where not exists (select 1 from public.publishing_windows limit 1);
 
 -- SMART_SPACING_CONFIG table
 create table if not exists public.smart_spacing_config (
@@ -79,9 +82,10 @@ create table if not exists public.smart_spacing_config (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Default config
+-- Default config (only insert if empty)
 insert into public.smart_spacing_config (min_gap_hours, max_gap_hours, max_posts_per_day)
-values (3, 4, 6);
+select 3, 4, 6
+where not exists (select 1 from public.smart_spacing_config limit 1);
 
 -- Function to update timestamps
 create or replace function update_content_queue_timestamp()
@@ -92,6 +96,7 @@ begin
 end;
 $$ language plpgsql;
 
+drop trigger if exists content_queue_updated on public.content_queue;
 create trigger content_queue_updated
   before update on public.content_queue
   for each row execute procedure update_content_queue_timestamp();

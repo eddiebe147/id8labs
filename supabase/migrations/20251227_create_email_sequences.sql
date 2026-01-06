@@ -60,6 +60,7 @@ begin
 end;
 $$ language plpgsql;
 
+drop trigger if exists email_sequences_updated on public.email_sequences;
 create trigger email_sequences_updated
   before update on public.email_sequences
   for each row execute procedure update_email_sequence_timestamp();

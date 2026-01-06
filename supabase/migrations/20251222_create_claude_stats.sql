@@ -33,32 +33,37 @@ CREATE TABLE IF NOT EXISTS claude_stats (
   updated_at timestamptz DEFAULT now()
 );
 
--- Enable real-time
-ALTER PUBLICATION supabase_realtime ADD TABLE claude_stats;
+-- Enable real-time (idempotent)
+DO $$
+BEGIN
+  ALTER PUBLICATION supabase_realtime ADD TABLE claude_stats;
+EXCEPTION WHEN duplicate_object THEN
+  -- Already added, ignore
+  NULL;
+END $$;
 
--- RLS policies
+-- RLS policies (idempotent)
 ALTER TABLE claude_stats ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Allow public read access" ON claude_stats;
 CREATE POLICY "Allow public read access" ON claude_stats
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Allow service role write access" ON claude_stats;
 CREATE POLICY "Allow service role write access" ON claude_stats
   FOR ALL USING (auth.role() = 'service_role');
 
 -- Insert initial row (singleton pattern - one row for all stats)
+-- Only insert if table is empty
 INSERT INTO claude_stats (
   commits_together,
   lines_of_code,
   projects_shipped,
   first_commit_date,
   languages
-) VALUES (
-  0,
-  0,
-  5,
-  '2025-10-13',
-  '{"TypeScript": 68, "Python": 18, "CSS": 9, "MDX": 5}'
-);
+)
+SELECT 0, 0, 5, '2025-10-13', '{"TypeScript": 68, "Python": 18, "CSS": 9, "MDX": 5}'::jsonb
+WHERE NOT EXISTS (SELECT 1 FROM claude_stats LIMIT 1);
 
 -- Function to update timestamp on changes
 CREATE OR REPLACE FUNCTION update_claude_stats_timestamp()
@@ -69,6 +74,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS claude_stats_updated ON claude_stats;
 CREATE TRIGGER claude_stats_updated
   BEFORE UPDATE ON claude_stats
   FOR EACH ROW

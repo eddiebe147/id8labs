@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ExternalLink, Check, Download, Package, Sparkles, Wrench, Zap, Users, Brain, Shield, Code, Database, Terminal, Star } from 'lucide-react'
-import AgentKitCheckout from '@/components/checkout/AgentKitCheckout'
+import { ArrowRight, ExternalLink, Check, Download, Package, Sparkles, Wrench, Zap, Users, Brain, Shield, Code, Database, Terminal, Star, Bot } from 'lucide-react'
 
 // ============================================
 // FLAGSHIP PRODUCTS - Full feature showcase
@@ -100,78 +99,7 @@ const flagshipProducts: FlagshipProduct[] = [
   },
 ]
 
-// ============================================
-// AGENT KITS - Downloadable systems for sale
-// ============================================
 
-interface AgentKit {
-  productId: string
-  name: string
-  tagline: string
-  hook: string
-  description: string
-  price: number
-  agentCount: number
-  icon: React.ReactNode
-  features: string[]
-  popular?: boolean
-}
-
-// Featured kits for main products page (3 only)
-const featuredKits: AgentKit[] = [
-  {
-    productId: 'agent-kit-tmnt',
-    name: 'TMNT Elite',
-    tagline: '9-Agent SDK Dev Team',
-    hook: 'Stop hiring. Start shipping.',
-    description: 'Complete software development team built on Claude SDK. Strategic brain, architect, code review, QA, DevOps—all coordinated.',
-    price: 129,
-    agentCount: 9,
-    icon: <Users className="w-6 h-6" />,
-    popular: true,
-    features: [
-      'Multi-agent orchestration',
-      'Scope creep protection',
-      'Automatic code review',
-      'Security scanning',
-    ],
-  },
-  {
-    productId: 'agent-kit-llc-ops',
-    name: 'LLC Ops',
-    tagline: '9-Agent Business Operations',
-    hook: 'Your $50k back office. For $79.',
-    description: 'Everything a solo founder hates doing—taxes, compliance, bookkeeping—handled by AI agents built from running a real LLC.',
-    price: 79,
-    agentCount: 9,
-    icon: <Shield className="w-6 h-6" />,
-    features: [
-      'Tax strategy & estimates',
-      'Compliance calendar',
-      'Audit preparation',
-      'Cash flow projections',
-    ],
-  },
-  {
-    productId: 'agent-kit-pipeline',
-    name: 'Pipeline',
-    tagline: '11-Stage Product Methodology',
-    hook: 'Ideas die in your notes. Ship them instead.',
-    description: 'The methodology that took ID8Labs from concept to production. Decay mechanics punish stalling. Hard gates force shipping.',
-    price: 79,
-    agentCount: 8,
-    icon: <Code className="w-6 h-6" />,
-    features: [
-      '11 stages with hard gates',
-      'Decay mechanics',
-      'Scope protection',
-      'Built-in accountability',
-    ],
-  },
-]
-
-const totalKits = 5
-const totalAgents = 35
 
 // ============================================
 // IN DEVELOPMENT - Coming soon products
@@ -312,76 +240,7 @@ function FlagshipCard({ product, index }: { product: FlagshipProduct; index: num
   return content
 }
 
-function FeaturedKitCard({
-  kit,
-  index,
-  onPurchase,
-}: {
-  kit: AgentKit
-  index: number
-  onPurchase: (productId: string) => void
-}) {
-  return (
-    <m.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`relative flex flex-col p-6 rounded-2xl border bg-white/[0.02] transition-all hover:-translate-y-1 hover:bg-white/[0.04] ${
-        kit.popular
-          ? 'border-[var(--id8-orange)]/40 shadow-[0_0_40px_-10px_rgba(255,107,0,0.3)]'
-          : 'border-white/10 hover:border-white/20'
-      }`}
-    >
-      {kit.popular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-[var(--id8-orange)] text-white text-xs font-bold rounded-full flex items-center gap-1">
-          <Star className="w-3 h-3" />
-          POPULAR
-        </div>
-      )}
 
-      {/* Header */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="p-2.5 rounded-xl bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]">
-          {kit.icon}
-        </div>
-        <div className="text-right">
-          <div className="text-2xl font-bold text-white">${kit.price}</div>
-          <div className="text-xs text-zinc-500">{kit.agentCount} agents</div>
-        </div>
-      </div>
-
-      {/* Name & Hook */}
-      <h3 className="text-xl font-bold text-white mb-1">{kit.name}</h3>
-      <p className="text-sm text-[var(--id8-orange)]/80 font-medium mb-2">{kit.tagline}</p>
-
-      {/* The "Sell This Pen" Hook */}
-      <p className="text-lg font-semibold text-white mb-3">"{kit.hook}"</p>
-
-      <p className="text-sm text-zinc-400 leading-relaxed mb-6">{kit.description}</p>
-
-      {/* Features */}
-      <div className="space-y-2 mb-6 flex-grow">
-        {kit.features.map((feature) => (
-          <div key={feature} className="flex items-start gap-2 text-sm text-zinc-300">
-            <Check className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-            {feature}
-          </div>
-        ))}
-      </div>
-
-      {/* CTA */}
-      <button
-        onClick={() => onPurchase(kit.productId)}
-        className="w-full py-3 px-4 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center justify-center gap-2 group"
-      >
-        <Download className="w-4 h-4" />
-        Get Kit
-        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-      </button>
-    </m.div>
-  )
-}
 
 function ComingSoonCard({ product }: { product: ComingSoonProduct }) {
   const statusConfig = {
@@ -417,16 +276,6 @@ function ComingSoonCard({ product }: { product: ComingSoonProduct }) {
 // ============================================
 
 export default function ProductsContent() {
-  const [checkoutProduct, setCheckoutProduct] = useState<string | null>(null)
-
-  const handlePurchase = (productId: string) => {
-    setCheckoutProduct(productId)
-  }
-
-  const handleCloseCheckout = () => {
-    setCheckoutProduct(null)
-  }
-
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] px-6 py-24">
       <div className="max-w-[1200px] mx-auto">
@@ -479,68 +328,70 @@ export default function ProductsContent() {
           </div>
         </section>
 
-        {/* ===== AGENT KITS PREVIEW ===== */}
+        {/* ===== STACKSHACK - FREE SKILLS & AGENTS ===== */}
         <section className="mb-24">
           <m.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="flex items-center justify-between mb-3"
+            className="relative overflow-hidden rounded-3xl border border-[var(--id8-orange)]/30 bg-gradient-to-br from-[var(--id8-orange)]/10 via-[var(--id8-orange)]/5 to-transparent p-8 md:p-12"
           >
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]">
-                <Package className="w-5 h-5" />
+            <div className="max-w-3xl">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-[var(--id8-orange)]/20 text-[var(--id8-orange)]">
+                  <Bot className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-press-start)' }}>
+                    <span className="text-white">STACK</span>
+                    <span className="text-[#FF6B00]">SHACK</span>
+                  </h2>
+                  <span className="text-sm text-[var(--id8-orange)]/80 font-medium">Free Skills & Agents for Claude</span>
+                </div>
               </div>
-              <h2 className="text-2xl font-bold text-white">Agent Kits</h2>
-              <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] border border-[var(--id8-orange)]/20">
-                {totalKits} Kits • {totalAgents} Agents
-              </span>
-            </div>
-            <Link
-              href="/products/agent-kits"
-              className="hidden md:flex items-center gap-2 text-sm text-[var(--id8-orange)] hover:gap-3 transition-all font-medium"
-            >
-              View All Kits
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </m.div>
-          <p className="text-zinc-400 ml-12 mb-8">
-            Complete AI agent systems. Not prompts—production-tested frameworks.
-          </p>
 
-          {/* Featured Kits Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {featuredKits.map((kit, index) => (
-              <FeaturedKitCard key={kit.name} kit={kit} index={index} onPurchase={handlePurchase} />
-            ))}
-          </div>
+              <div className="space-y-4 mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full" />
+                  <span className="text-white font-semibold">228 skills & agents</span>
+                  <span className="text-zinc-400">— all 100% free</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full" />
+                  <span className="text-white font-semibold">10 starter packs</span>
+                  <span className="text-zinc-400">— curated for common workflows</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full" />
+                  <span className="text-white font-semibold">38 autonomous agents</span>
+                  <span className="text-zinc-400">— ready to deploy in Claude Code</span>
+                </div>
+              </div>
 
-          {/* View All CTA */}
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="p-6 rounded-2xl border border-white/10 bg-white/[0.02] text-center"
-          >
-            <p className="text-zinc-400 mb-4">
-              Plus <span className="text-white font-semibold">2 more kits</span>: Foundry (self-improving dev framework) & Factory (multi-AI creative pipeline)
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/products/agent-kits"
-                className="px-6 py-3 rounded-xl bg-white/10 text-white font-semibold hover:bg-white/20 transition-all flex items-center gap-2 group"
-              >
-                See All Kits & Full Specs
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <button
-                onClick={() => handlePurchase('agent-kit-bundle')}
-                className="px-6 py-3 rounded-xl bg-[var(--id8-orange)] text-white font-semibold hover:bg-[var(--id8-orange)]/90 transition-all flex items-center gap-2"
-              >
-                Get All 5 Kits for $299
-                <span className="text-xs opacity-70">(Save $116)</span>
-              </button>
+              <p className="text-lg text-zinc-300 mb-8 leading-relaxed">
+                Everything you need to build your AI workflow stack. No paywalls, no subscriptions—just tools that work.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/skills"
+                  className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[var(--id8-orange)] text-white font-semibold rounded-xl hover:bg-[var(--id8-orange)]/90 transition-all hover:scale-105 active:scale-95"
+                >
+                  Browse StackShack
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/skills/starter-kits"
+                  className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-all border border-white/10"
+                >
+                  <Package className="w-4 h-4" />
+                  View Starter Kits
+                </Link>
+              </div>
             </div>
+
+            {/* Decorative element */}
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[var(--id8-orange)]/10 rounded-full blur-3xl pointer-events-none" />
           </m.div>
         </section>
 
@@ -601,13 +452,6 @@ export default function ProductsContent() {
           </div>
         </m.section>
       </div>
-
-      {/* Agent Kit Checkout Modal */}
-      <AgentKitCheckout
-        productId={checkoutProduct || ''}
-        isOpen={checkoutProduct !== null}
-        onClose={handleCloseCheckout}
-      />
     </div>
   )
 }

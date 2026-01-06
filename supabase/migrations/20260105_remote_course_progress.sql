@@ -1,0 +1,1 @@
+-- Migration pulled from remote (already applied)

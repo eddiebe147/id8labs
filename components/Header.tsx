@@ -22,8 +22,7 @@ export default function Header() {
             <Link href="/products" className="text-base hover:opacity-70 transition-opacity">
               Products
             </Link>
-            <Link href="/skills" className="hover:opacity-80 transition-opacity flex items-center gap-2">
-              <span className="text-lg">⚡</span>
+            <Link href="/skills" className="hover:opacity-80 transition-opacity">
               <StackShackLogo size="sm" />
             </Link>
             <Link href="/services" className="text-base hover:opacity-70 transition-opacity">
@@ -188,10 +187,9 @@ export default function Header() {
             </Link>
             <Link
               href="/skills"
-              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              className="hover:opacity-80 transition-opacity"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span className="text-xl">⚡</span>
               <StackShackLogo size="md" />
             </Link>
             <Link

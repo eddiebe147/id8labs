@@ -29,6 +29,7 @@ create table if not exists public.purchases (
 alter table public.purchases enable row level security;
 
 -- Users can view their own purchases
+drop policy if exists "Users can view own purchases" on public.purchases;
 create policy "Users can view own purchases" on public.purchases
   for select using (auth.uid() = user_id);
 
@@ -39,6 +40,7 @@ create index if not exists purchases_status_idx on public.purchases(status);
 create index if not exists purchases_checkout_session_idx on public.purchases(stripe_checkout_session_id);
 
 -- Function to check if user has purchased a product
+drop function if exists public.has_purchased(text);
 create or replace function public.has_purchased(p_product_id text)
 returns boolean as $$
 begin

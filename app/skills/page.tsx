@@ -12,6 +12,7 @@ import { SkillSearchBar } from '@/components/skills/SkillSearchBar'
 import { CategoryTabs } from '@/components/skills/CategoryTabs'
 import { SkillStarterKits } from '@/components/skills/SkillStarterKits'
 import { StackShackLogo } from '@/components/StackShackLogo'
+import { ItemTypeFilter } from '@/components/skills/ItemTypeFilter'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -33,7 +34,7 @@ export default async function SkillsMarketplacePage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
+      <section className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)]">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div
@@ -45,22 +46,25 @@ export default async function SkillsMarketplacePage() {
           />
         </div>
 
+        {/* Orange glow effect */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF6B00]/5 rounded-full blur-[120px] pointer-events-none" />
+
         <div className="container relative">
           <div className="max-w-4xl mx-auto text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] rounded-full text-sm font-medium">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] rounded-full text-sm font-semibold border border-[var(--id8-orange)]/20 shadow-lg shadow-[var(--id8-orange)]/10">
               <Package className="w-4 h-4" />
               {counts.published}+ Skills & Agents
             </div>
 
             {/* StackShack Logo */}
-            <h1 className="mb-6">
+            <h1 className="mb-4">
               <StackShackLogo size="xl" />
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl md:text-2xl text-[var(--text-secondary)] mb-10 max-w-2xl mx-auto">
-              Free skills & agents for Claude Code. Build your stack.
+            <p className="text-lg md:text-xl text-[var(--text-secondary)] mb-8 max-w-2xl mx-auto leading-relaxed">
+              Free skills & agents for Claude Code. Build your stack, ship faster.
             </p>
 
             {/* Search Bar */}
@@ -74,42 +78,45 @@ export default async function SkillsMarketplacePage() {
             </div>
 
             {/* Quick Stats */}
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-[var(--text-secondary)]">
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-emerald-500 rounded-full" />
-                {categories.length} Categories
-              </span>
-              <span className="flex items-center gap-2">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                <span className="font-medium">{categories.length} Categories</span>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] rounded-full border border-[var(--id8-orange)]/20">
                 <span className="w-2 h-2 bg-[var(--id8-orange)] rounded-full" />
-                100% Free
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-purple-500 rounded-full" />
-                ID8Labs Verified
-              </span>
+                <span className="font-medium">100% Free</span>
+              </div>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20">
+                <span className="w-2 h-2 bg-blue-500 rounded-full" />
+                <span className="font-medium">ID8Labs Verified</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Category Tabs */}
-      <section className="py-6 border-y border-[var(--border)] bg-[var(--bg-secondary)]">
+      {/* Category Tabs & Item Type Filter */}
+      <section className="sticky top-16 md:top-20 z-40 py-4 border-y border-[var(--border)] bg-[var(--bg-secondary)]/95 backdrop-blur-xl shadow-sm">
         <div className="container">
-          <CategoryTabs categories={categories} variant="pills" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <CategoryTabs categories={categories} variant="pills" />
+            <ItemTypeFilter />
+          </div>
         </div>
       </section>
 
       {/* Featured Skills */}
       {featuredSkills.length > 0 && (
-        <section className="section-spacing-sm">
+        <section className="py-12 md:py-16">
           <div className="container">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-amber-500/10 text-amber-500 rounded-lg">
+                <div className="p-2.5 bg-amber-500/10 text-amber-500 rounded-xl border border-amber-500/20">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold">
-                  Featured Skills
+                  Featured
                 </h2>
               </div>
               <Link
@@ -131,19 +138,19 @@ export default async function SkillsMarketplacePage() {
 
       {/* Starter Kits */}
       {collections.length > 0 && (
-        <section className="section-spacing-sm bg-[var(--bg-secondary)]">
+        <section className="py-12 md:py-16 bg-gradient-to-b from-[var(--bg-secondary)] to-[var(--bg-primary)]">
           <div className="container">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-500/10 text-purple-500 rounded-lg">
+                <div className="p-2.5 bg-purple-500/10 text-purple-500 rounded-xl border border-purple-500/20">
                   <Package className="w-5 h-5" />
                 </div>
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold">
                     Starter Kits
                   </h2>
-                  <p className="text-sm text-[var(--text-secondary)]">
-                    Curated skill bundles for common workflows
+                  <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+                    Curated bundles for common workflows
                   </p>
                 </div>
               </div>
