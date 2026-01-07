@@ -235,33 +235,38 @@ export async function getNewSkills(limit: number = 10): Promise<Skill[]> {
 export async function getAllCollections(officialOnly: boolean = false): Promise<SkillCollection[]> {
   const supabase = await createServerClient()
 
-  let query = supabase
-    .from('skill_collections')
-    .select(`
-      *,
-      skill_collection_items(
-        skill:skills(*)
-      )
-    `)
-    .eq('is_public', true)
+  try {
+    let query = supabase
+      .from('skill_collections')
+      .select(`
+        *,
+        skill_collection_items(
+          skills(*)
+        )
+      `)
+      .eq('is_public', true)
 
-  if (officialOnly) {
-    query = query.eq('is_official', true)
-  }
+    if (officialOnly) {
+      query = query.eq('is_official', true)
+    }
 
-  const { data, error } = await query.order('created_at', { ascending: false })
+    const { data, error } = await query.order('created_at', { ascending: false })
 
-  if (error) {
-    console.error('Error fetching collections:', error)
+    if (error) {
+      console.error('Error fetching collections:', error)
+      return []
+    }
+
+    // Transform the nested data
+    return (data || []).map(collection => ({
+      ...collection,
+      skills: collection.skill_collection_items?.map((item: any) => item.skills).filter(Boolean) || [],
+      skill_count: collection.skill_collection_items?.length || 0
+    })) as SkillCollection[]
+  } catch (err) {
+    console.error('Exception in getAllCollections:', err)
     return []
   }
-
-  // Transform the nested data
-  return (data || []).map(collection => ({
-    ...collection,
-    skills: collection.skill_collection_items?.map((item: { skill: Skill }) => item.skill) || [],
-    skill_count: collection.skill_collection_items?.length || 0
-  })) as SkillCollection[]
 }
 
 /**
@@ -270,32 +275,42 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
 export async function getCollectionBySlug(slug: string): Promise<SkillCollection | null> {
   const supabase = await createServerClient()
 
-  const { data, error } = await supabase
-    .from('skill_collections')
-    .select(`
-      *,
-      skill_collection_items(
-        display_order,
-        note,
-        skill:skills(*, category:skill_categories(*))
-      )
-    `)
-    .eq('slug', slug)
-    .eq('is_public', true)
-    .single()
+  try {
+    const { data, error } = await supabase
+      .from('skill_collections')
+      .select(`
+        *,
+        skill_collection_items(
+          display_order,
+          note,
+          skills(*, skill_categories(*))
+        )
+      `)
+      .eq('slug', slug)
+      .eq('is_public', true)
+      .single()
 
-  if (error || !data) {
-    console.error('Error fetching collection:', error)
+    if (error || !data) {
+      console.error('Error fetching collection:', error)
+      return null
+    }
+
+    return {
+      ...data,
+      skills: data.skill_collection_items
+        ?.sort((a: { display_order: number | null }, b: { display_order: number | null }) => {
+          const orderA = a.display_order ?? 999999
+          const orderB = b.display_order ?? 999999
+          return orderA - orderB
+        })
+        .map((item: any) => item.skills)
+        .filter(Boolean) || [],
+      skill_count: data.skill_collection_items?.length || 0
+    } as SkillCollection
+  } catch (err) {
+    console.error('Exception in getCollectionBySlug:', err)
     return null
   }
-
-  return {
-    ...data,
-    skills: data.skill_collection_items
-      ?.sort((a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order)
-      .map((item: { skill: Skill }) => item.skill) || [],
-    skill_count: data.skill_collection_items?.length || 0
-  } as SkillCollection
 }
 
 /**
