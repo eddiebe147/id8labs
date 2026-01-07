@@ -123,8 +123,66 @@ export default async function SkillsMarketplacePage({ searchParams }: PageProps)
       </section>
 
       {/* Main Content: Sidebar + Grid */}
-      <section className="py-12">
+      <section className="py-8 md:py-12">
         <div className="container">
+          {/* Mobile Filters */}
+          <div className="lg:hidden mb-6">
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/skills"
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  typeFilter === 'all' && !categoryFilter
+                    ? 'bg-[var(--id8-orange)] text-white'
+                    : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]'
+                }`}
+              >
+                All ({counts.published})
+              </Link>
+              <Link
+                href={`/skills?type=skills${categoryFilter ? `&category=${categoryFilter}` : ''}`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  typeFilter === 'skills'
+                    ? 'bg-[var(--id8-orange)] text-white'
+                    : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]'
+                }`}
+              >
+                Skills ({skillsCount})
+              </Link>
+              <Link
+                href={`/skills?type=agents${categoryFilter ? `&category=${categoryFilter}` : ''}`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  typeFilter === 'agents'
+                    ? 'bg-[var(--id8-orange)] text-white'
+                    : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]'
+                }`}
+              >
+                Agents ({agentsCount})
+              </Link>
+            </div>
+            {/* Mobile Category Pills - Scrollable */}
+            <div className="mt-3 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+              <div className="flex gap-2 pb-2">
+                {categories.filter(cat => (counts.byCategory[cat.id] || 0) > 0).map((category) => (
+                  <Link
+                    key={category.id}
+                    href={
+                      categoryFilter === category.id
+                        ? `/skills${typeFilter !== 'all' ? `?type=${typeFilter}` : ''}`
+                        : `/skills?category=${category.id}${typeFilter !== 'all' ? `&type=${typeFilter}` : ''}`
+                    }
+                    className={`flex-shrink-0 px-3 py-1.5 rounded-full text-sm transition-colors ${
+                      categoryFilter === category.id
+                        ? 'bg-[var(--id8-orange)]/20 text-[var(--id8-orange)] border border-[var(--id8-orange)]'
+                        : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]'
+                    }`}
+                  >
+                    {category.emoji} {category.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <div className="flex gap-8">
             {/* Server-Rendered Sidebar */}
             <ServerSidebar
@@ -142,9 +200,9 @@ export default async function SkillsMarketplacePage({ searchParams }: PageProps)
 
             {/* Main Content Area */}
             <div className="flex-1 min-w-0">
-              {/* Active Filters Indicator */}
+              {/* Active Filters Indicator - Desktop only */}
               {(typeFilter !== 'all' || categoryFilter) && (
-                <div className="mb-6 flex items-center gap-2 flex-wrap">
+                <div className="hidden lg:flex mb-6 items-center gap-2 flex-wrap">
                   <span className="text-sm text-[var(--text-secondary)]">Active filters:</span>
                   {typeFilter !== 'all' && (
                     <Link
