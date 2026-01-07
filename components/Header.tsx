@@ -22,11 +22,6 @@ export default function Header() {
             <Link href="/products" className="text-base hover:opacity-70 transition-opacity">
               Products
             </Link>
-            <Link href="/skills" className="hover:opacity-80 transition-opacity" aria-label="Stack Shack">
-              <div className="flex items-center">
-                <StackShackLogo size="sm" />
-              </div>
-            </Link>
             <Link href="/services" className="text-base hover:opacity-70 transition-opacity">
               Services
             </Link>
@@ -139,6 +134,11 @@ export default function Header() {
             <Link href="/contact" className="text-base hover:opacity-70 transition-opacity">
               Contact
             </Link>
+            <Link href="/skills" className="hover:opacity-80 transition-opacity" aria-label="Stack Shack">
+              <div className="flex items-center">
+                <StackShackLogo size="sm" />
+              </div>
+            </Link>
             {/* Claude Corner Easter Egg */}
             <Link
               href="/claude-corner"
@@ -186,13 +186,6 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Products
-            </Link>
-            <Link
-              href="/skills"
-              className="hover:opacity-80 transition-opacity"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <StackShackLogo size="md" />
             </Link>
             <Link
               href="/services"
@@ -287,6 +280,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
+            </Link>
+            <Link
+              href="/skills"
+              className="hover:opacity-80 transition-opacity"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <StackShackLogo size="md" />
             </Link>
             {/* Claude Corner Easter Egg */}
             <Link
