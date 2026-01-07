@@ -101,7 +101,7 @@ async function fixSlop() {
             let newName = originalName.replace(/-/g, ' ');
 
             // 2. Title Case (capitalize first letter of each word)
-            newName = newName.replace(/\w\S*/g, (txt) => {
+            newName = newName.replace(/\w\S*/g, (txt: string) => {
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
 
