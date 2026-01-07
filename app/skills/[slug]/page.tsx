@@ -19,23 +19,30 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
-  const skill = await getSkillBySlug(slug)
+  try {
+    const { slug } = await params
+    const skill = await getSkillBySlug(slug)
 
-  if (!skill) {
-    return {
-      title: 'Skill Not Found',
+    if (!skill) {
+      return {
+        title: 'Skill Not Found',
+      }
     }
-  }
 
-  return {
-    title: skill.name,
-    description: skill.description,
-    openGraph: {
-      title: `${skill.name} | StackShack`,
+    return {
+      title: skill.name,
       description: skill.description,
-      type: 'article',
-    },
+      openGraph: {
+        title: `${skill.name} | StackShack`,
+        description: skill.description,
+        type: 'article',
+      },
+    }
+  } catch (error) {
+    console.error('[generateMetadata] Error:', error)
+    return {
+      title: 'Skill',
+    }
   }
 }
 
@@ -54,19 +61,31 @@ export async function generateStaticParams() {
 }
 
 export default async function SkillDetailPage({ params }: PageProps) {
-  const { slug } = await params
-  const skill = await getSkillBySlug(slug)
+  let skill
+  let filteredRelated: Awaited<ReturnType<typeof getAllSkills>> = []
+  
+  try {
+    const { slug } = await params
+    skill = await getSkillBySlug(slug)
 
+    if (!skill) {
+      notFound()
+    }
+
+    // Get related skills from the same category
+    const relatedSkills = await getAllSkills({
+      category: skill.category_id || undefined,
+      limit: 4,
+    })
+    filteredRelated = relatedSkills.filter((s) => s.id !== skill!.id).slice(0, 3)
+  } catch (error) {
+    console.error('[SkillDetailPage] Error loading skill:', error)
+    notFound()
+  }
+  
   if (!skill) {
     notFound()
   }
-
-  // Get related skills from the same category
-  const relatedSkills = await getAllSkills({
-    category: skill.category_id || undefined,
-    limit: 4,
-  })
-  const filteredRelated = relatedSkills.filter((s) => s.id !== skill.id).slice(0, 3)
 
   return (
     <main className="pb-20">
