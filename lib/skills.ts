@@ -115,18 +115,22 @@ export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]>
         .order('install_count', { ascending: false })
   }
 
-  // Apply pagination
-  if (filters.limit) {
-    query = query.limit(filters.limit)
-  }
+  // Apply pagination with default limit to prevent timeout
+  const limit = filters.limit || 100 // Default limit to prevent loading all skills
+  query = query.limit(limit)
+  
   if (filters.offset) {
-    query = query.range(filters.offset, filters.offset + (filters.limit || 20) - 1)
+    query = query.range(filters.offset, filters.offset + limit - 1)
   }
 
   const { data, error } = await query
 
   if (error) {
-    console.error('Error fetching skills:', error)
+    console.error('[getAllSkills] Error fetching skills:', {
+      message: error.message,
+      code: error.code,
+      filters
+    })
     return []
   }
 
@@ -242,12 +246,22 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
       return []
     }
 
+    // Select only necessary fields to avoid query timeout
     let query = supabase
       .from('skill_collections')
       .select(`
-        *,
+        id,
+        slug,
+        name,
+        description,
+        emoji,
+        author,
+        is_official,
+        is_public,
+        created_at,
+        updated_at,
         skill_collection_items(
-          skills(*)
+          skills(id, name, slug, description, category_id, complexity, verified, featured, avg_rating, install_count)
         )
       `)
       .eq('is_public', true)
@@ -307,14 +321,24 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
       return null
     }
 
+    // Select only necessary fields to avoid query timeout
     const { data, error } = await supabase
       .from('skill_collections')
       .select(`
-        *,
+        id,
+        slug,
+        name,
+        description,
+        emoji,
+        author,
+        is_official,
+        is_public,
+        created_at,
+        updated_at,
         skill_collection_items(
           display_order,
           note,
-          skills(*, skill_categories(*))
+          skills(id, name, slug, description, category_id, complexity, verified, featured, avg_rating, install_count, tags, triggers, version)
         )
       `)
       .eq('slug', slug)
