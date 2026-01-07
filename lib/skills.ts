@@ -63,12 +63,18 @@ export interface TrendingSkill {
  * Get all published skills with optional filtering
  */
 export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  let query = supabase
-    .from('skills')
-    .select('*, category:skill_categories(*)')
-    .eq('status', 'published')
+    if (!supabase) {
+      console.error('[getAllSkills] Supabase client failed to initialize')
+      return []
+    }
+
+    let query = supabase
+      .from('skills')
+      .select('*, category:skill_categories(*)')
+      .eq('status', 'published')
 
   // Apply filters
   if (filters.category) {
@@ -123,39 +129,82 @@ export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]>
     query = query.range(filters.offset, filters.offset + limit - 1)
   }
 
-  const { data, error } = await query
+    const { data, error } = await query
 
-  if (error) {
-    console.error('[getAllSkills] Error fetching skills:', {
-      message: error.message,
-      code: error.code,
+    if (error) {
+      console.error('[getAllSkills] Error fetching skills:', {
+        message: error.message,
+        code: error.code,
+        filters
+      })
+      return []
+    }
+
+    return data as Skill[]
+  } catch (err) {
+    console.error('[getAllSkills] Unexpected exception:', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
       filters
     })
     return []
   }
-
-  return data as Skill[]
 }
 
 /**
  * Get a single skill by slug
  */
 export async function getSkillBySlug(slug: string): Promise<Skill | null> {
-  const supabase = await createServerClient()
+  try {
+    if (!slug || typeof slug !== 'string') {
+      console.error('[getSkillBySlug] Invalid slug provided:', slug)
+      return null
+    }
 
-  const { data, error } = await supabase
-    .from('skills')
-    .select('*, category:skill_categories(*)')
-    .eq('slug', slug)
-    .eq('status', 'published')
-    .single()
+    const supabase = await createServerClient()
 
-  if (error || !data) {
-    console.error('Error fetching skill:', error)
+    if (!supabase) {
+      console.error('[getSkillBySlug] Supabase client failed to initialize')
+      return null
+    }
+
+    const { data, error } = await supabase
+      .from('skills')
+      .select('*, category:skill_categories(*)')
+      .eq('slug', slug)
+      .eq('status', 'published')
+      .single()
+
+    if (error) {
+      // PGRST116 = no rows returned (not found) - expected for invalid slugs
+      if (error.code === 'PGRST116') {
+        console.warn('[getSkillBySlug] Skill not found:', slug)
+      } else {
+        console.error('[getSkillBySlug] Supabase error:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+          slug
+        })
+      }
+      return null
+    }
+
+    if (!data) {
+      console.warn('[getSkillBySlug] No data returned for slug:', slug)
+      return null
+    }
+
+    return data as Skill
+  } catch (err) {
+    console.error('[getSkillBySlug] Unexpected exception:', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      slug
+    })
     return null
   }
-
-  return data as Skill
 }
 
 /**
