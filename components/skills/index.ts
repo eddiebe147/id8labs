@@ -1,39 +1,18 @@
 /**
  * Skills Marketplace Components
- *
- * A complete UI component library for the ID8Labs Skills Marketplace.
- * Inspired by aitmpl.com's store-like UX with stack building functionality.
  */
 
-// Main card component
+// Core components
 export { SkillCard } from './SkillCard'
-
-// Search functionality
 export { SkillSearchBar } from './SkillSearchBar'
-
-// Installation UI
 export { SkillInstallButton } from './SkillInstallButton'
-
-// Stack builder (cart-like UX) - KEY DIFFERENTIATOR
-export { SkillStackBuilder, useSkillStack } from './SkillStackBuilder'
-
-// Category navigation
-export {
-  CategoryTabs,
-  CategoryList,
-  CategoryBadge
-} from './CategoryTabs'
-
-// Filtering
+export { CategoryBadge } from './CategoryTabs'
 export { SkillFilters, InlineFilters } from './SkillFilters'
+export { SkillStarterKits, FeaturedStarterKit } from './SkillStarterKits'
+export { ServerSidebar } from './ServerSidebar'
+export { ServerSkillsGrid } from './ServerSkillsGrid'
 
-// Starter kits / collections
-export {
-  SkillStarterKits,
-  FeaturedStarterKit
-} from './SkillStarterKits'
-
-// Trust badges and indicators
+// Trust badges
 export {
   TrustBadges,
   VerifiedBadge,
@@ -44,10 +23,5 @@ export {
   StarRating,
 } from './TrustBadges'
 
-// Re-export types from lib
-export type {
-  Skill,
-  SkillCategory,
-  SkillCollection,
-  SkillFilters as SkillFiltersType
-} from '@/lib/skills'
+// Types
+export type { Skill, SkillCategory, SkillCollection } from '@/lib/skills'
