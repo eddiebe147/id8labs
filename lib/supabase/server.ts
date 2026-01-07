@@ -2,10 +2,10 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 export async function createClient() {
-  let cookieStore
+  let cookieStore: Awaited<ReturnType<typeof cookies>> | undefined
   try {
     cookieStore = await cookies()
-  } catch (e) {
+  } catch {
     // Handle case where cookies() is not available (e.g. static generation)
   }
 
