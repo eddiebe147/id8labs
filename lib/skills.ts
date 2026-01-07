@@ -233,9 +233,15 @@ export async function getNewSkills(limit: number = 10): Promise<Skill[]> {
  * Get skill collections (starter kits)
  */
 export async function getAllCollections(officialOnly: boolean = false): Promise<SkillCollection[]> {
-  const supabase = await createServerClient()
-
   try {
+    const supabase = await createServerClient()
+
+    // Verify Supabase client is properly initialized
+    if (!supabase) {
+      console.error('[getAllCollections] Supabase client failed to initialize')
+      return []
+    }
+
     let query = supabase
       .from('skill_collections')
       .select(`
@@ -253,18 +259,33 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
     const { data, error } = await query.order('created_at', { ascending: false })
 
     if (error) {
-      console.error('Error fetching collections:', error)
+      console.error('[getAllCollections] Supabase error:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+        officialOnly
+      })
+      return []
+    }
+
+    if (!data) {
+      console.warn('[getAllCollections] No data returned from query')
       return []
     }
 
     // Transform the nested data
-    return (data || []).map(collection => ({
+    return data.map(collection => ({
       ...collection,
       skills: collection.skill_collection_items?.map((item: any) => item.skills).filter(Boolean) || [],
       skill_count: collection.skill_collection_items?.length || 0
     })) as SkillCollection[]
   } catch (err) {
-    console.error('Exception in getAllCollections:', err)
+    console.error('[getAllCollections] Unexpected exception:', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      officialOnly
+    })
     return []
   }
 }
@@ -273,9 +294,19 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
  * Get a single collection by slug
  */
 export async function getCollectionBySlug(slug: string): Promise<SkillCollection | null> {
-  const supabase = await createServerClient()
-
   try {
+    if (!slug || typeof slug !== 'string') {
+      console.error('[getCollectionBySlug] Invalid slug provided:', slug)
+      return null
+    }
+
+    const supabase = await createServerClient()
+
+    if (!supabase) {
+      console.error('[getCollectionBySlug] Supabase client failed to initialize')
+      return null
+    }
+
     const { data, error } = await supabase
       .from('skill_collections')
       .select(`
@@ -290,8 +321,24 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
       .eq('is_public', true)
       .single()
 
-    if (error || !data) {
-      console.error('Error fetching collection:', error)
+    if (error) {
+      // PGRST116 = no rows returned (not found) - this is expected for invalid slugs
+      if (error.code === 'PGRST116') {
+        console.warn('[getCollectionBySlug] Collection not found:', slug)
+      } else {
+        console.error('[getCollectionBySlug] Supabase error:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+          slug
+        })
+      }
+      return null
+    }
+
+    if (!data) {
+      console.warn('[getCollectionBySlug] No data returned for slug:', slug)
       return null
     }
 
@@ -308,7 +355,11 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
       skill_count: data.skill_collection_items?.length || 0
     } as SkillCollection
   } catch (err) {
-    console.error('Exception in getCollectionBySlug:', err)
+    console.error('[getCollectionBySlug] Unexpected exception:', {
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+      slug
+    })
     return null
   }
 }

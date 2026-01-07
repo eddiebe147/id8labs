@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { ArrowLeft, Package, Download, User, Calendar } from 'lucide-react'
+import { ArrowLeft, Package, Download, User, Calendar, AlertTriangle } from 'lucide-react'
 import { getCollectionBySlug, getAllCollections } from '@/lib/skills'
 import { SkillCard } from '@/components/skills/SkillCard'
 import { OfficialBadge } from '@/components/skills/TrustBadges'
@@ -11,38 +11,100 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { kit } = await params
-  const collection = await getCollectionBySlug(kit)
+  try {
+    const { kit } = await params
+    const collection = await getCollectionBySlug(kit)
 
-  if (!collection) {
-    return { title: 'Starter Kit Not Found' }
-  }
+    if (!collection) {
+      return { title: 'Starter Kit Not Found' }
+    }
 
-  return {
-    title: collection.name,
-    description:
-      collection.description ||
-      `${collection.name} starter kit with ${collection.skill_count} skills`,
+    return {
+      title: collection.name,
+      description:
+        collection.description ||
+        `${collection.name} starter kit with ${collection.skill_count} skills`,
+    }
+  } catch (err) {
+    console.error('[StarterKitPage:generateMetadata] Error:', err)
+    return { title: 'Starter Kit' }
   }
 }
 
 export async function generateStaticParams() {
-  // In development, cookies() isn't available during static generation
-  // Return empty array to fall back to dynamic rendering
   try {
     const collections = await getAllCollections()
+    if (!collections || !Array.isArray(collections)) {
+      console.warn('[StarterKitPage:generateStaticParams] Invalid collections response')
+      return []
+    }
     return collections.map((col) => ({
       kit: col.slug,
     }))
-  } catch {
-    // Fall back to dynamic rendering if static generation fails
+  } catch (err) {
+    console.error('[StarterKitPage:generateStaticParams] Error:', err)
     return []
   }
 }
 
+// Error fallback component
+function StarterKitError({ kit, error }: { kit: string; error?: string }) {
+  return (
+    <main className="min-h-screen">
+      <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
+        <div className="container py-8">
+          <Link
+            href="/skills/starter-kits"
+            className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            All Starter Kits
+          </Link>
+          <h1 className="text-3xl md:text-4xl font-bold">Starter Kit</h1>
+        </div>
+      </div>
+      <div className="container py-12">
+        <div className="text-center py-16">
+          <div className="w-16 h-16 mx-auto mb-4 bg-amber-500/10 rounded-full flex items-center justify-center">
+            <AlertTriangle className="w-8 h-8 text-amber-500" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Unable to load starter kit</h3>
+          <p className="text-[var(--text-secondary)] max-w-md mx-auto mb-6">
+            We&apos;re having trouble loading this starter kit. Please try again in a moment.
+          </p>
+          {error && process.env.NODE_ENV === 'development' && (
+            <p className="text-xs text-red-500 font-mono mb-4">Kit: {kit} - {error}</p>
+          )}
+          <Link
+            href="/skills/starter-kits"
+            className="inline-flex items-center gap-2 text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)]"
+          >
+            View all starter kits
+          </Link>
+        </div>
+      </div>
+    </main>
+  )
+}
+
 export default async function StarterKitPage({ params }: PageProps) {
-  const { kit } = await params
-  const collection = await getCollectionBySlug(kit)
+  let kit: string
+  let collection
+
+  try {
+    const resolvedParams = await params
+    kit = resolvedParams.kit
+  } catch (err) {
+    console.error('[StarterKitPage] Failed to resolve params:', err)
+    return <StarterKitError kit="unknown" error="Failed to resolve route parameters" />
+  }
+
+  try {
+    collection = await getCollectionBySlug(kit)
+  } catch (err) {
+    console.error('[StarterKitPage] Failed to fetch collection:', { kit, error: err })
+    return <StarterKitError kit={kit} error={err instanceof Error ? err.message : 'Unknown error'} />
+  }
 
   if (!collection) {
     notFound()

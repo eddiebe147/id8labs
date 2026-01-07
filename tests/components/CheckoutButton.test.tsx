@@ -13,6 +13,9 @@ Object.defineProperty(window, 'location', {
 // Store original fetch
 const originalFetch = globalThis.fetch
 
+// Valid product ID for testing
+const TEST_PRODUCT_ID = 'claude-for-knowledge-workers' as const
+
 describe('CheckoutButton', () => {
   let mockFetch: ReturnType<typeof vi.fn>
 
@@ -30,7 +33,7 @@ describe('CheckoutButton', () => {
     mockLocation.href = ''
     // Create fresh mock for each test
     mockFetch = vi.fn()
-    globalThis.fetch = mockFetch
+    globalThis.fetch = mockFetch as typeof fetch
   })
 
   afterEach(() => {
@@ -40,14 +43,14 @@ describe('CheckoutButton', () => {
 
   describe('Rendering', () => {
     it('should render with default text', () => {
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       expect(screen.getByRole('button', { name: 'Purchase Course' })).toBeInTheDocument()
     })
 
     it('should render with custom children', () => {
       render(
-        <CheckoutButton productId="ai-conversation-fundamentals">
+        <CheckoutButton productId={TEST_PRODUCT_ID}>
           Buy Now - $29
         </CheckoutButton>
       )
@@ -57,7 +60,7 @@ describe('CheckoutButton', () => {
 
     it('should apply custom className', () => {
       render(
-        <CheckoutButton productId="ai-conversation-fundamentals" className="custom-class" />
+        <CheckoutButton productId={TEST_PRODUCT_ID} className="custom-class" />
       )
 
       const button = screen.getByRole('button')
@@ -75,7 +78,7 @@ describe('CheckoutButton', () => {
         })
       )
 
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       const button = screen.getByRole('button')
       fireEvent.click(button)
@@ -100,7 +103,7 @@ describe('CheckoutButton', () => {
     it('should disable button while loading', async () => {
       mockFetch.mockImplementation(() => new Promise(() => {})) // Never resolves
 
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       const button = screen.getByRole('button')
       fireEvent.click(button)
@@ -121,7 +124,7 @@ describe('CheckoutButton', () => {
         })
       )
 
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       const button = screen.getByRole('button')
       fireEvent.click(button)
@@ -139,7 +142,7 @@ describe('CheckoutButton', () => {
         })
       )
 
-      render(<CheckoutButton productId="ai-for-leaders" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       fireEvent.click(screen.getByRole('button'))
 
@@ -149,7 +152,7 @@ describe('CheckoutButton', () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ productId: 'ai-for-leaders' }),
+          body: JSON.stringify({ productId: TEST_PRODUCT_ID }),
         })
       })
     })
@@ -164,7 +167,7 @@ describe('CheckoutButton', () => {
         })
       )
 
-      render(<CheckoutButton productId="invalid-product" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       fireEvent.click(screen.getByRole('button'))
 
@@ -181,7 +184,7 @@ describe('CheckoutButton', () => {
         })
       )
 
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       fireEvent.click(screen.getByRole('button'))
 
@@ -198,7 +201,7 @@ describe('CheckoutButton', () => {
         })
       )
 
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       fireEvent.click(screen.getByRole('button'))
 
@@ -210,7 +213,7 @@ describe('CheckoutButton', () => {
     it('should handle network errors gracefully', async () => {
       mockFetch.mockRejectedValue(new Error('Network error'))
 
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       fireEvent.click(screen.getByRole('button'))
 
@@ -227,7 +230,7 @@ describe('CheckoutButton', () => {
         })
       )
 
-      render(<CheckoutButton productId="ai-conversation-fundamentals" />)
+      render(<CheckoutButton productId={TEST_PRODUCT_ID} />)
 
       const button = screen.getByRole('button')
       fireEvent.click(button)

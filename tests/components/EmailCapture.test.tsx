@@ -38,7 +38,7 @@ describe('EmailCapture', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockFetch = vi.fn()
-    globalThis.fetch = mockFetch
+    globalThis.fetch = mockFetch as typeof fetch
   })
 
   afterEach(() => {

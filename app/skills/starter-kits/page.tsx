@@ -1,12 +1,78 @@
 import Link from 'next/link'
-import { Package, ArrowLeft } from 'lucide-react'
+import { Package, ArrowLeft, AlertTriangle } from 'lucide-react'
 import { getAllCollections } from '@/lib/skills'
 import { SkillStarterKits, FeaturedStarterKit } from '@/components/skills/SkillStarterKits'
 
 export const revalidate = 3600
 
+// Error fallback component
+function StarterKitsError({ error }: { error?: string }) {
+  return (
+    <main className="min-h-screen">
+      <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
+        <div className="container py-8">
+          <Link
+            href="/skills"
+            className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Marketplace
+          </Link>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-3 bg-purple-500/10 text-purple-500 rounded-xl">
+              <Package className="w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold">Starter Kits</h1>
+              <p className="text-[var(--text-secondary)] mt-1">
+                Curated skill bundles for common workflows
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="container py-12">
+        <div className="text-center py-16">
+          <div className="w-16 h-16 mx-auto mb-4 bg-amber-500/10 rounded-full flex items-center justify-center">
+            <AlertTriangle className="w-8 h-8 text-amber-500" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Unable to load starter kits</h3>
+          <p className="text-[var(--text-secondary)] max-w-md mx-auto mb-6">
+            We&apos;re having trouble loading the starter kits right now. Please try again in a moment.
+          </p>
+          {error && process.env.NODE_ENV === 'development' && (
+            <p className="text-xs text-red-500 font-mono mb-4">{error}</p>
+          )}
+          <Link
+            href="/skills"
+            className="inline-flex items-center gap-2 text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)]"
+          >
+            Browse all skills instead
+          </Link>
+        </div>
+      </div>
+    </main>
+  )
+}
+
 export default async function StarterKitsPage() {
-  const collections = await getAllCollections()
+  let collections
+  let error: string | undefined
+
+  try {
+    collections = await getAllCollections()
+  } catch (err) {
+    console.error('[StarterKitsPage] Failed to fetch collections:', err)
+    error = err instanceof Error ? err.message : 'Unknown error'
+    return <StarterKitsError error={error} />
+  }
+
+  // Handle empty or failed response gracefully
+  if (!collections || !Array.isArray(collections)) {
+    console.warn('[StarterKitsPage] Invalid collections response')
+    return <StarterKitsError error="Invalid response from database" />
+  }
+
   const officialCollections = collections.filter((c) => c.is_official)
   const communityCollections = collections.filter((c) => !c.is_official)
 
