@@ -73,7 +73,7 @@ const featuredProducts: Product[] = [
     name: 'Composer',
     status: 'shipping',
     statusLabel: 'v1.8161 • Live',
-    description: 'AI writing partner that actually remembers your story world. Built for 90 Day Fiancé production—context rot solved.',
+    description: 'AI writing partner that actually remembers your story world. Built in the field when other tools failed us.',
     link: 'https://id8composer.app',
     external: true,
     category: 'creators',
