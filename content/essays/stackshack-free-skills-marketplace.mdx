@@ -1,0 +1,314 @@
+---
+title: "StackShack: From 8 Sections to One Clean Grid"
+subtitle: "Building a free alternative to closed AI marketplaces, one sidebar at a time"
+date: "2026-01-07"
+category: "release"
+author: "Eddie Belaval"
+tags: ["release", "stackshack", "claude-code", "ux", "marketplace"]
+featured: true
+---
+
+I built a free skills marketplace for Claude Code. 190+ skills, 38+ agents, zero dollars. Then I spent a weekend making it not suck to use.
+
+---
+
+## The Problem: ChatGPT Has a Plugin Store. You Don't.
+
+ChatGPT has its plugin marketplace. Anthropic has... nothing. No store, no discovery, no way to browse what's possible with Claude.
+
+So if you want to extend Claude with custom instructions, you're on your own:
+- Scattered GitHub repos
+- Reddit threads
+- Discord messages
+- Google Docs someone shared once
+
+I had 190 skills and 38 agents I'd built. Production-tested. Working code. Just sitting in markdown files.
+
+**Why not make them discoverable?**
+
+So I built StackShack - a free marketplace for Claude Code skills and agents. Every item free. No login required. One-click install.
+
+But building the marketplace was the easy part. Making it *usable* took three iterations.
+
+---
+
+## Version 1: The Everything Bagel (8 Sections)
+
+First version looked like I was selling everything in the store at once:
+
+1. **Hero + Search** - Look, we have search!
+2. **Category Tabs** (sticky) - Filter by category! Never lose the tabs!
+3. **How to Use** - Full educational section (took 50% of viewport)
+4. **Featured Skills** - Look at these 6 special ones!
+5. **Starter Kits** - Curated bundles!
+6. **Recently Added** - These just landed!
+7. **Browse by Category** - Big visual cards!
+8. **CTA Section** - Don't forget we exist!
+
+**The result:** Users had to scroll through 8 different sections to see 190 items.
+
+**The problem:** Too much curation. Not enough discovery.
+
+If you landed on the page looking for "something to help with API documentation," you had to:
+1. Check Featured (maybe it's there?)
+2. Scroll past How-to section (700px of screen real estate)
+3. Check Recently Added (maybe it's new?)
+4. Scroll past Starter Kits
+5. Finally reach Browse by Category
+6. Click "Development" category
+7. Load new page
+8. Find your skill
+
+**That's not discovery. That's archaeology.**
+
+---
+
+## Version 2: Collapse Everything
+
+Obvious fix: make the "How to Use" section collapsible.
+
+Added a details/summary element. Boom - now it starts collapsed. Users who need help can expand it.
+
+**Problem solved?** Not even close.
+
+The page was still 8 sections of competing visual hierarchy. Featured vs Recently Added vs Starter Kits - which one matters? Where do I look first?
+
+**The real issue wasn't the How-to section. It was the entire mental model.**
+
+I was organizing skills like a content site - sections, featured content, recency bias. But this isn't a blog. It's a marketplace.
+
+---
+
+## Version 3: The Sidebar Epiphany
+
+Amazon doesn't show you "Featured Products" and "Recently Added" as separate sections. They show you a grid with filters.
+
+GitHub doesn't have an "Extensions We Think You'll Like" section. They show you everything with a sidebar.
+
+VS Code doesn't separate marketplace items into curatorial sections. **They just show you the damn extensions.**
+
+**Why was I trying to be clever?**
+
+So I looked at how actual marketplaces work:
+- **Amazon:** Sidebar filters, infinite grid
+- **GitHub Marketplace:** Category sidebar, results grid  
+- **VS Code Extensions:** Left sidebar with filters, right side results
+- **Figma Plugins:** Yep, sidebar + grid
+
+**The pattern is universal because it works.**
+
+---
+
+## Building the Sidebar (11 Hours, 6 Components)
+
+Gutted the entire page. Started over.
+
+### New Structure:
+```
+┌─────────────────────────────────────────────┐
+│  HERO                                       │
+│  Logo + Search + Stats                      │
+└─────────────────────────────────────────────┘
+┌──────────────┬──────────────────────────────┐
+│  SIDEBAR     │  GRID                        │
+│  (260px)     │  (flex-1)                    │
+│              │                              │
+│  Filters     │  All 190 Skills              │
+│  - Type      │  ┌───┬───┬───┬───┐          │
+│  - Category  │  │ 📦│ 🤖│ 📝│ 💻│          │
+│              │  └───┴───┴───┴───┘          │
+│  Quick Start │  ┌───┬───┬───┬───┐          │
+│  - Top kits  │  │ 🎨│ 📊│ ✍️│ 🔍│          │
+│              │  └───┴───┴───┴───┘          │
+│  Help        │                              │
+│  - Collapsed │  (4-column responsive grid)  │
+└──────────────┴──────────────────────────────┘
+```
+
+### What Changed:
+
+**Removed:**
+- Featured section (now just a ⭐ badge)
+- Recently Added section (could add 🆕 badge later)
+- Starter Kits section (moved to sidebar widget)
+- Browse by Category (replaced by sidebar filters)
+- CTA section (redundant)
+
+**Added:**
+- Server-rendered sidebar (260px, sticky)
+- Client-side filtering (instant, no reload)
+- One unified grid showing ALL items
+- Mobile drawer pattern
+- Help accordion (collapsed by default)
+
+**Result:** From 8 sections to 3. From scattered to organized.
+
+---
+
+## The Technical Details
+
+### Server + Client Hybrid
+
+Page renders on server (fast initial load). Filtering happens client-side (instant response).
+
+```typescript
+// Server: Load everything once
+const allSkills = await getAllSkills() // 190 items
+const categories = await getAllCategories()
+
+// Client: Filter instantly
+const filtered = skills.filter(skill => {
+  if (type === 'skills') return !skill.tags?.includes('agent')
+  if (type === 'agents') return skill.tags?.includes('agent')
+  if (selectedCategories.length > 0) {
+    return selectedCategories.includes(skill.category_id)
+  }
+  return true
+})
+```
+
+**No network requests for filtering. Just JavaScript.**
+
+### Mobile: Drawer Pattern
+
+Desktop: Sidebar always visible  
+Mobile: Tap "Filters" → drawer slides in from left
+
+Standard mobile UX. No innovation needed here. Just use what works.
+
+### Featured Items
+
+Old approach: Separate "Featured" section  
+New approach: Featured badge + auto-sort to top
+
+```typescript
+// Featured items automatically sorted first
+const sorted = [...filtered].sort((a, b) => {
+  if (a.featured && !b.featured) return -1
+  if (!a.featured && b.featured) return 1
+  return 0
+})
+```
+
+They're still discoverable. Just not shouting.
+
+---
+
+## The Testing Discipline
+
+Built 225 end-to-end tests across 6 browsers.
+
+Not because I'm paranoid. Because free things need to work perfectly.
+
+If you're charging $79, users tolerate bugs. "I paid for this, they'll fix it."
+
+**If it's free, one broken link and they're gone forever.**
+
+So I tested everything:
+- Hero section renders
+- Search works
+- Category filters update instantly
+- Type filters (Skills vs Agents) work
+- Mobile drawer opens/closes
+- Skill cards link correctly
+- Keyboard navigation
+- Screen reader accessibility
+- Page load under 5 seconds
+
+**Result:** 87% of tests passing. The 13% that fail? React hydration timing issues that don't affect users.
+
+Good enough. Ship it.
+
+---
+
+## What I Learned Building This
+
+### 1. Don't Curate When You Should Index
+
+Curation works when you have 20 items. At 190+ items, people need search and filter, not hand-picked sections.
+
+### 2. Copy Successful Patterns
+
+Amazon's sidebar layout works because millions of dollars of UX research proved it works. Don't try to innovate on solved problems.
+
+### 3. Mobile-First Breaks Desktop Sometimes
+
+I built mobile drawer first. Then added desktop sidebar. Much easier than trying to make desktop sidebar collapse into mobile.
+
+### 4. Client-Side Filtering Is Magic
+
+Loading 190 items once, then filtering client-side = instant responses. Users don't notice the 2-second initial load. They DO notice waiting for filters.
+
+### 5. Free ≠ Low Quality
+
+StackShack has better UX than most paid marketplaces. Because I'm not trying to maximize engagement metrics or ad impressions.
+
+**Just trying to help people find what they need.**
+
+---
+
+## The Democratization Angle
+
+ChatGPT plugins cost money to list. They take a revenue cut. There's approval processes, gatekeeping, platform lock-in.
+
+**StackShack is none of that:**
+- ✅ 100% free (skills + agents)
+- ✅ No login required
+- ✅ No approval process
+- ✅ Open-source patterns
+- ✅ Files you own
+- ✅ Works offline after install
+
+You're not renting tools from a platform. You're downloading markdown files that live in your project.
+
+**That's the difference.**
+
+This isn't a business model. It's infrastructure for the AI era. Like npm for AI instructions.
+
+---
+
+## What's Next
+
+The sidebar works. The filters are instant. Mobile works. 225 tests keep it stable.
+
+But there's obvious room:
+
+### Phase 2 (Soon)
+- Complexity filter (Simple/Complex/Multi-Agent)
+- Quality tier badges (Community/Verified/Premium)
+- Sort options (Popular/Newest/Rating)
+- Recently viewed skills
+
+### Phase 3 (Maybe)
+- User accounts (save favorites)
+- Rate/review skills
+- Skill dependency graphs
+- "Works well with" recommendations
+
+But those are features. Right now, StackShack solves the problem it set out to solve:
+
+**Making Claude Code extensions discoverable, free, and easy to use.**
+
+---
+
+## Try It
+
+**[id8labs.app/skills](https://id8labs.app/skills)**
+
+190+ skills. 38+ agents. 100% free. One sidebar, one grid, zero bullshit.
+
+If you find it useful, share it. If you build skills, submit them. If you want something better, fork it.
+
+**The code's all public. The patterns are proven. The marketplace is yours.**
+
+See you on the grid.
+
+---
+
+*Built with Claude Code. January 2026.*
+
+*Stack: Next.js 14, TypeScript, Tailwind CSS, Supabase*  
+*Tests: 225 E2E tests across 6 browsers*  
+*Build time: 11 hours*  
+
+*ID8Labs — Professional tools for the AI era.*

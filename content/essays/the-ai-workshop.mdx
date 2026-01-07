@@ -1,0 +1,154 @@
+---
+title: "The AI Workshop"
+subtitle: "Understanding Skills, Agents, MCPs, and Plugins"
+date: "2026-01-08"
+category: "essay"
+author: "Eddie Belaval"
+tags: ["ai", "architecture", "mental-models", "claude-code"]
+featured: true
+---
+
+There's a lot of confusion in the AI ecosystem right now. People throw around terms like "agents" and "plugins" and "MCPs" as if they're interchangeable. They're not. And the confusion isn't just semantic—it leads to poor architecture decisions, wasted effort, and tools that don't compose well together.
+
+Let me offer a mental model that cuts through the noise: **the workshop.**
+
+---
+
+## The Workshop Model
+
+Imagine a master craftsperson in their workshop. They have intelligence, creativity, and the ability to reason through problems. But raw intelligence isn't enough to build anything. They need training, tools, connections to the outside world, and sometimes—help.
+
+This is exactly how modern AI systems work. The AI itself is the craftsperson. Everything else—skills, MCPs, agents, plugins—are the elements that transform raw intelligence into productive capability.
+
+Let's break down each element.
+
+---
+
+## Skills: Training and Reference Manuals
+
+**What they are:** Skills are accumulated knowledge and documented methodologies. They're not just "knowing how to do something"—they're having the refined techniques and reference materials to do it *well*.
+
+**Workshop equivalent:** The woodworker's years of practice making dovetail joints, plus the reference guides on their shelf for specific applications. The muscle memory and the manual.
+
+**Technical reality:** In systems like Claude, skills are literally SKILL.md files—documented best practices distilled from extensive trial and error. When Claude encounters a task, it can consult the relevant skill to understand the proven approach.
+
+**Key characteristic:** Skills are *persistent and reusable*. They don't change conversation to conversation. They're foundational capability.
+
+**Example:** A "document creation" skill contains knowledge about proper formatting, file structure, common pitfalls, and quality standards. The AI consults this skill whenever it needs to create a professional document.
+
+---
+
+## MCPs: Infrastructure Connections
+
+**What they are:** Model Context Protocol servers are the wiring that connects AI to the outside world. They're standardized interfaces that let AI systems read, write, and interact with external services.
+
+**Workshop equivalent:** The power lines, plumbing, phone lines, and delivery dock. Without them, the craftsperson is isolated in their workshop—they can think about work, but they can't actually reach materials, clients, or services.
+
+**Technical reality:** An MCP is a running server that exposes tools to an AI. The Notion MCP gives Claude access to your workspace. The Google Drive MCP lets it read and organize your documents. The Slack MCP enables it to send messages.
+
+**Key characteristic:** MCPs are *connections, not capabilities*. They don't make the AI smarter—they give it reach. A brilliant craftsperson with no power to their workshop can't run their tools.
+
+**Example:** The Figma MCP doesn't teach Claude design. It gives Claude the ability to read your Figma files and understand what's in them. The intelligence to analyze design comes from Claude; the access to your designs comes from the MCP.
+
+---
+
+## Agents: Specialized Workers
+
+**What they are:** Agents are semi-autonomous actors that can pursue goals with varying degrees of independence. You give them an objective; they figure out the steps.
+
+**Workshop equivalent:** Apprentices or specialized workers. The finishing specialist who takes "make this piece beautiful" and handles all the sanding, staining, and sealing without you specifying each step. They have agency within their domain.
+
+**Technical reality:** An agent is typically an AI system with a defined goal, access to tools, and the ability to chain multiple actions together. A research agent might take "find everything about X" and autonomously run searches, synthesize information, identify gaps, run more searches, and produce a report.
+
+**Key characteristic:** Agents have *autonomy*. They make decisions. They might use skills and MCPs themselves, but what defines them is their ability to operate toward a goal without constant direction.
+
+**Example:** A "code review agent" receives a pull request, decides what to examine, runs tests, checks for patterns it knows are problematic, and produces feedback—all without you telling it which files to look at or which tests to run.
+
+---
+
+## Plugins: Pre-Built Tool Kits
+
+**What they are:** Plugins are packaged solutions that bundle multiple capabilities into a single installable unit. They're convenience wrappers—someone else figured out the integration so you don't have to.
+
+**Workshop equivalent:** A dovetail jig kit. You buy it, clamp it to your bench, and it works. You didn't design it, you might not fully understand its internal mechanics, but it reliably produces dovetails. Trade customization for speed.
+
+**Technical reality:** Plugins often combine skills (methodology), MCPs (connections), and sometimes agent-like behaviors into one package. A "meeting assistant" plugin might include: scheduling skills, calendar MCP integration, and autonomous follow-up capabilities.
+
+**Key characteristic:** Plugins are *composites*. They bundle primitives for convenience. This makes them powerful but also opaque—you're trusting someone else's architecture.
+
+**Example:** A "sales intelligence" plugin might combine web search MCPs, CRM MCPs, company research skills, and lead qualification logic into a single "analyze this prospect" capability.
+
+---
+
+## The Workshop, Visualized
+
+Here's how these pieces fit together spatially:
+
+```
+THE WORKSHOP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+┌─────────────────────────────────────────┐
+│           THE CRAFTSPERSON              │
+│              (The AI)                   │
+│     Intelligence • Reasoning • Will     │
+└─────────────────────────────────────────┘
+          │                   │
+    ┌─────┴─────┐       ┌─────┴─────┐
+    │  SKILLS   │       │   MCPs    │
+    │(Knowledge)│       │(Wiring)   │
+    │           │       │           │
+    │ • Manuals │       │ • Power   │
+    │ • Methods │       │ • Network │
+    │ • Patterns│       │ • Dock    │
+    └───────────┘       └───────────┘
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ┌───────────┐         ┌───────────┐
+  │  AGENTS   │         │  PLUGINS  │
+  │(Workers)  │         │(Toolkits) │
+  │           │         │           │
+  │ Autonomy  │         │ Bundled   │
+  │ Goals     │         │ Solutions │
+  │ Decisions │         │ Pre-built │
+  └───────────┘         └───────────┘
+```
+
+---
+
+## The Key Insight: Composition
+
+The confusion happens because these primitives combine. An agent might use skills and call MCPs. A plugin might bundle all three. When you see a sophisticated AI capability, you're often looking at layers working together.
+
+But understanding the primitives lets you architect intentionally. Instead of grabbing whatever's packaged, you can ask:
+
+- Do I need knowledge (skill) or access (MCP)?
+- Do I need autonomy (agent) or convenience (plugin)?
+- What am I trading when I choose a bundled solution?
+
+---
+
+## When to Use What
+
+| If you need... | Use... | Because... |
+|----------------|--------|------------|
+| Better methodology | Skill | The AI knows how, but needs refined technique |
+| Access to external data | MCP | The AI is isolated without infrastructure |
+| Autonomous execution | Agent | You want delegation, not step-by-step direction |
+| Quick, pre-built solution | Plugin | Speed matters more than customization |
+
+---
+
+## The Bottom Line
+
+A workshop with a brilliant craftsperson but no power, no supplies, and no reference materials produces nothing. An AI with no skills, no connections, and no autonomy is similarly limited.
+
+But when you understand what each component contributes—knowledge, access, autonomy, or convenience—you can build systems that actually work. You can diagnose problems ("Why isn't this working? Do I need a skill, or do I need an MCP?"). You can make intentional trade-offs ("Do I want to build custom, or grab a plugin?").
+
+The AI ecosystem will keep generating new terms and new tools. But the primitives won't change much. Infrastructure. Knowledge. Autonomy. Packaging.
+
+**Master the workshop, and you can build anything.**
+
+---
+
+*Published January 8, 2026*
+
+*ID8Labs — Professional tools for the AI era.*

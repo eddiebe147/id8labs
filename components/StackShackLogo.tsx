@@ -17,6 +17,7 @@ export function StackShackLogo({ size = 'md', className = '' }: StackShackLogoPr
     <span
       className={`${sizes[size]} ${className}`}
       style={{ fontFamily: 'var(--font-press-start)' }}
+      suppressHydrationWarning
     >
       <span className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
         STACK

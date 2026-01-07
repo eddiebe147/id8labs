@@ -26,7 +26,7 @@ export default async function CategoriesPage() {
             return (
               <Link
                 key={category.id}
-                href={`/skills/categories/${category.id}`}
+                href={`/stackshack/categories/${category.id}`}
                 className="group p-8 bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl hover:border-[var(--id8-orange)]/50 hover:shadow-xl transition-all"
               >
                 <span className="text-5xl mb-4 block">{category.emoji || '📦'}</span>

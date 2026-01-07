@@ -247,7 +247,7 @@ export default async function SkillDetailPage({ params }: PageProps) {
                   {skill.tags.map((tag) => (
                     <Link
                       key={tag}
-                      href={`/skills/search?q=${encodeURIComponent(tag)}`}
+                      href={`/stackshack/search?q=${encodeURIComponent(tag)}`}
                       className="px-3 py-1 bg-[var(--bg-secondary)] text-[var(--text-secondary)] rounded-md text-sm hover:bg-[var(--bg-tertiary)] transition-colors"
                     >
                       {tag}

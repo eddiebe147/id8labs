@@ -22,8 +22,10 @@ export default function Header() {
             <Link href="/products" className="text-base hover:opacity-70 transition-opacity">
               Products
             </Link>
-            <Link href="/skills" className="hover:opacity-80 transition-opacity">
-              <StackShackLogo size="sm" />
+            <Link href="/skills" className="hover:opacity-80 transition-opacity" aria-label="Stack Shack">
+              <div className="flex items-center">
+                <StackShackLogo size="sm" />
+              </div>
             </Link>
             <Link href="/services" className="text-base hover:opacity-70 transition-opacity">
               Services

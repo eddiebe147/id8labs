@@ -85,8 +85,8 @@ export function SkillCard({
 
   const cardClasses =
     variant === 'featured'
-      ? 'card-featured group relative flex flex-col'
-      : 'card group relative flex flex-col'
+      ? 'card-featured group relative flex flex-col h-full'
+      : 'card group relative flex flex-col h-full'
 
   return (
     <article className={cardClasses}>
@@ -128,12 +128,12 @@ export function SkillCard({
       </div>
 
       {/* Title and description */}
-      <Link href={`/skills/${skill.slug}`} className="block mb-3">
-        <h3 className="font-semibold text-lg mb-1 group-hover:text-[var(--id8-orange)] transition-colors">
+      <Link href={`/skills/${skill.slug}`} className="block mb-3 flex-1">
+        <h3 className="font-semibold text-lg mb-1 group-hover:text-[var(--id8-orange)] transition-colors line-clamp-1" title={skill.name}>
           {skill.name}
         </h3>
-        <p className="text-sm text-[var(--text-secondary)] line-clamp-2">
-          {skill.description}
+        <p className="text-sm text-[var(--text-secondary)] line-clamp-3 min-h-[3em]">
+          {skill.description || 'No description available.'}
         </p>
       </Link>
 
@@ -179,11 +179,10 @@ export function SkillCard({
             onAddToStack(skill)
           }}
           disabled={isInStack}
-          className={`mt-3 w-full py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
-            isInStack
+          className={`mt-3 w-full py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${isInStack
               ? 'bg-emerald-500/10 text-emerald-500 cursor-default'
               : 'bg-[var(--id8-orange)] text-white hover:bg-[var(--id8-orange-hover)] hover:shadow-lg'
-          }`}
+            }`}
         >
           {isInStack ? '✓ In Stack' : '+ Add to Stack'}
         </button>

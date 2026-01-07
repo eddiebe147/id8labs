@@ -139,7 +139,7 @@ export function SkillSearchBar({
           onFocus={() => results.length > 0 && setIsOpen(true)}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className="w-full pl-12 pr-12 py-3.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-base placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-[var(--id8-orange)] focus:ring-2 focus:ring-[var(--id8-orange)]/20 transition-all"
+          className="w-full pl-12 pr-12 py-3.5 bg-[var(--bg-tertiary)] border border-[var(--border)] rounded-xl text-base text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-[var(--id8-orange)] focus:ring-2 focus:ring-[var(--id8-orange)]/20 transition-all"
         />
         {isLoading ? (
           <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-tertiary)] animate-spin" />
@@ -164,11 +164,10 @@ export function SkillSearchBar({
               <button
                 key={skill.id}
                 onClick={() => handleSelect(skill)}
-                className={`w-full px-4 py-3 text-left flex items-center gap-3 transition-colors ${
-                  index === selectedIndex
+                className={`w-full px-4 py-3 text-left flex items-center gap-3 transition-colors ${index === selectedIndex
                     ? 'bg-[var(--id8-orange)]/10'
                     : 'hover:bg-[var(--bg-secondary)]'
-                }`}
+                  }`}
               >
                 <span className="text-xl flex-shrink-0">
                   {getCategoryEmoji(skill.category_id)}
