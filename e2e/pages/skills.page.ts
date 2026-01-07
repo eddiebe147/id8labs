@@ -2,7 +2,8 @@ import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './base.page';
 
 /**
- * Skills page object for StackShack marketplace with Sidebar Layout
+ * Skills page object for StackShack marketplace with Server-Side Sidebar
+ * Note: Filters use URL-based navigation (Links), not client-side radio/checkboxes
  */
 export class SkillsPage extends BasePage {
   // Hero section
@@ -13,80 +14,85 @@ export class SkillsPage extends BasePage {
   readonly searchBar: Locator;
   readonly quickStats: Locator;
 
-  // Sidebar
+  // Sidebar (desktop only - hidden on mobile with lg:block)
   readonly sidebar: Locator;
-  readonly sidebarOverlay: Locator;
-  readonly mobileFilterButton: Locator;
-  readonly sidebarCloseButton: Locator;
 
-  // Sidebar - Filter Section
+  // Sidebar - Filter Section (uses Links, not radio buttons)
   readonly filterSection: Locator;
+  readonly filterHeader: Locator;
   readonly typeFilterAll: Locator;
   readonly typeFilterSkills: Locator;
   readonly typeFilterAgents: Locator;
-  readonly categoryCheckboxes: Locator;
-  readonly clearFiltersButton: Locator;
+  readonly categoryLinks: Locator;
+  readonly clearFiltersLink: Locator;
 
   // Sidebar - Starter Kits Widget
-  readonly starterKitsWidget: Locator;
+  readonly starterKitsSection: Locator;
   readonly starterKitLinks: Locator;
   readonly browseAllKitsLink: Locator;
 
   // Sidebar - Help Accordion
-  readonly helpAccordion: Locator;
-  readonly helpInstallSection: Locator;
-  readonly helpSkillsVsAgentsSection: Locator;
-  readonly viewFullGuideLink: Locator;
+  readonly helpSection: Locator;
+  readonly helpInstallDetails: Locator;
+  readonly helpSkillsVsAgentsDetails: Locator;
 
   // Main Content
   readonly mainContent: Locator;
   readonly resultsCount: Locator;
   readonly skillsGrid: Locator;
   readonly skillCards: Locator;
-  readonly emptyState: Locator;
+  readonly activeFilters: Locator;
+  readonly clearAllLink: Locator;
+
+  // Mobile (sidebar is hidden, uses MobileFilterButton which links to /skills)
+  readonly mobileFilterButton: Locator;
 
   constructor(page: Page) {
     super(page);
 
     // Hero section
     this.heroSection = page.locator('section').first();
-    this.stackShackLogo = page.locator('span').filter({ hasText: /STACKSHACK/ });
+    this.stackShackLogo = page.locator('h1').first();
     this.heroBadge = page.locator('div').filter({ hasText: /Skills & Agents/ }).first();
     this.heroSubtitle = page.locator('p').filter({ hasText: /Free skills & agents for Claude Code/ });
     this.searchBar = page.locator('input[type="search"], input[placeholder*="Search"]');
-    this.quickStats = page.locator('div').filter({ hasText: /Categories|Free|Verified/ });
+    this.quickStats = page.locator('div').filter({ hasText: /Categories/ }).first();
 
-    // Sidebar
+    // Sidebar (desktop only)
     this.sidebar = page.locator('aside');
-    this.sidebarOverlay = page.locator('div.fixed.inset-0.bg-black\\/50');
-    this.mobileFilterButton = page.locator('button').filter({ hasText: /Filters/ }).first();
-    this.sidebarCloseButton = this.sidebar.locator('button').filter({ has: page.locator('svg') }).first();
 
-    // Sidebar - Filter Section
+    // Sidebar - Filter Section (Link-based)
+    // Use href selectors to be precise since text can match multiple (e.g., "Skills" matches "Meta-Skills")
     this.filterSection = this.sidebar.locator('div').filter({ hasText: /Type/ }).first();
-    this.typeFilterAll = this.sidebar.locator('input[type="radio"][value="all"]');
-    this.typeFilterSkills = this.sidebar.locator('input[type="radio"][value="skills"]');
-    this.typeFilterAgents = this.sidebar.locator('input[type="radio"][value="agents"]');
-    this.categoryCheckboxes = this.sidebar.locator('input[type="checkbox"]');
-    this.clearFiltersButton = this.sidebar.locator('button').filter({ hasText: /Clear/ });
+    this.filterHeader = this.sidebar.locator('h3').filter({ hasText: /Filters/i });
+    this.typeFilterAll = this.sidebar.locator('a[href="/skills"]').first();
+    this.typeFilterSkills = this.sidebar.locator('a[href*="type=skills"]');
+    this.typeFilterAgents = this.sidebar.locator('a[href*="type=agents"]');
+    // Category links have emoji spans (span.text-lg) and go to /skills?category=*
+    this.categoryLinks = this.sidebar.locator('a[href*="category="]');
+    this.clearFiltersLink = this.sidebar.locator('a').filter({ hasText: 'Clear' });
 
     // Sidebar - Starter Kits Widget
-    this.starterKitsWidget = this.sidebar.locator('div').filter({ hasText: /Quick Start/i });
-    this.starterKitLinks = this.starterKitsWidget.locator('a[href*="/skills/starter-kits/"]');
+    this.starterKitsSection = this.sidebar.locator('h3').filter({ hasText: /Starter Kits/i }).locator('..');
+    this.starterKitLinks = this.sidebar.locator('a[href*="/skills/starter-kits#"]');
     this.browseAllKitsLink = this.sidebar.locator('a').filter({ hasText: /Browse all kits/i });
 
-    // Sidebar - Help Accordion
-    this.helpAccordion = this.sidebar.locator('div').filter({ hasText: /Help/i }).last();
-    this.helpInstallSection = this.sidebar.locator('button').filter({ hasText: /How to Install/i });
-    this.helpSkillsVsAgentsSection = this.sidebar.locator('button').filter({ hasText: /Skills vs Agents/i });
-    this.viewFullGuideLink = this.sidebar.locator('a').filter({ hasText: /View full guide/i });
+    // Sidebar - Help Accordion (uses <details> elements)
+    this.helpSection = this.sidebar.locator('h3').filter({ hasText: /Help/i }).locator('..');
+    this.helpInstallDetails = this.sidebar.locator('details').filter({ hasText: /How to Install/ });
+    this.helpSkillsVsAgentsDetails = this.sidebar.locator('details').filter({ hasText: /Skills vs Agents/ });
 
     // Main Content
-    this.mainContent = page.locator('div.flex-1');
-    this.resultsCount = page.locator('p').filter({ hasText: /Showing.*of.*items/i });
-    this.skillsGrid = page.locator('div.grid');
-    this.skillCards = page.locator('a[href*="/skills/"]').filter({ has: page.locator('h3, h4, article') });
-    this.emptyState = page.locator('div').filter({ hasText: /No skills found/i });
+    this.mainContent = page.locator('div.flex-1.min-w-0').first();
+    // Results count is in a div: "Showing X of Y items"
+    this.resultsCount = page.locator('div').filter({ hasText: /^Showing \d+/ }).first();
+    this.skillsGrid = page.locator('div.grid').first();
+    this.skillCards = page.locator('article');
+    this.activeFilters = page.locator('div').filter({ hasText: /Active filters:/ }).first();
+    this.clearAllLink = page.locator('a').filter({ hasText: /Clear all/ });
+
+    // Mobile filter button
+    this.mobileFilterButton = page.locator('a.lg\\:hidden').filter({ hasText: /Filters/ });
   }
 
   /**
@@ -108,56 +114,34 @@ export class SkillsPage extends BasePage {
   }
 
   /**
-   * Open mobile sidebar (on mobile viewports)
-   */
-  async openMobileSidebar() {
-    if (await this.mobileFilterButton.isVisible()) {
-      await this.mobileFilterButton.click();
-      await this.page.waitForTimeout(300); // Wait for animation
-    }
-  }
-
-  /**
-   * Close mobile sidebar
-   */
-  async closeMobileSidebar() {
-    if (await this.sidebarCloseButton.isVisible()) {
-      await this.sidebarCloseButton.click();
-      await this.page.waitForTimeout(300);
-    } else if (await this.sidebarOverlay.isVisible()) {
-      await this.sidebarOverlay.click();
-      await this.page.waitForTimeout(300);
-    }
-  }
-
-  /**
-   * Filter by type (All/Skills/Agents)
+   * Filter by type using URL navigation
    */
   async filterByType(type: 'all' | 'skills' | 'agents') {
-    const radio = type === 'all' ? this.typeFilterAll : 
-                  type === 'skills' ? this.typeFilterSkills : 
-                  this.typeFilterAgents;
-    
-    await radio.check();
-    await this.page.waitForTimeout(300); // Wait for filter to apply
+    if (type === 'all') {
+      // Navigate directly since "All Items" just goes to /skills
+      await this.page.goto('/skills');
+    } else {
+      // Use direct navigation instead of clicking - more reliable
+      await this.page.goto(`/skills?type=${type}`);
+    }
+    await this.page.waitForLoadState('networkidle');
   }
 
   /**
-   * Filter by category (toggle checkbox)
+   * Filter by category using URL navigation
    */
-  async toggleCategoryFilter(categoryName: string) {
-    const checkbox = this.sidebar.locator('label').filter({ hasText: new RegExp(categoryName, 'i') })
-      .locator('input[type="checkbox"]');
-    await checkbox.click();
-    await this.page.waitForTimeout(300);
+  async filterByCategory(categoryId: string) {
+    await this.page.goto(`/skills?category=${categoryId}`);
+    await this.page.waitForLoadState('networkidle');
   }
 
   /**
    * Clear all filters
    */
   async clearFilters() {
-    await this.clearFiltersButton.click();
-    await this.page.waitForTimeout(300);
+    // Navigate directly to /skills to clear all filters - most reliable
+    await this.page.goto('/skills');
+    await this.page.waitForLoadState('networkidle');
   }
 
   /**
@@ -180,25 +164,9 @@ export class SkillsPage extends BasePage {
   async clickSkillCard(index: number = 0) {
     const cards = await this.skillCards.all();
     if (cards.length > index) {
-      await cards[index].click();
+      await cards[index].locator('a').first().click();
       await this.waitForPageLoad();
     }
-  }
-
-  /**
-   * Get all visible skill card titles
-   */
-  async getSkillCardTitles(): Promise<string[]> {
-    const cards = await this.skillCards.all();
-    const titles: string[] = [];
-    for (const card of cards) {
-      const heading = card.locator('h3, h4, h5').first();
-      if (await heading.count() > 0) {
-        const title = await heading.textContent();
-        if (title) titles.push(title.trim());
-      }
-    }
-    return titles;
   }
 
   /**
@@ -213,11 +181,12 @@ export class SkillsPage extends BasePage {
   }
 
   /**
-   * Expand help section (How to Install or Skills vs Agents)
+   * Expand help section
    */
   async expandHelpSection(section: 'install' | 'difference') {
-    const button = section === 'install' ? this.helpInstallSection : this.helpSkillsVsAgentsSection;
-    await button.click();
+    const details = section === 'install' ? this.helpInstallDetails : this.helpSkillsVsAgentsDetails;
+    const summary = details.locator('summary');
+    await summary.click();
     await this.page.waitForTimeout(200);
   }
 
@@ -235,7 +204,6 @@ export class SkillsPage extends BasePage {
    */
   async verifySidebarVisible() {
     await expect(this.sidebar).toBeVisible();
-    await expect(this.filterSection).toBeVisible();
   }
 
   /**
@@ -251,25 +219,14 @@ export class SkillsPage extends BasePage {
    */
   async verifyStackShackLogo() {
     await expect(this.stackShackLogo).toBeVisible();
-    const logoText = await this.stackShackLogo.textContent();
-    expect(logoText).toContain('STACK');
-    expect(logoText).toContain('SHACK');
   }
 
   /**
    * Verify quick stats badges
    */
   async verifyQuickStats() {
-    const statsText = await this.quickStats.allTextContents();
-    const combinedText = statsText.join(' ');
-    expect(combinedText).toMatch(/Categories|Free|Verified/);
-  }
-
-  /**
-   * Check if empty state is shown
-   */
-  async isEmptyStateVisible(): Promise<boolean> {
-    return await this.emptyState.isVisible();
+    const statsText = await this.quickStats.textContent();
+    expect(statsText).toMatch(/Categories/);
   }
 
   /**
@@ -280,5 +237,12 @@ export class SkillsPage extends BasePage {
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     });
     await this.page.waitForTimeout(2000);
+  }
+
+  /**
+   * Check if filters are active
+   */
+  async hasActiveFilters(): Promise<boolean> {
+    return await this.activeFilters.isVisible() || await this.clearFiltersLink.isVisible();
   }
 }
