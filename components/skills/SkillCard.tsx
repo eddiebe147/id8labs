@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { Download, Star, CheckCircle, Sparkles } from 'lucide-react'
 import type { Skill } from '@/lib/skill-types'
+import { useStackStore } from '@/lib/stores/stack-store'
+import { FlipCard } from '@/components/stack/FlipCard'
 
 // Category emoji mapping
 const CATEGORY_EMOJI: Record<string, string> = {
@@ -51,17 +53,35 @@ interface SkillCardProps {
   onAddToStack?: (skill: Skill) => void
   isInStack?: boolean
   variant?: 'default' | 'compact' | 'featured'
+  enableFlip?: boolean
 }
 
 export function SkillCard({
   skill,
   onAddToStack,
-  isInStack = false,
+  isInStack: isInStackProp,
   variant = 'default',
+  enableFlip = false,
 }: SkillCardProps) {
+  const { addItem, removeItem, isInStack: isInStackStore } = useStackStore()
+  
+  // Use store state if no prop provided
+  const isInStack = isInStackProp !== undefined ? isInStackProp : isInStackStore(skill.id)
+  
   const categoryEmoji = CATEGORY_EMOJI[skill.category_id || 'meta'] || '⚙️'
   const complexityStyle = COMPLEXITY_STYLES[skill.complexity] || COMPLEXITY_STYLES.simple
   const tierStyle = skill.quality_tier ? TIER_STYLES[skill.quality_tier] : null
+  
+  const handleAddToStack = () => {
+    if (isInStack) {
+      removeItem(skill.id)
+    } else {
+      addItem(skill)
+    }
+    if (onAddToStack) {
+      onAddToStack(skill)
+    }
+  }
 
   if (variant === 'compact') {
     return (
@@ -88,7 +108,7 @@ export function SkillCard({
       ? 'card-featured group relative flex flex-col h-full'
       : 'card group relative flex flex-col h-full'
 
-  return (
+  const cardContent = (
     <article className={cardClasses}>
       {/* Featured badge */}
       {skill.featured && (
@@ -172,23 +192,32 @@ export function SkillCard({
       </div>
 
       {/* Add to Stack button */}
-      {onAddToStack && (
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            onAddToStack(skill)
-          }}
-          disabled={isInStack}
-          className={`mt-3 w-full py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${isInStack
-              ? 'bg-emerald-500/10 text-emerald-500 cursor-default'
-              : 'bg-[var(--id8-orange)] text-white hover:bg-[var(--id8-orange-hover)] hover:shadow-lg'
-            }`}
-        >
-          {isInStack ? '✓ In Stack' : '+ Add to Stack'}
-        </button>
-      )}
+      <button
+        onClick={(e) => {
+          e.preventDefault()
+          handleAddToStack()
+        }}
+        className={`mt-3 w-full py-2 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
+          isInStack
+            ? 'bg-emerald-500/10 text-emerald-500 border-2 border-emerald-500'
+            : 'bg-[var(--id8-orange)] text-white hover:bg-[var(--id8-orange-hover)] hover:shadow-lg'
+        }`}
+      >
+        {isInStack ? '✓ In Stack' : '+ Add to Stack'}
+      </button>
     </article>
   )
+
+  // Wrap in FlipCard if enabled (not for compact variant)
+  if (enableFlip && (variant === 'default' || variant === 'featured')) {
+    return (
+      <FlipCard isFlipped={isInStack}>
+        {cardContent}
+      </FlipCard>
+    )
+  }
+
+  return cardContent
 }
 
 export default SkillCard

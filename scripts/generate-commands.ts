@@ -525,7 +525,7 @@ const commands: Command[] = [
 ]
 
 console.log(`Generated ${commands.length} workflow commands`)
-console.log('Categories:', [...new Set(commands.map(c => c.category))].join(', '))
+console.log('Categories:', Array.from(new Set(commands.map(c => c.category))).join(', '))
 console.log('\\nWriting to JSON...')
 
 // Write to JSON file for import
