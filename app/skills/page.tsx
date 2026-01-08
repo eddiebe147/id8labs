@@ -13,6 +13,9 @@ import { StackShackLogo } from '@/components/StackShackLogo'
 import { ServerSidebar } from '@/components/skills/ServerSidebar'
 import { ServerSkillsGrid } from '@/components/skills/ServerSkillsGrid'
 import { StackBuilder } from '@/components/stack/StackBuilder'
+import { PopularSection } from '@/components/analytics/PopularSection'
+import { TrendingSection } from '@/components/analytics/TrendingSection'
+import { AnalyticsSummarySection } from '@/components/analytics/AnalyticsSummarySection'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -245,6 +248,15 @@ export default async function SkillsMarketplacePage({ searchParams }: PageProps)
       {/* Browse Sections - Only shown when no filters applied */}
       {showBrowseSections && (
         <>
+          {/* Analytics Summary */}
+          <AnalyticsSummarySection />
+
+          {/* Popular Skills */}
+          <PopularSection />
+
+          {/* Trending Skills */}
+          <TrendingSection />
+
           {/* Browse by Category */}
           <section className="section-spacing-sm bg-[var(--bg-secondary)]">
             <div className="container">
