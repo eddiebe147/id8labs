@@ -1,7 +1,4 @@
-'use client'
-
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 import { Zap, Terminal, Settings, Package } from 'lucide-react'
 
 export type MarketplaceTab = 'skills' | 'commands' | 'settings' | 'stacks'
@@ -14,6 +11,7 @@ interface TabConfig {
 }
 
 interface MarketplaceTabsProps {
+  activeTab?: MarketplaceTab
   counts?: {
     skills?: number
     commands?: number
@@ -22,9 +20,7 @@ interface MarketplaceTabsProps {
   }
 }
 
-export function MarketplaceTabs({ counts }: MarketplaceTabsProps) {
-  const searchParams = useSearchParams()
-  const activeTab = (searchParams.get('tab') as MarketplaceTab) || 'skills'
+export function MarketplaceTabs({ activeTab = 'skills', counts }: MarketplaceTabsProps) {
 
   const tabs: TabConfig[] = [
     {

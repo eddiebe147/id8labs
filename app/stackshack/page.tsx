@@ -138,9 +138,7 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
         </div>
       </section>
 
-      <Suspense fallback={null}>
-        <MarketplaceTabs counts={tabCounts} />
-      </Suspense>
+      <MarketplaceTabs activeTab={activeTab} counts={tabCounts} />
 
       <section className="py-8 md:py-12">
         <div className="container">
