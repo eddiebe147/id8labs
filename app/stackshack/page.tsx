@@ -16,12 +16,12 @@ import { SettingCard } from '@/components/settings/SettingCard'
 import { GalleryStackCard } from '@/components/gallery/GalleryStackCard'
 import { SkillSearchBar } from '@/components/skills/SkillSearchBar'
 import { StackShackLogo } from '@/components/StackShackLogo'
-import { ServerSidebar } from '@/components/skills/ServerSidebar'
 import { ServerSkillsGrid } from '@/components/skills/ServerSkillsGrid'
 import { StackBuilder } from '@/components/stack/StackBuilder'
 import { MarketplaceTabs, type MarketplaceTab } from '@/components/stackshack/MarketplaceTabs'
+import { MarketplaceSidebar } from '@/components/stackshack/MarketplaceSidebar'
 
-export const revalidate = 3600 // Revalidate every hour
+export const revalidate = 3600
 
 interface PageProps {
   searchParams: Promise<{ tab?: MarketplaceTab; type?: string; category?: string }>
@@ -33,7 +33,6 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
   const typeFilter = params?.type || 'all'
   const categoryFilter = params?.category || null
 
-  // Fetch data for all tabs in parallel
   const [
     allSkills,
     categories,
@@ -56,7 +55,6 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     getPublicStacks(50),
   ])
 
-  // Tab counts for badges
   const tabCounts = {
     skills: skillCounts.published,
     commands: allCommands.length,
@@ -64,7 +62,6 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     stacks: publicStacks.length,
   }
 
-  // Skills filtering
   let filteredSkills = allSkills
   if (typeFilter === 'skills') {
     filteredSkills = filteredSkills.filter((s) => !s.tags?.includes('agent'))
@@ -75,13 +72,11 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     filteredSkills = filteredSkills.filter((s) => s.category_id === categoryFilter)
   }
 
-  // Commands filtering
   let filteredCommands = allCommands
   if (categoryFilter && activeTab === 'commands') {
     filteredCommands = allCommands.filter((c) => c.category === categoryFilter)
   }
 
-  // Settings filtering
   let filteredSettings = allSettings
   if (categoryFilter && activeTab === 'settings') {
     filteredSettings = allSettings.filter((s) => s.category === categoryFilter)
@@ -92,10 +87,8 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
 
   return (
     <main className="relative">
-      {/* Stack Builder */}
       <StackBuilder />
 
-      {/* Hero Section */}
       <section className="relative py-16 md:py-24 overflow-hidden bg-[var(--bg-secondary)]">
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -145,156 +138,105 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
         </div>
       </section>
 
-      {/* Tabs */}
       <Suspense fallback={null}>
         <MarketplaceTabs counts={tabCounts} />
       </Suspense>
 
-      {/* Main Content */}
       <section className="py-8 md:py-12">
         <div className="container">
-          {/* Skills Tab */}
-          {activeTab === 'skills' && (
-            <div className="flex gap-8">
-              <ServerSidebar
-                categories={categories}
-                collections={collections}
-                counts={{
-                  total: skillCounts.published,
-                  skills: skillsCount,
-                  agents: agentsCount,
-                  byCategory: skillCounts.byCategory,
-                }}
-                currentType={typeFilter}
-                currentCategory={categoryFilter}
-              />
-              <div className="flex-1 min-w-0">
+          <div className="flex gap-8">
+            <MarketplaceSidebar
+              activeTab={activeTab}
+              skillCategories={categories}
+              collections={collections}
+              skillCounts={{
+                total: skillCounts.published,
+                skills: skillsCount,
+                agents: agentsCount,
+                byCategory: skillCounts.byCategory,
+              }}
+              commandCategories={commandCategories}
+              settingCategories={settingCategories}
+              stacksCount={publicStacks.length}
+              currentType={typeFilter}
+              currentCategory={categoryFilter}
+            />
+
+            <div className="flex-1 min-w-0">
+              {activeTab === 'skills' && (
                 <ServerSkillsGrid skills={filteredSkills} totalCount={skillCounts.published} />
-              </div>
-            </div>
-          )}
+              )}
 
-          {/* Commands Tab */}
-          {activeTab === 'commands' && (
-            <div>
-              {/* Category Filters */}
-              <div className="mb-8">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Link
-                    href="/stackshack?tab=commands"
-                    className={'px-4 py-2 rounded-full text-sm font-medium transition-colors ' +
-                      (!categoryFilter
-                        ? 'bg-[var(--id8-orange)] text-white'
-                        : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]')}
-                  >
-                    All ({allCommands.length})
-                  </Link>
-                  {Object.entries(commandCategories).sort().map(([cat, count]) => (
-                    <Link
-                      key={cat}
-                      href={'/stackshack?tab=commands&category=' + cat}
-                      className={'px-4 py-2 rounded-full text-sm font-medium transition-colors ' +
-                        (categoryFilter === cat
-                          ? 'bg-[var(--id8-orange)] text-white'
-                          : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]')}
-                    >
-                      {cat} ({count})
-                    </Link>
-                  ))}
+              {activeTab === 'commands' && (
+                <div>
+                  <div className="mb-6">
+                    <p className="text-[var(--text-secondary)]">
+                      Showing {filteredCommands.length} of {allCommands.length} commands
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {filteredCommands.map((command) => (
+                      <CommandCard key={command.id} command={command} />
+                    ))}
+                  </div>
+                  {filteredCommands.length === 0 && (
+                    <div className="text-center py-12 text-[var(--text-secondary)]">
+                      No commands found in this category.
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
 
-              {/* Commands Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCommands.map((command) => (
-                  <CommandCard key={command.id} command={command} />
-                ))}
-              </div>
+              {activeTab === 'settings' && (
+                <div>
+                  <div className="mb-6">
+                    <p className="text-[var(--text-secondary)]">
+                      Showing {filteredSettings.length} of {allSettings.length} settings
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {filteredSettings.map((setting) => (
+                      <SettingCard key={setting.id} setting={setting} />
+                    ))}
+                  </div>
+                  {filteredSettings.length === 0 && (
+                    <div className="text-center py-12 text-[var(--text-secondary)]">
+                      No settings found in this category.
+                    </div>
+                  )}
+                </div>
+              )}
 
-              {filteredCommands.length === 0 && (
-                <div className="text-center py-12 text-[var(--text-secondary)]">
-                  No commands found in this category.
+              {activeTab === 'stacks' && (
+                <div>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold mb-2">Community Stacks</h2>
+                    <p className="text-[var(--text-secondary)]">
+                      Discover and fork stacks shared by the community
+                    </p>
+                  </div>
+                  {publicStacks.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {publicStacks.map((stack) => (
+                        <GalleryStackCard key={stack.id} stack={stack} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-12">
+                      <Package className="w-16 h-16 mx-auto mb-4 text-[var(--text-secondary)]" />
+                      <h3 className="text-xl font-semibold mb-2">No Public Stacks Yet</h3>
+                      <p className="text-[var(--text-secondary)]">
+                        Be the first to share a stack with the community!
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
-
-          {/* Settings Tab */}
-          {activeTab === 'settings' && (
-            <div>
-              {/* Category Filters */}
-              <div className="mb-8">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Link
-                    href="/stackshack?tab=settings"
-                    className={'px-4 py-2 rounded-full text-sm font-medium transition-colors ' +
-                      (!categoryFilter
-                        ? 'bg-[var(--id8-orange)] text-white'
-                        : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]')}
-                  >
-                    All ({allSettings.length})
-                  </Link>
-                  {Object.entries(settingCategories).sort().map(([cat, count]) => (
-                    <Link
-                      key={cat}
-                      href={'/stackshack?tab=settings&category=' + cat}
-                      className={'px-4 py-2 rounded-full text-sm font-medium transition-colors ' +
-                        (categoryFilter === cat
-                          ? 'bg-[var(--id8-orange)] text-white'
-                          : 'bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--id8-orange)]')}
-                    >
-                      {cat} ({count})
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Settings Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredSettings.map((setting) => (
-                  <SettingCard key={setting.id} setting={setting} />
-                ))}
-              </div>
-
-              {filteredSettings.length === 0 && (
-                <div className="text-center py-12 text-[var(--text-secondary)]">
-                  No settings found in this category.
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Stacks Tab */}
-          {activeTab === 'stacks' && (
-            <div>
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-2">Community Stacks</h2>
-                <p className="text-[var(--text-secondary)]">
-                  Discover and fork stacks shared by the community
-                </p>
-              </div>
-
-              {publicStacks.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {publicStacks.map((stack) => (
-                    <GalleryStackCard key={stack.id} stack={stack} />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <Package className="w-16 h-16 mx-auto mb-4 text-[var(--text-secondary)]" />
-                  <h3 className="text-xl font-semibold mb-2">No Public Stacks Yet</h3>
-                  <p className="text-[var(--text-secondary)]">
-                    Be the first to share a stack with the community!
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-16 bg-[var(--bg-secondary)]">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
