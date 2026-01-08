@@ -16,7 +16,7 @@ function isAgentKit(productId: string): boolean {
 
 // Process agent kit purchase: add GitHub collaborator and create access records
 async function processAgentKitPurchase(
-  supabase: ReturnType<typeof createAdminClient>,
+  supabase: NonNullable<ReturnType<typeof createAdminClient>>,
   userId: string,
   productId: string,
   purchaseId: string,
@@ -113,7 +113,7 @@ async function sendAgentKitWelcomeEmail(email: string, productId: string, github
 
 // Handle refund: remove GitHub access
 async function handleAgentKitRefund(
-  supabase: ReturnType<typeof createAdminClient>,
+  supabase: NonNullable<ReturnType<typeof createAdminClient>>,
   purchaseId: string
 ) {
   try {
@@ -210,6 +210,10 @@ export async function POST(request: Request) {
   }
 
   const supabase = createAdminClient()
+  if (!supabase) {
+    console.error("Supabase admin client not configured")
+    return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+  }
 
   try {
     switch (event.type) {

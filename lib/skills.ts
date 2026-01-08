@@ -214,6 +214,7 @@ export async function getSkillBySlug(slug: string): Promise<Skill | null> {
 export async function getAllCategories(): Promise<SkillCategory[]> {
   try {
     const supabase = await createServerClient()
+    if (!supabase) return []
 
     const { data, error } = await supabase
       .from('skill_categories')
@@ -245,6 +246,7 @@ export async function getSkillsByCategory(categoryId: string): Promise<Skill[]> 
 export async function searchSkills(query: string, limit: number = 20): Promise<Skill[]> {
   try {
     const supabase = await createServerClient()
+    if (!supabase) return []
 
     // Use the search_skills database function
     const { data, error } = await supabase
@@ -268,6 +270,7 @@ export async function searchSkills(query: string, limit: number = 20): Promise<S
 export async function getTrendingSkills(daysBack: number = 7, limit: number = 10): Promise<TrendingSkill[]> {
   try {
     const supabase = await createServerClient()
+    if (!supabase) return []
 
     const { data, error } = await supabase
       .rpc('get_trending_skills', { days_back: daysBack, limit_count: limit })
@@ -458,6 +461,7 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
  */
 export async function getSkillReviews(skillId: string): Promise<SkillReview[]> {
   const supabase = await createServerClient()
+  if (!supabase) return []
 
   const { data, error } = await supabase
     .from('skill_reviews')
@@ -479,6 +483,9 @@ export async function getSkillReviews(skillId: string): Promise<SkillReview[]> {
 export async function getSkillCounts(): Promise<{ total: number; published: number; byCategory: Record<string, number> }> {
   try {
     const supabase = await createServerClient()
+    if (!supabase) {
+      return { total: 0, published: 0, byCategory: {} }
+    }
 
     const [totalResult, publishedResult, categoryResult] = await Promise.all([
       supabase.from('skills').select('id', { count: 'exact', head: true }),

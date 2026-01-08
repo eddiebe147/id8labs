@@ -10,8 +10,14 @@ export const runtime = 'nodejs'
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient()
+    if (!supabase) {
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+    }
     // Admin client for database operations (bypasses RLS)
     const adminSupabase = createAdminClient()
+    if (!adminSupabase) {
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+    }
 
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser()

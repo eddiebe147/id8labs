@@ -7,6 +7,7 @@ import { createClient as createBrowserClient } from '@/lib/supabase/client'
  */
 export async function getCurrentUser() {
   const supabase = await createServerClient()
+  if (!supabase) return null
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -19,6 +20,7 @@ export async function getCurrentUser() {
  */
 export async function getCurrentSession() {
   const supabase = await createServerClient()
+  if (!supabase) return null
   const {
     data: { session },
   } = await supabase.auth.getSession()

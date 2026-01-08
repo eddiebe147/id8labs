@@ -5,6 +5,9 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET() {
   try {
     const supabase = await createClient()
+    if (!supabase) {
+      return NextResponse.json({ success: false, error: "Server configuration error" }, { status: 500 })
+    }
     const skills = await getAllSkills()
     const categories = await getAllCategories()
     const counts = await getSkillCounts()

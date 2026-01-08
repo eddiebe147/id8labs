@@ -8,7 +8,7 @@ test.describe('Commands Browse Page', () => {
   test('should display commands page with header', async ({ page }) => {
     // Check hero section
     await expect(page.locator('h1')).toContainText('Workflow Commands')
-    await expect(page.getByText('Workflow Commands')).toBeVisible()
+    // Removed ambiguous selector - h1 check is sufficient
     
     // Check badge showing count
     await expect(page.getByText(/\d+ Workflow Commands/)).toBeVisible()

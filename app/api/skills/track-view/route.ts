@@ -11,6 +11,9 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = await createClient()
+    if (!supabase) {
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+    }
 
     await supabase.rpc('track_skill_view', {
       p_skill_id: skillId,
