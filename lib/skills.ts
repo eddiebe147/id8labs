@@ -2,7 +2,7 @@
  * Skills Marketplace Data Layer
  * Query functions for fetching, searching, and tracking skills
  * 
- * SERVER-SIDE ONLY: Use lib/skills-client.ts for client-side operations
+ * SERVER-SIDE ONLY: Use lib/skill-client.ts for client-side operations
  */
 
 import { createClient as createServerClient } from '@/lib/supabase/server'
@@ -20,7 +20,7 @@ export type {
   InstallMethod,
 } from './skill-types'
 
-import type { Skill, SkillCategory, SkillReview, SkillCollection, SkillStack } from './skill-types'
+import type { Skill, SkillCategory, SkillReview, SkillCollection } from './skill-types'
 
 // Additional types specific to this module
 export interface UserSkillStack {
@@ -510,29 +510,4 @@ export async function getSkillCounts(): Promise<{ total: number; published: numb
       byCategory: {}
     }
   }
-}
-
-/**
- * Generate install command for a skill
- */
-export function getInstallCommand(skill: Skill, method: 'copy' | 'curl' | 'git' = 'copy'): string {
-  const repoBase = 'https://github.com/id8labs/claude-code-skills'
-
-  switch (method) {
-    case 'curl':
-      return `curl -fsSL ${repoBase}/raw/main/skills/${skill.slug}/SKILL.md -o ~/.claude/skills/${skill.slug}.md`
-    case 'git':
-      return `git clone ${repoBase} && cp -r claude-code-skills/skills/${skill.slug} ~/.claude/skills/`
-    case 'copy':
-    default:
-      // The copy method will use clipboard in the UI
-      return skill.content || ''
-  }
-}
-
-/**
- * Get shareable stack URL
- */
-export function getStackShareUrl(shareId: string): string {
-  return `${process.env.NEXT_PUBLIC_SITE_URL}/skills/share/${shareId}`
 }
