@@ -221,16 +221,30 @@ export async function GET() {
   }
 }
 
+// Helper to verify API key authentication
+function verifyApiKey(request: Request): boolean {
+  const authHeader = request.headers.get('authorization')
+  const apiKey = process.env.CLAUDE_OBSERVATIONS_API_KEY
+
+  // In development, allow requests without auth for testing
+  // Use NODE_ENV instead of host header to prevent spoofing
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  if (isDevelopment) return true
+
+  // In production, require valid API key
+  if (!apiKey) {
+    console.error('CLAUDE_OBSERVATIONS_API_KEY not configured')
+    return false
+  }
+
+  return authHeader === `Bearer ${apiKey}`
+}
+
 // POST - Add a new observation (requires API key)
 export async function POST(request: Request) {
   try {
-    // Simple API key auth for Claude to add observations
-    const authHeader = request.headers.get('authorization')
-    const apiKey = process.env.CLAUDE_OBSERVATIONS_API_KEY
-
-    // Allow localhost requests without auth for development
-    const isLocalhost = request.headers.get('host')?.includes('localhost')
-    if (!isLocalhost && (!apiKey || authHeader !== `Bearer ${apiKey}`)) {
+    // Verify API key authentication
+    if (!verifyApiKey(request)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -289,9 +303,14 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT - Hook/automation endpoint for auto-generating observations
+// PUT - Hook/automation endpoint for auto-generating observations (requires API key)
 export async function PUT(request: Request) {
   try {
+    // Verify API key authentication (same as POST)
+    if (!verifyApiKey(request)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const body = await request.json()
 
     // Expects: { trigger: 'commit' | 'milestone' | 'session', data: {...} }
