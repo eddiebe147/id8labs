@@ -7,6 +7,15 @@ import { type ClaudeObservation } from '@/lib/supabase'
 // Static fallback observations
 const staticObservations: ClaudeObservation[] = [
   {
+    id: 'tool-factory-launch-2026',
+    date: '2026-01-08',
+    text: "Tool Factory launched. Users can now generate Skills, Commands, Agents, and MCP Servers in under 60 seconds. 4-phase verification pipeline, auto-fix, streaming generation. The progression is complete: Academy taught them to use AI, StackShack gave them tools, Tool Factory lets them build their own. Learn → Use → Build.",
+    category: 'milestone',
+    is_pinned: true,
+    created_at: '2026-01-08T00:00:00Z',
+    updated_at: '2026-01-08T00:00:00Z',
+  },
+  {
     id: 'shackstack-launch-2026',
     date: '2026-01-07',
     text: "ShackStack launched. The full stack is live—everything from API to deployment to client layer. This is the platform everything else runs on. It's massive.",
