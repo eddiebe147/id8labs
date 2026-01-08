@@ -140,7 +140,7 @@ export default async function SettingDetailPage({ params }: PageProps) {
                 </h2>
                 <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg overflow-x-auto">
                   <pre className="text-sm font-mono text-[var(--text-primary)]">
-                    {JSON.stringify(setting.settings_json, null, 2)}
+                    {JSON.stringify(setting.settings, null, 2)}
                   </pre>
                 </div>
               </div>
@@ -168,7 +168,7 @@ export default async function SettingDetailPage({ params }: PageProps) {
                     </p>
                     <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg overflow-x-auto">
                       <pre className="text-sm font-mono text-[var(--text-primary)]">
-                        {JSON.stringify(setting.settings_json, null, 2)}
+                        {JSON.stringify(setting.settings, null, 2)}
                       </pre>
                     </div>
                   </div>

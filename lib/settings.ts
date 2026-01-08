@@ -15,7 +15,7 @@ export interface Setting {
   max_tokens?: number
   temperature?: number
   use_case: string
-  settings_json: Record<string, any>
+  settings: Record<string, any>
   tags: string[]
   install_count: number
   verified: boolean
