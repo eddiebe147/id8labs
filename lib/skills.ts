@@ -1,9 +1,10 @@
 /**
  * Skills Marketplace Data Layer
  * Query functions for fetching, searching, and tracking skills
+ * 
+ * SERVER-SIDE ONLY: Use lib/skills-client.ts for client-side operations
  */
 
-import { createClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 
 // =============================================================================
@@ -19,7 +20,7 @@ export type {
   InstallMethod,
 } from './skill-types'
 
-import type { Skill, SkillCategory, SkillReview, SkillCollection } from './skill-types'
+import type { Skill, SkillCategory, SkillReview, SkillCollection, SkillStack } from './skill-types'
 
 // Additional types specific to this module
 export interface UserSkillStack {
@@ -485,200 +486,6 @@ export async function getSkillCounts(): Promise<{ total: number; published: numb
     published: publishedResult.count || 0,
     byCategory
   }
-}
-
-// =============================================================================
-// CLIENT-SIDE FUNCTIONS (for browser components)
-// =============================================================================
-
-/**
- * Track a skill view (client-side)
- */
-export async function trackSkillView(
-  skillId: string,
-  sessionId?: string,
-  referrer?: string
-): Promise<void> {
-  const supabase = createClient()
-
-  await supabase.rpc('track_skill_view', {
-    p_skill_id: skillId,
-    p_session_id: sessionId || null,
-    p_referrer: referrer || null
-  })
-}
-
-/**
- * Track a skill install (client-side)
- */
-export async function trackSkillInstall(
-  skillId: string,
-  method: 'copy' | 'curl' | 'git' | 'npm' | 'manual' = 'copy',
-  platform?: string,
-  sessionId?: string
-): Promise<void> {
-  const supabase = createClient()
-
-  await supabase.rpc('track_skill_install', {
-    p_skill_id: skillId,
-    p_method: method,
-    p_platform: platform || null,
-    p_session_id: sessionId || null
-  })
-}
-
-/**
- * Submit a skill review (client-side, requires auth)
- */
-export async function submitSkillReview(
-  skillId: string,
-  rating: number,
-  title?: string,
-  body?: string
-): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: 'Must be logged in to submit a review' }
-  }
-
-  const { error } = await supabase
-    .from('skill_reviews')
-    .upsert({
-      skill_id: skillId,
-      user_id: user.id,
-      rating,
-      title,
-      body,
-      updated_at: new Date().toISOString()
-    }, {
-      onConflict: 'skill_id,user_id'
-    })
-
-  if (error) {
-    return { success: false, error: error.message }
-  }
-
-  return { success: true }
-}
-
-/**
- * Get user's skill stack (client-side, requires auth)
- */
-export async function getUserStack(): Promise<UserSkillStack | null> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-
-  const { data, error } = await supabase
-    .from('user_skill_stacks')
-    .select(`
-      *,
-      user_skill_stack_items(
-        display_order,
-        skill:skills(*, category:skill_categories(*))
-      )
-    `)
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (error || !data) return null
-
-  return {
-    ...data,
-    skills: data.user_skill_stack_items
-      ?.sort((a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order)
-      .map((item: { skill: Skill }) => item.skill) || []
-  } as UserSkillStack
-}
-
-/**
- * Add skill to user's stack (client-side, requires auth)
- */
-export async function addToStack(skillId: string): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: 'Must be logged in to add to stack' }
-  }
-
-  // Get or create stack
-  let { data: stack } = await supabase
-    .from('user_skill_stacks')
-    .select('id')
-    .eq('user_id', user.id)
-    .limit(1)
-    .single()
-
-  if (!stack) {
-    const { data: newStack, error: createError } = await supabase
-      .from('user_skill_stacks')
-      .insert({ user_id: user.id, name: 'My Stack' })
-      .select()
-      .single()
-
-    if (createError || !newStack) {
-      return { success: false, error: createError?.message || 'Failed to create stack' }
-    }
-    stack = newStack
-  }
-
-  // Add skill to stack - stack is guaranteed non-null at this point
-  const { error } = await supabase
-    .from('user_skill_stack_items')
-    .insert({
-      stack_id: stack!.id,
-      skill_id: skillId
-    })
-
-  if (error) {
-    if (error.code === '23505') {
-      return { success: false, error: 'Skill already in stack' }
-    }
-    return { success: false, error: error.message }
-  }
-
-  return { success: true }
-}
-
-/**
- * Remove skill from user's stack (client-side, requires auth)
- */
-export async function removeFromStack(skillId: string): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: 'Must be logged in' }
-  }
-
-  const { data: stack } = await supabase
-    .from('user_skill_stacks')
-    .select('id')
-    .eq('user_id', user.id)
-    .limit(1)
-    .single()
-
-  if (!stack) {
-    return { success: false, error: 'No stack found' }
-  }
-
-  const { error } = await supabase
-    .from('user_skill_stack_items')
-    .delete()
-    .eq('stack_id', stack.id)
-    .eq('skill_id', skillId)
-
-  if (error) {
-    return { success: false, error: error.message }
-  }
-
-  return { success: true }
 }
 
 /**
