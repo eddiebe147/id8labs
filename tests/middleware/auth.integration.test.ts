@@ -72,7 +72,10 @@ describe('Middleware - Authentication and Authorization', () => {
   })
 
   describe('Protected Routes - /courses/*', () => {
-    it('should redirect unauthenticated users to /sign-in with redirect param', async () => {
+    // NOTE: Middleware no longer redirects unauthenticated users from /courses/*
+    // Protection is now handled client-side by AuthGate component (modal UX)
+
+    it('should allow unauthenticated users to access courses (AuthGate handles protection)', async () => {
       // Arrange: No authenticated user
       await setupSupabaseMock(null)
       const request = createMockRequest('http://localhost:3000/courses/claude-for-knowledge-workers')
@@ -80,14 +83,11 @@ describe('Middleware - Authentication and Authorization', () => {
       // Act
       const response = await middleware(request)
 
-      // Assert
-      expect(response.status).toBe(307) // Temporary redirect
-      expect(response.headers.get('location')).toBe(
-        'http://localhost:3000/sign-in?redirect=%2Fcourses%2Fclaude-for-knowledge-workers'
-      )
+      // Assert - passes through, AuthGate handles client-side protection
+      expect(response.status).toBe(200)
     })
 
-    it('should redirect unauthenticated users from nested course paths', async () => {
+    it('should allow unauthenticated users to access nested course paths', async () => {
       // Arrange: No authenticated user
       await setupSupabaseMock(null)
       const request = createMockRequest('http://localhost:3000/courses/claude-for-knowledge-workers/module-1')
@@ -95,10 +95,8 @@ describe('Middleware - Authentication and Authorization', () => {
       // Act
       const response = await middleware(request)
 
-      // Assert
-      expect(response.status).toBe(307)
-      expect(response.headers.get('location')).toContain('/sign-in?redirect=')
-      expect(response.headers.get('location')).toContain('module-1')
+      // Assert - passes through, AuthGate handles client-side protection
+      expect(response.status).toBe(200)
     })
 
     it('should allow authenticated users to access protected course routes', async () => {
@@ -288,62 +286,9 @@ describe('Middleware - Authentication and Authorization', () => {
     })
   })
 
-  describe('Redirect Parameter Preservation', () => {
-    it('should preserve original path in redirect parameter', async () => {
-      // Arrange: No authenticated user
-      await setupSupabaseMock(null)
-      const originalPath = '/courses/claude-for-knowledge-workers/module-3/lesson-5'
-      const request = createMockRequest(`http://localhost:3000${originalPath}`)
-
-      // Act
-      const response = await middleware(request)
-
-      // Assert
-      const location = response.headers.get('location')
-      expect(location).toContain('/sign-in')
-
-      // Extract and decode the redirect parameter
-      const url = new URL(location!)
-      const redirectParam = url.searchParams.get('redirect')
-      expect(redirectParam).toBe(originalPath)
-    })
-
-    it('should preserve query parameters in redirect', async () => {
-      // Arrange: No authenticated user
-      await setupSupabaseMock(null)
-      const request = createMockRequest('http://localhost:3000/courses/claude-for-knowledge-workers?tab=overview&section=intro')
-
-      // Act
-      const response = await middleware(request)
-
-      // Assert
-      const location = response.headers.get('location')
-      const url = new URL(location!)
-      const redirectParam = url.searchParams.get('redirect')
-
-      // The redirect should include the original pathname (query params handled by auth flow)
-      expect(redirectParam).toBe('/courses/claude-for-knowledge-workers')
-    })
-
-    it('should URL encode special characters in redirect parameter', async () => {
-      // Arrange: No authenticated user
-      await setupSupabaseMock(null)
-      const pathWithSpecialChars = '/courses/claude-for-knowledge-workers/module-1'
-      const request = createMockRequest(`http://localhost:3000${pathWithSpecialChars}`)
-
-      // Act
-      const response = await middleware(request)
-
-      // Assert
-      const location = response.headers.get('location')
-      expect(location).toContain('redirect=')
-
-      // The slash should be encoded as %2F
-      const url = new URL(location!)
-      const redirectParam = url.searchParams.get('redirect')
-      expect(redirectParam).toBe(pathWithSpecialChars)
-    })
-  })
+  // NOTE: Redirect Parameter Preservation tests removed
+  // Middleware no longer redirects unauthenticated users from /courses/*
+  // Protection is handled client-side by AuthGate component
 
   describe('Supabase Client Initialization', () => {
     it('should create Supabase client with correct configuration', async () => {
@@ -400,6 +345,9 @@ describe('Middleware - Authentication and Authorization', () => {
   })
 
   describe('Edge Cases', () => {
+    // NOTE: Middleware no longer redirects unauthenticated users from /courses/*
+    // These tests verify pass-through behavior; AuthGate handles client-side protection
+
     it('should handle null user response from Supabase', async () => {
       // Arrange: Explicitly null user
       await setupSupabaseMock(null)
@@ -408,9 +356,8 @@ describe('Middleware - Authentication and Authorization', () => {
       // Act
       const response = await middleware(request)
 
-      // Assert
-      expect(response.status).toBe(307) // Should redirect
-      expect(response.headers.get('location')).toContain('/sign-in')
+      // Assert - passes through, AuthGate handles protection
+      expect(response.status).toBe(200)
     })
 
     it('should handle undefined user response from Supabase', async () => {
@@ -421,9 +368,8 @@ describe('Middleware - Authentication and Authorization', () => {
       // Act
       const response = await middleware(request)
 
-      // Assert
-      expect(response.status).toBe(307)
-      expect(response.headers.get('location')).toContain('/sign-in')
+      // Assert - passes through, AuthGate handles protection
+      expect(response.status).toBe(200)
     })
 
     it('should handle user with minimal properties', async () => {
@@ -448,9 +394,8 @@ describe('Middleware - Authentication and Authorization', () => {
       // Act
       const response = await middleware(request)
 
-      // Assert
-      expect(response.status).toBe(307)
-      expect(response.headers.get('location')).toContain('/sign-in')
+      // Assert - passes through, AuthGate handles protection
+      expect(response.status).toBe(200)
     })
 
     it('should NOT protect paths that only contain "courses" but are not course routes', async () => {
@@ -521,10 +466,9 @@ describe('Middleware - Authentication and Authorization', () => {
       // Act
       const response = await middleware(request)
 
-      // Assert
-      // Should treat error as unauthenticated and redirect
-      expect(response.status).toBe(307)
-      expect(response.headers.get('location')).toContain('/sign-in')
+      // Assert - passes through, AuthGate handles client-side protection
+      // Middleware no longer redirects unauthenticated users from /courses/*
+      expect(response.status).toBe(200)
     })
   })
 })

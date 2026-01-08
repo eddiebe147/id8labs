@@ -99,7 +99,7 @@ describe('lib/stripe', () => {
     it('should have correct product description', () => {
       const product = COURSE_PRODUCTS['claude-for-knowledge-workers']
 
-      expect(product.description).toBe('Complete 6-module course + lifetime updates')
+      expect(product.description).toBe('Complete 6-module course + lifetime updates. No programming required — just delegation.')
     })
 
     it('should have price in cents', () => {

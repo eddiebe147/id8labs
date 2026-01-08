@@ -31,6 +31,7 @@ export default defineConfig({
         'app/api/leads/**/*.ts',
         'lib/purchase.ts',
         'lib/stripe.ts',
+        'lib/tool-factory/**/*.ts',
         'middleware.ts',
       ],
       exclude: [
