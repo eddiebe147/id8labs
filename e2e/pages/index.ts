@@ -7,3 +7,4 @@ export { CoursePage } from './course.page';
 export { ModulePage } from './module.page';
 export { SignInPage, SignUpPage } from './auth.page';
 export { SkillsPage } from './skills.page';
+export { ToolFactoryPage } from './tool-factory.page';

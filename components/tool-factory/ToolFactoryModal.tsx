@@ -79,9 +79,10 @@ export function ToolFactoryModal({
           className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
           style={{ isolation: 'isolate', transform: 'translateZ(0)' }}
         >
-          {/* Solid backdrop layer to prevent bleed-through */}
+          {/* Solid backdrop layer to prevent bleed-through from sticky elements */}
           <div
-            className="absolute inset-0 bg-[#0a0a0a]"
+            className="fixed inset-0 bg-[#0a0a0a]"
+            style={{ zIndex: 9998, willChange: 'transform' }}
             onClick={handleClose}
           />
 
@@ -90,7 +91,8 @@ export function ToolFactoryModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative z-10 bg-[var(--bg-primary)] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+            className="relative bg-[var(--bg-primary)] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+            style={{ zIndex: 10000 }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
