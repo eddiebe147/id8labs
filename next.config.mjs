@@ -24,6 +24,7 @@ const nextConfig = {
   // Redirects for backwards compatibility
   async redirects() {
     return [
+      // Legacy /skills routes
       {
         source: '/skills',
         destination: '/stackshack',
@@ -33,6 +34,22 @@ const nextConfig = {
         source: '/skills/:path*',
         destination: '/stackshack/:path*',
         permanent: true,
+      },
+      // Legacy browse pages → unified marketplace tabs
+      {
+        source: '/commands',
+        destination: '/stackshack?tab=commands',
+        permanent: false, // Not permanent - might change
+      },
+      {
+        source: '/settings',
+        destination: '/stackshack?tab=settings',
+        permanent: false,
+      },
+      {
+        source: '/gallery',
+        destination: '/stackshack?tab=stacks',
+        permanent: false,
       },
     ]
   },
