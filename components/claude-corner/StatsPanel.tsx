@@ -235,6 +235,8 @@ function useStats() {
   const [stats, setStats] = useState<ClaudeStats>(fallbackStats)
   const [isLive, setIsLive] = useState(false)
   const [lastSynced, setLastSynced] = useState<string | null>(null)
+  // Defer date calculations to client-only to prevent hydration mismatch
+  const [monthsBuilding, setMonthsBuilding] = useState(0)
 
   useEffect(() => {
     async function fetchStats() {
@@ -258,18 +260,22 @@ function useStats() {
     return () => clearInterval(interval)
   }, [])
 
-  const derivedStats = useMemo(() => {
+  // Calculate months building client-side only to avoid hydration mismatch
+  useEffect(() => {
     const firstCommit = stats.first_commit_date
       ? new Date(stats.first_commit_date)
       : new Date('2025-10-13')
     const now = new Date()
 
-    const monthsBuilding = Math.ceil(
+    const months = Math.ceil(
       (now.getTime() - firstCommit.getTime()) / (1000 * 60 * 60 * 24 * 30)
     )
-
-    return { monthsBuilding }
+    setMonthsBuilding(months)
   }, [stats.first_commit_date])
+
+  const derivedStats = useMemo(() => {
+    return { monthsBuilding }
+  }, [monthsBuilding])
 
   return { stats, isLive, lastSynced, derivedStats }
 }
@@ -547,7 +553,7 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="text-[#27c93f]">{'> '}<span className="text-[#e0e0e0]">stats_console</span></div>
-        <div className="text-[#606060] text-xs">
+        <div className="text-[#606060] text-xs" suppressHydrationWarning>
           synced: {lastSyncedFormatted}
         </div>
       </div>

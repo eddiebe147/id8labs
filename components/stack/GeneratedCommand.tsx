@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Copy, Check, Terminal } from 'lucide-react'
 import type { StackItem } from '@/lib/stores/stack-store'
 
@@ -11,6 +11,12 @@ interface GeneratedCommandProps {
 export function GeneratedCommand({ items }: GeneratedCommandProps) {
   const [copied, setCopied] = useState(false)
   const [mode, setMode] = useState<'bash' | 'cli'>('cli')
+  // Defer timestamp to client-only to prevent hydration mismatch
+  const [timestamp, setTimestamp] = useState<string>('')
+
+  useEffect(() => {
+    setTimestamp(new Date().toLocaleString())
+  }, [])
 
   const generateCLICommands = () => {
     if (items.length === 0) return ''
@@ -81,7 +87,7 @@ ${settings.map(s => `# stackshack install ${s.slug}`).join('\n')}`)
 
     return `#!/bin/bash
 # StackShack Install Script
-# Generated at ${new Date().toLocaleString()}
+# Generated at ${timestamp || 'loading...'}
 # Total items: ${items.length}
 
 ${scriptParts.join('\n\n')}

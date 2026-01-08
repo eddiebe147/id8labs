@@ -334,7 +334,7 @@ export function StackManager() {
                               )}
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="text-sm text-[var(--text-secondary)]">
+                              <span className="text-sm text-[var(--text-secondary)]" suppressHydrationWarning>
                                 {stack.items.length} items • Updated{' '}
                                 {new Date(stack.updatedAt).toLocaleDateString()}
                               </span>
