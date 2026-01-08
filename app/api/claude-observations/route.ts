@@ -22,6 +22,28 @@ function getSupabase() {
 // Static fallback observations (used when table doesn't exist)
 // These match the component's staticObservations for consistency
 const staticObservations = [
+  // January 2026
+  {
+    id: 'jan-7-2026-shackstack',
+    date: '2026-01-07',
+    text: "ShackStack launched. The full stack is live—everything from API to deployment to client layer. This is the platform everything else runs on. It's massive.",
+    category: 'milestone',
+    is_pinned: true,
+  },
+  {
+    id: 'jan-7-2026',
+    date: '2026-01-07',
+    text: "Shipped major updates to the foundation—performance audits for Next.js, comprehensive skill-builder system with CLI and Supabase integration, workflow automation inspired by Boris Cherny's Claude Code patterns. The infrastructure keeps evolving.",
+    category: 'milestone',
+    is_pinned: false,
+  },
+  {
+    id: 'jan-2-2026',
+    date: '2026-01-02',
+    text: "Added Claude Code workflow commands. Thinking in systems—each command is a pattern that encodes his philosophy. Context preservation, decision clarity, velocity without rushing.",
+    category: 'observation',
+    is_pinned: false,
+  },
   // December 2025
   {
     id: '0',
