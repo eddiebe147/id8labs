@@ -212,19 +212,24 @@ export async function getSkillBySlug(slug: string): Promise<Skill | null> {
  * Get all skill categories
  */
 export async function getAllCategories(): Promise<SkillCategory[]> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  const { data, error } = await supabase
-    .from('skill_categories')
-    .select('*')
-    .order('display_order', { ascending: true })
+    const { data, error } = await supabase
+      .from('skill_categories')
+      .select('*')
+      .order('display_order', { ascending: true })
 
-  if (error) {
-    console.error('Error fetching categories:', error)
+    if (error) {
+      console.error('Error fetching categories:', error)
+      return []
+    }
+
+    return data as SkillCategory[]
+  } catch (error) {
+    console.error('Failed to get categories:', error)
     return []
   }
-
-  return data as SkillCategory[]
 }
 
 /**
@@ -462,29 +467,38 @@ export async function getSkillReviews(skillId: string): Promise<SkillReview[]> {
  * Get total skill count by status
  */
 export async function getSkillCounts(): Promise<{ total: number; published: number; byCategory: Record<string, number> }> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  const [totalResult, publishedResult, categoryResult] = await Promise.all([
-    supabase.from('skills').select('id', { count: 'exact', head: true }),
-    supabase.from('skills').select('id', { count: 'exact', head: true }).eq('status', 'published'),
-    supabase
-      .from('skills')
-      .select('category_id')
-      .eq('status', 'published')
-  ])
+    const [totalResult, publishedResult, categoryResult] = await Promise.all([
+      supabase.from('skills').select('id', { count: 'exact', head: true }),
+      supabase.from('skills').select('id', { count: 'exact', head: true }).eq('status', 'published'),
+      supabase
+        .from('skills')
+        .select('category_id')
+        .eq('status', 'published')
+    ])
 
-  const byCategory: Record<string, number> = {}
-  if (categoryResult.data) {
-    categoryResult.data.forEach((skill: { category_id: string | null }) => {
-      const cat = skill.category_id || 'uncategorized'
-      byCategory[cat] = (byCategory[cat] || 0) + 1
-    })
-  }
+    const byCategory: Record<string, number> = {}
+    if (categoryResult.data) {
+      categoryResult.data.forEach((skill: { category_id: string | null }) => {
+        const cat = skill.category_id || 'uncategorized'
+        byCategory[cat] = (byCategory[cat] || 0) + 1
+      })
+    }
 
-  return {
-    total: totalResult.count || 0,
-    published: publishedResult.count || 0,
-    byCategory
+    return {
+      total: totalResult.count || 0,
+      published: publishedResult.count || 0,
+      byCategory
+    }
+  } catch (error) {
+    console.error('Failed to get skill counts:', error)
+    return {
+      total: 0,
+      published: 0,
+      byCategory: {}
+    }
   }
 }
 
