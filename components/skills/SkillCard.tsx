@@ -127,7 +127,7 @@ export function SkillCard({
     <article className={`${cardClasses} ${glowClasses} transition-all duration-300`}>
       {/* Featured badge */}
       {skill.featured && (
-        <div className="absolute -top-3 -right-3 z-10">
+        <div className="absolute -top-3 -right-3">
           <div className="flex items-center gap-1 px-2 py-1 bg-[var(--id8-orange)] text-white text-xs font-semibold rounded-full shadow-lg">
             <Sparkles className="w-3 h-3" />
             Featured

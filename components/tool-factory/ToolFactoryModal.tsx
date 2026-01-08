@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { ToolFactory } from './ToolFactory'
@@ -21,6 +22,12 @@ export function ToolFactoryModal({
   initialToolType = 'skill',
 }: ToolFactoryModalProps) {
   const { reset, state, setToolType } = useToolFactoryStore()
+  const [mounted, setMounted] = useState(false)
+
+  // Track client-side mount for portal
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Set initial tool type when modal opens
   useEffect(() => {
@@ -59,22 +66,31 @@ export function ToolFactoryModal({
     onSaved?.(toolId, toolType)
   }
 
-  return (
+  // Don't render on server, only after client-side mount
+  if (!mounted) return null
+
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-          onClick={handleClose}
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          style={{ isolation: 'isolate', transform: 'translateZ(0)' }}
         >
+          {/* Solid backdrop layer to prevent bleed-through */}
+          <div
+            className="absolute inset-0 bg-[#0a0a0a]"
+            onClick={handleClose}
+          />
+
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="bg-[var(--bg-primary)] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+            className="relative z-10 bg-[var(--bg-primary)] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -101,4 +117,7 @@ export function ToolFactoryModal({
       )}
     </AnimatePresence>
   )
+
+  // Use portal to render modal at document.body level, escaping any stacking contexts
+  return createPortal(modalContent, document.body)
 }
