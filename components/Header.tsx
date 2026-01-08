@@ -191,7 +191,7 @@ export default function Header() {
           <nav
             id="mobile-nav"
             aria-label="Mobile navigation"
-            className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--bg-primary)] z-40 overflow-y-auto overscroll-contain"
+            className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--bg-primary)] z-[60] overflow-y-auto overscroll-contain"
           >
             <div className="pb-6 space-y-4 border-t border-[var(--border)] pt-6 px-4">
             <Link
