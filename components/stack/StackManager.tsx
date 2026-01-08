@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { Save, FolderOpen, Trash2, Download, Upload, X, Edit2, Check, Share2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Save, FolderOpen, Trash2, Download, Upload, X, Edit2, Check, Share2, Cloud, CloudOff } from 'lucide-react'
 import { useStackStore, type SavedStack } from '@/lib/stores/stack-store'
 import { generateShareUrl, copyToClipboard } from '@/lib/utils/share'
+import { saveStackToDb, makeStackPublic } from '@/lib/stacks-db-client'
+import { createClient } from '@/lib/supabase/client'
 
 export function StackManager() {
   const {
@@ -27,13 +29,31 @@ export function StackManager() {
   const [importJson, setImportJson] = useState('')
   const [shareUrl, setShareUrl] = useState('')
   const [copySuccess, setCopySuccess] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [syncing, setSyncing] = useState(false)
 
   const currentStack = savedStacks.find((s) => s.id === currentStackId)
 
-  const handleSave = () => {
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      setIsAuthenticated(!!user)
+    }
+    checkAuth()
+  }, [])
+
+  const handleSave = async () => {
     if (!stackName.trim()) return
     
-    saveStack(stackName, stackDescription || undefined)
+    const savedStack = saveStack(stackName, stackDescription || undefined)
+    
+    if (isAuthenticated) {
+      setSyncing(true)
+      await saveStackToDb(savedStack)
+      setSyncing(false)
+    }
+    
     setStackName('')
     setStackDescription('')
     setShowDialog(false)
