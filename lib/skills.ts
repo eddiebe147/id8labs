@@ -243,35 +243,45 @@ export async function getSkillsByCategory(categoryId: string): Promise<Skill[]> 
  * Search skills using full-text search
  */
 export async function searchSkills(query: string, limit: number = 20): Promise<Skill[]> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  // Use the search_skills database function
-  const { data, error } = await supabase
-    .rpc('search_skills', { query_text: query, limit_count: limit })
+    // Use the search_skills database function
+    const { data, error } = await supabase
+      .rpc('search_skills', { query_text: query, limit_count: limit })
 
-  if (error) {
-    console.error('Error searching skills:', error)
+    if (error) {
+      console.error('Error searching skills:', error)
+      return []
+    }
+
+    return data as Skill[]
+  } catch (error) {
+    console.error('Failed to search skills:', error)
     return []
   }
-
-  return data as Skill[]
 }
 
 /**
  * Get trending skills (most views in last N days)
  */
 export async function getTrendingSkills(daysBack: number = 7, limit: number = 10): Promise<TrendingSkill[]> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  const { data, error } = await supabase
-    .rpc('get_trending_skills', { days_back: daysBack, limit_count: limit })
+    const { data, error } = await supabase
+      .rpc('get_trending_skills', { days_back: daysBack, limit_count: limit })
 
-  if (error) {
-    console.error('Error fetching trending skills:', error)
+    if (error) {
+      console.error('Error fetching trending skills:', error)
+      return []
+    }
+
+    return data as TrendingSkill[]
+  } catch (error) {
+    console.error('Failed to get trending skills:', error)
     return []
   }
-
-  return data as TrendingSkill[]
 }
 
 /**
