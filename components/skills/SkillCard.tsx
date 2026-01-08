@@ -118,8 +118,13 @@ export function SkillCard({
       ? 'card-featured group relative flex flex-col h-full'
       : 'card group relative flex flex-col h-full'
 
+  // Add green glow when in stack
+  const glowClasses = isInStack 
+    ? 'ring-2 ring-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
+    : ''
+
   const cardContent = (
-    <article className={cardClasses}>
+    <article className={`${cardClasses} ${glowClasses} transition-all duration-300`}>
       {/* Featured badge */}
       {skill.featured && (
         <div className="absolute -top-3 -right-3 z-10">
@@ -218,15 +223,7 @@ export function SkillCard({
     </article>
   )
 
-  // Wrap in FlipCard if enabled (not for compact variant)
-  if (enableFlip && (variant === 'default' || variant === 'featured')) {
-    return (
-      <FlipCard isFlipped={isInStack}>
-        {cardContent}
-      </FlipCard>
-    )
-  }
-
+  // No longer using FlipCard - just show the card with glow effect
   return cardContent
 }
 
