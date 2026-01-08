@@ -26,8 +26,8 @@ interface PageProps {
 export default async function SkillsMarketplacePage({ searchParams }: PageProps) {
   // Await searchParams for Next.js 15 compatibility
   const params = await searchParams
-  const typeFilter = params.type || 'all'
-  const categoryFilter = params.category || null
+  const typeFilter = params?.type || 'all'
+  const categoryFilter = params?.category || null
 
   const [allSkills, categories, collections, counts] = await Promise.all([
     getAllSkills(),
