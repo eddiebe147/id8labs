@@ -20,7 +20,7 @@ import { ServerSkillsGrid } from '@/components/skills/ServerSkillsGrid'
 import { StackBuilder } from '@/components/stack/StackBuilder'
 import { MarketplaceTabs, type MarketplaceTab } from '@/components/stackshack/MarketplaceTabs'
 import { MarketplaceSidebar } from '@/components/stackshack/MarketplaceSidebar'
-import { GenerateSkillButton } from '@/components/skills/GenerateSkillButton'
+import { GenerateToolButton } from '@/components/tool-factory'
 
 export const revalidate = 3600
 
@@ -126,7 +126,7 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
             </div>
 
             <div className="flex flex-wrap justify-center gap-3 text-sm font-medium">
-              <GenerateSkillButton variant="primary" />
+              <GenerateToolButton variant="primary" />
               <div className="flex items-center gap-2 px-4 py-2 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-full border border-[var(--border)]">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full" />
                 <span>100% Free</span>

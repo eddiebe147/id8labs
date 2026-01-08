@@ -2,24 +2,48 @@
 
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Loader2, AlertCircle, CheckCircle, Copy, Check } from 'lucide-react'
-import { useSkillGeneratorStore } from '@/lib/stores/skill-generator-store'
-import { SKILL_CATEGORIES, COMPLEXITY_LEVELS, type SkillCategory, type ComplexityLevel } from '@/lib/skill-generator-prompt'
-import { SkillPreview } from './SkillPreview'
+import {
+  Sparkles,
+  Terminal,
+  Bot,
+  Server,
+  Loader2,
+  AlertCircle,
+  CheckCircle,
+  Copy,
+  Check,
+} from 'lucide-react'
+import { useToolFactoryStore } from '@/lib/stores/tool-factory-store'
+import {
+  TOOL_TYPES,
+  TOOL_TYPE_LABELS,
+  TOOL_TYPE_DESCRIPTIONS,
+  type ToolType,
+} from '@/lib/tool-factory/types'
+import { SkillGeneratorForm } from './generators/SkillGeneratorForm'
+import { CommandGeneratorForm } from './generators/CommandGeneratorForm'
+import { AgentGeneratorForm } from './generators/AgentGeneratorForm'
+import { MCPGeneratorForm } from './generators/MCPGeneratorForm'
+import { ToolPreview } from './ToolPreview'
 
-interface SkillGeneratorProps {
+interface ToolFactoryProps {
   onClose?: () => void
-  onSaved?: (skillId: string) => void
+  onSaved?: (toolId: string, toolType: ToolType) => void
 }
 
-export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
+const TOOL_ICONS: Record<ToolType, React.ElementType> = {
+  skill: Sparkles,
+  command: Terminal,
+  agent: Bot,
+  mcp: Server,
+}
+
+export function ToolFactory({ onClose, onSaved }: ToolFactoryProps) {
   const {
+    toolType,
+    setToolType,
     description,
     setDescription,
-    categoryHint,
-    setCategoryHint,
-    complexityHint,
-    setComplexityHint,
     state,
     setState,
     streamedContent,
@@ -27,12 +51,11 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
     appendStreamedContent,
     error,
     setError,
-    generatedSkill,
     parseGeneratedContent,
-    reset,
-  } = useSkillGeneratorStore()
+    resetKeepType,
+    getCurrentTool,
+  } = useToolFactoryStore()
 
-  const [showAdvanced, setShowAdvanced] = useState(false)
   const [copied, setCopied] = useState(false)
   const [generationComplete, setGenerationComplete] = useState(false)
 
@@ -60,21 +83,40 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
     setCopied(false)
 
     try {
-      const response = await fetch('/api/skills/generate', {
+      // Build request body based on tool type
+      const store = useToolFactoryStore.getState()
+      const body: Record<string, unknown> = {
+        toolType,
+        description: description.trim(),
+      }
+
+      // Add type-specific hints
+      if (toolType === 'skill') {
+        if (store.skillCategoryHint) body.categoryHint = store.skillCategoryHint
+        if (store.complexityHint) body.complexityHint = store.complexityHint
+      } else if (toolType === 'command') {
+        if (store.commandCategoryHint) body.commandCategoryHint = store.commandCategoryHint
+      } else if (toolType === 'agent') {
+        if (store.agentCategoryHint) body.agentCategoryHint = store.agentCategoryHint
+        if (store.complexityHint) body.complexityHint = store.complexityHint
+        if (store.personaHint) body.personaHint = store.personaHint
+      } else if (toolType === 'mcp') {
+        if (store.mcpCategoryHint) body.mcpCategoryHint = store.mcpCategoryHint
+        if (store.transportHint) body.transportHint = store.transportHint
+        if (store.languageHint) body.languageHint = store.languageHint
+      }
+
+      const response = await fetch('/api/tools/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          description: description.trim(),
-          category: categoryHint,
-          complexity: complexityHint,
-        }),
+        body: JSON.stringify(body),
       })
 
       if (!response.ok) {
         const data = await response.json()
-        throw new Error(data.error || 'Failed to generate skill')
+        throw new Error(data.error || `Failed to generate ${toolType}`)
       }
 
       // Handle streaming response
@@ -96,13 +138,12 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
       setGenerationComplete(true)
     } catch (err) {
       console.error('Generation error:', err)
-      setError(err instanceof Error ? err.message : 'Failed to generate skill')
+      setError(err instanceof Error ? err.message : `Failed to generate ${toolType}`)
       setState('error')
     }
   }, [
     description,
-    categoryHint,
-    complexityHint,
+    toolType,
     setError,
     setStreamedContent,
     setState,
@@ -114,15 +155,16 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
   }, [parseGeneratedContent])
 
   const handleReset = useCallback(() => {
-    reset()
+    resetKeepType()
     setGenerationComplete(false)
     setCopied(false)
-  }, [reset])
+  }, [resetKeepType])
 
-  // Show preview if we have a generated skill
-  if (state === 'preview' && generatedSkill) {
+  // Show preview if we have a generated tool
+  const currentTool = getCurrentTool()
+  if (state === 'preview' && currentTool) {
     return (
-      <SkillPreview
+      <ToolPreview
         onBack={handleReset}
         onClose={onClose}
         onSaved={onSaved}
@@ -130,24 +172,58 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
     )
   }
 
+  const Icon = TOOL_ICONS[toolType]
+
   return (
     <div className="space-y-6">
+      {/* Tab Navigation */}
+      <div className="flex gap-1 p-1 bg-[var(--bg-secondary)] rounded-xl">
+        {TOOL_TYPES.map((type) => {
+          const TabIcon = TOOL_ICONS[type]
+          const isActive = toolType === type
+          return (
+            <button
+              key={type}
+              onClick={() => {
+                if (state === 'idle' || state === 'error') {
+                  setToolType(type)
+                }
+              }}
+              disabled={state === 'generating' || state === 'saving'}
+              className={`
+                flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg
+                text-sm font-medium transition-all
+                ${
+                  isActive
+                    ? 'bg-[var(--bg-primary)] text-[var(--id8-orange)] shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }
+                disabled:opacity-50 disabled:cursor-not-allowed
+              `}
+            >
+              <TabIcon className="w-4 h-4" />
+              <span className="hidden sm:inline">{TOOL_TYPE_LABELS[type]}</span>
+            </button>
+          )
+        })}
+      </div>
+
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="p-2 bg-[var(--id8-orange)]/10 rounded-lg">
-          <Sparkles className="w-5 h-5 text-[var(--id8-orange)]" />
+          <Icon className="w-5 h-5 text-[var(--id8-orange)]" />
         </div>
         <div>
           <h3 className="font-bold text-[var(--text-primary)]">
-            AI Skill Generator
+            Generate {TOOL_TYPE_LABELS[toolType]}
           </h3>
           <p className="text-sm text-[var(--text-secondary)]">
-            Describe what you need, and AI will create a custom skill
+            {TOOL_TYPE_DESCRIPTIONS[toolType]}
           </p>
         </div>
       </div>
 
-      {/* Input Form */}
+      {/* Form / Generation States */}
       <AnimatePresence mode="wait">
         {state === 'idle' || state === 'error' ? (
           <motion.div
@@ -157,100 +233,11 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
             exit={{ opacity: 0, y: -10 }}
             className="space-y-4"
           >
-            {/* Description Input */}
-            <div>
-              <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                What skill do you need?
-              </label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="e.g., A skill that helps me write cold outreach emails for SaaS founders, with personalization and follow-up sequences..."
-                className="w-full px-4 py-3 border border-[var(--border)] rounded-xl
-                           bg-[var(--bg-secondary)] text-[var(--text-primary)]
-                           placeholder:text-[var(--text-tertiary)]
-                           focus:outline-none focus:ring-2 focus:ring-[var(--id8-orange)]
-                           focus:border-transparent resize-none transition-all"
-                rows={4}
-              />
-              <p className="mt-1 text-xs text-[var(--text-tertiary)]">
-                {description.length}/1000 characters
-              </p>
-            </div>
-
-            {/* Advanced Options Toggle */}
-            <button
-              type="button"
-              onClick={() => setShowAdvanced(!showAdvanced)}
-              className="text-sm text-[var(--id8-orange)] hover:underline"
-            >
-              {showAdvanced ? 'Hide' : 'Show'} advanced options
-            </button>
-
-            {/* Advanced Options */}
-            <AnimatePresence>
-              {showAdvanced && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="space-y-4 overflow-hidden"
-                >
-                  {/* Category */}
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                      Category (optional)
-                    </label>
-                    <select
-                      value={categoryHint || ''}
-                      onChange={(e) =>
-                        setCategoryHint(
-                          e.target.value ? (e.target.value as SkillCategory) : null
-                        )
-                      }
-                      className="w-full px-4 py-2 border border-[var(--border)] rounded-lg
-                                 bg-[var(--bg-secondary)] text-[var(--text-primary)]
-                                 focus:outline-none focus:ring-2 focus:ring-[var(--id8-orange)]"
-                    >
-                      <option value="">Auto-detect</option>
-                      {SKILL_CATEGORIES.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat.charAt(0).toUpperCase() + cat.slice(1).replace('-', ' ')}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Complexity */}
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                      Complexity (optional)
-                    </label>
-                    <select
-                      value={complexityHint || ''}
-                      onChange={(e) =>
-                        setComplexityHint(
-                          e.target.value ? (e.target.value as ComplexityLevel) : null
-                        )
-                      }
-                      className="w-full px-4 py-2 border border-[var(--border)] rounded-lg
-                                 bg-[var(--bg-secondary)] text-[var(--text-primary)]
-                                 focus:outline-none focus:ring-2 focus:ring-[var(--id8-orange)]"
-                    >
-                      <option value="">Auto-detect</option>
-                      {COMPLEXITY_LEVELS.map((level) => (
-                        <option key={level} value={level}>
-                          {level.charAt(0).toUpperCase() + level.slice(1).replace('-', ' ')}
-                        </option>
-                      ))}
-                    </select>
-                    <p className="mt-1 text-xs text-[var(--text-tertiary)]">
-                      Simple = single task, Complex = multi-step, Multi-agent = orchestration
-                    </p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Type-Specific Form */}
+            {toolType === 'skill' && <SkillGeneratorForm />}
+            {toolType === 'command' && <CommandGeneratorForm />}
+            {toolType === 'agent' && <AgentGeneratorForm />}
+            {toolType === 'mcp' && <MCPGeneratorForm />}
 
             {/* Error Message */}
             {error && (
@@ -273,8 +260,8 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
                          disabled:opacity-50 disabled:cursor-not-allowed
                          transition-all flex items-center justify-center gap-2"
             >
-              <Sparkles className="w-5 h-5" />
-              Generate Skill
+              <Icon className="w-5 h-5" />
+              Generate {TOOL_TYPE_LABELS[toolType]}
             </button>
           </motion.div>
         ) : state === 'generating' ? (
@@ -297,16 +284,18 @@ export function SkillGenerator({ onClose, onSaved }: SkillGeneratorProps) {
               <div className="flex items-center gap-3 p-4 bg-[var(--id8-orange)]/10 rounded-xl">
                 <Loader2 className="w-5 h-5 text-[var(--id8-orange)] animate-spin" />
                 <span className="text-sm font-medium text-[var(--text-primary)]">
-                  Generating your skill...
+                  Generating your {toolType}...
                 </span>
               </div>
             )}
 
             {/* Streaming Preview */}
             <div className="relative">
-              <pre className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl
+              <pre
+                className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl
                               text-xs text-[var(--text-secondary)] font-mono
-                              max-h-[300px] overflow-y-auto whitespace-pre-wrap">
+                              max-h-[300px] overflow-y-auto whitespace-pre-wrap"
+              >
                 {streamedContent || 'Waiting for AI response...'}
                 {!generationComplete && <span className="animate-pulse">▊</span>}
               </pre>

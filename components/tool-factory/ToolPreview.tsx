@@ -9,90 +9,129 @@ import {
   CheckCircle,
   Tag,
   Sparkles,
+  Terminal,
+  Bot,
+  Server,
   FileText,
   Zap,
   Copy,
   Check,
 } from 'lucide-react'
-import { useSkillGeneratorStore } from '@/lib/stores/skill-generator-store'
-import { SKILL_CATEGORIES, type SkillCategory } from '@/lib/skill-generator-prompt'
+import { useToolFactoryStore } from '@/lib/stores/tool-factory-store'
+import {
+  TOOL_TYPE_LABELS,
+  SKILL_CATEGORY_LABELS,
+  COMMAND_CATEGORY_LABELS,
+  AGENT_CATEGORY_LABELS,
+  MCP_CATEGORY_LABELS,
+  type ToolType,
+  type SkillCategory,
+  type CommandCategory,
+  type AgentCategory,
+  type MCPCategory,
+  type GeneratedSkill,
+  type GeneratedCommand,
+  type GeneratedAgent,
+  type GeneratedMCP,
+} from '@/lib/tool-factory/types'
 
-interface SkillPreviewProps {
+interface ToolPreviewProps {
   onBack: () => void
   onClose?: () => void
-  onSaved?: (skillId: string) => void
+  onSaved?: (toolId: string, toolType: ToolType) => void
 }
 
-export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
+const TOOL_ICONS: Record<ToolType, React.ElementType> = {
+  skill: Sparkles,
+  command: Terminal,
+  agent: Bot,
+  mcp: Server,
+}
+
+export function ToolPreview({ onBack, onClose, onSaved }: ToolPreviewProps) {
   const {
+    toolType,
     generatedSkill,
-    updateSkillField,
+    generatedCommand,
+    generatedAgent,
+    generatedMCP,
     state,
     setState,
     setError,
-    setSavedSkillId,
-  } = useSkillGeneratorStore()
+    setSavedToolId,
+    getCurrentTool,
+  } = useToolFactoryStore()
 
-  const [isEditing, setIsEditing] = useState(false)
   const [copied, setCopied] = useState(false)
 
+  const currentTool = getCurrentTool()
+
   const handleCopy = useCallback(async () => {
-    if (!generatedSkill?.rawContent) return
+    if (!currentTool) return
     try {
-      await navigator.clipboard.writeText(generatedSkill.rawContent)
+      await navigator.clipboard.writeText(currentTool.data.rawContent)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Copy failed:', err)
     }
-  }, [generatedSkill?.rawContent])
+  }, [currentTool])
 
   const handleSave = useCallback(async () => {
-    if (!generatedSkill) return
+    if (!currentTool) return
 
     setState('saving')
     setError(null)
 
     try {
-      const response = await fetch('/api/skills/save', {
+      const response = await fetch('/api/tools/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: generatedSkill.name,
-          slug: generatedSkill.slug,
-          description: generatedSkill.description,
-          category: generatedSkill.category,
-          complexity: generatedSkill.complexity,
-          version: generatedSkill.version,
-          author: generatedSkill.author,
-          license: generatedSkill.license,
-          triggers: generatedSkill.triggers,
-          tags: generatedSkill.tags,
-          content: generatedSkill.content,
-          rawContent: generatedSkill.rawContent,
+          toolType,
+          ...currentTool.data,
         }),
       })
 
       if (!response.ok) {
         const data = await response.json()
-        throw new Error(data.error || 'Failed to save skill')
+        throw new Error(data.error || `Failed to save ${toolType}`)
       }
 
-      const { skillId } = await response.json()
-      setSavedSkillId(skillId)
+      const { toolId } = await response.json()
+      setSavedToolId(toolId)
       setState('success')
-      onSaved?.(skillId)
+      onSaved?.(toolId, toolType)
     } catch (err) {
       console.error('Save error:', err)
-      setError(err instanceof Error ? err.message : 'Failed to save skill')
+      setError(err instanceof Error ? err.message : `Failed to save ${toolType}`)
       setState('error')
     }
-  }, [generatedSkill, setState, setError, setSavedSkillId, onSaved])
+  }, [currentTool, toolType, setState, setError, setSavedToolId, onSaved])
 
-  if (!generatedSkill) {
+  if (!currentTool) {
     return null
+  }
+
+  const Icon = TOOL_ICONS[toolType]
+  const { data } = currentTool
+
+  // Get category label based on tool type
+  const getCategoryLabel = () => {
+    switch (toolType) {
+      case 'skill':
+        return SKILL_CATEGORY_LABELS[(data as GeneratedSkill).category as SkillCategory]
+      case 'command':
+        return COMMAND_CATEGORY_LABELS[(data as GeneratedCommand).category as CommandCategory]
+      case 'agent':
+        return AGENT_CATEGORY_LABELS[(data as GeneratedAgent).category as AgentCategory]
+      case 'mcp':
+        return MCP_CATEGORY_LABELS[(data as GeneratedMCP).category as MCPCategory]
+      default:
+        return 'Unknown'
+    }
   }
 
   // Success state
@@ -107,10 +146,10 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
           <CheckCircle className="w-8 h-8 text-green-500" />
         </div>
         <h3 className="text-xl font-bold text-[var(--text-primary)]">
-          Skill Saved!
+          {TOOL_TYPE_LABELS[toolType]} Saved!
         </h3>
         <p className="text-[var(--text-secondary)]">
-          Your skill "{generatedSkill.name}" has been saved to your account.
+          Your {toolType} "{data.name}" has been saved to your account.
         </p>
         <div className="flex gap-3 justify-center pt-4">
           <button
@@ -146,15 +185,12 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
           <ArrowLeft className="w-4 h-4" />
           Back
         </button>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className="text-sm text-[var(--id8-orange)] hover:underline"
-        >
-          {isEditing ? 'Done Editing' : 'Edit Fields'}
-        </button>
+        <span className="text-sm text-[var(--text-tertiary)]">
+          {TOOL_TYPE_LABELS[toolType]} Preview
+        </span>
       </div>
 
-      {/* Skill Card */}
+      {/* Tool Card */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -164,23 +200,14 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
         <div className="p-4 bg-gradient-to-r from-[var(--id8-orange)]/10 to-transparent border-b border-[var(--border)]">
           <div className="flex items-start gap-3">
             <div className="p-2 bg-[var(--id8-orange)]/20 rounded-lg">
-              <Sparkles className="w-5 h-5 text-[var(--id8-orange)]" />
+              <Icon className="w-5 h-5 text-[var(--id8-orange)]" />
             </div>
             <div className="flex-1 min-w-0">
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={generatedSkill.name}
-                  onChange={(e) => updateSkillField('name', e.target.value)}
-                  className="w-full px-2 py-1 text-lg font-bold bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--id8-orange)]"
-                />
-              ) : (
-                <h3 className="text-lg font-bold text-[var(--text-primary)] truncate">
-                  {generatedSkill.name}
-                </h3>
-              )}
+              <h3 className="text-lg font-bold text-[var(--text-primary)] truncate">
+                {data.name}
+              </h3>
               <p className="text-sm text-[var(--text-tertiary)]">
-                {generatedSkill.slug}
+                {data.slug}
               </p>
             </div>
           </div>
@@ -193,18 +220,9 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
             <label className="block text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wide mb-1">
               Description
             </label>
-            {isEditing ? (
-              <textarea
-                value={generatedSkill.description}
-                onChange={(e) => updateSkillField('description', e.target.value)}
-                rows={2}
-                className="w-full px-3 py-2 text-sm bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--id8-orange)] resize-none"
-              />
-            ) : (
-              <p className="text-sm text-[var(--text-secondary)]">
-                {generatedSkill.description}
-              </p>
-            )}
+            <p className="text-sm text-[var(--text-secondary)]">
+              {data.description}
+            </p>
           </div>
 
           {/* Meta Info */}
@@ -214,60 +232,61 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
               <label className="block text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wide mb-1">
                 Category
               </label>
-              {isEditing ? (
-                <select
-                  value={generatedSkill.category}
-                  onChange={(e) =>
-                    updateSkillField('category', e.target.value as SkillCategory)
-                  }
-                  className="w-full px-3 py-2 text-sm bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--id8-orange)]"
-                >
-                  {SKILL_CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat.charAt(0).toUpperCase() + cat.slice(1).replace('-', ' ')}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-[var(--text-tertiary)]" />
-                  <span className="text-sm text-[var(--text-secondary)] capitalize">
-                    {generatedSkill.category.replace('-', ' ')}
-                  </span>
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[var(--text-tertiary)]" />
+                <span className="text-sm text-[var(--text-secondary)]">
+                  {getCategoryLabel()}
+                </span>
+              </div>
             </div>
 
-            {/* Complexity */}
+            {/* Type-specific info */}
             <div>
               <label className="block text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wide mb-1">
-                Complexity
+                {toolType === 'skill' || toolType === 'agent' ? 'Complexity' : 'Type'}
               </label>
               <div className="flex items-center gap-2">
                 <Zap className="w-4 h-4 text-[var(--text-tertiary)]" />
                 <span className="text-sm text-[var(--text-secondary)] capitalize">
-                  {generatedSkill.complexity}
+                  {toolType === 'skill' && generatedSkill?.complexity}
+                  {toolType === 'command' && 'Command'}
+                  {toolType === 'agent' && generatedAgent?.complexity}
+                  {toolType === 'mcp' && generatedMCP?.transport?.toUpperCase()}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Triggers */}
-          <div>
-            <label className="block text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wide mb-2">
-              Triggers
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {generatedSkill.triggers.map((trigger, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-1 text-xs bg-[var(--bg-secondary)] border border-[var(--border)] rounded-full text-[var(--text-secondary)]"
-                >
-                  "{trigger}"
-                </span>
-              ))}
+          {/* Triggers (for skills and agents) */}
+          {(toolType === 'skill' || toolType === 'agent') && (
+            <div>
+              <label className="block text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wide mb-2">
+                Triggers
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {((toolType === 'skill' ? generatedSkill?.triggers : generatedAgent?.triggers) || []).map((trigger, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2 py-1 text-xs bg-[var(--bg-secondary)] border border-[var(--border)] rounded-full text-[var(--text-secondary)]"
+                  >
+                    "{trigger}"
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Command (for commands) */}
+          {toolType === 'command' && generatedCommand?.command && (
+            <div>
+              <label className="block text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wide mb-2">
+                Command
+              </label>
+              <pre className="p-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-xs font-mono text-[var(--text-secondary)] overflow-x-auto">
+                {generatedCommand.command}
+              </pre>
+            </div>
+          )}
 
           {/* Tags */}
           <div>
@@ -275,7 +294,7 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
               Tags
             </label>
             <div className="flex flex-wrap gap-2">
-              {generatedSkill.tags.map((tag, idx) => (
+              {(data.tags || []).map((tag, idx) => (
                 <span
                   key={idx}
                   className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] rounded-full"
@@ -291,7 +310,7 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wide">
-                Full Skill Content
+                Full Content
               </label>
               <button
                 onClick={handleCopy}
@@ -315,8 +334,8 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
             </div>
             <div className="max-h-[200px] overflow-y-auto p-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
               <pre className="text-xs text-[var(--text-secondary)] whitespace-pre-wrap font-mono">
-                {generatedSkill.content.slice(0, 500)}
-                {generatedSkill.content.length > 500 && '...'}
+                {data.content.slice(0, 500)}
+                {data.content.length > 500 && '...'}
               </pre>
             </div>
           </div>
@@ -351,7 +370,7 @@ export function SkillPreview({ onBack, onClose, onSaved }: SkillPreviewProps) {
           ) : (
             <>
               <Save className="w-5 h-5" />
-              Save to My Skills
+              Save {TOOL_TYPE_LABELS[toolType]}
             </>
           )}
         </button>
