@@ -6,10 +6,13 @@ import { Package, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { useStackStore } from '@/lib/stores/stack-store'
 import { StackItem } from './StackItem'
 import { GeneratedCommand } from './GeneratedCommand'
+import { StackManager } from './StackManager'
 
 export function StackBuilder() {
   const { 
     items, 
+    currentStackId,
+    savedStacks,
     removeItem, 
     clearStack, 
     getSkillsOnly, 
@@ -23,6 +26,8 @@ export function StackBuilder() {
   const agents = getAgentsOnly()
   const commands = getCommandsOnly()
   const settings = getSettingsOnly()
+  
+  const currentStack = savedStacks.find((s) => s.id === currentStackId)
 
   const isEmpty = items.length === 0
 
@@ -50,9 +55,12 @@ export function StackBuilder() {
               <Package className="w-5 h-5 text-[var(--id8-orange)]" />
             </div>
             <div className="text-left">
-              <h3 className="font-bold text-base">Stack Builder</h3>
+              <h3 className="font-bold text-base">
+                {currentStack?.name || 'Stack Builder'}
+              </h3>
               <p className="text-xs text-[var(--text-secondary)]">
                 {items.length} {items.length === 1 ? 'item' : 'items'}
+                {savedStacks.length > 0 && ` • ${savedStacks.length} saved`}
               </p>
             </div>
           </div>
@@ -147,6 +155,11 @@ export function StackBuilder() {
                 {/* Generated Command */}
                 <div className="pt-4 border-t border-[var(--border)]">
                   <GeneratedCommand items={items} />
+                </div>
+
+                {/* Stack Manager */}
+                <div className="pt-4 border-t border-[var(--border)]">
+                  <StackManager />
                 </div>
               </div>
             </motion.div>
