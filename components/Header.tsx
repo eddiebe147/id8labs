@@ -191,9 +191,9 @@ export default function Header() {
           <nav
             id="mobile-nav"
             aria-label="Mobile navigation"
-            className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--bg-primary)] z-[60] overflow-y-auto overscroll-contain"
+            className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--bg-primary)] z-[60] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
           >
-            <div className="pb-6 space-y-4 border-t border-[var(--border)] pt-6 px-4">
+            <div className="pb-24 space-y-4 border-t border-[var(--border)] pt-6 px-4">
             <Link
               href="/products"
               className="block text-lg hover:opacity-70 transition-opacity"
@@ -212,7 +212,7 @@ export default function Header() {
             <div className="space-y-3">
               <button
                 onClick={() => setAcademyExpanded(!academyExpanded)}
-                className="flex items-center justify-between w-full text-lg font-medium hover:text-id8-orange transition-colors"
+                className="flex items-center justify-between w-full text-lg font-medium hover:text-id8-orange transition-colors py-2 -my-2"
                 aria-expanded={academyExpanded}
               >
                 <span>Academy</span>
