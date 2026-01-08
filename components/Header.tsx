@@ -1,12 +1,25 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import BrandName from './BrandName'
 import { StackShackLogo } from './StackShackLogo'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [academyExpanded, setAcademyExpanded] = useState(false)
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileMenuOpen])
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[var(--bg-primary)]/70 border-b border-white/10 shadow-lg transition-all duration-200">
@@ -173,13 +186,14 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay */}
         {mobileMenuOpen && (
           <nav
             id="mobile-nav"
             aria-label="Mobile navigation"
-            className="md:hidden pb-6 space-y-4 border-t border-[var(--border)] pt-6 mt-2"
+            className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--bg-primary)] z-40 overflow-y-auto overscroll-contain"
           >
+            <div className="pb-6 space-y-4 border-t border-[var(--border)] pt-6 px-4">
             <Link
               href="/products"
               className="block text-lg hover:opacity-70 transition-opacity"
@@ -194,71 +208,92 @@ export default function Header() {
             >
               Services
             </Link>
-            {/* Mobile Academy Section */}
+            {/* Mobile Academy Section - Collapsible */}
             <div className="space-y-3">
-              <Link
-                href="/academy"
-                className="text-lg font-medium hover:text-id8-orange transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
+              <button
+                onClick={() => setAcademyExpanded(!academyExpanded)}
+                className="flex items-center justify-between w-full text-lg font-medium hover:text-id8-orange transition-colors"
+                aria-expanded={academyExpanded}
               >
-                Academy
-              </Link>
-              {/* Foundation */}
-              <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-4 pt-2">Start Here</p>
-              <Link
-                href="/courses/ai-conversation-fundamentals"
-                className="flex items-center gap-2 pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange text-white rounded">Foundation</span>
-                AI Fundamentals
-              </Link>
-              {/* Individuals */}
-              <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-4 pt-2">For Individuals</p>
-              <Link
-                href="/academy/prompt-engineering-creators"
-                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Prompt Engineering
-              </Link>
-              <Link
-                href="/academy/ai-partner-mastery"
-                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                AI Partner Mastery
-              </Link>
-              <Link
-                href="/courses/claude-for-knowledge-workers"
-                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Claude Code Course
-              </Link>
-              {/* Organizations */}
-              <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-4 pt-2">For Organizations</p>
-              <Link
-                href="/academy/ai-for-leaders"
-                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                AI for Leaders
-              </Link>
-              <Link
-                href="/academy/ai-at-scale"
-                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                AI at Scale
-              </Link>
-              <Link
-                href="/academy/private-ai"
-                className="block pl-4 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Private AI
-              </Link>
+                <span>Academy</span>
+                <svg
+                  className={`w-5 h-5 transition-transform duration-200 ${academyExpanded ? 'rotate-180' : ''}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </button>
+              {academyExpanded && (
+                <div className="space-y-3 pl-2 border-l-2 border-[var(--border)] ml-2">
+                  {/* Foundation */}
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-2 pt-2">Start Here</p>
+                  <Link
+                    href="/courses/ai-conversation-fundamentals"
+                    className="flex items-center gap-2 pl-2 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="px-1.5 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-id8-orange text-white rounded">Foundation</span>
+                    AI Fundamentals
+                  </Link>
+                  {/* Individuals */}
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-2 pt-2">For Individuals</p>
+                  <Link
+                    href="/academy/prompt-engineering-creators"
+                    className="block pl-2 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Prompt Engineering
+                  </Link>
+                  <Link
+                    href="/academy/ai-partner-mastery"
+                    className="block pl-2 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    AI Partner Mastery
+                  </Link>
+                  <Link
+                    href="/courses/claude-for-knowledge-workers"
+                    className="block pl-2 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Claude Code Course
+                  </Link>
+                  {/* Organizations */}
+                  <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-tertiary)] pl-2 pt-2">For Organizations</p>
+                  <Link
+                    href="/academy/ai-for-leaders"
+                    className="block pl-2 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    AI for Leaders
+                  </Link>
+                  <Link
+                    href="/academy/ai-at-scale"
+                    className="block pl-2 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    AI at Scale
+                  </Link>
+                  <Link
+                    href="/academy/private-ai"
+                    className="block pl-2 text-base text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Private AI
+                  </Link>
+                  {/* View All */}
+                  <Link
+                    href="/academy"
+                    className="block pl-2 text-base text-id8-orange hover:text-[var(--id8-orange-hover)] transition-colors font-medium"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    View Full Curriculum →
+                  </Link>
+                </div>
+              )}
             </div>
             <Link
               href="/essays"
@@ -298,6 +333,7 @@ export default function Header() {
               <span className="w-[2px] h-5 bg-current animate-pulse" />
               <span className="text-xs uppercase tracking-wider">Claude Corner</span>
             </Link>
+            </div>
           </nav>
         )}
       </div>
