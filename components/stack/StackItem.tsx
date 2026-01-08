@@ -1,12 +1,12 @@
 'use client'
 
-import { X } from 'lucide-react'
+import { X, Terminal, Settings } from 'lucide-react'
 import { motion } from 'framer-motion'
-import type { Skill } from '@/lib/skill-types'
+import type { StackItem as StackItemType } from '@/lib/stores/stack-store'
 
 interface StackItemProps {
-  skill: Skill
-  onRemove: (skillId: string) => void
+  skill: StackItemType
+  onRemove: (itemId: string) => void
 }
 
 const CATEGORY_EMOJI: Record<string, string> = {
@@ -21,10 +21,31 @@ const CATEGORY_EMOJI: Record<string, string> = {
   domain: '🏢',
   personal: '👤',
   meta: '⚙️',
+  git: '🔄',
+  testing: '🧪',
+  deployment: '🚀',
+  setup: '⚡',
+  quality: '✨',
+  model: '🤖',
+  permissions: '🔐',
+  context: '📦',
+  budget: '💰',
 }
 
 export function StackItem({ skill, onRemove }: StackItemProps) {
-  const emoji = CATEGORY_EMOJI[skill.category_id || 'meta'] || '⚙️'
+  // Get icon/emoji based on type and category
+  const getDisplay = () => {
+    if (skill.type === 'command') {
+      return { icon: <Terminal className="w-5 h-5" />, fallback: '⚡' }
+    }
+    if (skill.type === 'setting') {
+      return { icon: <Settings className="w-5 h-5" />, fallback: '⚙️' }
+    }
+    return { icon: null, fallback: CATEGORY_EMOJI[skill.category || 'meta'] || '⚙️' }
+  }
+
+  const display = getDisplay()
+  const emoji = display.fallback
 
   return (
     <motion.div
@@ -34,11 +55,15 @@ export function StackItem({ skill, onRemove }: StackItemProps) {
       exit={{ opacity: 0, x: -20 }}
       className="group flex items-center gap-3 p-3 bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] rounded-lg border border-[var(--border)] hover:border-[var(--id8-orange)]/50 transition-all"
     >
-      <span className="text-2xl flex-shrink-0">{emoji}</span>
+      {display.icon ? (
+        <div className="text-[var(--id8-orange)] flex-shrink-0">{display.icon}</div>
+      ) : (
+        <span className="text-2xl flex-shrink-0">{emoji}</span>
+      )}
       <div className="flex-1 min-w-0">
         <h4 className="text-sm font-medium truncate">{skill.name}</h4>
         <p className="text-xs text-[var(--text-secondary)] truncate">
-          {skill.category_id}
+          {skill.category || skill.type}
         </p>
       </div>
       <button

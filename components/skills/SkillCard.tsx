@@ -76,7 +76,17 @@ export function SkillCard({
     if (isInStack) {
       removeItem(skill.id)
     } else {
-      addItem(skill)
+      // Convert Skill to StackItem format
+      const isAgent = skill.tags?.includes('agent')
+      addItem({
+        id: skill.id,
+        slug: skill.slug,
+        name: skill.name,
+        description: skill.description || '',
+        type: isAgent ? 'agent' : 'skill',
+        category: skill.category_id || undefined,
+        tags: skill.tags,
+      })
     }
     if (onAddToStack) {
       onAddToStack(skill)

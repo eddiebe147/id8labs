@@ -8,11 +8,21 @@ import { StackItem } from './StackItem'
 import { GeneratedCommand } from './GeneratedCommand'
 
 export function StackBuilder() {
-  const { items, removeItem, clearStack, getSkillsOnly, getAgentsOnly } = useStackStore()
+  const { 
+    items, 
+    removeItem, 
+    clearStack, 
+    getSkillsOnly, 
+    getAgentsOnly,
+    getCommandsOnly,
+    getSettingsOnly 
+  } = useStackStore()
   const [isExpanded, setIsExpanded] = useState(true)
 
   const skills = getSkillsOnly()
   const agents = getAgentsOnly()
+  const commands = getCommandsOnly()
+  const settings = getSettingsOnly()
 
   const isEmpty = items.length === 0
 
@@ -101,6 +111,34 @@ export function StackBuilder() {
                     <AnimatePresence mode="popLayout">
                       {agents.map((agent) => (
                         <StackItem key={agent.id} skill={agent} onRemove={removeItem} />
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
+
+                {/* Commands Group */}
+                {commands.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">
+                      Commands ({commands.length})
+                    </h4>
+                    <AnimatePresence mode="popLayout">
+                      {commands.map((command) => (
+                        <StackItem key={command.id} skill={command} onRemove={removeItem} />
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
+
+                {/* Settings Group */}
+                {settings.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">
+                      Settings ({settings.length})
+                    </h4>
+                    <AnimatePresence mode="popLayout">
+                      {settings.map((setting) => (
+                        <StackItem key={setting.id} skill={setting} onRemove={removeItem} />
                       ))}
                     </AnimatePresence>
                   </div>

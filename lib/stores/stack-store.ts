@@ -4,14 +4,29 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Skill } from '@/lib/skill-types'
 
+export type StackItemType = 'skill' | 'agent' | 'command' | 'setting'
+
+export interface StackItem {
+  id: string
+  slug: string
+  name: string
+  description: string
+  type: StackItemType
+  category?: string
+  tags?: string[]
+}
+
 export interface StackState {
-  items: Skill[]
-  addItem: (skill: Skill) => void
-  removeItem: (skillId: string) => void
+  items: StackItem[]
+  addItem: (item: StackItem) => void
+  removeItem: (itemId: string) => void
   clearStack: () => void
-  isInStack: (skillId: string) => boolean
-  getSkillsOnly: () => Skill[]
-  getAgentsOnly: () => Skill[]
+  isInStack: (itemId: string) => boolean
+  getSkillsOnly: () => StackItem[]
+  getAgentsOnly: () => StackItem[]
+  getCommandsOnly: () => StackItem[]
+  getSettingsOnly: () => StackItem[]
+  getByType: (type: StackItemType) => StackItem[]
 }
 
 export const useStackStore = create<StackState>()(
@@ -19,34 +34,44 @@ export const useStackStore = create<StackState>()(
     (set, get) => ({
       items: [],
 
-      addItem: (skill) =>
+      addItem: (item) =>
         set((state) => {
           // Check if already in stack
-          if (state.items.find((s) => s.id === skill.id)) {
+          if (state.items.find((s) => s.id === item.id)) {
             return state
           }
           return {
-            items: [...state.items, skill],
+            items: [...state.items, item],
           }
         }),
 
-      removeItem: (skillId) =>
+      removeItem: (itemId) =>
         set((state) => ({
-          items: state.items.filter((s) => s.id !== skillId),
+          items: state.items.filter((s) => s.id !== itemId),
         })),
 
       clearStack: () => set({ items: [] }),
 
-      isInStack: (skillId) => get().items.some((s) => s.id === skillId),
+      isInStack: (itemId) => get().items.some((s) => s.id === itemId),
 
       getSkillsOnly: () =>
-        get().items.filter((item) => !item.tags?.includes('agent')),
+        get().items.filter((item) => item.type === 'skill'),
 
       getAgentsOnly: () =>
-        get().items.filter((item) => item.tags?.includes('agent')),
+        get().items.filter((item) => item.type === 'agent'),
+
+      getCommandsOnly: () =>
+        get().items.filter((item) => item.type === 'command'),
+
+      getSettingsOnly: () =>
+        get().items.filter((item) => item.type === 'setting'),
+
+      getByType: (type) =>
+        get().items.filter((item) => item.type === type),
     }),
     {
       name: 'stackshack-stack',
+      version: 2, // Increment version to clear old storage
     }
   )
 )
