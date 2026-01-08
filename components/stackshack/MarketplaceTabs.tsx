@@ -52,7 +52,7 @@ export function MarketplaceTabs({ activeTab = 'skills', counts }: MarketplaceTab
   return (
     <div className="sticky top-0 z-30 bg-[var(--bg-primary)]/95 backdrop-blur-md border-b border-[var(--border)]">
       <div className="container">
-        <nav className="flex items-center gap-1 overflow-x-auto scrollbar-hide py-2">
+        <nav className="flex items-center justify-center gap-1 overflow-x-auto scrollbar-hide py-2">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id
             const href = tab.id === 'skills' ? '/stackshack' : '/stackshack?tab=' + tab.id
