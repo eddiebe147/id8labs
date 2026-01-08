@@ -12,8 +12,7 @@ import { SkillSearchBar } from '@/components/skills/SkillSearchBar'
 import { StackShackLogo } from '@/components/StackShackLogo'
 import { ServerSidebar } from '@/components/skills/ServerSidebar'
 import { ServerSkillsGrid } from '@/components/skills/ServerSkillsGrid'
-import { StackBuilderWrapper } from '@/components/stack/StackBuilderWrapper'
-import { StackFloatingButton } from '@/components/stack/StackFloatingButton'
+import { StackBuilder } from '@/components/stack/StackBuilder'
 
 export const revalidate = 3600 // Revalidate every hour
 
@@ -56,11 +55,8 @@ export default async function SkillsMarketplacePage({ searchParams }: PageProps)
 
   return (
     <main className="relative">
-      {/* Desktop Stack Builder Sidebar */}
-      <StackBuilderWrapper />
-
-      {/* Mobile Floating Button */}
-      <StackFloatingButton />
+      {/* Stack Builder - Bottom Right Floating Panel */}
+      <StackBuilder />
 
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 overflow-hidden bg-[var(--bg-secondary)]">

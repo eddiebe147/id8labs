@@ -215,7 +215,7 @@ const settings: Setting[] = [
 ]
 
 console.log(`Generated ${settings.length} Claude Code settings presets`)
-console.log('Categories:', [...new Set(settings.map(s => s.category))].join(', '))
+console.log('Categories:', Array.from(new Set(settings.map(s => s.category))).join(', '))
 console.log('\nSettings by category:')
 
 const byCategory = settings.reduce((acc: any, setting: any) => {
