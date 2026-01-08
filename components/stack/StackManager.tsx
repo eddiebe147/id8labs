@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Save, FolderOpen, Trash2, Download, Upload, X, Edit2, Check } from 'lucide-react'
+import { Save, FolderOpen, Trash2, Download, Upload, X, Edit2, Check, Share2 } from 'lucide-react'
 import { useStackStore, type SavedStack } from '@/lib/stores/stack-store'
+import { generateShareUrl, copyToClipboard } from '@/lib/utils/share'
 
 export function StackManager() {
   const {
@@ -18,12 +19,14 @@ export function StackManager() {
   } = useStackStore()
 
   const [showDialog, setShowDialog] = useState(false)
-  const [dialogMode, setDialogMode] = useState<'save' | 'load' | 'export' | 'import'>('save')
+  const [dialogMode, setDialogMode] = useState<'save' | 'load' | 'export' | 'import' | 'share'>('save')
   const [stackName, setStackName] = useState('')
   const [stackDescription, setStackDescription] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [exportedJson, setExportedJson] = useState('')
   const [importJson, setImportJson] = useState('')
+  const [shareUrl, setShareUrl] = useState('')
+  const [copySuccess, setCopySuccess] = useState(false)
 
   const currentStack = savedStacks.find((s) => s.id === currentStackId)
 
@@ -75,6 +78,38 @@ export function StackManager() {
       alert(`Stack "${imported.name}" imported successfully!`)
     } else {
       alert('Failed to import stack. Please check the JSON format.')
+    }
+  }
+
+  const handleShare = (stackId?: string) => {
+    const stackToShare = stackId
+      ? savedStacks.find((s) => s.id === stackId)
+      : currentStack || {
+          id: 'temp',
+          name: 'Current Stack',
+          items,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        }
+
+    if (!stackToShare || stackToShare.items.length === 0) {
+      alert('Please add items to your stack before sharing')
+      return
+    }
+
+    const url = generateShareUrl(stackToShare)
+    setShareUrl(url)
+    setDialogMode('share')
+    setShowDialog(true)
+  }
+
+  const handleCopyShareUrl = async () => {
+    const success = await copyToClipboard(shareUrl)
+    if (success) {
+      setCopySuccess(true)
+      setTimeout(() => setCopySuccess(false), 2000)
+    } else {
+      alert('Failed to copy to clipboard')
     }
   }
 
@@ -137,6 +172,15 @@ export function StackManager() {
           <Upload className="w-4 h-4" />
           Import
         </button>
+
+        <button
+          onClick={() => handleShare(currentStackId || undefined)}
+          className="flex items-center gap-2 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg hover:border-[var(--id8-orange)] transition-colors text-sm font-medium"
+          disabled={items.length === 0}
+        >
+          <Share2 className="w-4 h-4" />
+          Share
+        </button>
       </div>
 
       {/* Dialog */}
@@ -150,6 +194,7 @@ export function StackManager() {
                 {dialogMode === 'load' && 'Load Stack'}
                 {dialogMode === 'export' && 'Export Stack'}
                 {dialogMode === 'import' && 'Import Stack'}
+                {dialogMode === 'share' && 'Share Stack'}
               </h2>
               <button
                 onClick={() => setShowDialog(false)}
@@ -365,6 +410,56 @@ export function StackManager() {
                   >
                     Import Stack
                   </button>
+                </div>
+              )}
+
+              {/* Share Mode */}
+              {dialogMode === 'share' && (
+                <div className="space-y-4">
+                  <p className="text-sm text-[var(--text-secondary)]">
+                    Share this URL with anyone. They can view and import your stack without signing in.
+                  </p>
+                  <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={shareUrl}
+                        readOnly
+                        className="flex-1 px-3 py-2 bg-[var(--bg-primary)] border border-[var(--border)] rounded text-sm font-mono"
+                      />
+                      <button
+                        onClick={handleCopyShareUrl}
+                        className="px-4 py-2 bg-[var(--id8-orange)] text-white rounded hover:bg-[var(--id8-orange-hover)] text-sm font-medium transition-colors"
+                      >
+                        {copySuccess ? 'Copied!' : 'Copy'}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-sm font-semibold">How it works:</h3>
+                    <ul className="text-sm text-[var(--text-secondary)] space-y-1 list-disc list-inside">
+                      <li>Anyone with this link can view your stack</li>
+                      <li>They can import it to their own collection</li>
+                      <li>No sign-in required</li>
+                      <li>Stack data is encoded in the URL</li>
+                    </ul>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleCopyShareUrl}
+                      className="flex-1 py-3 bg-[var(--id8-orange)] text-white rounded-lg hover:bg-[var(--id8-orange-hover)] font-medium"
+                    >
+                      {copySuccess ? '✓ Copied to Clipboard!' : 'Copy Link'}
+                    </button>
+                    <a
+                      href={shareUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg hover:border-[var(--id8-orange)] font-medium text-center"
+                    >
+                      Open Link
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
