@@ -1,9 +1,10 @@
 /**
  * Skills Marketplace Data Layer
  * Query functions for fetching, searching, and tracking skills
+ * 
+ * SERVER-SIDE ONLY: Use lib/skill-client.ts for client-side operations
  */
 
-import { createClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 
 // =============================================================================
@@ -211,19 +212,24 @@ export async function getSkillBySlug(slug: string): Promise<Skill | null> {
  * Get all skill categories
  */
 export async function getAllCategories(): Promise<SkillCategory[]> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  const { data, error } = await supabase
-    .from('skill_categories')
-    .select('*')
-    .order('display_order', { ascending: true })
+    const { data, error } = await supabase
+      .from('skill_categories')
+      .select('*')
+      .order('display_order', { ascending: true })
 
-  if (error) {
-    console.error('Error fetching categories:', error)
+    if (error) {
+      console.error('Error fetching categories:', error)
+      return []
+    }
+
+    return data as SkillCategory[]
+  } catch (error) {
+    console.error('Failed to get categories:', error)
     return []
   }
-
-  return data as SkillCategory[]
 }
 
 /**
@@ -237,35 +243,45 @@ export async function getSkillsByCategory(categoryId: string): Promise<Skill[]> 
  * Search skills using full-text search
  */
 export async function searchSkills(query: string, limit: number = 20): Promise<Skill[]> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  // Use the search_skills database function
-  const { data, error } = await supabase
-    .rpc('search_skills', { query_text: query, limit_count: limit })
+    // Use the search_skills database function
+    const { data, error } = await supabase
+      .rpc('search_skills', { query_text: query, limit_count: limit })
 
-  if (error) {
-    console.error('Error searching skills:', error)
+    if (error) {
+      console.error('Error searching skills:', error)
+      return []
+    }
+
+    return data as Skill[]
+  } catch (error) {
+    console.error('Failed to search skills:', error)
     return []
   }
-
-  return data as Skill[]
 }
 
 /**
  * Get trending skills (most views in last N days)
  */
 export async function getTrendingSkills(daysBack: number = 7, limit: number = 10): Promise<TrendingSkill[]> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  const { data, error } = await supabase
-    .rpc('get_trending_skills', { days_back: daysBack, limit_count: limit })
+    const { data, error } = await supabase
+      .rpc('get_trending_skills', { days_back: daysBack, limit_count: limit })
 
-  if (error) {
-    console.error('Error fetching trending skills:', error)
+    if (error) {
+      console.error('Error fetching trending skills:', error)
+      return []
+    }
+
+    return data as TrendingSkill[]
+  } catch (error) {
+    console.error('Failed to get trending skills:', error)
     return []
   }
-
-  return data as TrendingSkill[]
 }
 
 /**
@@ -461,247 +477,37 @@ export async function getSkillReviews(skillId: string): Promise<SkillReview[]> {
  * Get total skill count by status
  */
 export async function getSkillCounts(): Promise<{ total: number; published: number; byCategory: Record<string, number> }> {
-  const supabase = await createServerClient()
+  try {
+    const supabase = await createServerClient()
 
-  const [totalResult, publishedResult, categoryResult] = await Promise.all([
-    supabase.from('skills').select('id', { count: 'exact', head: true }),
-    supabase.from('skills').select('id', { count: 'exact', head: true }).eq('status', 'published'),
-    supabase
-      .from('skills')
-      .select('category_id')
-      .eq('status', 'published')
-  ])
+    const [totalResult, publishedResult, categoryResult] = await Promise.all([
+      supabase.from('skills').select('id', { count: 'exact', head: true }),
+      supabase.from('skills').select('id', { count: 'exact', head: true }).eq('status', 'published'),
+      supabase
+        .from('skills')
+        .select('category_id')
+        .eq('status', 'published')
+    ])
 
-  const byCategory: Record<string, number> = {}
-  if (categoryResult.data) {
-    categoryResult.data.forEach((skill: { category_id: string | null }) => {
-      const cat = skill.category_id || 'uncategorized'
-      byCategory[cat] = (byCategory[cat] || 0) + 1
-    })
-  }
-
-  return {
-    total: totalResult.count || 0,
-    published: publishedResult.count || 0,
-    byCategory
-  }
-}
-
-// =============================================================================
-// CLIENT-SIDE FUNCTIONS (for browser components)
-// =============================================================================
-
-/**
- * Track a skill view (client-side)
- */
-export async function trackSkillView(
-  skillId: string,
-  sessionId?: string,
-  referrer?: string
-): Promise<void> {
-  const supabase = createClient()
-
-  await supabase.rpc('track_skill_view', {
-    p_skill_id: skillId,
-    p_session_id: sessionId || null,
-    p_referrer: referrer || null
-  })
-}
-
-/**
- * Track a skill install (client-side)
- */
-export async function trackSkillInstall(
-  skillId: string,
-  method: 'copy' | 'curl' | 'git' | 'npm' | 'manual' = 'copy',
-  platform?: string,
-  sessionId?: string
-): Promise<void> {
-  const supabase = createClient()
-
-  await supabase.rpc('track_skill_install', {
-    p_skill_id: skillId,
-    p_method: method,
-    p_platform: platform || null,
-    p_session_id: sessionId || null
-  })
-}
-
-/**
- * Submit a skill review (client-side, requires auth)
- */
-export async function submitSkillReview(
-  skillId: string,
-  rating: number,
-  title?: string,
-  body?: string
-): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: 'Must be logged in to submit a review' }
-  }
-
-  const { error } = await supabase
-    .from('skill_reviews')
-    .upsert({
-      skill_id: skillId,
-      user_id: user.id,
-      rating,
-      title,
-      body,
-      updated_at: new Date().toISOString()
-    }, {
-      onConflict: 'skill_id,user_id'
-    })
-
-  if (error) {
-    return { success: false, error: error.message }
-  }
-
-  return { success: true }
-}
-
-/**
- * Get user's skill stack (client-side, requires auth)
- */
-export async function getUserStack(): Promise<UserSkillStack | null> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return null
-
-  const { data, error } = await supabase
-    .from('user_skill_stacks')
-    .select(`
-      *,
-      user_skill_stack_items(
-        display_order,
-        skill:skills(*, category:skill_categories(*))
-      )
-    `)
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  if (error || !data) return null
-
-  return {
-    ...data,
-    skills: data.user_skill_stack_items
-      ?.sort((a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order)
-      .map((item: { skill: Skill }) => item.skill) || []
-  } as UserSkillStack
-}
-
-/**
- * Add skill to user's stack (client-side, requires auth)
- */
-export async function addToStack(skillId: string): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: 'Must be logged in to add to stack' }
-  }
-
-  // Get or create stack
-  let { data: stack } = await supabase
-    .from('user_skill_stacks')
-    .select('id')
-    .eq('user_id', user.id)
-    .limit(1)
-    .single()
-
-  if (!stack) {
-    const { data: newStack, error: createError } = await supabase
-      .from('user_skill_stacks')
-      .insert({ user_id: user.id, name: 'My Stack' })
-      .select()
-      .single()
-
-    if (createError || !newStack) {
-      return { success: false, error: createError?.message || 'Failed to create stack' }
+    const byCategory: Record<string, number> = {}
+    if (categoryResult.data) {
+      categoryResult.data.forEach((skill: { category_id: string | null }) => {
+        const cat = skill.category_id || 'uncategorized'
+        byCategory[cat] = (byCategory[cat] || 0) + 1
+      })
     }
-    stack = newStack
-  }
 
-  // Add skill to stack - stack is guaranteed non-null at this point
-  const { error } = await supabase
-    .from('user_skill_stack_items')
-    .insert({
-      stack_id: stack!.id,
-      skill_id: skillId
-    })
-
-  if (error) {
-    if (error.code === '23505') {
-      return { success: false, error: 'Skill already in stack' }
+    return {
+      total: totalResult.count || 0,
+      published: publishedResult.count || 0,
+      byCategory
     }
-    return { success: false, error: error.message }
+  } catch (error) {
+    console.error('Failed to get skill counts:', error)
+    return {
+      total: 0,
+      published: 0,
+      byCategory: {}
+    }
   }
-
-  return { success: true }
-}
-
-/**
- * Remove skill from user's stack (client-side, requires auth)
- */
-export async function removeFromStack(skillId: string): Promise<{ success: boolean; error?: string }> {
-  const supabase = createClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return { success: false, error: 'Must be logged in' }
-  }
-
-  const { data: stack } = await supabase
-    .from('user_skill_stacks')
-    .select('id')
-    .eq('user_id', user.id)
-    .limit(1)
-    .single()
-
-  if (!stack) {
-    return { success: false, error: 'No stack found' }
-  }
-
-  const { error } = await supabase
-    .from('user_skill_stack_items')
-    .delete()
-    .eq('stack_id', stack.id)
-    .eq('skill_id', skillId)
-
-  if (error) {
-    return { success: false, error: error.message }
-  }
-
-  return { success: true }
-}
-
-/**
- * Generate install command for a skill
- */
-export function getInstallCommand(skill: Skill, method: 'copy' | 'curl' | 'git' = 'copy'): string {
-  const repoBase = 'https://github.com/id8labs/claude-code-skills'
-
-  switch (method) {
-    case 'curl':
-      return `curl -fsSL ${repoBase}/raw/main/skills/${skill.slug}/SKILL.md -o ~/.claude/skills/${skill.slug}.md`
-    case 'git':
-      return `git clone ${repoBase} && cp -r claude-code-skills/skills/${skill.slug} ~/.claude/skills/`
-    case 'copy':
-    default:
-      // The copy method will use clipboard in the UI
-      return skill.content || ''
-  }
-}
-
-/**
- * Get shareable stack URL
- */
-export function getStackShareUrl(shareId: string): string {
-  return `${process.env.NEXT_PUBLIC_SITE_URL}/skills/share/${shareId}`
 }
