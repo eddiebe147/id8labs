@@ -52,8 +52,12 @@ describe('POST /api/stripe/webhook', () => {
 
   const mockSupabaseChain = (data: unknown = null, error: unknown = null) => {
     return {
+      select: vi.fn().mockReturnThis(),
       update: vi.fn().mockReturnThis(),
-      eq: vi.fn().mockResolvedValue({ data, error }),
+      eq: vi.fn().mockReturnThis(),
+      neq: vi.fn().mockReturnThis(),
+      like: vi.fn().mockReturnThis(),
+      single: vi.fn().mockResolvedValue({ data, error }),
     }
   }
 
@@ -197,12 +201,17 @@ describe('POST /api/stripe/webhook', () => {
 
   describe('charge.refunded Event', () => {
     it('should update purchase to refunded status', async () => {
-      const mockUpdate = vi.fn().mockReturnThis()
-      const mockEq = vi.fn().mockResolvedValue({ data: null, error: null })
-
+      // charge.refunded needs select chain for purchase lookup, then update
       mockFrom.mockReturnValue({
-        update: mockUpdate,
-        eq: mockEq,
+        select: vi.fn().mockReturnThis(),
+        update: vi.fn().mockReturnThis(),
+        eq: vi.fn().mockReturnThis(),
+        neq: vi.fn().mockReturnThis(),
+        like: vi.fn().mockReturnThis(),
+        single: vi.fn().mockResolvedValue({
+          data: { id: 'purchase-123', product_id: 'agent-kit-basic' },
+          error: null,
+        }),
       })
 
       mockWebhooksConstructEvent.mockReturnValue({

@@ -1,29 +1,41 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { NextRequest } from 'next/server'
 
-// Mock Stripe before importing the route
+// Mock stripe-raw (the module actually used by the route)
 const mockStripeCheckoutCreate = vi.fn()
 const mockStripeCustomerCreate = vi.fn()
 
-vi.mock('@/lib/stripe', () => ({
-  getStripe: vi.fn(() => ({
+vi.mock('@/lib/stripe-raw', () => ({
+  stripeRaw: {
     checkout: {
       sessions: {
-        create: mockStripeCheckoutCreate,
+        create: (...args: unknown[]) => mockStripeCheckoutCreate(...args),
       },
     },
     customers: {
-      create: mockStripeCustomerCreate,
-    },
-  })),
-  COURSE_PRODUCTS: {
-    'claude-for-knowledge-workers': {
-      name: 'Claude Code for Knowledge Workers',
-      description: 'Complete 6-module course + lifetime updates',
-      price: 9900,
-      currency: 'usd',
+      create: (...args: unknown[]) => mockStripeCustomerCreate(...args),
     },
   },
+}))
+
+// Mock products module
+vi.mock('@/lib/products', () => ({
+  getProduct: vi.fn((id: string) => {
+    if (id === 'claude-for-knowledge-workers') {
+      return {
+        id: 'claude-for-knowledge-workers',
+        name: 'Claude Code for Knowledge Workers',
+        description: 'Complete 6-module course + lifetime updates',
+        price: 9900,
+        currency: 'usd',
+        purchaseType: 'stripe',
+        category: 'self-paced-course',
+        features: [],
+        priceDisplay: '$99',
+      }
+    }
+    return undefined
+  }),
 }))
 
 // Mock Supabase client
@@ -37,6 +49,14 @@ vi.mock('@/lib/supabase/server', () => ({
     },
     from: mockFrom,
   })),
+  createAdminClient: vi.fn(() => ({
+    from: mockFrom,
+  })),
+}))
+
+// Mock GitHub validation
+vi.mock('@/lib/github', () => ({
+  isValidGitHubUsername: vi.fn(() => true),
 }))
 
 // Import the route after mocks are set up
@@ -363,7 +383,7 @@ describe('POST /api/stripe/checkout', () => {
         if (table === 'purchases') {
           if (callCount === 1) {
             return mockSupabaseChain(null, null)
-          } else {
+          } else if (callCount === 2) {
             return {
               insert: vi.fn().mockReturnValue({
                 select: vi.fn().mockReturnThis(),
@@ -371,6 +391,12 @@ describe('POST /api/stripe/checkout', () => {
                   data: { id: 'new-purchase-123' },
                   error: null,
                 }),
+              }),
+            }
+          } else {
+            return {
+              update: vi.fn().mockReturnValue({
+                eq: vi.fn().mockResolvedValue({ data: null, error: null }),
               }),
             }
           }

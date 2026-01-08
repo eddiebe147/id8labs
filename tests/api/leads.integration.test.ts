@@ -43,7 +43,7 @@ describe('POST /api/leads', () => {
           const body = await request.json() as { from: string; to: string; subject: string; html: string }
 
           expect(body).toMatchObject({
-            from: 'ID8Labs <hello@mail.deepstack.trade>',
+            from: 'ID8Labs <hello@id8labs.tech>',
             to: 'john@example.com',
             subject: 'Your AI Readiness Results: Practitioner Level',
           })
