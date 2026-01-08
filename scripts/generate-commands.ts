@@ -1,0 +1,543 @@
+/**
+ * Generate 50 essential workflow commands
+ * Run with: tsx scripts/generate-commands.ts
+ */
+
+interface Command {
+  slug: string
+  name: string
+  description: string
+  category: 'git' | 'testing' | 'deployment' | 'setup' | 'quality'
+  command: string
+  prerequisites: string[]
+  tags: string[]
+  variants?: { name: string; command: string; description: string }[]
+  notes?: string
+}
+
+const commands: Command[] = [
+  // GIT COMMANDS (10)
+  {
+    slug: 'git-smart-commit',
+    name: 'Git Smart Commit',
+    description: 'Run tests and linting before committing to ensure code quality',
+    category: 'git',
+    command: 'npm test && npm run lint && git add . && git commit -m "$MESSAGE"',
+    prerequisites: ['git', 'npm'],
+    tags: ['git', 'testing', 'quality', 'commit'],
+    variants: [
+      {
+        name: 'Quick commit (skip tests)',
+        command: 'git add . && git commit -m "$MESSAGE"',
+        description: 'For minor changes that don\'t need testing'
+      },
+      {
+        name: 'Commit with type',
+        command: 'npm test && npm run lint && git add . && git commit -m "$TYPE: $MESSAGE"',
+        description: 'Use conventional commit types (feat, fix, docs, etc.)'
+      }
+    ]
+  },
+  {
+    slug: 'git-quick-push',
+    name: 'Git Quick Push',
+    description: 'Commit and push changes in one command with optional branch creation',
+    category: 'git',
+    command: 'git add . && git commit -m "$MESSAGE" && git push',
+    prerequisites: ['git'],
+    tags: ['git', 'commit', 'push', 'workflow'],
+    variants: [
+      {
+        name: 'Push to new branch',
+        command: 'git checkout -b "$BRANCH" && git add . && git commit -m "$MESSAGE" && git push -u origin "$BRANCH"',
+        description: 'Create new branch, commit, and push'
+      }
+    ]
+  },
+  {
+    slug: 'git-branch-clean',
+    name: 'Git Branch Cleanup',
+    description: 'Delete local branches that have been merged to main/master',
+    category: 'git',
+    command: 'git branch --merged | grep -v "\\*\\|main\\|master" | xargs -n 1 git branch -d',
+    prerequisites: ['git'],
+    tags: ['git', 'cleanup', 'branches', 'maintenance']
+  },
+  {
+    slug: 'git-undo-last',
+    name: 'Git Undo Last Commit',
+    description: 'Undo the last commit while keeping changes in working directory',
+    category: 'git',
+    command: 'git reset --soft HEAD~1',
+    prerequisites: ['git'],
+    tags: ['git', 'undo', 'reset', 'commit'],
+    variants: [
+      {
+        name: 'Undo and discard changes',
+        command: 'git reset --hard HEAD~1',
+        description: 'WARNING: Permanently discards changes'
+      }
+    ]
+  },
+  {
+    slug: 'git-stash-quick',
+    name: 'Git Quick Stash',
+    description: 'Stash changes with a descriptive message for easy retrieval',
+    category: 'git',
+    command: 'git stash push -m "$MESSAGE"',
+    prerequisites: ['git'],
+    tags: ['git', 'stash', 'workflow'],
+    variants: [
+      {
+        name: 'Stash with untracked files',
+        command: 'git stash push -u -m "$MESSAGE"',
+        description: 'Include untracked files in stash'
+      }
+    ]
+  },
+  {
+    slug: 'git-pull-rebase',
+    name: 'Git Pull with Rebase',
+    description: 'Pull latest changes and rebase local commits on top',
+    category: 'git',
+    command: 'git pull --rebase origin $(git branch --show-current)',
+    prerequisites: ['git'],
+    tags: ['git', 'pull', 'rebase', 'sync']
+  },
+  {
+    slug: 'git-amend-last',
+    name: 'Git Amend Last Commit',
+    description: 'Add changes to the last commit without creating a new one',
+    category: 'git',
+    command: 'git add . && git commit --amend --no-edit',
+    prerequisites: ['git'],
+    tags: ['git', 'amend', 'commit', 'fix']
+  },
+  {
+    slug: 'git-sync-main',
+    name: 'Git Sync with Main',
+    description: 'Fetch main branch and rebase current branch on top of it',
+    category: 'git',
+    command: 'git fetch origin main && git rebase origin/main',
+    prerequisites: ['git'],
+    tags: ['git', 'sync', 'rebase', 'main']
+  },
+  {
+    slug: 'git-cherry-pick-safe',
+    name: 'Git Safe Cherry Pick',
+    description: 'Cherry-pick a commit with conflict detection',
+    category: 'git',
+    command: 'git cherry-pick "$COMMIT_SHA" || (echo "Conflict detected. Resolve and run: git cherry-pick --continue" && git cherry-pick --abort)',
+    prerequisites: ['git'],
+    tags: ['git', 'cherry-pick', 'merge']
+  },
+  {
+    slug: 'git-tag-version',
+    name: 'Git Tag Version',
+    description: 'Create an annotated version tag and push it to remote',
+    category: 'git',
+    command: 'git tag -a "$VERSION" -m "Release $VERSION" && git push origin "$VERSION"',
+    prerequisites: ['git'],
+    tags: ['git', 'tag', 'version', 'release']
+  },
+
+  // TESTING COMMANDS (10)
+  {
+    slug: 'test-run-all',
+    name: 'Run All Tests',
+    description: 'Execute the complete test suite with coverage reporting',
+    category: 'testing',
+    command: 'npm test -- --coverage --watchAll=false',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'coverage', 'ci']
+  },
+  {
+    slug: 'test-coverage-report',
+    name: 'Test Coverage Report',
+    description: 'Generate and open HTML coverage report in browser',
+    category: 'testing',
+    command: 'npm test -- --coverage --watchAll=false && open coverage/lcov-report/index.html',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'coverage', 'report']
+  },
+  {
+    slug: 'test-watch-mode',
+    name: 'Test Watch Mode',
+    description: 'Run tests in watch mode for rapid development',
+    category: 'testing',
+    command: 'npm test -- --watch',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'watch', 'development']
+  },
+  {
+    slug: 'test-single-file',
+    name: 'Test Single File',
+    description: 'Run tests for a specific file or pattern',
+    category: 'testing',
+    command: 'npm test -- "$FILE_PATTERN"',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'single', 'file']
+  },
+  {
+    slug: 'test-debug',
+    name: 'Test with Debugger',
+    description: 'Run tests with Node debugger attached for troubleshooting',
+    category: 'testing',
+    command: 'node --inspect-brk node_modules/.bin/jest --runInBand "$FILE_PATTERN"',
+    prerequisites: ['node', 'jest'],
+    tags: ['testing', 'debug', 'troubleshoot']
+  },
+  {
+    slug: 'test-update-snapshots',
+    name: 'Update Test Snapshots',
+    description: 'Update all Jest/Vitest snapshots after intentional changes',
+    category: 'testing',
+    command: 'npm test -- -u --watchAll=false',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'snapshots', 'update']
+  },
+  {
+    slug: 'test-ci-mode',
+    name: 'Test in CI Mode',
+    description: 'Run tests in CI environment with proper settings',
+    category: 'testing',
+    command: 'CI=true npm test -- --coverage --maxWorkers=2 --watchAll=false',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'ci', 'automation']
+  },
+  {
+    slug: 'test-e2e',
+    name: 'Run E2E Tests',
+    description: 'Execute end-to-end tests with Playwright or Cypress',
+    category: 'testing',
+    command: 'npx playwright test',
+    prerequisites: ['npx', 'playwright or cypress'],
+    tags: ['testing', 'e2e', 'integration'],
+    variants: [
+      {
+        name: 'Cypress E2E',
+        command: 'npx cypress run',
+        description: 'Run Cypress tests in headless mode'
+      }
+    ]
+  },
+  {
+    slug: 'test-unit-only',
+    name: 'Run Unit Tests Only',
+    description: 'Execute only unit tests, excluding integration/e2e',
+    category: 'testing',
+    command: 'npm test -- --testPathPattern="__tests__/unit"',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'unit', 'fast']
+  },
+  {
+    slug: 'test-integration',
+    name: 'Run Integration Tests',
+    description: 'Execute integration tests that require database/API',
+    category: 'testing',
+    command: 'npm test -- --testPathPattern="__tests__/integration"',
+    prerequisites: ['npm', 'jest or vitest'],
+    tags: ['testing', 'integration', 'api']
+  },
+
+  // DEPLOYMENT COMMANDS (10)
+  {
+    slug: 'deploy-preview',
+    name: 'Deploy to Preview',
+    description: 'Deploy current branch to staging/preview environment',
+    category: 'deployment',
+    command: 'vercel --prod=false',
+    prerequisites: ['vercel'],
+    tags: ['deployment', 'staging', 'preview'],
+    variants: [
+      {
+        name: 'Netlify preview',
+        command: 'netlify deploy',
+        description: 'Deploy to Netlify preview'
+      }
+    ]
+  },
+  {
+    slug: 'deploy-production',
+    name: 'Deploy to Production',
+    description: 'Deploy to production environment with confirmation',
+    category: 'deployment',
+    command: 'vercel --prod',
+    prerequisites: ['vercel'],
+    tags: ['deployment', 'production', 'release']
+  },
+  {
+    slug: 'deploy-vercel',
+    name: 'Deploy to Vercel',
+    description: 'Build and deploy to Vercel with automatic domain setup',
+    category: 'deployment',
+    command: 'vercel --prod --yes',
+    prerequisites: ['vercel'],
+    tags: ['deployment', 'vercel', 'hosting']
+  },
+  {
+    slug: 'deploy-netlify',
+    name: 'Deploy to Netlify',
+    description: 'Build and deploy to Netlify production',
+    category: 'deployment',
+    command: 'netlify deploy --prod',
+    prerequisites: ['netlify-cli'],
+    tags: ['deployment', 'netlify', 'hosting']
+  },
+  {
+    slug: 'deploy-docker',
+    name: 'Deploy Docker Container',
+    description: 'Build and deploy Docker container to registry',
+    category: 'deployment',
+    command: 'docker build -t "$IMAGE_NAME:$TAG" . && docker push "$IMAGE_NAME:$TAG"',
+    prerequisites: ['docker'],
+    tags: ['deployment', 'docker', 'container']
+  },
+  {
+    slug: 'deploy-rollback',
+    name: 'Rollback Deployment',
+    description: 'Rollback to previous deployment version',
+    category: 'deployment',
+    command: 'vercel rollback',
+    prerequisites: ['vercel'],
+    tags: ['deployment', 'rollback', 'revert']
+  },
+  {
+    slug: 'deploy-status',
+    name: 'Check Deployment Status',
+    description: 'Check status of recent deployments',
+    category: 'deployment',
+    command: 'vercel ls',
+    prerequisites: ['vercel'],
+    tags: ['deployment', 'status', 'monitoring']
+  },
+  {
+    slug: 'deploy-logs',
+    name: 'View Deployment Logs',
+    description: 'Stream logs from production deployment',
+    category: 'deployment',
+    command: 'vercel logs --follow',
+    prerequisites: ['vercel'],
+    tags: ['deployment', 'logs', 'monitoring']
+  },
+  {
+    slug: 'deploy-env-check',
+    name: 'Verify Environment Variables',
+    description: 'Check all environment variables are set before deploy',
+    category: 'deployment',
+    command: 'vercel env ls',
+    prerequisites: ['vercel'],
+    tags: ['deployment', 'env', 'config']
+  },
+  {
+    slug: 'deploy-health-check',
+    name: 'Post-Deployment Health Check',
+    description: 'Verify deployment health and critical endpoints',
+    category: 'deployment',
+    command: 'curl -f "$HEALTH_ENDPOINT" || (echo "Health check failed!" && exit 1)',
+    prerequisites: ['curl'],
+    tags: ['deployment', 'health', 'monitoring']
+  },
+
+  // SETUP COMMANDS (10)
+  {
+    slug: 'setup-nextjs',
+    name: 'Setup Next.js Project',
+    description: 'Create a new Next.js 14+ project with TypeScript and App Router',
+    category: 'setup',
+    command: 'npx create-next-app@latest "$PROJECT_NAME" --typescript --tailwind --app --use-npm',
+    prerequisites: ['npx', 'node'],
+    tags: ['setup', 'nextjs', 'react', 'typescript']
+  },
+  {
+    slug: 'setup-react',
+    name: 'Setup React Project',
+    description: 'Create a new React project with Vite and TypeScript',
+    category: 'setup',
+    command: 'npm create vite@latest "$PROJECT_NAME" -- --template react-ts',
+    prerequisites: ['npm', 'node'],
+    tags: ['setup', 'react', 'vite', 'typescript']
+  },
+  {
+    slug: 'setup-supabase',
+    name: 'Initialize Supabase',
+    description: 'Setup Supabase in existing project with auth and database',
+    category: 'setup',
+    command: 'npx supabase init && npx supabase start',
+    prerequisites: ['npx', 'docker'],
+    tags: ['setup', 'supabase', 'database', 'auth']
+  },
+  {
+    slug: 'setup-tailwind',
+    name: 'Setup Tailwind CSS',
+    description: 'Install and configure Tailwind CSS in existing project',
+    category: 'setup',
+    command: 'npm install -D tailwindcss postcss autoprefixer && npx tailwindcss init -p',
+    prerequisites: ['npm'],
+    tags: ['setup', 'tailwind', 'css', 'styling']
+  },
+  {
+    slug: 'setup-typescript',
+    name: 'Setup TypeScript',
+    description: 'Add TypeScript to existing JavaScript project',
+    category: 'setup',
+    command: 'npm install -D typescript @types/node @types/react @types/react-dom && npx tsc --init',
+    prerequisites: ['npm'],
+    tags: ['setup', 'typescript', 'types']
+  },
+  {
+    slug: 'setup-eslint',
+    name: 'Setup ESLint',
+    description: 'Initialize ESLint with recommended configuration',
+    category: 'setup',
+    command: 'npm install -D eslint && npx eslint --init',
+    prerequisites: ['npm'],
+    tags: ['setup', 'eslint', 'linting', 'quality']
+  },
+  {
+    slug: 'setup-prettier',
+    name: 'Setup Prettier',
+    description: 'Install Prettier and create config for code formatting',
+    category: 'setup',
+    command: 'npm install -D prettier && echo \'{ "semi": false, "singleQuote": true }\' > .prettierrc',
+    prerequisites: ['npm'],
+    tags: ['setup', 'prettier', 'formatting']
+  },
+  {
+    slug: 'setup-husky',
+    name: 'Setup Git Hooks with Husky',
+    description: 'Install Husky for pre-commit and pre-push hooks',
+    category: 'setup',
+    command: 'npm install -D husky && npx husky init',
+    prerequisites: ['npm', 'git'],
+    tags: ['setup', 'husky', 'git-hooks', 'automation']
+  },
+  {
+    slug: 'setup-env',
+    name: 'Setup Environment Files',
+    description: 'Create environment files from example template',
+    category: 'setup',
+    command: 'cp .env.example .env.local && echo "✓ Created .env.local - Update with your values"',
+    prerequisites: [],
+    tags: ['setup', 'env', 'config']
+  },
+  {
+    slug: 'setup-dependencies',
+    name: 'Install All Dependencies',
+    description: 'Clean install of all project dependencies',
+    category: 'setup',
+    command: 'rm -rf node_modules package-lock.json && npm install',
+    prerequisites: ['npm'],
+    tags: ['setup', 'dependencies', 'install']
+  },
+
+  // QUALITY COMMANDS (10)
+  {
+    slug: 'lint-fix-all',
+    name: 'Auto-Fix Linting Issues',
+    description: 'Automatically fix all auto-fixable linting issues',
+    category: 'quality',
+    command: 'npm run lint -- --fix',
+    prerequisites: ['npm', 'eslint'],
+    tags: ['quality', 'lint', 'fix', 'automation']
+  },
+  {
+    slug: 'format-all',
+    name: 'Format All Files',
+    description: 'Format all files in project with Prettier',
+    category: 'quality',
+    command: 'npx prettier --write "**/*.{js,jsx,ts,tsx,json,css,md}"',
+    prerequisites: ['npx', 'prettier'],
+    tags: ['quality', 'format', 'prettier']
+  },
+  {
+    slug: 'typecheck-strict',
+    name: 'Strict Type Checking',
+    description: 'Run TypeScript compiler in strict mode without emitting',
+    category: 'quality',
+    command: 'npx tsc --noEmit --strict',
+    prerequisites: ['npx', 'typescript'],
+    tags: ['quality', 'typescript', 'typecheck']
+  },
+  {
+    slug: 'audit-security',
+    name: 'Security Audit',
+    description: 'Check for security vulnerabilities in dependencies',
+    category: 'quality',
+    command: 'npm audit --audit-level=moderate',
+    prerequisites: ['npm'],
+    tags: ['quality', 'security', 'audit', 'dependencies']
+  },
+  {
+    slug: 'audit-dependencies',
+    name: 'Check for Updates',
+    description: 'Check which dependencies have available updates',
+    category: 'quality',
+    command: 'npm outdated',
+    prerequisites: ['npm'],
+    tags: ['quality', 'dependencies', 'updates']
+  },
+  {
+    slug: 'clean-cache',
+    name: 'Clean Build Caches',
+    description: 'Remove all build caches and temp files',
+    category: 'quality',
+    command: 'rm -rf .next out dist build .turbo node_modules/.cache',
+    prerequisites: [],
+    tags: ['quality', 'cache', 'clean', 'maintenance']
+  },
+  {
+    slug: 'bundle-analyze',
+    name: 'Analyze Bundle Size',
+    description: 'Generate bundle size analysis report',
+    category: 'quality',
+    command: 'ANALYZE=true npm run build',
+    prerequisites: ['npm', '@next/bundle-analyzer'],
+    tags: ['quality', 'bundle', 'performance', 'optimization']
+  },
+  {
+    slug: 'performance-audit',
+    name: 'Performance Audit',
+    description: 'Run Lighthouse performance audit on production',
+    category: 'quality',
+    command: 'npx lighthouse "$URL" --only-categories=performance --view',
+    prerequisites: ['npx', 'lighthouse'],
+    tags: ['quality', 'performance', 'lighthouse', 'audit']
+  },
+  {
+    slug: 'accessibility-audit',
+    name: 'Accessibility Audit',
+    description: 'Check accessibility with Lighthouse and axe',
+    category: 'quality',
+    command: 'npx lighthouse "$URL" --only-categories=accessibility --view',
+    prerequisites: ['npx', 'lighthouse'],
+    tags: ['quality', 'accessibility', 'a11y', 'audit']
+  },
+  {
+    slug: 'dead-code-check',
+    name: 'Find Unused Code',
+    description: 'Detect unused exports and dead code',
+    category: 'quality',
+    command: 'npx ts-prune',
+    prerequisites: ['npx', 'ts-prune'],
+    tags: ['quality', 'dead-code', 'cleanup', 'optimization']
+  }
+]
+
+console.log(`Generated ${commands.length} workflow commands`)
+console.log('Categories:', [...new Set(commands.map(c => c.category))].join(', '))
+console.log('\\nWriting to JSON...')
+
+// Write to JSON file for import
+import fs from 'fs'
+import path from 'path'
+
+const outputPath = path.join(process.cwd(), 'commands', 'commands-data.json')
+fs.mkdirSync(path.dirname(outputPath), { recursive: true })
+fs.writeFileSync(outputPath, JSON.stringify(commands, null, 2))
+
+console.log(`✓ Written to ${outputPath}`)
+console.log('\\nNext steps:')
+console.log('1. Run: tsx scripts/import-commands-to-db.ts')
+console.log('2. Test API: curl https://id8labs.app/api/v1/commands/git-smart-commit')
+console.log('3. Test CLI: stackshack install git-smart-commit')
