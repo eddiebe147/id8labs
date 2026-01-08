@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     const limit = limitParam ? parseInt(limitParam, 10) : 20
     const offset = offsetParam ? parseInt(offsetParam, 10) : 0
 
-    let results = []
+    let results: any[] = []
 
     if (!query) {
       // No query provided - return trending items
