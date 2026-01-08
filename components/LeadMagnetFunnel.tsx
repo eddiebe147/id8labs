@@ -15,6 +15,7 @@ type FunnelStep = 'assessment' | 'results' | 'checklist' | 'success'
  * - Action plans (post-assessment resources)
  */
 const HIDDEN_ROUTES = [
+  '/stackshack',   // Has its own checkout flow
   '/courses',      // All course pages and modules
   '/privacy',      // Legal
   '/terms',        // Legal
