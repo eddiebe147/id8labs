@@ -24,6 +24,7 @@ export interface DbStack {
 export async function getPublicStacks(limit = 50): Promise<DbStack[]> {
   try {
     const supabase = await createClient()
+    if (!supabase) return []
 
     const { data, error } = await supabase
       .from('user_skill_stacks')
@@ -69,6 +70,7 @@ export async function getPublicStacks(limit = 50): Promise<DbStack[]> {
 export async function getStackByShareId(shareId: string): Promise<DbStack | null> {
   try {
     const supabase = await createClient()
+    if (!supabase) return null
 
     const { data, error } = await supabase
       .from('user_skill_stacks')
