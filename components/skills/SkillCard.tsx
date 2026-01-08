@@ -118,9 +118,9 @@ export function SkillCard({
       ? 'card-featured group relative flex flex-col h-full'
       : 'card group relative flex flex-col h-full'
 
-  // Add green glow when in stack
+  // Add subtle green glow when in stack - keeps all content visible
   const glowClasses = isInStack 
-    ? 'ring-2 ring-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]' 
+    ? 'ring-2 ring-emerald-500/80 shadow-[0_8px_30px_rgba(16,185,129,0.3)]' 
     : ''
 
   const cardContent = (
