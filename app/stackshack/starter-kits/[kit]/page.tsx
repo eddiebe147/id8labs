@@ -54,7 +54,7 @@ function StarterKitError({ kit, error }: { kit: string; error?: string }) {
       <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
         <div className="container py-8">
           <Link
-            href="/skills/starter-kits"
+            href="/stackshack/starter-kits"
             className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -76,7 +76,7 @@ function StarterKitError({ kit, error }: { kit: string; error?: string }) {
             <p className="text-xs text-red-500 font-mono mb-4">Kit: {kit} - {error}</p>
           )}
           <Link
-            href="/skills/starter-kits"
+            href="/stackshack/starter-kits"
             className="inline-flex items-center gap-2 text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)]"
           >
             View all starter kits
@@ -116,7 +116,7 @@ export default async function StarterKitPage({ params }: PageProps) {
       <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
         <div className="container py-8">
           <Link
-            href="/skills/starter-kits"
+            href="/stackshack/starter-kits"
             className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />

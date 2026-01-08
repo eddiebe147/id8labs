@@ -21,6 +21,22 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
   },
 
+  // Redirects for backwards compatibility
+  async redirects() {
+    return [
+      {
+        source: '/skills',
+        destination: '/stackshack',
+        permanent: true,
+      },
+      {
+        source: '/skills/:path*',
+        destination: '/stackshack/:path*',
+        permanent: true,
+      },
+    ]
+  },
+
   // Headers for caching static assets
   async headers() {
     return [

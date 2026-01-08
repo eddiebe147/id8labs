@@ -136,7 +136,7 @@ export default async function SkillsMarketplacePage({ searchParams }: PageProps)
           <div className="lg:hidden mb-6">
             <div className="flex flex-wrap gap-2">
               <Link
-                href="/skills"
+                href="/stackshack"
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   typeFilter === 'all' && !categoryFilter
                     ? 'bg-[var(--id8-orange)] text-white'
@@ -230,7 +230,7 @@ export default async function SkillsMarketplacePage({ searchParams }: PageProps)
                     </Link>
                   )}
                   <Link
-                    href="/skills"
+                    href="/stackshack"
                     className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                   >
                     Clear all
@@ -290,11 +290,11 @@ export default async function SkillsMarketplacePage({ searchParams }: PageProps)
                   All skills and agents are 100% free. Install in seconds.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/skills/starter-kits" className="btn btn-primary">
+                  <Link href="/stackshack/starter-kits" className="btn btn-primary">
                     <Package className="w-5 h-5" />
                     Browse Starter Kits
                   </Link>
-                  <Link href="/skills?sort=popular" className="btn btn-secondary">
+                  <Link href="/stackshack?sort=popular" className="btn btn-secondary">
                     <TrendingUp className="w-5 h-5" />
                     View Popular Skills
                   </Link>

@@ -60,7 +60,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
       <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
         <div className="container py-8">
           <Link
-            href="/skills/categories"
+            href="/stackshack/categories"
             className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -108,7 +108,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
               No skills in this category yet.
             </p>
             <Link
-              href="/skills"
+              href="/stackshack"
               className="mt-4 inline-block text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)]"
             >
               Browse all skills

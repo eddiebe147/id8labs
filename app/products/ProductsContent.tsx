@@ -374,14 +374,14 @@ export default function ProductsContent() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  href="/skills"
+                  href="/stackshack"
                   className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[var(--id8-orange)] text-white font-semibold rounded-xl hover:bg-[var(--id8-orange)]/90 transition-all hover:scale-105 active:scale-95"
                 >
                   Browse StackShack
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
-                  href="/skills/starter-kits"
+                  href="/stackshack/starter-kits"
                   className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-all border border-white/10"
                 >
                   <Package className="w-4 h-4" />

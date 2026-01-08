@@ -30,7 +30,7 @@ export default async function SharedStackPage({ params }: PageProps) {
       <section className="py-8 border-b border-[var(--border)]">
         <div className="container">
           <Link
-            href="/skills"
+            href="/stackshack"
             className="inline-flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--id8-orange)] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />

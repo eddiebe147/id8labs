@@ -31,7 +31,7 @@ export default async function GalleryPage() {
               Discover and fork stacks shared by the StackShack community
             </p>
             <Link
-              href="/skills"
+              href="/stackshack"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--id8-orange)] text-white rounded-lg hover:bg-[var(--id8-orange-hover)] font-medium transition-colors"
             >
               Build Your Own Stack

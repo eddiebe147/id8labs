@@ -75,7 +75,7 @@ export function ServerSidebar({
                         </div>
                         {hasActiveFilters && (
                             <Link
-                                href="/skills"
+                                href="/stackshack"
                                 className="text-xs text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)] flex items-center gap-1"
                             >
                                 Clear
@@ -199,7 +199,7 @@ export function ServerSidebar({
                             ))}
                         </div>
                         <Link
-                            href="/skills/starter-kits"
+                            href="/stackshack/starter-kits"
                             className="block mt-3 text-sm text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)] font-medium"
                         >
                             Browse all kits →
@@ -265,7 +265,7 @@ export function MobileFilterButton({
 
     return (
         <Link
-            href="/skills" // Could link to a mobile filter page or use CSS-only modal
+            href="/stackshack" // Could link to a mobile filter page or use CSS-only modal
             className="lg:hidden flex items-center gap-2 px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
         >
             <Filter className="w-5 h-5" />

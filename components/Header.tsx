@@ -134,7 +134,7 @@ export default function Header() {
             <Link href="/contact" className="text-base hover:opacity-70 transition-opacity">
               Contact
             </Link>
-            <Link href="/skills" className="hover:opacity-80 transition-opacity" aria-label="Stack Shack">
+            <Link href="/stackshack" className="hover:opacity-80 transition-opacity" aria-label="Stack Shack">
               <div className="flex items-center">
                 <StackShackLogo size="sm" />
               </div>
@@ -282,7 +282,7 @@ export default function Header() {
               Contact
             </Link>
             <Link
-              href="/skills"
+              href="/stackshack"
               className="hover:opacity-80 transition-opacity"
               onClick={() => setMobileMenuOpen(false)}
             >

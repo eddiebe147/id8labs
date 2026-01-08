@@ -22,7 +22,7 @@ export default async function ProfilePage() {
                 <p className="text-xl text-[var(--text-secondary)]">{user.email}</p>
               </div>
               <Link
-                href="/skills"
+                href="/stackshack"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--id8-orange)] text-white rounded-lg hover:bg-[var(--id8-orange-hover)] font-medium transition-colors"
               >
                 <Plus className="w-5 h-5" />

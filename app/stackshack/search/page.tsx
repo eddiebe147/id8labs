@@ -24,7 +24,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
       <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
         <div className="container py-8">
           <Link
-            href="/skills"
+            href="/stackshack"
             className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -84,7 +84,7 @@ export default async function SearchPage({ searchParams }: PageProps) {
                       Try a different search term or browse by category
                     </p>
                     <Link
-                      href="/skills"
+                      href="/stackshack"
                       className="inline-flex items-center gap-2 mt-6 text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)]"
                     >
                       Browse all skills
