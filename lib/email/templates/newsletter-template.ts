@@ -287,6 +287,59 @@ ${EMAIL_WRAPPER_END}`
 }
 
 // ============================================
+// ISSUE #2: Late January 2025
+// ============================================
+export const NEWSLETTER_ISSUE_2: NewsletterIssue = {
+  issueNumber: 2,
+  date: 'Late January 2025',
+  subject: 'The AI Toolbelt: Who Does What (And Why It Matters)',
+  subjectVariants: [
+    'Stop using ChatGPT for everything',
+    'Your AI toolkit is incomplete',
+  ],
+  bigIdea: {
+    title: 'You\'re leaving massive potential on the table by defaulting to ChatGPT for everything.',
+    content: `It's not that ChatGPT is bad. It's that using one tool for every job is like a cinematographer showing up to set with only a 50mm lens. Sure, you can make it work. But you're fighting the tool instead of letting it serve the shot.
+
+The AI landscape has matured. Different models have developed genuine specializations—not just marketing differentiation, but real differences in how they think, what they're good at, and where they fall short.
+
+Understanding this isn't about chasing trends. It's about building a toolkit that actually serves your work.`,
+  },
+  framework: {
+    name: 'The AI Toolbelt',
+    description: 'Pick your pack. Build familiarity with 3-4 tools that cover your actual workflow. Use them consistently enough to develop real intuition for when to reach for which one. The goal isn\'t tool maximalism—it\'s tool literacy.',
+    steps: [
+      '<strong>Claude</strong> — Your thinking partner. Extended analysis, creative writing, complex multi-step instructions, coding. Anything where you need the model to actually <em>think</em> rather than pattern-match.',
+      '<strong>Gemini</strong> — Deep research and visual generation. Deep Research mode synthesizes across sources. Veo handles video generation. Strong Google ecosystem integration.',
+      '<strong>Grok</strong> — Daily pulse and conversational research. Real-time access to X for current events, trending conversations, understanding what\'s happening <em>right now</em>.',
+      '<strong>Midjourney</strong> — Visual creation with aesthetic sensibility. Still the leader when you care about output looking <em>good</em>, not just accurate.',
+      '<strong>ChatGPT</strong> — The generalist with the widest plugin ecosystem. Fine for quick queries and third-party integrations. Usually not first choice for serious work.',
+    ],
+  },
+  caseStudy: {
+    title: 'Field Notes: Real-World Tool Selection',
+    problem:
+      'This cycle I was deep in production work while pushing ID8Composer toward v1.1 release. Needed research, writing, and daily awareness without context-switching overhead.',
+    solution:
+      'Claude handles 80% of my knowledge work—story development, document analysis, strategic thinking, this newsletter. Grok became my morning ritual for staying current without doom-scrolling. Gemini\'s Deep Research mode saved me hours on a competitive analysis.',
+    result: 'The tools are good enough now that the bottleneck isn\'t capability—it\'s knowing which tool to reach for.',
+  },
+  miloTip: {
+    title: 'The Tool Selection Prompt',
+    prompt:
+      'I need to [task]. Here are my options: Claude for deep thinking, Gemini for research, Grok for current events, Midjourney for visuals. Which tool and why? Be specific about the tradeoffs.',
+    explanation:
+      'Use this when you\'re unsure which AI to reach for. Let one AI help you pick the right AI for the job.',
+  },
+  graduateEdge: {
+    title: 'Noise Filter: What to Ignore This Week',
+    content:
+      'Skip the constant release cycle ship fatigue—the people doing great work aren\'t chasing every update. Codex hype: if you\'re doing serious coding, Claude/Gemini is proving more capable in practice. The Ralph Wiggum Protocol is powerful but will eat your tokens—use sparingly for mechanical tasks with clear completion criteria.',
+  },
+  closingNote: 'That\'s Issue #2. You don\'t need to master every tool. But you do need to understand what each one is actually good at—and stop forcing your primary tool to do jobs it wasn\'t built for.',
+}
+
+// ============================================
 // ISSUE #1: January 2025
 // ============================================
 export const NEWSLETTER_ISSUE_1: NewsletterIssue = {

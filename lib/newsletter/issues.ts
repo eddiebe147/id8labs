@@ -6,7 +6,7 @@
  * and can also be loaded from content/newsletter MDX files.
  */
 
-import { NEWSLETTER_ISSUE_1, type NewsletterIssue } from '@/lib/email/templates/newsletter-template'
+import { NEWSLETTER_ISSUE_1, NEWSLETTER_ISSUE_2, type NewsletterIssue } from '@/lib/email/templates/newsletter-template'
 
 export interface NewsletterIssuePreview {
   slug: string
@@ -20,6 +20,7 @@ export interface NewsletterIssuePreview {
 // All defined issues (add new issues here)
 const ALL_ISSUES: NewsletterIssue[] = [
   NEWSLETTER_ISSUE_1,
+  NEWSLETTER_ISSUE_2,
 ]
 
 /**
