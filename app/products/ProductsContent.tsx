@@ -1,10 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { m } from '@/components/motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ExternalLink, Check, Download, Package, Sparkles, Wrench, Zap, Users, Brain, Shield, Code, Database, Terminal, Star, Bot } from 'lucide-react'
+import { ArrowRight, ExternalLink, Check, Package, Wrench, Zap, Terminal, Bot } from 'lucide-react'
 
 // ============================================
 // FLAGSHIP PRODUCTS - Full feature showcase
@@ -150,7 +149,7 @@ function FlagshipCard({ product, index }: { product: FlagshipProduct; index: num
     emerald: 'border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)]',
   }
 
-  const content = (
+  return (
     <m.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -236,18 +235,22 @@ function FlagshipCard({ product, index }: { product: FlagshipProduct; index: num
       )}
     </m.div>
   )
-
-  return content
 }
 
 
 
 function ComingSoonCard({ product }: { product: ComingSoonProduct }) {
-  const statusConfig = {
-    development: { label: 'In Development', color: 'amber' },
-    exploration: { label: 'Exploring', color: 'violet' },
+  const statusStyles = {
+    development: {
+      label: 'In Development',
+      className: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    },
+    exploration: {
+      label: 'Exploring',
+      className: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+    },
   }
-  const config = statusConfig[product.status]
+  const status = statusStyles[product.status]
 
   return (
     <div className="group relative flex flex-col p-5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all">
@@ -255,8 +258,8 @@ function ComingSoonCard({ product }: { product: ComingSoonProduct }) {
         <h3 className="text-lg font-bold text-white group-hover:text-[var(--id8-orange)] transition-colors">
           {product.name}
         </h3>
-        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider bg-${config.color}-500/10 text-${config.color}-400 border border-${config.color}-500/20`}>
-          {config.label}
+        <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider border ${status.className}`}>
+          {status.label}
         </span>
       </div>
       <p className="text-sm text-[var(--id8-orange)]/70 mb-2">{product.tagline}</p>

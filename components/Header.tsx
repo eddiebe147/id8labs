@@ -22,9 +22,10 @@ export default function Header() {
   }, [mobileMenuOpen])
 
   return (
+    <>
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-[var(--bg-primary)]/70 border-b border-white/10 shadow-lg transition-all duration-200">
       <div className="container">
-        <div className={`flex items-center justify-between h-16 md:h-20 ${mobileMenuOpen ? 'pointer-events-none' : ''}`}>
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo / Wordmark */}
           <Link href="/" className="text-3xl font-bold tracking-tight hover:opacity-70 transition-opacity">
             <BrandName />
@@ -166,7 +167,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 hover:opacity-70 transition-opacity pointer-events-auto"
+            className="md:hidden p-3 -mr-2 hover:opacity-70 transition-opacity relative z-[70] touch-manipulation"
             aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"
@@ -185,16 +186,18 @@ export default function Header() {
             )}
           </button>
         </div>
+      </div>
+    </header>
 
-        {/* Mobile Menu Overlay */}
-        {mobileMenuOpen && (
-          <nav
-            id="mobile-nav"
-            aria-label="Mobile navigation"
-            className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--bg-primary)] z-[60] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
-          >
-            <div className="pb-24 space-y-4 border-t border-[var(--border)] pt-6 px-4">
-            <Link
+    {/* Mobile Menu Overlay - Outside header for proper z-index stacking */}
+    {mobileMenuOpen && (
+      <nav
+        id="mobile-nav"
+        aria-label="Mobile navigation"
+        className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--bg-primary)] z-[100] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
+      >
+        <div className="container pb-24 space-y-4 border-t border-[var(--border)] pt-6">
+          <Link
               href="/products"
               className="block text-lg hover:opacity-70 transition-opacity"
               onClick={() => setMobileMenuOpen(false)}
@@ -324,19 +327,18 @@ export default function Header() {
               <StackShackLogo size="md" />
             </Link>
             {/* Claude Corner Easter Egg */}
-            <Link
-              href="/claude-corner"
-              className="flex items-center gap-2 font-mono text-[var(--text-tertiary)] hover:text-[var(--id8-orange)] transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <span className="text-lg">{'>_'}</span>
-              <span className="w-[2px] h-5 bg-current animate-pulse" />
-              <span className="text-xs uppercase tracking-wider">Claude Corner</span>
-            </Link>
-            </div>
-          </nav>
-        )}
-      </div>
-    </header>
+          <Link
+            href="/claude-corner"
+            className="flex items-center gap-2 font-mono text-[var(--text-tertiary)] hover:text-[var(--id8-orange)] transition-colors"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <span className="text-lg">{'>_'}</span>
+            <span className="w-[2px] h-5 bg-current animate-pulse" />
+            <span className="text-xs uppercase tracking-wider">Claude Corner</span>
+          </Link>
+        </div>
+      </nav>
+    )}
+    </>
   )
 }

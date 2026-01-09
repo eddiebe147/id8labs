@@ -6,9 +6,11 @@ import { getAllSkills, getAllCategories } from '@/lib/skills'
 import { SkillCard } from '@/components/skills/SkillCard'
 import { InlineFilters } from '@/components/skills/SkillFilters'
 
+type SortOption = 'newest' | 'popular' | 'rating' | 'installs'
+
 interface PageProps {
   params: Promise<{ category: string }>
-  searchParams: Promise<{ sort?: string }>
+  searchParams: Promise<{ sort?: SortOption }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -51,7 +53,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
     notFound()
   }
 
-  const sortBy = (sort as 'newest' | 'popular' | 'rating' | 'installs') || 'popular'
+  const sortBy: SortOption = sort || 'popular'
   const skills = await getAllSkills({ category, sortBy })
 
   return (
