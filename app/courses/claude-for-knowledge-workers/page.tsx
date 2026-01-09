@@ -574,7 +574,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
 
       {/* Pricing Section */}
       <section className="section-spacing-lg relative" id="pricing">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(circle,var(--id8-orange-light)_0%,transparent_70%)] opacity-30 pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] aspect-square bg-[radial-gradient(circle,var(--id8-orange-light)_0%,transparent_70%)] opacity-30 pointer-events-none" />
 
         <div className="container relative">
           <div className="text-center max-w-2xl mx-auto mb-12">

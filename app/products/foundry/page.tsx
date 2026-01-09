@@ -108,7 +108,7 @@ export default function FoundryPage() {
       {/* File Structure */}
       <section className="mb-16">
         <h2 className="text-3xl font-bold mb-6">The Structure</h2>
-        <div className="font-mono text-sm bg-[var(--bg-secondary)] p-6 rounded-lg border border-[var(--border)] mb-8">
+        <div className="font-mono text-sm bg-[var(--bg-secondary)] p-6 rounded-lg border border-[var(--border)] mb-8 overflow-x-auto">
           <pre className="text-[var(--text-secondary)]">{`~/.claude/pipeline/
 ├── SYSTEM.md           # Operating instructions
 ├── CONTEXT.md          # Who you are, current priorities
@@ -196,8 +196,8 @@ export default function FoundryPage() {
             { cmd: 'extract pattern', desc: 'Move learning → pattern file' },
             { cmd: 'update handoff', desc: 'Update session state' },
           ].map((item) => (
-            <div key={item.cmd} className="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
-              <span className="font-mono text-[var(--id8-orange)] whitespace-nowrap">{item.cmd}</span>
+            <div key={item.cmd} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+              <span className="font-mono text-[var(--id8-orange)] shrink-0">{item.cmd}</span>
               <span className="text-[var(--text-secondary)]">{item.desc}</span>
             </div>
           ))}

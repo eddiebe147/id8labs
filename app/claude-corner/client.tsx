@@ -39,7 +39,13 @@ export default function ClaudeCornerClient({ user }: ClaudeCornerClientProps) {
 
   const handleBootComplete = () => {
     localStorage.setItem('claude-corner-boot-seen', 'true')
+    // Force scroll to top before transitioning to prevent jump
+    window.scrollTo(0, 0)
     setBootComplete(true)
+    // Force again after state change
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0)
+    })
   }
 
   // Show boot sequence on first visit

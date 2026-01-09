@@ -37,8 +37,8 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2
+      staggerChildren: 0.25,  // Slower cascade - each panel appears 250ms after previous
+      delayChildren: 0.1     // Start sooner after container appears
     }
   }
 }
@@ -72,6 +72,33 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
     }
   }, [])
 
+  // Lock scroll when panels appear - prevent jump to bottom
+  useEffect(() => {
+    if (showPanels) {
+      // Lock scroll position during panel animation
+      const scrollY = window.scrollY
+
+      // Force scroll to top repeatedly during animation period
+      const forceTop = () => {
+        window.scrollTo(0, 0)
+      }
+
+      // Immediately force top
+      forceTop()
+
+      // Keep forcing for duration of animation (stagger * panels + animation duration)
+      const interval = setInterval(forceTop, 50)
+      const timeout = setTimeout(() => {
+        clearInterval(interval)
+      }, 2000) // Cover full animation duration
+
+      return () => {
+        clearInterval(interval)
+        clearTimeout(timeout)
+      }
+    }
+  }, [showPanels])
+
   // CRT power-on flicker effect (only runs once on mount)
   useEffect(() => {
     // Simplified flicker sequence - shorter and less jarring
@@ -92,6 +119,10 @@ export default function TerminalShell({ userId, userEmail }: TerminalShellProps)
 
     // Show intro content after flicker completes
     timers.push(setTimeout(() => setShowContent(true), totalDelay + 50))
+
+    // Show other panels shortly after intro appears - they animate up while intro boots
+    // This creates the effect of screens powering on and loading with data
+    timers.push(setTimeout(() => setShowPanels(true), totalDelay + 400))
 
     return () => timers.forEach(clearTimeout)
   }, [])

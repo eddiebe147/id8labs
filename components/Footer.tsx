@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="absolute inset-0 texture-tropical-dots opacity-20" />
       <div className="container py-12 relative z-10">
         {/* Five Column Layout */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8 mb-8">
           {/* Column 1: ID8Labs */}
           <div className="col-span-2 md:col-span-1">
             <p className="text-sm font-bold mb-2">
