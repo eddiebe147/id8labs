@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!issue) {
     return {
-      title: 'Issue Not Found | The Innovation Brief',
+      title: 'Issue Not Found | signal:noise',
     }
   }
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const cleanDescription = issue.bigIdea.content.substring(0, 155).replace(/<[^>]*>/g, '')
 
   return {
-    title: `${issue.subject} | The Innovation Brief`,
+    title: `${issue.subject} | signal:noise`,
     description: cleanDescription,
     openGraph: {
       title: issue.subject,
@@ -237,7 +237,7 @@ export default async function NewsletterIssuePage({ params }: PageProps) {
             Want more insights like this?
           </h2>
           <p className="text-[var(--text-secondary)] mb-8">
-            Subscribe to The Innovation Brief and get weekly frameworks, case studies, and actionable insights.
+            Subscribe to signal:noise and get weekly frameworks, case studies, and actionable insights.
           </p>
           <NewsletterSubscribe
             variant="inline"

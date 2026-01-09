@@ -4,11 +4,11 @@ import { getAllIssues, getIssueCount } from '@/lib/newsletter/issues'
 import { NewsletterSubscribe } from '@/components/newsletter'
 
 export const metadata: Metadata = {
-  title: 'The Innovation Brief | ID8Labs Newsletter',
-  description: 'Weekly insights on AI, automation, and building the future. Join 1,000+ innovators.',
+  title: 'signal:noise | ID8Labs Newsletter',
+  description: 'Cutting through the noise to deliver what matters. AI, automation, and building the future.',
   openGraph: {
-    title: 'The Innovation Brief | ID8Labs Newsletter',
-    description: 'Weekly insights on AI, automation, and building the future.',
+    title: 'signal:noise | ID8Labs Newsletter',
+    description: 'Cutting through the noise to deliver what matters.',
   },
 }
 
@@ -27,11 +27,11 @@ export default function NewsletterArchivePage() {
               Newsletter
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-4">
-              The Innovation Brief
+              signal:noise
             </h1>
             <p className="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-8">
-              Weekly insights on AI, automation, and building the future.
-              No fluff. Just actionable frameworks and real-world case studies.
+              Cutting through the noise to deliver what matters.
+              AI, automation, and building the future.
             </p>
 
             {/* Subscribe Form */}
@@ -135,7 +135,7 @@ export default function NewsletterArchivePage() {
             Don't miss the next issue
           </h2>
           <p className="text-[var(--text-secondary)] mb-8">
-            Join 1,000+ innovators getting weekly insights on AI, automation, and building the future.
+            Join 1,000+ builders getting weekly signal on AI, automation, and building the future.
           </p>
           <NewsletterSubscribe
             variant="inline"
