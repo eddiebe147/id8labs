@@ -61,10 +61,15 @@ function verifyCronSecret(request: NextRequest): boolean {
   const authHeader = request.headers.get('authorization')
   const cronSecret = process.env.CRON_SECRET
 
-  // If no CRON_SECRET is set, allow (for local development)
+  // In development, allow requests without auth for testing
+  // Use NODE_ENV instead of missing secret to prevent production bypass
+  const isDevelopment = process.env.NODE_ENV === 'development'
+  if (isDevelopment) return true
+
+  // In production, require valid CRON_SECRET
   if (!cronSecret) {
-    console.warn('CRON_SECRET not set - allowing request')
-    return true
+    console.error('CRON_SECRET not configured - rejecting request')
+    return false
   }
 
   return authHeader === `Bearer ${cronSecret}`

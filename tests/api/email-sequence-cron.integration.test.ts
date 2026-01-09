@@ -101,9 +101,10 @@ describe('Email Sequence Cron API', () => {
     })
   })
 
-  describe('Development Mode (no CRON_SECRET)', () => {
-    it('should allow request when CRON_SECRET is not set', async () => {
-      // Reset and reimport without CRON_SECRET
+  describe('Development Mode', () => {
+    it('should allow request in development mode without auth', async () => {
+      // Reset and reimport with NODE_ENV=development
+      vi.stubEnv('NODE_ENV', 'development')
       vi.stubEnv('CRON_SECRET', '')
       vi.resetModules()
       const mod = await import('@/app/api/email-sequences/cron/route')
@@ -116,6 +117,23 @@ describe('Email Sequence Cron API', () => {
 
       expect(response.status).toBe(200)
       expect(data.success).toBe(true)
+    })
+
+    it('should reject request in production when CRON_SECRET is not set', async () => {
+      // Reset and reimport with NODE_ENV=production and no CRON_SECRET
+      vi.stubEnv('NODE_ENV', 'production')
+      vi.stubEnv('CRON_SECRET', '')
+      vi.resetModules()
+      const mod = await import('@/app/api/email-sequences/cron/route')
+
+      const request = new NextRequest('http://localhost:3000/api/email-sequences/cron', {
+        method: 'GET',
+      })
+      const response = await mod.GET(request)
+      const data = await response.json()
+
+      expect(response.status).toBe(401)
+      expect(data.error).toBe('Unauthorized')
     })
   })
 
