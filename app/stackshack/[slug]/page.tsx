@@ -61,31 +61,19 @@ export async function generateStaticParams() {
 }
 
 export default async function SkillDetailPage({ params }: PageProps) {
-  let skill
-  let filteredRelated: Awaited<ReturnType<typeof getAllSkills>> = []
-  
-  try {
-    const { slug } = await params
-    skill = await getSkillBySlug(slug)
+  const { slug } = await params
+  const skill = await getSkillBySlug(slug)
 
-    if (!skill) {
-      notFound()
-    }
-
-    // Get related skills from the same category
-    const relatedSkills = await getAllSkills({
-      category: skill.category_id || undefined,
-      limit: 4,
-    })
-    filteredRelated = relatedSkills.filter((s) => s.id !== skill!.id).slice(0, 3)
-  } catch (error) {
-    console.error('[SkillDetailPage] Error loading skill:', error)
-    notFound()
-  }
-  
   if (!skill) {
     notFound()
   }
+
+  // Get related skills from the same category
+  const relatedSkills = await getAllSkills({
+    category: skill.category_id || undefined,
+    limit: 4,
+  })
+  const filteredRelated = relatedSkills.filter((s) => s.id !== skill.id).slice(0, 3)
 
   return (
     <main className="pb-20">

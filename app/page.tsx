@@ -92,30 +92,25 @@ const softwareSchema = {
   description: 'AI-powered writing partner that helps creators develop their unique voice.',
 }
 
+const schemas = [
+  { id: 'organization-schema', data: organizationSchema },
+  { id: 'service-schema', data: serviceSchema },
+  { id: 'software-schema', data: softwareSchema },
+]
+
 export default function Home() {
   return (
     <>
-      <Script
-        id="organization-schema"
-        type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(organizationSchema)}
-      </Script>
-      <Script
-        id="service-schema"
-        type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(serviceSchema)}
-      </Script>
-      <Script
-        id="software-schema"
-        type="application/ld+json"
-        strategy="afterInteractive"
-      >
-        {JSON.stringify(softwareSchema)}
-      </Script>
+      {schemas.map(({ id, data }) => (
+        <Script
+          key={id}
+          id={id}
+          type="application/ld+json"
+          strategy="afterInteractive"
+        >
+          {JSON.stringify(data)}
+        </Script>
+      ))}
       <HomeNavigation />
       <Hero />
       <Builder />

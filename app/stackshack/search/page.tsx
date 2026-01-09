@@ -10,6 +10,32 @@ interface PageProps {
   searchParams: Promise<{ q?: string; category?: string; complexity?: string }>
 }
 
+interface EmptyStateProps {
+  title: string
+  description: string
+  showBrowseLink?: boolean
+}
+
+function EmptyState({ title, description, showBrowseLink }: EmptyStateProps): React.JSX.Element {
+  return (
+    <div className="text-center py-16">
+      <div className="w-16 h-16 mx-auto mb-4 bg-[var(--bg-secondary)] rounded-full flex items-center justify-center">
+        <Search className="w-8 h-8 text-[var(--text-tertiary)]" />
+      </div>
+      <h3 className="text-xl font-semibold mb-2">{title}</h3>
+      <p className="text-[var(--text-secondary)] max-w-md mx-auto">{description}</p>
+      {showBrowseLink && (
+        <Link
+          href="/stackshack"
+          className="inline-flex items-center gap-2 mt-6 text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)]"
+        >
+          Browse all skills
+        </Link>
+      )}
+    </div>
+  )
+}
+
 export default async function SearchPage({ searchParams }: PageProps) {
   const params = await searchParams
   const query = params.q || ''
@@ -53,56 +79,35 @@ export default async function SearchPage({ searchParams }: PageProps) {
 
           {/* Results Grid */}
           <div className="flex-1">
-            {query ? (
-              <>
-                <div className="flex items-center justify-between mb-6">
-                  <p className="text-[var(--text-secondary)]">
-                    {results.length === 0
-                      ? 'No results found'
-                      : `${results.length} result${results.length === 1 ? '' : 's'} for`}{' '}
-                    {query && (
-                      <span className="font-semibold text-[var(--text-primary)]">
-                        &quot;{query}&quot;
-                      </span>
-                    )}
-                  </p>
-                </div>
+            {!query && (
+              <EmptyState
+                title="Search for skills"
+                description="Enter a search term above to find skills by name, description, or tags"
+              />
+            )}
 
-                {results.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {results.map((skill) => (
-                      <SkillCard key={skill.id} skill={skill} />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-16">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-[var(--bg-secondary)] rounded-full flex items-center justify-center">
-                      <Search className="w-8 h-8 text-[var(--text-tertiary)]" />
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">No skills found</h3>
-                    <p className="text-[var(--text-secondary)] max-w-md mx-auto">
-                      Try a different search term or browse by category
-                    </p>
-                    <Link
-                      href="/stackshack"
-                      className="inline-flex items-center gap-2 mt-6 text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)]"
-                    >
-                      Browse all skills
-                    </Link>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="text-center py-16">
-                <div className="w-16 h-16 mx-auto mb-4 bg-[var(--bg-secondary)] rounded-full flex items-center justify-center">
-                  <Search className="w-8 h-8 text-[var(--text-tertiary)]" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Search for skills</h3>
-                <p className="text-[var(--text-secondary)] max-w-md mx-auto">
-                  Enter a search term above to find skills by name, description,
-                  or tags
+            {query && results.length === 0 && (
+              <EmptyState
+                title="No skills found"
+                description="Try a different search term or browse by category"
+                showBrowseLink
+              />
+            )}
+
+            {query && results.length > 0 && (
+              <>
+                <p className="text-[var(--text-secondary)] mb-6">
+                  {results.length} result{results.length === 1 ? '' : 's'} for{' '}
+                  <span className="font-semibold text-[var(--text-primary)]">
+                    &quot;{query}&quot;
+                  </span>
                 </p>
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {results.map((skill) => (
+                    <SkillCard key={skill.id} skill={skill} />
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </div>
