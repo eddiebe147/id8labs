@@ -4,7 +4,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Skill } from '@/lib/skill-types'
 
-export type StackItemType = 'skill' | 'agent' | 'command' | 'setting'
+export type StackItemType = 'skill' | 'agent' | 'command' | 'setting' | 'plugin'
 
 export interface StackItem {
   id: string
@@ -52,6 +52,7 @@ export interface StackState {
   getAgentsOnly: () => StackItem[]
   getCommandsOnly: () => StackItem[]
   getSettingsOnly: () => StackItem[]
+  getPluginsOnly: () => StackItem[]
   getByType: (type: StackItemType) => StackItem[]
 }
 
@@ -219,12 +220,15 @@ export const useStackStore = create<StackState>()(
       getSettingsOnly: () =>
         get().items.filter((item) => item.type === 'setting'),
 
+      getPluginsOnly: () =>
+        get().items.filter((item) => item.type === 'plugin'),
+
       getByType: (type) =>
         get().items.filter((item) => item.type === type),
     }),
     {
       name: 'stackshack-stacks',
-      version: 3, // Increment version to add new fields
+      version: 4, // v4: Added plugin type support
     }
   )
 )

@@ -3,7 +3,7 @@ import { getAllCategories, getSkillCounts } from '@/lib/skills'
 
 export const revalidate = 3600
 
-export default async function CategoriesPage() {
+export default async function CategoriesPage(): Promise<React.JSX.Element> {
   const [categories, counts] = await Promise.all([
     getAllCategories(),
     getSkillCounts(),
