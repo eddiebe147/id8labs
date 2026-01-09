@@ -179,8 +179,6 @@ export function WritingList({ items }: WritingListProps) {
                 </div>
                 <span className="text-[var(--border)]">·</span>
                 <span className="text-[var(--text-secondary)]">{filteredItems.length} issue{filteredItems.length !== 1 ? 's' : ''}</span>
-                <span className="text-[var(--border)]">·</span>
-                <span className="text-[var(--text-secondary)]">1,000+ subscribers</span>
               </div>
             </div>
           </div>
