@@ -72,6 +72,16 @@ export function SkillSearchBar({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const handleSelect = useCallback((skill: Skill) => {
+    if (onResultSelect) {
+      onResultSelect(skill)
+    } else {
+      router.push(`/skills/${skill.slug}`)
+    }
+    setIsOpen(false)
+    setQuery('')
+  }, [onResultSelect, router])
+
   // Keyboard navigation
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -105,18 +115,8 @@ export function SkillSearchBar({
           break
       }
     },
-    [isOpen, results, selectedIndex, query, router]
+    [isOpen, results, selectedIndex, query, router, handleSelect]
   )
-
-  const handleSelect = (skill: Skill) => {
-    if (onResultSelect) {
-      onResultSelect(skill)
-    } else {
-      router.push(`/skills/${skill.slug}`)
-    }
-    setIsOpen(false)
-    setQuery('')
-  }
 
   const clearSearch = () => {
     setQuery('')

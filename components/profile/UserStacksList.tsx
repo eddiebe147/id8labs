@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Package, Globe, Lock, Trash2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { makeStackPublic } from '@/lib/stacks-db-client'
@@ -14,11 +14,7 @@ export function UserStacksList({ userId }: UserStacksListProps) {
   const [stacks, setStacks] = useState<DbStack[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadStacks()
-  }, [userId])
-
-  const loadStacks = async () => {
+  const loadStacks = useCallback(async () => {
     try {
       const supabase = createClient()
       const { data, error } = await supabase
@@ -34,7 +30,11 @@ export function UserStacksList({ userId }: UserStacksListProps) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [userId])
+
+  useEffect(() => {
+    loadStacks()
+  }, [loadStacks])
 
   const handleMakePublic = async (stackId: string) => {
     if (!confirm('Make this stack public?')) return

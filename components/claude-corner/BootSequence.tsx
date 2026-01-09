@@ -112,8 +112,16 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handleSkip])
 
-  // Don't render until mounted (prevents hydration mismatch)
-  if (!mounted || prefersReducedMotion) return null
+  // Show black screen placeholder until mounted to prevent hydration mismatch
+  // Once mounted, the animation begins
+  if (!mounted) {
+    return (
+      <div className="fixed inset-0 bg-black z-50" />
+    )
+  }
+
+  // Skip animation if user prefers reduced motion
+  if (prefersReducedMotion) return null
 
   return (
     <AnimatePresence>
