@@ -10,6 +10,26 @@ interface WritingListProps {
   items: WritingItem[]
 }
 
+/**
+ * Format a date string - handles both ISO dates and human-readable dates like "January 2025"
+ */
+function formatDate(dateStr: string): string {
+  // Try parsing as a standard date
+  const parsed = new Date(dateStr + 'T00:00:00')
+
+  // Check if it's a valid date
+  if (!isNaN(parsed.getTime())) {
+    return parsed.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    })
+  }
+
+  // If not parseable (like "January 2025"), return as-is
+  return dateStr
+}
+
 export function WritingList({ items }: WritingListProps) {
   const [filter, setFilter] = useState<'all' | WritingCategory>('all')
 
@@ -146,11 +166,7 @@ export function WritingList({ items }: WritingListProps) {
                         </>
                       )}
                       <time dateTime={item.date} suppressHydrationWarning>
-                        {new Date(item.date + 'T00:00:00').toLocaleDateString('en-US', {
-                          month: 'long',
-                          day: 'numeric',
-                          year: 'numeric'
-                        })}
+                        {formatDate(item.date)}
                       </time>
                       <span>·</span>
                       <span>{item.readTime}</span>
