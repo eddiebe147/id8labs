@@ -141,6 +141,9 @@ export default function Header() {
             <Link href="/essays" className="text-base hover:opacity-70 transition-opacity">
               Essays
             </Link>
+            <Link href="/newsletter" className="text-base hover:opacity-70 transition-opacity">
+              Newsletter
+            </Link>
             <Link href="/lab" className="text-base hover:opacity-70 transition-opacity">
               Lab Story
             </Link>
@@ -301,6 +304,13 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Essays
+            </Link>
+            <Link
+              href="/newsletter"
+              className="block text-lg hover:opacity-70 transition-opacity"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Newsletter
             </Link>
             <Link
               href="/lab"

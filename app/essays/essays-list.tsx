@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { m } from '@/components/motion'
 import { type Essay } from '@/lib/essays'
 import { useState } from 'react'
+import { NewsletterSubscribe } from '@/components/newsletter'
 
 interface EssaysListProps {
   essays: Essay[]
@@ -142,6 +143,39 @@ export function EssaysList({ essays }: EssaysListProps) {
                 </Link>
               </m.article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter CTA */}
+      <section className="section-spacing bg-[var(--bg-secondary)] border-t border-[var(--border)]">
+        <div className="container">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">
+              Get signal:noise delivered
+            </h2>
+            <p className="text-[var(--text-secondary)] mb-8">
+              Weekly insights on AI, automation, and building the future. Join 1,000+ builders.
+            </p>
+            <div className="max-w-md mx-auto mb-6">
+              <NewsletterSubscribe
+                variant="inline"
+                source="essays-page"
+                title=""
+                description=""
+                buttonText="Subscribe to Newsletter"
+              />
+            </div>
+            <Link 
+              href="/newsletter" 
+              className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] transition-colors"
+            >
+              Browse past issues
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
           </div>
         </div>
       </section>

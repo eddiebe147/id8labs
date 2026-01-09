@@ -62,6 +62,20 @@ export default function NewsletterArchivePage() {
               <p className="text-sm text-[var(--text-secondary)]">Delivery</p>
             </div>
           </div>
+
+          {/* Link to Essays */}
+          <div className="mt-12 text-center">
+            <Link 
+              href="/essays" 
+              className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] transition-colors"
+            >
+              Also check out our long-form essays
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
