@@ -123,50 +123,52 @@ export function WritingList({ items }: WritingListProps) {
 
       {/* Newsletter Section Header - only shows when Newsletter tab is active */}
       {filter === 'newsletter' && (
-        <section className="relative overflow-hidden border-b border-[var(--border)]">
-          {/* Hero Image Banner - horizontal slice showing the hidden leafhopper */}
-          <m.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative w-full h-48 md:h-64 overflow-hidden"
-          >
-            <img
-              src="/images/newsletter-header.jpg"
-              alt="Hidden leafhopper in flower - signal:noise newsletter"
-              className="w-full h-full object-cover object-center"
-              style={{ objectPosition: '50% 55%' }}
-            />
-            {/* Gradient overlays for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-primary)]/30 via-transparent to-[var(--bg-primary)]/30" />
-          </m.div>
-
-          {/* Title and Info - styled subheading below image */}
-          <div className="container py-8 relative">
+        <>
+          <section className="relative overflow-hidden">
+            {/* Full Header Image with Text Overlay */}
             <m.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-center max-w-2xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8 }}
+              className="relative w-full h-64 md:h-80 lg:h-96 overflow-hidden"
             >
-              <h2
-                className="text-4xl md:text-5xl tracking-widest text-[var(--text-primary)] mb-2"
-                style={{ fontFamily: 'var(--font-cinzel)' }}
-              >
-                signal:noise
-              </h2>
-              <p className="text-sm text-[var(--text-secondary)] tracking-[0.3em] uppercase mb-6">
-                The ID8Labs Newsletter
-              </p>
+              <img
+                src="/images/newsletter-header.jpg"
+                alt="Hidden leafhopper in flower - signal:noise newsletter"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: '50% 55%' }}
+              />
+              {/* Gradient overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-              {/* Description */}
-              <p className="text-[var(--text-secondary)] mb-6 text-lg max-w-xl mx-auto">
-                Cutting through the noise to deliver what matters.
-              </p>
+              {/* Text overlay - left justified */}
+              <div className="absolute inset-0 flex flex-col justify-end">
+                <div className="container pb-8 md:pb-12">
+                  <m.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                  >
+                    <h2
+                      className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-2"
+                      style={{ fontFamily: 'var(--font-cinzel)', fontWeight: 900 }}
+                    >
+                      Signal:Noise
+                    </h2>
+                    <p className="text-sm md:text-base text-white/80 tracking-[0.2em] uppercase">
+                      The ID8Labs Newsletter
+                    </p>
+                  </m.div>
+                </div>
+              </div>
+            </m.div>
+          </section>
 
-              {/* Stats bar with pulse animation */}
-              <div className="flex items-center justify-center gap-6 text-sm">
+          {/* Stats bar - outside header */}
+          <div className="border-b border-[var(--border)] py-4">
+            <div className="container">
+              <div className="flex items-center gap-6 text-sm">
                 <div className="flex items-center gap-2">
                   <m.span
                     animate={{ opacity: [0.5, 1, 0.5] }}
@@ -180,9 +182,9 @@ export function WritingList({ items }: WritingListProps) {
                 <span className="text-[var(--border)]">·</span>
                 <span className="text-[var(--text-secondary)]">1,000+ subscribers</span>
               </div>
-            </m.div>
+            </div>
           </div>
-        </section>
+        </>
       )}
 
       {/* Writing List */}
