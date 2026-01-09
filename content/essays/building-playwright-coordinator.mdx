@@ -1,0 +1,200 @@
+---
+title: "We Didn't Look for Permission. We Built the Solution."
+subtitle: "How we created a multi-agent Playwright coordination system in one session"
+date: "2026-01-09"
+category: "essay"
+author: "Eddie Belaval"
+tags: ["playwright", "mcp", "automation", "multi-agent", "infrastructure"]
+---
+
+We were building AI agents. Lots of them. Subagents spinning up for code review, exploration, testing, browser automation. And then it happened:
+
+```
+Error: Browser is already in use for /Users/.../ms-playwright/mcp-chrome-49d3c6a
+```
+
+Two agents tried to grab the same browser at the same time. Chaos.
+
+We could have searched for an existing solution. We could have filed an issue. We could have waited for someone else to solve it.
+
+**We didn't.**
+
+---
+
+## The ID8 Way: Decide, Build, Ship
+
+Here's how we think at ID8Labs:
+
+1. **Identify the friction** — Agents are colliding on browser resources
+2. **Design the solution** — A coordination layer that manages browser contexts
+3. **Build it** — Right now, in this session
+4. **Ship it** — Before we forget why we started
+
+No committee. No approval process. No "let's research this for two weeks." Just: *This is what we need. Let's make it happen.*
+
+---
+
+## What We Built: The Playwright Agent Coordination System
+
+A complete browser pool management system with six browser contexts, automatic reservation via hooks, and graceful degradation when the pool is full.
+
+### The Architecture
+
+```
+~/.claude/playwright-coordinator/
+├── types.ts              # TypeScript interfaces
+├── coordinator.ts        # Core pool logic (reserve, release, share)
+├── cli.ts                # Command-line interface
+├── ETIQUETTE.md          # Agent behavior rules
+├── state.json            # Pool state (file-based)
+├── events.log            # Audit trail
+├── hooks/
+│   ├── pre-playwright.sh   # Auto-reserves before Playwright calls
+│   └── post-playwright.sh  # Sends heartbeat after Playwright calls
+└── mcp-server/
+    └── src/index.ts        # MCP server for manual control
+```
+
+### How It Works
+
+**Layer 1: Automatic Reservation (Hooks)**
+
+When any agent calls a Playwright MCP tool, the `PreToolUse` hook fires first. It automatically reserves a browser context from the pool. The agent doesn't even know coordination is happening—it just works.
+
+**Layer 2: Heartbeat Tracking**
+
+After each Playwright action, the `PostToolUse` hook sends a heartbeat. This tells the coordinator "I'm still using this context." If no heartbeat arrives for 10 minutes, the context is auto-released back to the pool.
+
+**Layer 3: MCP Server (Manual Control)**
+
+For explicit control, there's an MCP server with five tools:
+- `playwright_reserve` — Claim a context
+- `playwright_release` — Return a context
+- `playwright_heartbeat` — Signal active use
+- `playwright_pool_status` — Check availability
+- `playwright_force_cleanup` — Emergency release
+
+**Layer 4: Queue Management**
+
+When all six contexts are in use, new agents enter a queue. They can either wait or request to share an existing context (with the owner's permission).
+
+### The State File
+
+Simple JSON. No database. No external dependencies.
+
+```json
+{
+  "contexts": {
+    "context_1": { "status": "reserved", "agentId": "agent-alpha", "purpose": "E2E testing" },
+    "context_2": { "status": "available" }
+  },
+  "waitQueue": [],
+  "lastCleanup": "2026-01-09T00:35:00.000Z"
+}
+```
+
+### The Events Log
+
+Every reservation, release, and share is logged. Full audit trail. Debug anything.
+
+```json
+{"timestamp":"2026-01-09T00:41:10.470Z","event":{"type":"reserved","agentId":"verification-test","contextId":"context_1","purpose":"System health check"}}
+{"timestamp":"2026-01-09T00:41:13.755Z","event":{"type":"released","agentId":"verification-test","contextId":"context_1"}}
+```
+
+---
+
+## Why It Works
+
+### 1. Transparent to Agents
+Agents don't need to know about coordination. The hooks handle everything. They just use Playwright like normal.
+
+### 2. Graceful Degradation
+Pool full? You get queued, not crashed. You know your position. You can decide to wait or try something else.
+
+### 3. Self-Healing
+Forgot to release? Heartbeat timeout cleans it up automatically. No zombie locks.
+
+### 4. Observable
+Pool status and event logs mean you can always see what's happening. No black boxes.
+
+### 5. Extensible
+It's just TypeScript and shell scripts. Want more contexts? Change a number. Want different timeout? Edit the config. Want Slack notifications when pool is full? Add a hook.
+
+---
+
+## The Verification
+
+We didn't just build it—we verified it works:
+
+| Test | Result |
+|------|--------|
+| MCP Server responds | ✓ |
+| Reserve/Release via MCP | ✓ |
+| Hooks work (manual test) | ✓ |
+| Browser navigation | ✓ |
+| Page snapshot | ✓ |
+| Screenshot capture | ✓ |
+
+```
+=== Playwright Pool Status ===
+Available: 6
+Reserved: 0
+Shared: 0
+Waiting: 0
+
+--- Contexts ---
+🟢 context_1: available
+🟢 context_2: available
+🟢 context_3: available
+🟢 context_4: available
+🟢 context_5: available
+🟢 context_6: available
+```
+
+---
+
+## Installation
+
+The toolkit is self-contained. Run the installer:
+
+```bash
+~/.claude/playwright-coordinator/install.sh
+```
+
+Or manually:
+
+1. Copy the `~/.claude/playwright-coordinator/` directory
+2. Add hook configurations to `settings.local.json`
+3. Add MCP server to `~/.mcp.json`
+4. Restart Claude Code
+
+**Requirements:** Node.js, TypeScript, Claude Code with MCP support.
+
+---
+
+## The Philosophy
+
+We didn't Google "playwright multi-agent coordination." We didn't check if someone else had solved it. We didn't wait.
+
+We had a problem. We designed a solution. We built it. We shipped it.
+
+**That's the ID8 way.**
+
+Every tool in your stack should be there because you *decided* it should be there. Not because a tutorial told you. Not because everyone else uses it. Because you identified a need and you filled it.
+
+This Playwright Coordinator took one session to build. One. It's now part of our permanent infrastructure. Every agent we run from now on benefits from it.
+
+---
+
+## What's Next?
+
+This is infrastructure. It enables things. Now we can run parallel agent workflows without browser conflicts. We can have one agent researching while another tests while another takes screenshots.
+
+The question isn't "what did we build?"
+
+The question is: **"What can we build now that this is in place?"**
+
+---
+
+*Built at ID8Labs. Where we don't ask for permission to solve our own problems.*
