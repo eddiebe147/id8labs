@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { resumeData } from "@/lib/eddie-constants";
-import { ScrollReveal } from "@/components/eddie/ui/ScrollReveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { GlowCard } from "@/components/eddie/ui/GlowCard";
 import { Film, Tv, Video, Building2 } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";

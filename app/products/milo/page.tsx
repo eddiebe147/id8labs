@@ -8,7 +8,7 @@ import GlowText from '@/components/milo/GlowText'
 import GlowButton from '@/components/milo/GlowButton'
 import TerminalCard from '@/components/milo/TerminalCard'
 import WaveformGauge from '@/components/milo/WaveformGauge'
-import ScrollReveal from '@/components/milo/ScrollReveal'
+import ScrollReveal from '@/components/ui/scroll-reveal'
 import WaitlistForm from '@/components/milo/WaitlistForm'
 
 /**

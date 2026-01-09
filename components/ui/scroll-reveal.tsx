@@ -11,6 +11,7 @@ interface ScrollRevealProps {
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
   duration?: number;
+  immediate?: boolean; // Show immediately without scroll trigger (for hero elements)
 }
 
 export function ScrollReveal({
@@ -18,11 +19,15 @@ export function ScrollReveal({
   className,
   delay = 0,
   direction = "up",
-  duration = 0.8,
+  duration = 0.6,
+  immediate = false,
 }: ScrollRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  // When immediate=true, bypass useInView entirely (useful for hero elements)
+  const shouldShow = immediate || isInView || prefersReducedMotion;
 
   const directionOffset = {
     up: { y: 40, x: 0 },
@@ -35,10 +40,9 @@ export function ScrollReveal({
     ? { opacity: 1, y: 0, x: 0 }
     : { opacity: 0, ...directionOffset[direction] };
 
-  const animate =
-    isInView || prefersReducedMotion
-      ? { opacity: 1, y: 0, x: 0 }
-      : { opacity: 0, ...directionOffset[direction] };
+  const animate = shouldShow
+    ? { opacity: 1, y: 0, x: 0 }
+    : { opacity: 0, ...directionOffset[direction] };
 
   return (
     <motion.div
@@ -56,3 +60,6 @@ export function ScrollReveal({
     </motion.div>
   );
 }
+
+// Default export for backwards compatibility with milo/ScrollReveal
+export default ScrollReveal;

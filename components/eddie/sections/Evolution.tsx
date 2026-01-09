@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { resumeData } from "@/lib/eddie-constants";
-import { ScrollReveal } from "@/components/eddie/ui/ScrollReveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { Eye, BookOpen, Wrench } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
