@@ -35,11 +35,8 @@ export default function Footer() {
               <Link href="/services" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
                 Services
               </Link>
-              <Link href="/essays" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-                Essays
-              </Link>
-              <Link href="/newsletter" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
-                Newsletter
+              <Link href="/writing" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
+                Writing
               </Link>
               <Link href="/lab" className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors">
                 Lab Story

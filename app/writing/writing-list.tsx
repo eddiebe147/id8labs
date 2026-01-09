@@ -2,25 +2,26 @@
 
 import Link from 'next/link'
 import { m } from '@/components/motion'
-import { type Essay } from '@/lib/essays'
+import { type WritingItem, type WritingCategory } from '@/lib/writing'
 import { useState } from 'react'
 import { NewsletterSubscribe } from '@/components/newsletter'
 
-interface EssaysListProps {
-  essays: Essay[]
+interface WritingListProps {
+  items: WritingItem[]
 }
 
-export function EssaysList({ essays }: EssaysListProps) {
-  const [filter, setFilter] = useState<'all' | Essay['category']>('all')
+export function WritingList({ items }: WritingListProps) {
+  const [filter, setFilter] = useState<'all' | WritingCategory>('all')
 
-  const filteredEssays = filter === 'all'
-    ? essays
-    : essays.filter(essay => essay.category === filter)
+  const filteredItems = filter === 'all'
+    ? items
+    : items.filter(item => item.category === filter)
 
-  const categoryLabels: Record<Essay['category'], string> = {
+  const categoryLabels: Record<WritingCategory, string> = {
     essay: 'Essay',
     research: 'Research',
-    release: 'Release Note'
+    release: 'Release Note',
+    newsletter: 'Newsletter'
   }
 
   return (
@@ -34,9 +35,9 @@ export function EssaysList({ essays }: EssaysListProps) {
             transition={{ duration: 0.6 }}
             className="max-w-3xl"
           >
-            <h1 className="mb-6">Research & Essays</h1>
+            <h1 className="mb-6">Writing</h1>
             <p className="text-xl text-[var(--text-secondary)]">
-              Long-form writing on product development, AI, and building category-defining tools.
+              Essays, research, release notes, and the signal:noise newsletter.
             </p>
           </m.div>
         </div>
@@ -45,10 +46,10 @@ export function EssaysList({ essays }: EssaysListProps) {
       {/* Filter Tabs */}
       <section className="border-b border-[var(--border)] py-6">
         <div className="container">
-          <div className="flex gap-6 text-sm">
+          <div className="flex gap-6 text-sm overflow-x-auto">
             <button
               onClick={() => setFilter('all')}
-              className={`pb-2 transition-all ${
+              className={`pb-2 transition-all whitespace-nowrap ${
                 filter === 'all'
                   ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
                   : 'text-[var(--text-secondary)] hover:text-id8-orange'
@@ -57,8 +58,18 @@ export function EssaysList({ essays }: EssaysListProps) {
               All Writing
             </button>
             <button
+              onClick={() => setFilter('newsletter')}
+              className={`pb-2 transition-all whitespace-nowrap ${
+                filter === 'newsletter'
+                  ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
+                  : 'text-[var(--text-secondary)] hover:text-id8-orange'
+              }`}
+            >
+              Newsletter
+            </button>
+            <button
               onClick={() => setFilter('essay')}
-              className={`pb-2 transition-all ${
+              className={`pb-2 transition-all whitespace-nowrap ${
                 filter === 'essay'
                   ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
                   : 'text-[var(--text-secondary)] hover:text-id8-orange'
@@ -68,7 +79,7 @@ export function EssaysList({ essays }: EssaysListProps) {
             </button>
             <button
               onClick={() => setFilter('research')}
-              className={`pb-2 transition-all ${
+              className={`pb-2 transition-all whitespace-nowrap ${
                 filter === 'research'
                   ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
                   : 'text-[var(--text-secondary)] hover:text-id8-orange'
@@ -78,7 +89,7 @@ export function EssaysList({ essays }: EssaysListProps) {
             </button>
             <button
               onClick={() => setFilter('release')}
-              className={`pb-2 transition-all ${
+              className={`pb-2 transition-all whitespace-nowrap ${
                 filter === 'release'
                   ? 'border-b-2 border-id8-orange font-medium text-id8-orange'
                   : 'text-[var(--text-secondary)] hover:text-id8-orange'
@@ -90,47 +101,53 @@ export function EssaysList({ essays }: EssaysListProps) {
         </div>
       </section>
 
-      {/* Essays List */}
+      {/* Writing List */}
       <section className="section-spacing">
         <div className="container">
           <div className="max-w-3xl space-y-12">
-            {filteredEssays.map((essay, index) => (
+            {filteredItems.map((item, index) => (
               <m.article
-                key={essay.slug}
+                key={item.slug}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="border-b border-[var(--border)] pb-12 last:border-0"
               >
-                <Link href={`/essays/${essay.slug}`} className="group block">
+                <Link href={item.category === 'newsletter' ? `/${item.slug}` : `/essays/${item.slug}`} className="group block">
                   <div className="mb-3 flex items-center gap-3 text-sm text-[var(--text-secondary)]">
                     <span className="uppercase tracking-wide">
-                      {categoryLabels[essay.category]}
+                      {categoryLabels[item.category]}
                     </span>
+                    {item.issueNumber && (
+                      <>
+                        <span>·</span>
+                        <span className="text-[var(--id8-orange)]">Issue #{item.issueNumber}</span>
+                      </>
+                    )}
                     <span>·</span>
-                    <time dateTime={essay.date} suppressHydrationWarning>
-                      {new Date(essay.date + 'T00:00:00').toLocaleDateString('en-US', {
+                    <time dateTime={item.date} suppressHydrationWarning>
+                      {new Date(item.date + 'T00:00:00').toLocaleDateString('en-US', {
                         month: 'long',
                         day: 'numeric',
                         year: 'numeric'
                       })}
                     </time>
                     <span>·</span>
-                    <span>{essay.readTime}</span>
+                    <span>{item.readTime}</span>
                   </div>
 
                   <h2 className="mb-3 group-hover:opacity-70 transition-opacity">
-                    {essay.title}
+                    {item.title}
                   </h2>
 
-                  {essay.subtitle && (
+                  {item.subtitle && (
                     <p className="text-lg text-[var(--text-secondary)] mb-4 italic">
-                      {essay.subtitle}
+                      {item.subtitle}
                     </p>
                   )}
 
                   <p className="text-[var(--text-secondary)] mb-4">
-                    {essay.excerpt}
+                    {item.excerpt}
                   </p>
 
                   <div className="flex items-center gap-2 text-sm group-hover:translate-x-1 transition-transform">
@@ -147,7 +164,7 @@ export function EssaysList({ essays }: EssaysListProps) {
         </div>
       </section>
 
-      {/* Newsletter CTA */}
+      {/* Newsletter Subscribe CTA */}
       <section className="section-spacing bg-[var(--bg-secondary)] border-t border-[var(--border)]">
         <div className="container">
           <div className="max-w-2xl mx-auto text-center">
@@ -157,25 +174,15 @@ export function EssaysList({ essays }: EssaysListProps) {
             <p className="text-[var(--text-secondary)] mb-8">
               Weekly insights on AI, automation, and building the future. Join 1,000+ builders.
             </p>
-            <div className="max-w-md mx-auto mb-6">
+            <div className="max-w-md mx-auto">
               <NewsletterSubscribe
                 variant="inline"
-                source="essays-page"
+                source="writing-page"
                 title=""
                 description=""
                 buttonText="Subscribe to Newsletter"
               />
             </div>
-            <Link 
-              href="/newsletter" 
-              className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] transition-colors"
-            >
-              Browse past issues
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </Link>
           </div>
         </div>
       </section>

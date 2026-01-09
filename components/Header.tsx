@@ -138,11 +138,8 @@ export default function Header() {
                 </div>
               </div>
             </div>
-            <Link href="/essays" className="text-base hover:opacity-70 transition-opacity">
-              Essays
-            </Link>
-            <Link href="/newsletter" className="text-base hover:opacity-70 transition-opacity">
-              Newsletter
+            <Link href="/writing" className="text-base hover:opacity-70 transition-opacity">
+              Writing
             </Link>
             <Link href="/lab" className="text-base hover:opacity-70 transition-opacity">
               Lab Story
@@ -299,18 +296,11 @@ export default function Header() {
               )}
             </div>
             <Link
-              href="/essays"
+              href="/writing"
               className="block text-lg hover:opacity-70 transition-opacity"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Essays
-            </Link>
-            <Link
-              href="/newsletter"
-              className="block text-lg hover:opacity-70 transition-opacity"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Newsletter
+              Writing
             </Link>
             <Link
               href="/lab"
