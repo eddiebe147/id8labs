@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Filter, Package, HelpCircle, ChevronDown, Terminal, Settings, Layers } from 'lucide-react'
+import { Filter, Package, HelpCircle, ChevronDown, Terminal, Settings, Layers, Puzzle } from 'lucide-react'
 import type { SkillCategory, SkillCollection } from '@/lib/skill-types'
 import type { MarketplaceTab } from './MarketplaceTabs'
 
@@ -43,6 +43,18 @@ const SETTING_CATEGORY_EMOJI: Record<string, string> = {
   safety: '🛡️',
 }
 
+const PLUGIN_CATEGORY_EMOJI: Record<string, string> = {
+  'code-quality': '✨',
+  automation: '🔄',
+  development: '💻',
+  productivity: '⚡',
+  'output-style': '📝',
+  lsp: '🔧',
+  integration: '🔗',
+  framework: '📦',
+  testing: '🧪',
+}
+
 interface MarketplaceSidebarProps {
   activeTab: MarketplaceTab
   skillCategories?: SkillCategory[]
@@ -55,6 +67,7 @@ interface MarketplaceSidebarProps {
   }
   commandCategories?: Record<string, number>
   settingCategories?: Record<string, number>
+  pluginCategories?: Record<string, number>
   stacksCount?: number
   currentType?: string
   currentCategory?: string | null
@@ -67,6 +80,7 @@ export function MarketplaceSidebar({
   skillCounts,
   commandCategories = {},
   settingCategories = {},
+  pluginCategories = {},
   stacksCount = 0,
   currentType = 'all',
   currentCategory = null,
@@ -253,6 +267,51 @@ export function MarketplaceSidebar({
                       >
                         <span className="text-lg">{emoji}</span>
                         <span className="text-sm flex-1 capitalize">{category}</span>
+                        <span className="text-xs text-[var(--text-tertiary)] font-medium">{count}</span>
+                      </Link>
+                    )
+                  })}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'plugins' && (
+            <div>
+              <h4 className="text-sm font-medium mb-3">Categories</h4>
+              <div className="space-y-1">
+                <Link
+                  href="/stackshack?tab=plugins"
+                  className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
+                    (!currentCategory
+                      ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
+                      : 'hover:bg-[var(--bg-secondary)]')}
+                >
+                  <Puzzle className="w-4 h-4" />
+                  <span className="text-sm flex-1">All Plugins</span>
+                  <span className="text-xs text-[var(--text-tertiary)] font-medium">
+                    {Object.values(pluginCategories).reduce((a, b) => a + b, 0)}
+                  </span>
+                </Link>
+                {Object.entries(pluginCategories)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([category, count]) => {
+                    const emoji = PLUGIN_CATEGORY_EMOJI[category] || '🔌'
+                    const isSelected = currentCategory === category
+                    // Format category name: code-quality -> Code Quality
+                    const displayName = category.split('-').map(word =>
+                      word.charAt(0).toUpperCase() + word.slice(1)
+                    ).join(' ')
+                    return (
+                      <Link
+                        key={category}
+                        href={isSelected ? '/stackshack?tab=plugins' : '/stackshack?tab=plugins&category=' + category}
+                        className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
+                          (isSelected
+                            ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
+                            : 'hover:bg-[var(--bg-secondary)]')}
+                      >
+                        <span className="text-lg">{emoji}</span>
+                        <span className="text-sm flex-1">{displayName}</span>
                         <span className="text-xs text-[var(--text-tertiary)] font-medium">{count}</span>
                       </Link>
                     )

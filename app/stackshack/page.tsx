@@ -9,10 +9,12 @@ import {
 } from '@/lib/skills'
 import { getAllCommands, getCommandCategories } from '@/lib/commands'
 import { getAllSettings, getSettingCategories } from '@/lib/settings'
+import { getAllPlugins, getPluginCategories } from '@/lib/plugins'
 import { getPublicStacks } from '@/lib/stacks-db'
 import { SkillCard } from '@/components/skills/SkillCard'
 import { CommandCard } from '@/components/commands/CommandCard'
 import { SettingCard } from '@/components/settings/SettingCard'
+import { PluginCard } from '@/components/plugins/PluginCard'
 import { GalleryStackCard } from '@/components/gallery/GalleryStackCard'
 import { SkillSearchBar } from '@/components/skills/SkillSearchBar'
 import { StackShackLogo } from '@/components/StackShackLogo'
@@ -43,6 +45,8 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     commandCategories,
     allSettings,
     settingCategories,
+    allPlugins,
+    pluginCategories,
     publicStacks,
   ] = await Promise.all([
     getAllSkills(),
@@ -53,6 +57,8 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     getCommandCategories(),
     getAllSettings(),
     getSettingCategories(),
+    getAllPlugins(),
+    getPluginCategories(),
     getPublicStacks(50),
   ])
 
@@ -60,6 +66,7 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     skills: skillCounts.published,
     commands: allCommands.length,
     settings: allSettings.length,
+    plugins: allPlugins.length,
     stacks: publicStacks.length,
   }
 
@@ -83,6 +90,11 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     filteredSettings = allSettings.filter((s) => s.category === categoryFilter)
   }
 
+  let filteredPlugins = allPlugins
+  if (categoryFilter && activeTab === 'plugins') {
+    filteredPlugins = allPlugins.filter((p) => p.category === categoryFilter)
+  }
+
   const skillsCount = allSkills.filter((s) => !s.tags?.includes('agent')).length
   const agentsCount = allSkills.filter((s) => s.tags?.includes('agent')).length
 
@@ -104,7 +116,7 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-[var(--bg-primary)] text-[var(--id8-orange)] rounded-full text-sm font-semibold border border-[var(--id8-orange)]/20 shadow-lg shadow-[var(--id8-orange)]/10">
               <Package className="w-4 h-4" />
-              <span>{tabCounts.skills + tabCounts.commands + tabCounts.settings}+ Tools</span>
+              <span>{tabCounts.skills + tabCounts.commands + tabCounts.settings + tabCounts.plugins}+ Tools</span>
             </div>
 
             <h1 className="mb-4">
@@ -157,6 +169,7 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
               }}
               commandCategories={commandCategories}
               settingCategories={settingCategories}
+              pluginCategories={pluginCategories}
               stacksCount={publicStacks.length}
               currentType={typeFilter}
               currentCategory={categoryFilter}
@@ -202,6 +215,31 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
                   {filteredSettings.length === 0 && (
                     <div className="text-center py-12 text-[var(--text-secondary)]">
                       No settings found in this category.
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'plugins' && (
+                <div>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold mb-2">Claude Code Plugins</h2>
+                    <p className="text-[var(--text-secondary)]">
+                      Showing {filteredPlugins.length} of {allPlugins.length} plugins
+                      {' '}&bull;{' '}
+                      <span className="text-amber-500">
+                        {allPlugins.filter(p => p.official).length} Official
+                      </span>
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {filteredPlugins.map((plugin) => (
+                      <PluginCard key={plugin.id} plugin={plugin} />
+                    ))}
+                  </div>
+                  {filteredPlugins.length === 0 && (
+                    <div className="text-center py-12 text-[var(--text-secondary)]">
+                      No plugins found in this category.
                     </div>
                   )}
                 </div>

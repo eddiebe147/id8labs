@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { Zap, Terminal, Settings, Package } from 'lucide-react'
+import { Zap, Terminal, Settings, Package, Puzzle } from 'lucide-react'
 
-export type MarketplaceTab = 'skills' | 'commands' | 'settings' | 'stacks'
+export type MarketplaceTab = 'skills' | 'commands' | 'settings' | 'plugins' | 'stacks'
 
 interface TabConfig {
   id: MarketplaceTab
@@ -16,6 +16,7 @@ interface MarketplaceTabsProps {
     skills?: number
     commands?: number
     settings?: number
+    plugins?: number
     stacks?: number
   }
 }
@@ -40,6 +41,12 @@ export function MarketplaceTabs({ activeTab = 'skills', counts }: MarketplaceTab
       label: 'Settings',
       icon: <Settings className="w-4 h-4" />,
       count: counts?.settings,
+    },
+    {
+      id: 'plugins',
+      label: 'Plugins',
+      icon: <Puzzle className="w-4 h-4" />,
+      count: counts?.plugins,
     },
     {
       id: 'stacks',
