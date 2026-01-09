@@ -199,7 +199,7 @@ export function WritingList({ items }: WritingListProps) {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="border-b border-[var(--border)] pb-12 last:border-0"
                 >
-                  <Link href={isNewsletter ? `/${item.slug}` : `/essays/${item.slug}`} className="group block">
+                  <Link href={isNewsletter ? `/${item.slug}` : `/writing/${item.slug}`} className="group block">
                     <div className="mb-3 flex items-center gap-3 text-sm text-[var(--text-secondary)]">
                       {isNewsletter ? (
                         <span className="text-[var(--id8-orange)] font-medium">

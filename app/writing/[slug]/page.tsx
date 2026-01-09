@@ -34,7 +34,7 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
         <div className="container">
           <div className="max-w-3xl mx-auto">
             <Link
-              href="/essays"
+              href="/writing"
               className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-id8-orange mb-8 transition-colors"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -137,7 +137,7 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
         <div className="container">
           <div className="max-w-3xl mx-auto">
             <Link
-              href="/essays"
+              href="/writing"
               className="inline-flex items-center gap-2 text-sm text-id8-orange hover:opacity-70 transition-opacity"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
