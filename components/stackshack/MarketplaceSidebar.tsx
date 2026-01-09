@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Filter, Package, HelpCircle, ChevronDown, Terminal, Settings, Layers, Puzzle } from 'lucide-react'
+import { Filter, Package, HelpCircle, ChevronDown, Terminal, Settings, Layers, Puzzle, Zap } from 'lucide-react'
 import type { SkillCategory, SkillCollection } from '@/lib/skill-types'
 import type { MarketplaceTab } from './MarketplaceTabs'
 
@@ -129,44 +129,19 @@ export function MarketplaceSidebar({
           {activeTab === 'skills' && skillCounts && (
             <>
               <div>
-                <h4 className="text-sm font-medium mb-3">Type</h4>
+                <h4 className="text-sm font-medium mb-3">Categories</h4>
                 <div className="space-y-1">
                   <Link
-                    href={buildFilterUrl('all', currentCategory)}
+                    href={buildFilterUrl(currentType, null)}
                     className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
-                      (currentType === 'all'
+                      (!currentCategory
                         ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
                         : 'hover:bg-[var(--bg-secondary)]')}
                   >
-                    <span className="text-sm flex-1">All Items</span>
+                    <Zap className="w-4 h-4" />
+                    <span className="text-sm flex-1">All Skills</span>
                     <span className="text-xs text-[var(--text-tertiary)] font-medium">{skillCounts.total}</span>
                   </Link>
-                  <Link
-                    href={buildFilterUrl('skills', currentCategory)}
-                    className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
-                      (currentType === 'skills'
-                        ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
-                        : 'hover:bg-[var(--bg-secondary)]')}
-                  >
-                    <span className="text-sm flex-1">Skills</span>
-                    <span className="text-xs text-[var(--text-tertiary)] font-medium">{skillCounts.skills}</span>
-                  </Link>
-                  <Link
-                    href={buildFilterUrl('agents', currentCategory)}
-                    className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
-                      (currentType === 'agents'
-                        ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
-                        : 'hover:bg-[var(--bg-secondary)]')}
-                  >
-                    <span className="text-sm flex-1">Agents</span>
-                    <span className="text-xs text-[var(--text-tertiary)] font-medium">{skillCounts.agents}</span>
-                  </Link>
-                </div>
-              </div>
-              <div className="border-t border-[var(--border)]" />
-              <div>
-                <h4 className="text-sm font-medium mb-3">Categories</h4>
-                <div className="space-y-1 max-h-64 overflow-y-auto scrollbar-thin">
                   {skillCategories
                     .filter(cat => (skillCounts.byCategory[cat.id] || 0) > 0)
                     .map((category) => {
@@ -188,6 +163,42 @@ export function MarketplaceSidebar({
                         </Link>
                       )
                     })}
+                </div>
+              </div>
+              <div className="border-t border-[var(--border)]" />
+              <div>
+                <h4 className="text-sm font-medium mb-3">Type</h4>
+                <div className="space-y-1">
+                  <Link
+                    href={buildFilterUrl('all', currentCategory)}
+                    className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
+                      (currentType === 'all'
+                        ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
+                        : 'hover:bg-[var(--bg-secondary)]')}
+                  >
+                    <span className="text-sm flex-1">All Items</span>
+                    <span className="text-xs text-[var(--text-tertiary)] font-medium">{skillCounts.total}</span>
+                  </Link>
+                  <Link
+                    href={buildFilterUrl('skills', currentCategory)}
+                    className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
+                      (currentType === 'skills'
+                        ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
+                        : 'hover:bg-[var(--bg-secondary)]')}
+                  >
+                    <span className="text-sm flex-1">Skills Only</span>
+                    <span className="text-xs text-[var(--text-tertiary)] font-medium">{skillCounts.skills}</span>
+                  </Link>
+                  <Link
+                    href={buildFilterUrl('agents', currentCategory)}
+                    className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
+                      (currentType === 'agents'
+                        ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
+                        : 'hover:bg-[var(--bg-secondary)]')}
+                  >
+                    <span className="text-sm flex-1">Agents Only</span>
+                    <span className="text-xs text-[var(--text-tertiary)] font-medium">{skillCounts.agents}</span>
+                  </Link>
                 </div>
               </div>
             </>
