@@ -82,6 +82,24 @@ const nextConfig = {
         key: 'Strict-Transport-Security',
         value: 'max-age=31536000; includeSubDomains',
       },
+      {
+        key: 'Content-Security-Policy',
+        value: [
+          "default-src 'self'",
+          "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel-scripts.com",
+          "style-src 'self' 'unsafe-inline'",
+          "img-src 'self' data: blob: https: http:",
+          "font-src 'self' data:",
+          "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.anthropic.com https://api.stripe.com https://*.vercel-insights.com https://*.vercel-analytics.com https://umami-analytics-eddies-projects-b49c74d7.vercel.app",
+          "frame-src 'self' https://js.stripe.com https://vercel.live",
+          "worker-src 'self' blob:",
+          "media-src 'self'",
+          "object-src 'none'",
+          "base-uri 'self'",
+          "form-action 'self'",
+          "frame-ancestors 'none'",
+        ].join('; '),
+      },
     ]
 
     return [

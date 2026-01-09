@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { checkRateLimit, getRateLimitKey, rateLimitHeaders, RATE_LIMITS } from '@/lib/rate-limit'
 
 // Initialize Resend lazily to avoid build-time errors
 let resend: Resend | null = null
@@ -29,9 +30,13 @@ async function triggerEmailSequence(email: string, source: string): Promise<void
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://id8labs.app'
+    const internalKey = process.env.SUPABASE_SERVICE_ROLE_KEY
     const response = await fetch(`${baseUrl}/api/email-sequences/trigger`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${internalKey}`,
+      },
       body: JSON.stringify({
         email,
         sequenceId: 'ai-fundamentals-nurture',
@@ -54,6 +59,17 @@ interface SubscribePayload {
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limit check
+  const rateLimitKey = getRateLimitKey(request)
+  const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMITS.publicForm)
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: rateLimitHeaders(rateLimit, RATE_LIMITS.publicForm) }
+    )
+  }
+
   try {
     const body: SubscribePayload = await request.json()
     const { email, source } = body

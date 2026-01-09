@@ -29,7 +29,32 @@ const SEQUENCES: Record<string, SequenceConfig> = {
   'academy-onboarding': ACADEMY_ONBOARDING_SEQUENCE,
 }
 
+// Internal API - verify request comes from our own server
+function isInternalRequest(request: NextRequest): boolean {
+  // Check for internal API key (same as service role for internal calls)
+  const authHeader = request.headers.get('authorization')
+  const internalKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (authHeader?.startsWith('Bearer ') && internalKey) {
+    const token = authHeader.slice(7)
+    return token === internalKey
+  }
+
+  // In development, also allow requests from localhost
+  if (process.env.NODE_ENV === 'development') {
+    const origin = request.headers.get('origin') || request.headers.get('referer')
+    return origin?.includes('localhost') || false
+  }
+
+  return false
+}
+
 export async function POST(request: NextRequest) {
+  // This is an internal API - block external access
+  if (!isInternalRequest(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const { email, sequenceId, source } = await request.json()
 
@@ -125,8 +150,13 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET endpoint to check sequence status
+// GET endpoint to check sequence status (internal only)
 export async function GET(request: NextRequest) {
+  // This is an internal API - block external access
+  if (!isInternalRequest(request)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const searchParams = request.nextUrl.searchParams
   const email = searchParams.get('email')
   const sequenceId = searchParams.get('sequenceId')

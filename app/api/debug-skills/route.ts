@@ -3,6 +3,11 @@ import { getAllSkills, getAllCategories, getSkillCounts } from '@/lib/skills'
 import { createClient } from '@/lib/supabase/server'
 
 export async function GET() {
+  // Only allow in development - this endpoint exposes internal debug info
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  }
+
   try {
     const supabase = await createClient()
     if (!supabase) {

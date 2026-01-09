@@ -40,10 +40,16 @@ describe('Email Sequence Trigger API', () => {
     vi.unstubAllEnvs()
   })
 
+  // Auth header for internal API (uses the service role key)
+  const authHeader = 'Bearer test-service-role-key'
+
   const createPostRequest = (body: Record<string, unknown>): NextRequest => {
     return new NextRequest('http://localhost:3000/api/email-sequences/trigger', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': authHeader,
+      },
       body: JSON.stringify(body),
     })
   }
@@ -53,10 +59,43 @@ describe('Email Sequence Trigger API', () => {
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.set(key, value)
     })
-    return new NextRequest(url)
+    return new NextRequest(url, {
+      headers: { 'Authorization': authHeader },
+    })
   }
 
   describe('POST /api/email-sequences/trigger', () => {
+    describe('Authentication', () => {
+      it('should return 401 when no authorization header is provided', async () => {
+        const request = new NextRequest('http://localhost:3000/api/email-sequences/trigger', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: 'test@example.com', sequenceId: 'ai-fundamentals-nurture' }),
+        })
+        const response = await POST(request)
+        const data = await response.json()
+
+        expect(response.status).toBe(401)
+        expect(data.error).toBe('Unauthorized')
+      })
+
+      it('should return 401 when authorization header is invalid', async () => {
+        const request = new NextRequest('http://localhost:3000/api/email-sequences/trigger', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer invalid-key',
+          },
+          body: JSON.stringify({ email: 'test@example.com', sequenceId: 'ai-fundamentals-nurture' }),
+        })
+        const response = await POST(request)
+        const data = await response.json()
+
+        expect(response.status).toBe(401)
+        expect(data.error).toBe('Unauthorized')
+      })
+    })
+
     describe('Validation', () => {
       it('should return 400 when email is missing', async () => {
         const request = createPostRequest({ sequenceId: 'ai-fundamentals-nurture' })
@@ -149,7 +188,10 @@ describe('Email Sequence Trigger API', () => {
       it('should return 500 for malformed JSON', async () => {
         const request = new NextRequest('http://localhost:3000/api/email-sequences/trigger', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader,
+          },
           body: 'invalid json {',
         })
         const response = await POST(request)
@@ -162,6 +204,19 @@ describe('Email Sequence Trigger API', () => {
   })
 
   describe('GET /api/email-sequences/trigger', () => {
+    describe('Authentication', () => {
+      it('should return 401 when no authorization header is provided', async () => {
+        const url = new URL('http://localhost:3000/api/email-sequences/trigger')
+        url.searchParams.set('email', 'test@example.com')
+        const request = new NextRequest(url)
+        const response = await GET(request)
+        const data = await response.json()
+
+        expect(response.status).toBe(401)
+        expect(data.error).toBe('Unauthorized')
+      })
+    })
+
     describe('Validation', () => {
       it('should return 400 when email is missing', async () => {
         const request = createGetRequest({})

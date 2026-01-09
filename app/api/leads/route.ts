@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { isValidEmail } from '@/lib/validation'
+import { checkRateLimit, getRateLimitKey, rateLimitHeaders, RATE_LIMITS } from '@/lib/rate-limit'
 
 // Initialize Resend lazily to avoid build-time errors
 let resend: Resend | null = null
@@ -36,6 +37,17 @@ function isReadinessLead(payload: LeadPayload): payload is ReadinessLeadPayload 
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limit check
+  const rateLimitKey = getRateLimitKey(request)
+  const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMITS.publicForm)
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: rateLimitHeaders(rateLimit, RATE_LIMITS.publicForm) }
+    )
+  }
+
   try {
     const body: LeadPayload = await request.json()
 

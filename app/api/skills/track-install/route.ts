@@ -1,7 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { checkRateLimit, getRateLimitKey, rateLimitHeaders, RATE_LIMITS } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
+  // Rate limit check
+  const rateLimitKey = getRateLimitKey(request)
+  const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMITS.tracking)
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429, headers: rateLimitHeaders(rateLimit, RATE_LIMITS.tracking) }
+    )
+  }
   try {
     const body = await request.json()
     const { skillId, method, platform } = body

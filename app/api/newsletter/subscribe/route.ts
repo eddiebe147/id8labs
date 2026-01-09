@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { checkRateLimit, getRateLimitKey, rateLimitHeaders, RATE_LIMITS } from '@/lib/rate-limit'
 
 // Initialize Supabase client with service role for server-side operations
 const getSupabase = () => {
@@ -15,6 +16,17 @@ const getSupabase = () => {
 
 // POST - Subscribe to newsletter
 export async function POST(request: NextRequest) {
+  // Rate limit check
+  const rateLimitKey = getRateLimitKey(request)
+  const rateLimit = checkRateLimit(rateLimitKey, RATE_LIMITS.publicForm)
+
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429, headers: rateLimitHeaders(rateLimit, RATE_LIMITS.publicForm) }
+    )
+  }
+
   try {
     const { email, source } = await request.json()
 
