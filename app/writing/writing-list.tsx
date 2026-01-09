@@ -124,81 +124,64 @@ export function WritingList({ items }: WritingListProps) {
       {/* Newsletter Section Header - only shows when Newsletter tab is active */}
       {filter === 'newsletter' && (
         <section className="relative overflow-hidden border-b border-[var(--border)]">
-          {/* Animated background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[var(--id8-orange)]/5 via-transparent to-[var(--id8-orange)]/5" />
-
-          {/* Animated line */}
+          {/* Hero Image Banner - horizontal slice showing the hidden leafhopper */}
           <m.div
-            className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--id8-orange)] to-transparent"
-            initial={{ opacity: 0, scaleX: 0 }}
-            animate={{ opacity: 1, scaleX: 1 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-          />
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative w-full h-48 md:h-64 overflow-hidden"
+          >
+            <img
+              src="/images/newsletter-header.jpg"
+              alt="Hidden leafhopper in flower - signal:noise newsletter"
+              className="w-full h-full object-cover object-center"
+              style={{ objectPosition: '50% 55%' }}
+            />
+            {/* Gradient overlays for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-primary)]/30 via-transparent to-[var(--bg-primary)]/30" />
+          </m.div>
 
-          <div className="container py-12 relative">
+          {/* Title and Info - styled subheading below image */}
+          <div className="container py-8 relative">
             <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl"
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-center max-w-2xl mx-auto"
             >
-              {/* Logo/Title */}
-              <div className="flex items-center gap-4 mb-4">
-                <m.div
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
-                  className="w-12 h-12 rounded-xl bg-[var(--id8-orange)] flex items-center justify-center"
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </m.div>
-                <div>
-                  <h2
-                    className="text-3xl tracking-wide text-[var(--text-primary)]"
-                    style={{ fontFamily: 'var(--font-cinzel)' }}
-                  >
-                    signal:noise
-                  </h2>
-                  <p className="text-sm text-[var(--text-secondary)] tracking-wider uppercase">
-                    The ID8Labs Newsletter
-                  </p>
-                </div>
-              </div>
+              <h2
+                className="text-4xl md:text-5xl tracking-widest text-[var(--text-primary)] mb-2"
+                style={{ fontFamily: 'var(--font-cinzel)' }}
+              >
+                signal:noise
+              </h2>
+              <p className="text-sm text-[var(--text-secondary)] tracking-[0.3em] uppercase mb-6">
+                The ID8Labs Newsletter
+              </p>
 
-              {/* Description with animated underline */}
-              <p className="text-[var(--text-secondary)] mb-6 text-lg">
+              {/* Description */}
+              <p className="text-[var(--text-secondary)] mb-6 text-lg max-w-xl mx-auto">
                 Cutting through the noise to deliver what matters.
-                Frameworks, case studies, and actionable insights on AI and building the future.
               </p>
 
               {/* Stats bar with pulse animation */}
-              <div className="flex items-center gap-6 text-sm">
+              <div className="flex items-center justify-center gap-6 text-sm">
                 <div className="flex items-center gap-2">
                   <m.span
                     animate={{ opacity: [0.5, 1, 0.5] }}
                     transition={{ duration: 2, repeat: Infinity }}
                     className="w-2 h-2 rounded-full bg-[var(--id8-orange)]"
                   />
-                  <span className="text-[var(--text-secondary)]">Monthly delivery</span>
+                  <span className="text-[var(--text-secondary)]">Monthly</span>
                 </div>
-                <span className="text-[var(--border)]">|</span>
-                <span className="text-[var(--text-secondary)]">{filteredItems.length} issue{filteredItems.length !== 1 ? 's' : ''} published</span>
-                <span className="text-[var(--border)]">|</span>
+                <span className="text-[var(--border)]">·</span>
+                <span className="text-[var(--text-secondary)]">{filteredItems.length} issue{filteredItems.length !== 1 ? 's' : ''}</span>
+                <span className="text-[var(--border)]">·</span>
                 <span className="text-[var(--text-secondary)]">1,000+ subscribers</span>
               </div>
             </m.div>
           </div>
-
-          {/* Bottom animated line */}
-          <m.div
-            className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--id8-orange)]/50 to-transparent"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          />
         </section>
       )}
 
