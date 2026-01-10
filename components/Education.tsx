@@ -17,8 +17,8 @@ const learningPaths = [
   {
     title: 'Claude Mastery',
     description: 'Go from casual user to power user. Build real workflows.',
-    badge: '$99',
-    badgeColor: 'bg-id8-orange',
+    badge: 'Free',
+    badgeColor: 'bg-green-500',
     courses: [
       { name: 'Claude Code for Knowledge Workers', duration: '10 modules', href: '/courses/claude-for-knowledge-workers' },
     ]
