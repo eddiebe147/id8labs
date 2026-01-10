@@ -190,17 +190,16 @@ export const PRODUCTS: Record<string, Product> = {
   },
 
   // ─────────────────────────────────────────────────────────────
-  // Self-Paced Courses (Stripe checkout)
+  // Self-Paced Courses (Free)
   // ─────────────────────────────────────────────────────────────
   'claude-for-knowledge-workers': {
     id: 'claude-for-knowledge-workers',
     name: 'Claude Code for Knowledge Workers',
-    description: 'Complete 6-module course + lifetime updates. No programming required — just delegation.',
-    category: 'self-paced-course',
-    purchaseType: 'stripe',
-    price: 9900,
-    priceDisplay: '$99',
-    originalPrice: 19700,
+    description: 'Complete 10-module course. No programming required — just delegation.',
+    category: 'free-resource',
+    purchaseType: 'free',
+    price: 0,
+    priceDisplay: 'Free',
     currency: 'usd',
     features: [
       'Module 0: The Mental Model Shift (30 min)',
@@ -209,10 +208,12 @@ export const PRODUCTS: Record<string, Product> = {
       'Module 3: Writing With Claude (60 min)',
       'Module 4: Research & Analysis (60 min)',
       'Module 5: Building Workflows (60 min)',
-      'Lifetime updates',
+      'Module 6: Custom Commands (45 min)',
+      'Module 7: Connecting Your Tools (50 min)',
+      'Module 8: Managing Long Sessions (40 min)',
+      'Module 9: Project Memory (45 min)',
     ],
-    successRedirect: '/courses/claude-for-knowledge-workers?success=true',
-    accessInstructions: 'Your course access is now active. Start with Module 1!',
+    successRedirect: '/courses/claude-for-knowledge-workers',
   },
 
   // ─────────────────────────────────────────────────────────────
@@ -535,15 +536,7 @@ export const BUNDLE_KIT_IDS = [
   'agent-kit-factory',
 ] as const
 
-// For backwards compatibility with existing checkout code
-// Only includes products that can be purchased via Stripe (have a fixed price)
-export const COURSE_PRODUCTS = {
-  'claude-for-knowledge-workers': {
-    name: PRODUCTS['claude-for-knowledge-workers'].name,
-    description: PRODUCTS['claude-for-knowledge-workers'].description,
-    price: PRODUCTS['claude-for-knowledge-workers'].price as number, // Always has a price
-    currency: PRODUCTS['claude-for-knowledge-workers'].currency,
-  },
-} as const
+// Legacy export - course is now free, kept for backwards compatibility
+export const COURSE_PRODUCTS = {} as const
 
 export type CourseProductId = keyof typeof COURSE_PRODUCTS

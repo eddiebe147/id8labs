@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { m } from '@/components/motion'
 import Link from 'next/link'
-import CheckoutButton from '@/components/CheckoutButton'
 import { FoundationGate } from '@/components/progress'
 
 // Animation variants
@@ -86,7 +85,6 @@ const modules = [
     title: "The Mental Model Shift",
     duration: "30 min",
     description: "Installation + your first delegation (Downloads cleanup). The mindset shift from chatbot to agent.",
-    free: true,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-0",
   },
@@ -95,7 +93,6 @@ const modules = [
     title: "Your First Delegation",
     duration: "45 min",
     description: "10 Quick Wins to build confidence. Low-risk, high-value delegations you can undo in 30 seconds.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-1",
   },
@@ -104,7 +101,6 @@ const modules = [
     title: "Working With Your Files",
     duration: "60 min",
     description: "Document processing, invoice organization, semantic search. Find anything by meaning.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-2",
   },
@@ -113,7 +109,6 @@ const modules = [
     title: "Writing With Claude",
     duration: "60 min",
     description: "Voice notes → drafts, editing workflows, finding and preserving your voice.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-3",
   },
@@ -122,7 +117,6 @@ const modules = [
     title: "Research & Analysis",
     duration: "60 min",
     description: "Web research, competitive analysis, synthesizing sources into actionable insights.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-4",
   },
@@ -131,7 +125,6 @@ const modules = [
     title: "Building Workflows",
     duration: "60 min",
     description: "Recurring tasks, reusable prompts, automation. Your personal operating system.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-5",
   },
@@ -140,7 +133,6 @@ const modules = [
     title: "Custom Commands",
     duration: "45 min",
     description: "Save your best prompts as reusable commands. Type one word, get consistent results every time.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-6",
     isNew: true,
@@ -150,7 +142,6 @@ const modules = [
     title: "Connecting Your Tools",
     duration: "50 min",
     description: "Let Claude read your Notion, browse the web, access files. Claude becomes part of your workflow.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-7",
     isNew: true,
@@ -160,7 +151,6 @@ const modules = [
     title: "Managing Long Sessions",
     duration: "40 min",
     description: "Keep Claude sharp during complex projects. Reset, rewind, and recover from messy contexts.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-8",
     isNew: true,
@@ -170,7 +160,6 @@ const modules = [
     title: "Project Memory",
     duration: "45 min",
     description: "Make Claude remember your projects across sessions. Persistent context that survives restarts.",
-    free: false,
     available: true,
     href: "/courses/claude-for-knowledge-workers/module-9",
     isNew: true,
@@ -213,15 +202,11 @@ const faqs = [
   },
   {
     question: "What if I get stuck?",
-    answer: "Email support is included with the full course. Send your question to support@id8labs.io and we'll help you troubleshoot. Most students find the step-by-step video walkthroughs answer 95% of questions."
+    answer: "Email support@id8labs.io and we'll help you troubleshoot. Most students find the step-by-step video walkthroughs answer 95% of questions."
   },
   {
-    question: "Is there a refund policy?",
-    answer: "Yes. 30-day money-back guarantee, no questions asked. If the course isn't what you expected, just email within 30 days of purchase for a full refund."
-  },
-  {
-    question: "How long do I have access?",
-    answer: "Lifetime access. Buy once, access forever. You'll also get all future updates and new modules as they're released at no additional cost."
+    question: "Why is this course free?",
+    answer: "Education shouldn't be gated. We believe the best way to help people adopt AI is to remove barriers. All ID8Labs Academy courses are free — no paywalls, no upsells."
   },
   {
     question: "What's the difference from Claude's official tutorials?",
@@ -277,18 +262,18 @@ export default function ClaudeForKnowledgeWorkersPage() {
                 href="/courses/claude-for-knowledge-workers/module-0"
                 className="btn btn-primary group inline-flex items-center justify-center gap-2"
               >
-                Start Free Module
+                Start Course
                 <ArrowRightIcon />
               </Link>
               <a
-                href="#pricing"
+                href="#curriculum"
                 className="btn btn-secondary group inline-flex items-center justify-center gap-2"
               >
-                Get Full Course — $99
+                View Curriculum
               </a>
             </m.div>
             <m.p variants={fadeUp} className="mt-4 text-sm text-[var(--text-tertiary)]">
-              Module 0 is completely free. No credit card required.
+              <span className="text-green-400 font-semibold">100% Free</span> — All 10 modules. No credit card required.
             </m.p>
 
             {/* Cross-link to free fundamentals course */}
@@ -474,17 +459,12 @@ export default function ClaudeForKnowledgeWorkersPage() {
             {modules.map((module, index) => {
               const cardContent = (
                 <>
-                  <span className={`text-2xl font-mono font-bold ${module.free ? 'text-id8-orange' : 'text-[var(--text-tertiary)]'}`}>
+                  <span className="text-2xl font-mono font-bold text-id8-orange">
                     {module.number}
                   </span>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
                       <h3 className="text-lg font-bold">{module.title}</h3>
-                      {module.free && (
-                        <span className="text-xs font-mono uppercase tracking-wider text-id8-orange bg-id8-orange/10 px-2 py-0.5 rounded">
-                          Free
-                        </span>
-                      )}
                       {(module as typeof module & { isNew?: boolean }).isNew && (
                         <span className="text-xs font-mono uppercase tracking-wider text-green-400 bg-green-500/10 px-2 py-0.5 rounded animate-pulse">
                           New
@@ -505,9 +485,7 @@ export default function ClaudeForKnowledgeWorkersPage() {
               )
 
               const cardClass = `flex items-start gap-4 p-5 rounded-xl border transition-colors ${
-                module.free
-                  ? 'bg-id8-orange/5 border-id8-orange/30 hover:border-id8-orange/50'
-                  : module.available
+                module.available
                   ? 'bg-[var(--bg-secondary)] border-[var(--border)] hover:border-id8-orange/30'
                   : 'bg-[var(--bg-secondary)] border-[var(--border)] opacity-60'
               }`
@@ -572,87 +550,34 @@ export default function ClaudeForKnowledgeWorkersPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section className="section-spacing-lg relative" id="pricing">
+      {/* CTA Section */}
+      <section className="section-spacing-lg relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] aspect-square bg-[radial-gradient(circle,var(--id8-orange-light)_0%,transparent_70%)] opacity-30 pointer-events-none" />
 
         <div className="container relative">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-sm font-mono uppercase tracking-widest text-id8-orange mb-4">
-              Pricing
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="text-sm font-mono uppercase tracking-widest text-green-400 mb-4">
+              100% Free
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
               Stop asking.{' '}
               <span className="text-gradient-orange">Start delegating.</span>
             </h2>
-          </div>
+            <p className="text-xl text-[var(--text-secondary)] mb-10">
+              All 10 modules. ~7 hours of content. No credit card required.
+            </p>
 
-          <div className="max-w-lg mx-auto">
-            {/* Full Course Card */}
-            <div className="card bg-[var(--bg-secondary)] border-2 border-id8-orange/30 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-id8-orange text-zone-text text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-bl-lg">
-                Full Access
-              </div>
-              <div className="absolute top-0 left-0 bg-green-500 text-white text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-br-lg">
-                Save $98
-              </div>
+            <Link
+              href="/courses/claude-for-knowledge-workers/module-0"
+              className="btn btn-primary hover-lift group inline-flex items-center gap-3 text-lg px-8 py-4"
+            >
+              Start Course
+              <ArrowRightIcon />
+            </Link>
 
-              <div className="text-center pt-8">
-                <h3 className="text-2xl font-bold mb-2">Complete Course</h3>
-                <p className="text-[var(--text-secondary)] mb-4">
-                  All 10 modules + lifetime updates
-                </p>
-                <p className="text-sm text-green-400 font-mono uppercase tracking-wider mb-4">
-                  Founder's Launch Special
-                </p>
-
-                <div className="mb-6">
-                  <span className="text-2xl text-[var(--text-tertiary)] line-through mr-2">$197</span>
-                  <span className="text-5xl font-bold text-id8-orange">$99</span>
-                  <span className="text-[var(--text-tertiary)] ml-2">one-time</span>
-                </div>
-
-                <ul className="text-left space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
-                    <span>All 10 modules (~7 hours of content)</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
-                    <span>Video, podcast, PDF, and mindmap for each module</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
-                    <span>Lifetime access + future updates</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-id8-orange flex-shrink-0 mt-0.5"><CheckIcon /></span>
-                    <span>Real-world delegation templates</span>
-                  </li>
-                </ul>
-
-                <CheckoutButton
-                  productId="claude-for-knowledge-workers"
-                  className="text-lg py-4"
-                >
-                  Get Full Course
-                </CheckoutButton>
-              </div>
-            </div>
-
-            {/* Free Module CTA */}
-            <div className="text-center mt-8">
-              <p className="text-[var(--text-secondary)] mb-4">
-                Not ready to commit? Try Module 0 for free.
-              </p>
-              <Link
-                href="/courses/claude-for-knowledge-workers/module-0"
-                className="text-id8-orange hover:underline inline-flex items-center gap-2 group"
-              >
-                Start Free Module
-                <ArrowRightIcon />
-              </Link>
-            </div>
+            <p className="mt-6 text-sm font-mono text-[var(--text-tertiary)]">
+              Begin with Module 0: The Mental Model Shift
+            </p>
           </div>
         </div>
       </section>
