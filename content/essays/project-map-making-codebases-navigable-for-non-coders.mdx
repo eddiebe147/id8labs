@@ -1,0 +1,111 @@
+---
+title: "The PROJECT_MAP: Making Codebases Navigable for Non-Coders"
+subtitle: "A practical solution for creative professionals using AI coding tools"
+date: "2026-01-11"
+category: "research"
+author: "Eddie Belaval"
+tags: ["research", "claude-code", "project-map", "non-coders", "ai-tools"]
+featured: false
+---
+
+I'm not a developer. I'm a founder building AI-powered tools through my company ID8Labs, and I use Claude Code to do it.
+
+It works. I can describe what I want, Claude writes the code, and things get built. But I kept hitting a wall that had nothing to do with coding ability.
+
+**I couldn't find anything.**
+
+---
+
+## The Problem
+
+Here's what a typical codebase looks like:
+
+```
+src/
+  components/
+    ui/
+      Button.tsx
+      Modal.tsx
+    features/
+      story/
+        StoryEditor.tsx
+```
+
+And here's how I actually think about my project:
+
+*"I need to change how the beat sheet looks."*
+
+These two mental models don't overlap. The file structure is organized for **code execution** - how the machine finds things. But I think in terms of **jobs to be done** - what I'm trying to accomplish.
+
+Every time I wanted to make a change, I'd either ask Claude to "find" the right file (wasting time), or guess at paths and get it wrong (wasting more time). It felt like navigating a city where all the street signs were written for postal workers, not drivers.
+
+---
+
+## The Insight
+
+I was explaining this frustration to Claude when something clicked.
+
+The problem wasn't that I needed to learn the developer's mental model. The problem was that I needed a **translation layer** - something that maps how I think to where things actually live.
+
+Think of it like a legend on a map. The terrain doesn't change. You just get a guide that helps you read it.
+
+---
+
+## The Solution: PROJECT_MAP.md
+
+We created a simple markdown file that lives in the root of the project. It's organized by **jobs** - the actual things I want to do - not by technical categories.
+
+Here's a sample:
+
+| When I want to…             | I look in…                         |
+|-----------------------------|-----------------------------------|
+| Change the navigation bar   | `src/components/layout/NavBar.tsx` |
+| Update pricing              | `src/data/pricing.ts`              |
+| Modify how stories save     | `src/lib/storage/`                 |
+| Adjust the AI chat behavior | `src/components/chat/`             |
+
+The full map organizes everything into job categories: Writing, Knowledge Base, AI/Chat, Projects, Navigation, and so on. Each category lists the relevant paths with brief explanations of what lives there.
+
+At the bottom, there's a quick reference table for the most common changes.
+
+---
+
+## Why This Works
+
+**It doesn't break anything.** The map is just a markdown file. Developers can ignore it completely. The codebase structure stays exactly as it should be.
+
+**It speaks my language.** Instead of memorizing that "UI components live in src/components/ui," I just look up "button styling" and get the path.
+
+**It makes Claude Code faster.** When I say "Update the chat UI - see `src/components/chat/`," Claude goes straight there. No searching, no wrong turns, no wasted tokens.
+
+**It's a living document.** As the project grows, the map updates. It becomes institutional knowledge that survives context windows and session breaks.
+
+---
+
+## The Pattern for Your Projects
+
+If you're a non-coder using AI tools to build software, here's how to create your own PROJECT_MAP:
+
+**1. Start with jobs, not files.** List the 10-15 things you actually do in your project. "Change the header," "Update pricing," "Fix the login flow."
+
+**2. Ask your AI to map them.** Once you have the jobs listed, ask Claude to tell you which files correspond to each job.
+
+**3. Create a simple markdown file.** Put it in the root of your project as `PROJECT_MAP.md`. Use a table format for quick scanning.
+
+**4. Add a quick reference section.** The 5-6 changes you make most often should be instantly findable.
+
+**5. Include a brief architecture note.** One paragraph explaining the basic pattern. You don't need to understand it deeply - just enough to recognize the shape.
+
+---
+
+## The Bigger Picture
+
+We're in a moment where AI tools are making it possible for non-programmers to build real software. But those tools still assume you can navigate a codebase like a developer. That's friction that doesn't need to exist.
+
+The PROJECT_MAP is one small solution. It's the equivalent of putting labels on your filing cabinet instead of using the Dewey Decimal System at home.
+
+Sometimes the best tool is just a good translation.
+
+---
+
+*Eddie Belaval is the founder of ID8Labs, where he builds AI-powered tools for creative professionals.*
