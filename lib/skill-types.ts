@@ -71,6 +71,9 @@ export interface SkillCollection {
   skill_count?: number
   created_at: string
   updated_at: string
+  // Configuration kits support
+  content_type?: 'skill_bundle' | 'configuration' | null
+  install_prompt?: string | null
   // Joined data
   skills?: Skill[]
 }

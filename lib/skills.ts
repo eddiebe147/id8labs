@@ -403,6 +403,8 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
         is_public,
         created_at,
         updated_at,
+        content_type,
+        install_prompt,
         skill_collection_items(
           display_order,
           note,

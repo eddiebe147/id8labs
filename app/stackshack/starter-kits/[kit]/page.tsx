@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { ArrowLeft, Package, Download, User, Calendar } from 'lucide-react'
+import { ArrowLeft, Package, Download, User, Calendar, Copy, Wrench } from 'lucide-react'
 import { getCollectionBySlug, getAllCollections } from '@/lib/skills'
 import { SkillCard } from '@/components/skills/SkillCard'
 import { OfficialBadge } from '@/components/skills/TrustBadges'
+import { CopyInstallPrompt } from '@/components/stackshack/CopyInstallPrompt'
 
 interface PageProps {
   params: Promise<{ kit: string }>
@@ -56,6 +57,7 @@ export default async function StarterKitPage({ params }: PageProps): Promise<Rea
   }
 
   const skillCount = collection.skill_count || collection.skills?.length || 0
+  const isConfiguration = collection.content_type === 'configuration'
 
   return (
     <main className="min-h-screen">
@@ -77,6 +79,12 @@ export default async function StarterKitPage({ params }: PageProps): Promise<Rea
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     {collection.is_official && <OfficialBadge />}
+                    {isConfiguration && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full bg-purple-500/10 text-purple-500 border border-purple-500/20">
+                        <Wrench className="w-3 h-3" />
+                        Configuration
+                      </span>
+                    )}
                   </div>
                   <h1 className="text-3xl md:text-4xl font-bold">
                     {collection.name}
@@ -91,10 +99,12 @@ export default async function StarterKitPage({ params }: PageProps): Promise<Rea
               )}
 
               <div className="flex flex-wrap gap-4 text-sm text-[var(--text-secondary)]">
-                <span className="flex items-center gap-1">
-                  <Package className="w-4 h-4" />
-                  {skillCount} skills
-                </span>
+                {!isConfiguration && (
+                  <span className="flex items-center gap-1">
+                    <Package className="w-4 h-4" />
+                    {skillCount} skills
+                  </span>
+                )}
                 <span className="flex items-center gap-1">
                   <User className="w-4 h-4" />
                   {collection.author}
@@ -106,40 +116,57 @@ export default async function StarterKitPage({ params }: PageProps): Promise<Rea
               </div>
             </div>
 
-            {/* Install All Button */}
-            <div className="lg:w-64">
-              <button className="w-full btn btn-primary">
-                <Download className="w-5 h-5" />
-                Install All Skills
-              </button>
-              <p className="text-xs text-[var(--text-tertiary)] text-center mt-2">
-                Copies install script to clipboard
-              </p>
-            </div>
+            {/* Install Button - only show for skill bundles */}
+            {!isConfiguration && (
+              <div className="lg:w-64">
+                <button className="w-full btn btn-primary">
+                  <Download className="w-5 h-5" />
+                  Install All Skills
+                </button>
+                <p className="text-xs text-[var(--text-tertiary)] text-center mt-2">
+                  Copies install script to clipboard
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Skills Grid */}
-      <div className="container py-12">
-        <h2 className="text-xl font-bold mb-6">
-          Skills in this kit ({skillCount})
-        </h2>
-
-        {collection.skills && collection.skills.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {collection.skills.map((skill) => (
-              <SkillCard key={skill.id} skill={skill} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16">
-            <p className="text-[var(--text-secondary)]">
-              No skills in this kit yet.
+      {/* Configuration Install Prompt */}
+      {isConfiguration && collection.install_prompt && (
+        <div className="container py-12">
+          <div className="max-w-3xl">
+            <h2 className="text-xl font-bold mb-4">How to Install</h2>
+            <p className="text-[var(--text-secondary)] mb-6">
+              Copy the prompt below and paste it into Claude Code to install this configuration.
             </p>
+            <CopyInstallPrompt prompt={collection.install_prompt} />
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Skills Grid - only show for skill bundles */}
+      {!isConfiguration && (
+        <div className="container py-12">
+          <h2 className="text-xl font-bold mb-6">
+            Skills in this kit ({skillCount})
+          </h2>
+
+          {collection.skills && collection.skills.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {collection.skills.map((skill) => (
+                <SkillCard key={skill.id} skill={skill} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-[var(--text-secondary)]">
+                No skills in this kit yet.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
     </main>
   )
 }
