@@ -170,8 +170,8 @@ export default function IntroMessage({ userEmail, onBootReady, onTypingComplete 
           <div className="text-[#c0c0c0] text-sm leading-relaxed">
             <TypewriterSequence
               lines={messageLines}
-              speed={180}
-              lineGap={80}
+              speed={280}
+              lineGap={50}
               onComplete={handleMessageComplete}
             />
           </div>

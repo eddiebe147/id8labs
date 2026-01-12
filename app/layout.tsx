@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { NeuralNetworkBg } from '@/components/foundation/neural-network-bg'
 import { GoogleAnalytics, UmamiAnalytics } from '@/components/Analytics'
+import { PostHogProvider } from '@/components/PostHogProvider'
 import LeadMagnetFunnel from '@/components/LeadMagnetFunnel'
 
 const inter = Inter({
@@ -150,28 +151,30 @@ export default function RootLayout({
         {/* theme-color and appleWebApp are now handled via viewport/metadata exports */}
       </head>
       <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable} ${sixtyfour.variable} ${pressStart2P.variable} ${climateCrisis.variable} ${vt323.variable} ${cinzel.variable} overflow-x-hidden`}>
-        <GoogleAnalytics />
-        <UmamiAnalytics />
-        {/* Neural Network Background - "Thoughtful Brain" settings */}
-        <NeuralNetworkBg
-          neuronCount={120}
-          connectionDensity={79}
-          rotationSpeed={0.0015}
-          fireRate={6}
-          orangeIntensity={100}
-          parallaxFactor={0.04}
-        />
+        <PostHogProvider>
+          <GoogleAnalytics />
+          <UmamiAnalytics />
+          {/* Neural Network Background - "Thoughtful Brain" settings */}
+          <NeuralNetworkBg
+            neuronCount={120}
+            connectionDensity={79}
+            rotationSpeed={0.0015}
+            fireRate={6}
+            orangeIntensity={100}
+            parallaxFactor={0.04}
+          />
 
-        <ThemeProvider>
-          <div className="relative" style={{ zIndex: 1 }}>
-            <Header />
-            <main className="min-h-screen">
-              {children}
-            </main>
-            <Footer />
-          </div>
-          <LeadMagnetFunnel />
-        </ThemeProvider>
+          <ThemeProvider>
+            <div className="relative" style={{ zIndex: 1 }}>
+              <Header />
+              <main className="min-h-screen">
+                {children}
+              </main>
+              <Footer />
+            </div>
+            <LeadMagnetFunnel />
+          </ThemeProvider>
+        </PostHogProvider>
       </body>
     </html>
   )
