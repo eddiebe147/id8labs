@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronRight, Package, Sparkles } from 'lucide-react'
+import { ChevronRight, Package, Sparkles, Wrench } from 'lucide-react'
 import type { SkillCollection } from '@/lib/skill-types'
 
 // Starter kit emoji and gradient mapping
@@ -85,6 +85,8 @@ export function SkillStarterKits({
 
 function StarterKitCard({ collection }: { collection: SkillCollection }) {
   const style = KIT_STYLES[collection.slug] || KIT_STYLES.default
+  const isConfiguration = collection.content_type === 'configuration'
+  const skillCount = collection.skill_count || collection.skills?.length || 0
 
   return (
     <Link
@@ -129,8 +131,8 @@ function StarterKitCard({ collection }: { collection: SkillCollection }) {
           {collection.description}
         </p>
 
-        {/* Skill preview */}
-        {collection.skills && collection.skills.length > 0 && (
+        {/* Skill preview - only show for skill bundles */}
+        {!isConfiguration && collection.skills && collection.skills.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-4">
             {collection.skills.slice(0, 4).map((skill) => (
               <span
@@ -150,10 +152,17 @@ function StarterKitCard({ collection }: { collection: SkillCollection }) {
 
         {/* Footer */}
         <div className="flex items-center justify-between text-sm">
-          <span className="flex items-center gap-1.5 text-[var(--text-secondary)]">
-            <Package className="w-4 h-4" />
-            {collection.skill_count || collection.skills?.length || 0} skills
-          </span>
+          {isConfiguration ? (
+            <span className="flex items-center gap-1.5 text-purple-500">
+              <Wrench className="w-4 h-4" />
+              Configuration
+            </span>
+          ) : (
+            <span className="flex items-center gap-1.5 text-[var(--text-secondary)]">
+              <Package className="w-4 h-4" />
+              {skillCount} skills
+            </span>
+          )}
           <span className="flex items-center gap-1 text-[var(--id8-orange)] font-medium group-hover:gap-2 transition-all">
             View Kit <ChevronRight className="w-4 h-4" />
           </span>
@@ -165,6 +174,8 @@ function StarterKitCard({ collection }: { collection: SkillCollection }) {
 
 function StarterKitListItem({ collection }: { collection: SkillCollection }) {
   const style = KIT_STYLES[collection.slug] || KIT_STYLES.default
+  const isConfiguration = collection.content_type === 'configuration'
+  const skillCount = collection.skill_count || collection.skills?.length || 0
 
   return (
     <Link
@@ -189,7 +200,7 @@ function StarterKitListItem({ collection }: { collection: SkillCollection }) {
           )}
         </div>
         <p className="text-sm text-[var(--text-secondary)] truncate">
-          {collection.skill_count || collection.skills?.length || 0} skills
+          {isConfiguration ? 'Configuration' : `${skillCount} skills`}
         </p>
       </div>
 

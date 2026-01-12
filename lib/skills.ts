@@ -328,6 +328,7 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
         is_public,
         created_at,
         updated_at,
+        content_type,
         skill_collection_items(
           skills(id, name, slug, description, category_id, complexity, verified, featured, avg_rating, install_count)
         )
