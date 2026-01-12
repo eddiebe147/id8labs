@@ -90,7 +90,7 @@ function StarterKitCard({ collection }: { collection: SkillCollection }) {
 
   return (
     <Link
-      href={`/skills/starter-kits/${collection.slug}`}
+      href={`/stackshack/starter-kits/${collection.slug}`}
       className="group relative block overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-primary)] transition-all hover:shadow-xl hover:-translate-y-1"
     >
       {/* Gradient header */}
@@ -179,7 +179,7 @@ function StarterKitListItem({ collection }: { collection: SkillCollection }) {
 
   return (
     <Link
-      href={`/skills/starter-kits/${collection.slug}`}
+      href={`/stackshack/starter-kits/${collection.slug}`}
       className="group flex items-center gap-4 p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] hover:bg-[var(--bg-secondary)] transition-all"
     >
       {/* Emoji */}
@@ -222,7 +222,7 @@ export function FeaturedStarterKit({
 
   return (
     <Link
-      href={`/skills/starter-kits/${collection.slug}`}
+      href={`/stackshack/starter-kits/${collection.slug}`}
       className={`group relative block overflow-hidden rounded-2xl bg-gradient-to-br ${style.gradient} p-8 transition-all hover:shadow-2xl ${className}`}
     >
       {/* Background pattern */}
