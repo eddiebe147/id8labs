@@ -102,26 +102,44 @@ Sometimes the answer isn't to build something new. Sometimes it's to discover wh
 
 ## Get the Setup
 
-If you want this workflow, I've packaged everything in StackShack:
+If you want this workflow, just paste this prompt into your own Claude Code:
 
 ```
-┌─────────────────┬───────────────────────────────────┐
-│   lf (files)    │                                   │
-│                 │                                   │
-├─────────────────┤         claude / editor           │
-│                 │                                   │
-│  lazygit (git)  │                                   │
-│                 │                                   │
-└─────────────────┴───────────────────────────────────┘
+Install the ID8Labs tmux dev workflow for me. This setup gives me:
+- lf file manager in top-left pane
+- lazygit for git operations in bottom-left
+- Main editor/claude pane on the right
+- "Amber Ember" theme
+- Session persistence
+
+Steps:
+1. Install dependencies: brew install tmux lf lazygit tree
+2. Download tmux.conf from https://raw.githubusercontent.com/eddiebe147/id8labs/main/content/stackshack/tmux/tmux.conf and save to ~/.tmux.conf
+3. Download dev-session.sh from https://raw.githubusercontent.com/eddiebe147/id8labs/main/content/stackshack/tmux/dev-session.sh and save to ~/bin/dev-session.sh (create ~/bin if needed)
+4. Make it executable: chmod +x ~/bin/dev-session.sh
+5. Install tmux plugin manager: git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+6. Tell me when done so I can test it
 ```
 
-**[Download the tmux config →](https://github.com/id8labs/id8labs/tree/main/content/stackshack/tmux)**
+Or do it manually:
 
-**Quick start:**
 ```bash
-brew install tmux lf lazygit
-# Then copy tmux.conf to ~/.tmux.conf
-# Run dev-session.sh to launch
+# Install dependencies
+brew install tmux lf lazygit tree
+
+# Get the config
+curl -o ~/.tmux.conf https://raw.githubusercontent.com/eddiebe147/id8labs/main/content/stackshack/tmux/tmux.conf
+
+# Get the launch script
+mkdir -p ~/bin
+curl -o ~/bin/dev-session.sh https://raw.githubusercontent.com/eddiebe147/id8labs/main/content/stackshack/tmux/dev-session.sh
+chmod +x ~/bin/dev-session.sh
+
+# Install plugin manager (for session persistence)
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+# Launch it
+~/bin/dev-session.sh
 ```
 
 **The magic shortcut:** `Ctrl+a` then `D` = instant dev layout
