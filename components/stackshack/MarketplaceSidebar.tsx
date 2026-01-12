@@ -68,7 +68,7 @@ interface MarketplaceSidebarProps {
   commandCategories?: Record<string, number>
   settingCategories?: Record<string, number>
   pluginCategories?: Record<string, number>
-  stacksCount?: number
+  kitsCount?: number
   currentType?: string
   currentCategory?: string | null
 }
@@ -81,7 +81,7 @@ export function MarketplaceSidebar({
   commandCategories = {},
   settingCategories = {},
   pluginCategories = {},
-  stacksCount = 0,
+  kitsCount = 0,
   currentType = 'all',
   currentCategory = null,
 }: MarketplaceSidebarProps) {
@@ -331,21 +331,21 @@ export function MarketplaceSidebar({
             </div>
           )}
 
-          {activeTab === 'stacks' && (
+          {activeTab === 'kits' && (
             <div>
               <h4 className="text-sm font-medium mb-3">Browse</h4>
               <div className="space-y-1">
                 <Link
-                  href="/stackshack?tab=stacks"
+                  href="/stackshack?tab=kits"
                   className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]"
                 >
-                  <Layers className="w-4 h-4" />
-                  <span className="text-sm flex-1">All Stacks</span>
-                  <span className="text-xs text-[var(--text-tertiary)] font-medium">{stacksCount}</span>
+                  <Package className="w-4 h-4" />
+                  <span className="text-sm flex-1">All Starter Kits</span>
+                  <span className="text-xs text-[var(--text-tertiary)] font-medium">{kitsCount}</span>
                 </Link>
               </div>
               <p className="mt-4 text-xs text-[var(--text-tertiary)]">
-                Community stacks are curated collections shared by other users.
+                Pre-configured tool bundles to supercharge your workflow.
               </p>
             </div>
           )}
@@ -423,15 +423,15 @@ export function MarketplaceSidebar({
                 </div>
               </details>
             )}
-            {activeTab === 'stacks' && (
+            {activeTab === 'kits' && (
               <details className="group">
                 <summary className="cursor-pointer flex items-center gap-2 hover:text-[var(--text-primary)] transition-colors">
                   <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180" />
-                  About Stacks
+                  About Starter Kits
                 </summary>
                 <div className="mt-2 ml-6 text-xs space-y-2 text-[var(--text-tertiary)]">
-                  <p><strong>Fork:</strong> Copy a stack to your profile</p>
-                  <p><strong>Share:</strong> Make your stack public for others</p>
+                  <p><strong>Kits:</strong> Pre-configured tool bundles</p>
+                  <p><strong>Install:</strong> Paste prompt into Claude Code</p>
                 </div>
               </details>
             )}

@@ -67,7 +67,7 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
     commands: allCommands.length,
     settings: allSettings.length,
     plugins: allPlugins.length,
-    stacks: publicStacks.length,
+    kits: collections.length,
   }
 
   let filteredSkills = allSkills
@@ -170,7 +170,7 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
               commandCategories={commandCategories}
               settingCategories={settingCategories}
               pluginCategories={pluginCategories}
-              stacksCount={publicStacks.length}
+              kitsCount={collections.length}
               currentType={typeFilter}
               currentCategory={categoryFilter}
             />
@@ -245,26 +245,45 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
                 </div>
               )}
 
-              {activeTab === 'stacks' && (
+              {activeTab === 'kits' && (
                 <div>
                   <div className="mb-6">
-                    <h2 className="text-2xl font-bold mb-2">Community Stacks</h2>
+                    <h2 className="text-2xl font-bold mb-2">Starter Kits</h2>
                     <p className="text-[var(--text-secondary)]">
-                      Discover and fork stacks shared by the community
+                      Pre-configured tool bundles to supercharge your workflow. Copy the prompt into Claude Code to install.
                     </p>
                   </div>
-                  {publicStacks.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                      {publicStacks.map((stack) => (
-                        <GalleryStackCard key={stack.id} stack={stack} />
+                  {collections.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {collections.map((kit) => (
+                        <Link
+                          key={kit.id}
+                          href={'/stackshack/starter-kits#' + kit.id}
+                          className="group block p-6 rounded-xl border border-[var(--border)] hover:border-purple-500/50 hover:bg-purple-500/5 transition-all"
+                        >
+                          <div className="flex items-start gap-4">
+                            <span className="text-4xl">{kit.emoji || '📦'}</span>
+                            <div className="flex-1">
+                              <h3 className="text-xl font-semibold group-hover:text-purple-500 transition-colors">
+                                {kit.name}
+                              </h3>
+                              <p className="text-[var(--text-secondary)] mt-1 line-clamp-2">
+                                {kit.description}
+                              </p>
+                              <div className="flex items-center gap-4 mt-3 text-sm text-[var(--text-tertiary)]">
+                                <span>{kit.skill_count || 0} skills included</span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
                       ))}
                     </div>
                   ) : (
                     <div className="text-center py-12">
                       <Package className="w-16 h-16 mx-auto mb-4 text-[var(--text-secondary)]" />
-                      <h3 className="text-xl font-semibold mb-2">No Public Stacks Yet</h3>
+                      <h3 className="text-xl font-semibold mb-2">No Starter Kits Yet</h3>
                       <p className="text-[var(--text-secondary)]">
-                        Be the first to share a stack with the community!
+                        Check back soon for curated tool bundles!
                       </p>
                     </div>
                   )}
