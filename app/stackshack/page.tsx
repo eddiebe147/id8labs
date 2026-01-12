@@ -255,28 +255,31 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
                   </div>
                   {collections.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {collections.map((kit) => (
-                        <Link
-                          key={kit.id}
-                          href={'/stackshack/starter-kits#' + kit.id}
-                          className="group block p-6 rounded-xl border border-[var(--border)] hover:border-purple-500/50 hover:bg-purple-500/5 transition-all"
-                        >
-                          <div className="flex items-start gap-4">
-                            <span className="text-4xl">{kit.emoji || '📦'}</span>
-                            <div className="flex-1">
-                              <h3 className="text-xl font-semibold group-hover:text-purple-500 transition-colors">
-                                {kit.name}
-                              </h3>
-                              <p className="text-[var(--text-secondary)] mt-1 line-clamp-2">
-                                {kit.description}
-                              </p>
-                              <div className="flex items-center gap-4 mt-3 text-sm text-[var(--text-tertiary)]">
-                                <span>{kit.skill_count || 0} skills included</span>
+                      {collections.map((kit) => {
+                        const isConfiguration = kit.content_type === 'configuration'
+                        return (
+                          <Link
+                            key={kit.id}
+                            href={`/stackshack/starter-kits/${kit.slug}`}
+                            className="group block p-6 rounded-xl border border-[var(--border)] hover:border-purple-500/50 hover:bg-purple-500/5 transition-all"
+                          >
+                            <div className="flex items-start gap-4">
+                              <span className="text-4xl">{kit.emoji || '📦'}</span>
+                              <div className="flex-1">
+                                <h3 className="text-xl font-semibold group-hover:text-purple-500 transition-colors">
+                                  {kit.name}
+                                </h3>
+                                <p className="text-[var(--text-secondary)] mt-1 line-clamp-2">
+                                  {kit.description}
+                                </p>
+                                <div className="flex items-center gap-4 mt-3 text-sm text-[var(--text-tertiary)]">
+                                  <span>{isConfiguration ? 'Configuration' : `${kit.skill_count || 0} skills included`}</span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </Link>
-                      ))}
+                          </Link>
+                        )
+                      })}
                     </div>
                   ) : (
                     <div className="text-center py-12">
