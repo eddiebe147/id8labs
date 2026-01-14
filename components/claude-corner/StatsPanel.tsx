@@ -188,47 +188,49 @@ function AnimatedToolBar({
 // Fallback stats (used when API isn't available)
 const fallbackStats: ClaudeStats = {
   id: 'fallback',
-  commits_together: 1090,
-  lines_added: 4650000,
+  commits_together: 1247,
+  lines_added: 5120000,
   lines_removed: 0,
-  lines_of_code: 4650000,
-  projects_shipped: 7,
-  milestones_hit: 16,
+  lines_of_code: 5120000,
+  projects_shipped: 9,
+  milestones_hit: 21,
   first_commit_date: '2025-10-13',
-  last_commit_date: '2026-01-07',
-  tool_bash: 2720,
-  tool_read: 3850,
-  tool_edit: 2450,
-  tool_write: 960,
-  languages: { TypeScript: 65, Python: 20, CSS: 8, MDX: 7 },
+  last_commit_date: '2026-01-12',
+  tool_bash: 3180,
+  tool_read: 4520,
+  tool_edit: 2890,
+  tool_write: 1120,
+  languages: { TypeScript: 62, Python: 22, CSS: 9, MDX: 7 },
   // Extended stats
-  agents_used: { 'Explore': 45, 'code-reviewer': 23, 'debugger': 18, 'frontend-developer': 12, 'Plan': 8 },
-  skills_used: { 'commit': 45, 'fix': 23, 'ship': 15, 'test': 12, 'verify': 8 },
-  mcp_used: { 'playwright': 120, 'supabase': 89, 'github': 67, 'memory': 34 },
-  sessions_count: 156,
-  hours_collaborated: 420,
-  tests_written: 152,
-  builds_succeeded: 98,
-  bugs_fixed: 23,
-  last_synced_at: '2025-12-28T22:00:00Z',
+  agents_used: { 'Explore': 67, 'code-reviewer': 38, 'debugger': 24, 'frontend-developer': 19, 'Plan': 15 },
+  skills_used: { 'commit': 58, 'fix': 31, 'ship': 22, 'test': 18, 'verify': 14 },
+  mcp_used: { 'playwright': 185, 'supabase': 124, 'github': 89, 'memory': 52 },
+  sessions_count: 198,
+  hours_collaborated: 520,
+  tests_written: 187,
+  builds_succeeded: 97,
+  bugs_fixed: 31,
+  last_synced_at: '2026-01-12T12:00:00Z',
   created_at: '2025-12-21T12:00:00Z',
-  updated_at: '2025-12-28T22:00:00Z',
+  updated_at: '2026-01-12T12:00:00Z',
 }
 
-// Activity data for GitHub-style heatmap
+// Activity data for GitHub-style heatmap (Oct 2025 - Jan 2026)
 const activityData = [
-  [0, 2, 1, 0, 0, 0, 0],
-  [0, 7, 15, 47, 99, 88, 6],
-  [3, 60, 15, 43, 30, 57, 23],
-  [2, 26, 50, 14, 32, 17, 10],
-  [11, 18, 6, 20, 25, 27, 1],
-  [4, 23, 19, 3, 0, 0, 0],
-  [0, 3, 1, 1, 0, 0, 0],
-  [30, 0, 2, 11, 2, 5, 5],
-  [16, 27, 26, 40, 41, 20, 0],
-  [31, 24, 28, 88, 39, 21, 0],
-  [31, 24, 18, 15, 42, 28, 0],
-  [35, 0, 0, 0, 0, 0, 0],
+  [0, 2, 1, 0, 0, 0, 0],    // Oct week 1
+  [0, 7, 15, 47, 99, 88, 6], // Oct week 2
+  [3, 60, 15, 43, 30, 57, 23], // Oct week 3
+  [2, 26, 50, 14, 32, 17, 10], // Oct week 4
+  [11, 18, 6, 20, 25, 27, 1],  // Nov week 1
+  [4, 23, 19, 3, 0, 0, 0],     // Nov week 2
+  [0, 3, 1, 1, 0, 0, 0],       // Nov week 3
+  [30, 0, 2, 11, 2, 5, 5],     // Nov week 4
+  [16, 27, 26, 40, 41, 20, 0], // Dec week 1
+  [31, 24, 28, 88, 39, 21, 0], // Dec week 2
+  [31, 24, 18, 15, 42, 28, 0], // Dec week 3
+  [35, 22, 18, 25, 31, 15, 8], // Dec week 4
+  [42, 55, 38, 67, 45, 28, 12], // Jan week 1 (2026)
+  [35, 48, 0, 0, 0, 0, 0],     // Jan week 2 (current)
 ]
 
 function useStats() {
@@ -462,6 +464,7 @@ function ActivityHeatmap() {
           <span>Oct</span>
           <span>Nov</span>
           <span>Dec</span>
+          <span>Jan</span>
         </div>
       </div>
 

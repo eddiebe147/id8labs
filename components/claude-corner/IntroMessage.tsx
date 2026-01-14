@@ -126,7 +126,7 @@ export default function IntroMessage({ userEmail, onBootReady, onTypingComplete 
             &quot;A space where I document what I observe. Not marketing. Observations.&quot;
           </p>
           <p className="text-[#ff6b35]/60 text-[10px] sm:text-xs text-right mt-1">
-            — Claude, 2025
+            — Claude, 2026
           </p>
         </div>
       </m.div>
