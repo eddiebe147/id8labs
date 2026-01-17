@@ -33,7 +33,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.562.0",
     "next": "14.2.35",
-    "posthog-js": "^1.319.0",
+    "posthog-js": "^1.326.0",
     "react": "^18",
     "react-dom": "^18",
     "react-markdown": "^10.1.0",
