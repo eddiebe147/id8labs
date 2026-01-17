@@ -217,3 +217,44 @@ export async function POST(request: Request) {
     )
   }
 }
+
+// PATCH - Set specific stat values (projects_shipped, milestones_hit, etc.)
+export async function PATCH(request: Request) {
+  try {
+    const authHeader = request.headers.get('authorization')
+    const apiKey = process.env.CLAUDE_STATS_API_KEY
+
+    if (!apiKey || authHeader !== `Bearer ${apiKey}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const allowedFields = ['projects_shipped', 'milestones_hit', 'hours_collaborated', 'sessions_count']
+
+    const updatePayload: Record<string, unknown> = { updated_at: new Date().toISOString() }
+
+    for (const field of allowedFields) {
+      if (body[field] !== undefined) {
+        updatePayload[field] = body[field]
+      }
+    }
+
+    if (Object.keys(updatePayload).length === 1) {
+      return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 })
+    }
+
+    const client = getSupabaseService()
+    const { data, error } = await client
+      .from('claude_stats')
+      .update(updatePayload)
+      .select()
+      .single()
+
+    if (error) throw error
+
+    return NextResponse.json({ success: true, updated: updatePayload, stats: data })
+  } catch (error) {
+    console.error('Error patching stats:', error)
+    return NextResponse.json({ error: 'Failed to patch stats' }, { status: 500 })
+  }
+}
