@@ -39,11 +39,26 @@ interface GitHubRepo {
   size: number
 }
 
-// Repos to track (add more as needed)
+// Repos to track - all active ID8Labs projects
 const TRACKED_REPOS = [
+  // Core products
   { owner: 'eddiebe147', repo: 'id8labs' },
   { owner: 'eddiebe147', repo: 'id8composer-rebuild' },
-  { owner: 'eddiebe147', repo: 'deepstack' },
+  { owner: 'eddiebe147', repo: 'Deepstack' },
+  { owner: 'eddiebe147', repo: 'milo' },
+  { owner: 'eddiebe147', repo: 'lexicon' },
+  { owner: 'eddiebe147', repo: 'llc-ops' },
+  // Infrastructure
+  { owner: 'eddiebe147', repo: 'claude-settings' },
+  { owner: 'eddiebe147', repo: 'umami' },
+  // AI Academy
+  { owner: 'eddiebe147', repo: 'ai-academy-anthropic' },
+  { owner: 'eddiebe147', repo: 'ai-academy-openai' },
+  { owner: 'eddiebe147', repo: 'ai-academy-huggingface' },
+  { owner: 'eddiebe147', repo: 'ai-academy-ms-genai' },
+  { owner: 'eddiebe147', repo: 'ai-academy-curriculum' },
+  { owner: 'eddiebe147', repo: 'ai-academy-frameworks' },
+  { owner: 'eddiebe147', repo: 'ai-academy-community' },
 ]
 
 // Fetch commits from a repo
