@@ -244,9 +244,22 @@ export async function PATCH(request: Request) {
     }
 
     const client = getSupabaseService()
+
+    // Get the stats row first
+    const { data: current, error: fetchError } = await client
+      .from('claude_stats')
+      .select('id')
+      .limit(1)
+      .single()
+
+    if (fetchError || !current) {
+      return NextResponse.json({ error: 'Stats row not found' }, { status: 404 })
+    }
+
     const { data, error } = await client
       .from('claude_stats')
       .update(updatePayload)
+      .eq('id', current.id)
       .select()
       .single()
 
