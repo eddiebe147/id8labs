@@ -42,6 +42,32 @@ This test suite provides comprehensive integration and unit testing for the ID8L
    - Product validation
    - Type safety
 
+6. **tests/hooks/useAnnotations.test.ts** - Annotations hook tests (26 tests)
+   - Initial fetch behavior (authenticated/unauthenticated)
+   - Highlight CRUD operations
+   - Note CRUD operations
+   - Stats updates
+   - Module filtering
+   - Error handling
+
+### API Integration Tests
+
+7. **tests/api/annotations.integration.test.ts** - Annotations API tests (18 tests)
+   - POST /api/annotations/highlights
+   - POST /api/annotations/notes
+   - Authentication validation
+   - Input validation
+   - Database error handling
+
+### End-to-End Tests
+
+8. **e2e/annotations.spec.ts** - Annotations UI tests (18 tests, ready when UI implemented)
+   - Notes sidebar interactions
+   - Tab navigation (Highlights, Notes, AI)
+   - Unauthenticated user experience
+   - Accessibility
+   - Mobile responsiveness
+
 ## Test Structure
 
 All tests follow these patterns:
@@ -70,10 +96,13 @@ npm test -- --coverage
 
 ## Current Test Status
 
-### Passing Tests (105/126)
+### Passing Tests
 - All lib/stripe tests (25/25)
 - All lib/purchase tests (22/22)
-- Most API leads tests (17/18)  
+- Most API leads tests (17/18)
+- **All annotations hook tests (26/26)** ✅
+- **All annotations API tests (18/18)** ✅
+- E2E annotations tests (18 tests, skipped until UI implemented)  
 
 ### Known Issues
 

@@ -115,46 +115,27 @@ export function NotesSidebar() {
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto p-4">
-              {!isAuthenticated ? (
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                  <LockIcon />
-                  <p className="mt-4 text-[var(--text-secondary)]">
-                    Sign in to save your highlights and notes
-                  </p>
-                  <a
-                    href="/auth/login"
-                    className="mt-4 px-4 py-2 bg-id8-orange text-white rounded-lg hover:bg-id8-orange/90 transition-colors"
-                  >
-                    Sign In
-                  </a>
-                </div>
-              ) : loading ? (
-                <div className="flex items-center justify-center h-32">
-                  <div className="animate-spin w-6 h-6 border-2 border-id8-orange border-t-transparent rounded-full" />
-                </div>
-              ) : activeTab === 'highlights' ? (
-                <HighlightsTab highlights={moduleHighlights} />
-              ) : activeTab === 'notes' ? (
-                <NotesTab
-                  notes={moduleNotes}
-                  isAddingNote={isAddingNote}
-                  setIsAddingNote={setIsAddingNote}
-                  newNoteTitle={newNoteTitle}
-                  setNewNoteTitle={setNewNoteTitle}
-                  newNoteContent={newNoteContent}
-                  setNewNoteContent={setNewNoteContent}
-                  onCreateNote={handleCreateNote}
-                  isCreating={isCreating}
-                />
-              ) : (
-                <AITab
-                  courseSlug={courseSlug}
-                  moduleSlug={moduleSlug}
-                  hasAnnotations={highlightCount + noteCount >= 3}
-                  aiAction={aiAction}
-                  setAiAction={setAiAction}
-                />
-              )}
+              <SidebarContent
+                isAuthenticated={isAuthenticated}
+                loading={loading}
+                activeTab={activeTab}
+                moduleHighlights={moduleHighlights}
+                moduleNotes={moduleNotes}
+                isAddingNote={isAddingNote}
+                setIsAddingNote={setIsAddingNote}
+                newNoteTitle={newNoteTitle}
+                setNewNoteTitle={setNewNoteTitle}
+                newNoteContent={newNoteContent}
+                setNewNoteContent={setNewNoteContent}
+                onCreateNote={handleCreateNote}
+                isCreating={isCreating}
+                courseSlug={courseSlug}
+                moduleSlug={moduleSlug}
+                highlightCount={highlightCount}
+                noteCount={noteCount}
+                aiAction={aiAction}
+                setAiAction={setAiAction}
+              />
             </div>
 
             {/* Footer - View All Notes */}
@@ -170,6 +151,106 @@ export function NotesSidebar() {
         </>
       )}
     </AnimatePresence>
+  )
+}
+
+// Sidebar Content - handles auth, loading, and tab rendering
+interface SidebarContentProps {
+  isAuthenticated: boolean
+  loading: boolean
+  activeTab: 'highlights' | 'notes' | 'ai'
+  moduleHighlights: ReturnType<typeof useAnnotationContext>['moduleHighlights']
+  moduleNotes: ReturnType<typeof useAnnotationContext>['moduleNotes']
+  isAddingNote: boolean
+  setIsAddingNote: (value: boolean) => void
+  newNoteTitle: string
+  setNewNoteTitle: (value: string) => void
+  newNoteContent: string
+  setNewNoteContent: (value: string) => void
+  onCreateNote: () => void
+  isCreating: boolean
+  courseSlug: string
+  moduleSlug: string
+  highlightCount: number
+  noteCount: number
+  aiAction: 'summarize' | 'connections' | null
+  setAiAction: (action: 'summarize' | 'connections' | null) => void
+}
+
+function SidebarContent({
+  isAuthenticated,
+  loading,
+  activeTab,
+  moduleHighlights,
+  moduleNotes,
+  isAddingNote,
+  setIsAddingNote,
+  newNoteTitle,
+  setNewNoteTitle,
+  newNoteContent,
+  setNewNoteContent,
+  onCreateNote,
+  isCreating,
+  courseSlug,
+  moduleSlug,
+  highlightCount,
+  noteCount,
+  aiAction,
+  setAiAction,
+}: SidebarContentProps) {
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-center">
+        <LockIcon />
+        <p className="mt-4 text-[var(--text-secondary)]">
+          Sign in to save your highlights and notes
+        </p>
+        <a
+          href="/auth/login"
+          className="mt-4 px-4 py-2 bg-id8-orange text-white rounded-lg hover:bg-id8-orange/90 transition-colors"
+        >
+          Sign In
+        </a>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-32">
+        <div className="animate-spin w-6 h-6 border-2 border-id8-orange border-t-transparent rounded-full" />
+      </div>
+    )
+  }
+
+  if (activeTab === 'highlights') {
+    return <HighlightsTab highlights={moduleHighlights} />
+  }
+
+  if (activeTab === 'notes') {
+    return (
+      <NotesTab
+        notes={moduleNotes}
+        isAddingNote={isAddingNote}
+        setIsAddingNote={setIsAddingNote}
+        newNoteTitle={newNoteTitle}
+        setNewNoteTitle={setNewNoteTitle}
+        newNoteContent={newNoteContent}
+        setNewNoteContent={setNewNoteContent}
+        onCreateNote={onCreateNote}
+        isCreating={isCreating}
+      />
+    )
+  }
+
+  return (
+    <AITab
+      courseSlug={courseSlug}
+      moduleSlug={moduleSlug}
+      hasAnnotations={highlightCount + noteCount >= 3}
+      aiAction={aiAction}
+      setAiAction={setAiAction}
+    />
   )
 }
 

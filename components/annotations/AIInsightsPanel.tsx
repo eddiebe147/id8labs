@@ -29,26 +29,30 @@ export function AIInsightsPanel({
   const [error, setError] = useState<string | null>(null)
   const [hasGenerated, setHasGenerated] = useState(false)
 
-  const actionConfig: Record<AIAction, { endpoint: string; buttonText: string; title: string }> = {
+  const actionConfig: Record<AIAction, { endpoint: string; buttonText: string; title: string; description: string }> = {
     summarize: {
       endpoint: '/api/annotations/ai/summarize',
       buttonText: 'Summarize My Notes',
       title: 'AI Summary',
+      description: 'Get an AI-powered summary of your highlights and notes.',
     },
     connections: {
       endpoint: '/api/annotations/ai/connections',
       buttonText: 'Find Connections',
       title: 'Connections & Patterns',
+      description: 'Discover patterns and themes across your annotations.',
     },
     expand: {
       endpoint: '/api/annotations/ai/expand',
       buttonText: 'Expand This',
       title: 'Expanded Insight',
+      description: 'Turn this highlight into a richer, more detailed note.',
     },
     'study-guide': {
       endpoint: '/api/annotations/ai/study-guide',
       buttonText: 'Generate Study Guide',
       title: 'Your Study Guide',
+      description: 'Create a personalized study guide from your annotations.',
     },
   }
 
@@ -134,10 +138,7 @@ export function AIInsightsPanel({
               className="text-center py-6"
             >
               <p className="text-sm text-[var(--text-secondary)] mb-4">
-                {action === 'summarize' && 'Get an AI-powered summary of your highlights and notes.'}
-                {action === 'connections' && 'Discover patterns and themes across your annotations.'}
-                {action === 'expand' && 'Turn this highlight into a richer, more detailed note.'}
-                {action === 'study-guide' && 'Create a personalized study guide from your annotations.'}
+                {config.description}
               </p>
               <button
                 onClick={generateInsight}

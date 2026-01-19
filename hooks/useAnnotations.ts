@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import type {
   Highlight,
   Note,
-  HighlightColor,
   CreateHighlightInput,
   UpdateHighlightInput,
   CreateNoteInput,
@@ -97,14 +96,9 @@ export function useAnnotations(options: UseAnnotationsOptions = {}): UseAnnotati
     }
   }, [buildQueryParams])
 
-  // Initial fetch
   useEffect(() => {
     fetchAnnotations()
   }, [fetchAnnotations])
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  // Highlight Operations
-  // ═══════════════════════════════════════════════════════════════════════════
 
   const createHighlight = useCallback(
     async (input: CreateHighlightInput): Promise<Highlight | null> => {
@@ -224,10 +218,6 @@ export function useAnnotations(options: UseAnnotationsOptions = {}): UseAnnotati
     },
     [highlights]
   )
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  // Note Operations
-  // ═══════════════════════════════════════════════════════════════════════════
 
   const createNote = useCallback(
     async (input: CreateNoteInput): Promise<Note | null> => {
@@ -366,10 +356,6 @@ export function useAnnotations(options: UseAnnotationsOptions = {}): UseAnnotati
     isAuthenticated,
   }
 }
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Module-specific hook for simpler usage in module pages
-// ═══════════════════════════════════════════════════════════════════════════
 
 export function useModuleAnnotations(courseSlug: string, moduleSlug: string) {
   const annotations = useAnnotations({ courseSlug, moduleSlug })

@@ -39,25 +39,24 @@ export function HighlightPopover({
   const [isCreating, setIsCreating] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
 
-  // Close on click outside
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    function handleClickOutside(e: MouseEvent): void {
       if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
         onClose()
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [onClose])
-
-  // Close on escape
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
+    function handleEscape(e: KeyboardEvent): void {
       if (e.key === 'Escape') onClose()
     }
+
+    document.addEventListener('mousedown', handleClickOutside)
     document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
   }, [onClose])
 
   const handleHighlight = async (color: HighlightColor, withNote = false) => {

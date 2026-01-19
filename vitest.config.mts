@@ -29,9 +29,11 @@ export default defineConfig({
       include: [
         'app/api/stripe/**/*.ts',
         'app/api/leads/**/*.ts',
+        'app/api/annotations/**/*.ts',
         'lib/purchase.ts',
         'lib/stripe.ts',
         'lib/tool-factory/**/*.ts',
+        'hooks/useAnnotations.ts',
         'middleware.ts',
       ],
       exclude: [
