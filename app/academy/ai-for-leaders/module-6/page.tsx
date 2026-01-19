@@ -4,6 +4,7 @@ import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
 import { ModuleComplete } from '@/components/progress'
+import { ModuleAnnotations } from '@/components/annotations'
 
 // Animation variants
 const fadeUp = {
@@ -84,6 +85,7 @@ const LinkIcon = () => (
 
 export default function Module6Page() {
   return (
+    <ModuleAnnotations courseSlug="ai-for-leaders" moduleSlug="module-6">
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative py-20 bg-zone-text">
@@ -875,5 +877,6 @@ export default function Module6Page() {
         </div>
       </section>
     </div>
+    </ModuleAnnotations>
   )
 }

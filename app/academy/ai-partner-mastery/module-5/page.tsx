@@ -4,6 +4,7 @@ import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
 import { ModuleComplete } from '@/components/progress'
+import { ModuleAnnotations } from '@/components/annotations'
 
 // Animation variants
 const fadeUp = {
@@ -55,6 +56,7 @@ const LayersIcon = () => (
 
 export default function Module5Page() {
   return (
+    <ModuleAnnotations courseSlug="ai-partner-mastery" moduleSlug="module-5">
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative py-20 bg-zone-text">
@@ -553,5 +555,6 @@ Then, for each condition, let's break it down further until we get to concrete, 
         </div>
       </section>
     </div>
+    </ModuleAnnotations>
   )
 }

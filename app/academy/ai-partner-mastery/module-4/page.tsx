@@ -4,6 +4,7 @@ import { m } from '@/components/motion'
 import Link from 'next/link'
 import CourseProgress from '@/components/CourseProgress'
 import { ModuleComplete } from '@/components/progress'
+import { ModuleAnnotations } from '@/components/annotations'
 
 // Animation variants
 const fadeUp = {
@@ -54,6 +55,7 @@ const RefreshIcon = () => (
 
 export default function Module4Page() {
   return (
+    <ModuleAnnotations courseSlug="ai-partner-mastery" moduleSlug="module-4">
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative py-20 bg-zone-text">
@@ -571,5 +573,6 @@ Rewrite your version to match those qualities, but keep the substance the same."
         </div>
       </section>
     </div>
+    </ModuleAnnotations>
   )
 }
