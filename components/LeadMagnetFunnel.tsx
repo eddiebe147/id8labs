@@ -17,6 +17,7 @@ type FunnelStep = 'assessment' | 'results' | 'checklist' | 'success'
 const HIDDEN_ROUTES = [
   '/stackshack',   // Has its own checkout flow
   '/courses',      // All course pages and modules
+  '/academy',      // Academy pages have notes sidebar
   '/privacy',      // Legal
   '/terms',        // Legal
   '/contact',      // Has its own CTA
