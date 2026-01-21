@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Instrument_Serif, Fraunces } from 'next/font/google'
+import { Inter, Instrument_Serif, Fraunces, Press_Start_2P } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import Header from '@/components/Header'
@@ -26,6 +26,13 @@ const fraunces = Fraunces({
   weight: ['900'],
   display: 'swap',
   variable: '--font-fraunces',
+})
+
+const pressStart = Press_Start_2P({
+  subsets: ['latin'],
+  weight: ['400'],
+  display: 'swap',
+  variable: '--font-press-start',
 })
 
 export const metadata: Metadata = {
@@ -104,7 +111,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable}`}>
+      <body className={`${inter.variable} ${instrumentSerif.variable} ${fraunces.variable} ${pressStart.variable}`}>
         <GoogleAnalytics />
         <UmamiAnalytics />
         {/* Neural Network Background - "Thoughtful Brain" settings */}
