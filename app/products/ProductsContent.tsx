@@ -49,6 +49,30 @@ const flagshipProducts: FlagshipProduct[] = [
     accentColor: 'orange',
   },
   {
+    name: 'HOMER',
+    tagline: 'Deal & Negotiation Automation',
+    description: 'Parse contracts, coordinate calendars, track deadlines, automate compliance. HOMER manages the entire deal lifecycle—from contract to close. Built to eliminate deal friction.',
+    version: 'v1.0 Free',
+    status: 'live',
+    link: '/products/homer',
+    external: false,
+    image: '/products/homer/homer-dashboard.png',
+    features: [
+      'Contract parsing & extraction',
+      'Multi-party calendar sync',
+      'Deadline & compliance tracking',
+      'Deal health intelligence',
+      'AI-powered communication',
+      'Unlimited deal storage (Pro)',
+    ],
+    specs: [
+      { label: 'Platform', value: 'Web App' },
+      { label: 'AI Model', value: 'Claude' },
+      { label: 'Price', value: 'Free + Pro' },
+    ],
+    accentColor: 'blue',
+  },
+  {
     name: 'DeepStack',
     tagline: 'Trading Research with Claude',
     description: '30+ analysis tools, thesis tracking, emotion-aware journaling. Blocks revenge trades. Built to protect you from yourself while making better decisions.',
@@ -147,6 +171,7 @@ function FlagshipCard({ product, index }: { product: FlagshipProduct; index: num
     orange: 'border-[var(--id8-orange)]/30 shadow-[0_0_30px_rgba(255,107,0,0.15)]',
     green: 'border-green-500/30 shadow-[0_0_30px_rgba(34,197,94,0.15)]',
     emerald: 'border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)]',
+    blue: 'border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.15)]',
   }
 
   return (
