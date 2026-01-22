@@ -67,6 +67,23 @@ function MiloPreview() {
   )
 }
 
+function HomerPreview() {
+  return (
+    <div className="relative w-full h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden border-2 border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.15)]">
+      <Image
+        src="/products/homer/homer-dashboard.png"
+        alt="HOMER - Deal and negotiation automation platform"
+        fill
+        className="object-cover object-top"
+        sizes="(max-width: 768px) 100vw, 50vw"
+        priority
+      />
+      {/* Subtle gradient overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+    </div>
+  )
+}
+
 // Featured products with screenshots
 const featuredProducts: Product[] = [
   {
@@ -77,6 +94,15 @@ const featuredProducts: Product[] = [
     link: 'https://id8composer.app',
     external: true,
     category: 'creators',
+  },
+  {
+    name: 'HOMER',
+    status: 'shipping',
+    statusLabel: 'v1.0 • Live',
+    description: 'Deal automation from contract to close. Parse contracts, coordinate calendars, track deadlines, automate compliance. Deals don\'t manage themselves.',
+    link: '/products/homer',
+    external: false,
+    category: 'builders',
   },
   {
     name: 'DeepStack',
@@ -131,6 +157,8 @@ function FeaturedCard({ product, index }: { product: Product; index: number }) {
     switch (product.name) {
       case 'Composer':
         return <ComposerPreview />
+      case 'HOMER':
+        return <HomerPreview />
       case 'DeepStack':
         return <DeepStackPreview />
       case 'MILO':
