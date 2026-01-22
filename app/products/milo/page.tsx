@@ -495,6 +495,90 @@ export default function MILOLandingPage() {
         </div>
       </section>
 
+      {/* SECTION 4.5: DEVELOPER SETUP - CLAUDE CODE INTEGRATION */}
+      <section className="relative min-h-[60vh] flex items-center justify-center px-6 py-20">
+        <div className="max-w-4xl w-full space-y-12">
+          <ScrollReveal delay={0.1} direction="up">
+            <div className="text-center space-y-4">
+              <GlowText
+                as="h2"
+                glow="high"
+                color="green"
+                className="text-3xl md:text-5xl font-bold uppercase leading-tight"
+              >
+                For Developers.
+              </GlowText>
+              <GlowText
+                as="p"
+                glow="medium"
+                color="green"
+                className="text-2xl md:text-4xl font-bold uppercase"
+              >
+                Zero Setup.
+              </GlowText>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.2} direction="up">
+            <div className="text-center max-w-3xl mx-auto">
+              <GlowText
+                as="p"
+                glow="low"
+                color="dim"
+                className="text-lg md:text-xl leading-relaxed"
+              >
+                Don't want to download? No problem. One command in Claude Code and MILO is running from source.
+              </GlowText>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.3}>
+            <div className="border-2 border-[#00ff41] border-opacity-30 bg-[#000a00] rounded-lg p-8 space-y-4 font-mono text-sm md:text-base">
+              <div className="text-[#00ff41]">$ bash &lt;(curl -s https://raw.githubusercontent.com/eddiebe147/milo/main/scripts/setup-claude.sh) YOUR_API_KEY</div>
+              <div className="text-[#666666] text-xs md:text-sm leading-relaxed space-y-2 pt-4">
+                <div>• Clones the repo</div>
+                <div>• Installs dependencies</div>
+                <div>• Configures your API key</div>
+                <div>• Launches MILO in dev mode</div>
+                <div>• Opens in your browser</div>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.4} direction="up">
+            <div className="space-y-4 text-center">
+              <GlowText
+                as="p"
+                glow="low"
+                color="dim"
+                className="text-lg leading-relaxed"
+              >
+                Or just ask Claude Code naturally:
+              </GlowText>
+              <div className="text-lg md:text-xl text-[#00ff41] italic font-mono">
+                "Set up and run MILO with my Claude API key"
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.5} direction="up">
+            <div className="flex justify-center">
+              <GlowButton
+                variant="secondary"
+                size="lg"
+                href="https://github.com/eddiebe147/milo/blob/main/CLAUDE.md"
+                onClick={(e) => {
+                  e.preventDefault()
+                  window.open('https://github.com/eddiebe147/milo/blob/main/CLAUDE.md', '_blank')
+                }}
+              >
+                Full Integration Guide
+              </GlowButton>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* SECTION 5: CTA / CLOSE (50vh) */}
       <section
         id="waitlist"
