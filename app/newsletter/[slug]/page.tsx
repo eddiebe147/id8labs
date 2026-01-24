@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getIssueBySlug, getAllIssues } from '@/lib/newsletter/issues'
+import { getIssueBySlug, getAllIssues, isEssay } from '@/lib/newsletter/issues'
 import { NewsletterSubscribe } from '@/components/newsletter'
 
 interface PageProps {
@@ -14,19 +14,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!issue) {
     return {
-      title: 'Issue Not Found | signal:noise',
+      title: 'Issue Not Found | Signal:Noise',
     }
   }
 
-  // Strip HTML tags for meta description
-  const cleanDescription = issue.bigIdea.content.substring(0, 155).replace(/<[^>]*>/g, '')
+  // Get description based on format
+  const description = isEssay(issue)
+    ? issue.content.substring(0, 155).replace(/[*#_\-]/g, '')
+    : issue.bigIdea.content.substring(0, 155).replace(/<[^>]*>/g, '')
+
+  const title = isEssay(issue) ? issue.title : issue.subject
 
   return {
-    title: `${issue.subject} | signal:noise`,
-    description: cleanDescription,
+    title: `${title} | Signal:Noise`,
+    description,
     openGraph: {
-      title: issue.subject,
-      description: cleanDescription,
+      title,
+      description,
     },
   }
 }
@@ -79,6 +83,135 @@ function renderListItem(html: string): React.ReactNode {
   })
 }
 
+/**
+ * Render markdown-style essay content
+ */
+function renderEssayContent(content: string): React.ReactNode[] {
+  const lines = content.split('\n')
+  const elements: React.ReactNode[] = []
+  let currentParagraph: string[] = []
+  let inList = false
+  let listItems: string[] = []
+
+  const flushParagraph = () => {
+    if (currentParagraph.length > 0) {
+      const text = currentParagraph.join(' ')
+      if (text.trim()) {
+        elements.push(
+          <p key={elements.length} className="mb-6 text-[var(--text-secondary)] leading-relaxed">
+            {renderMarkdownInline(text)}
+          </p>
+        )
+      }
+      currentParagraph = []
+    }
+  }
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      elements.push(
+        <ul key={elements.length} className="mb-6 space-y-2 text-[var(--text-secondary)]">
+          {listItems.map((item, idx) => (
+            <li key={idx} className="flex gap-2">
+              <span className="text-[var(--id8-orange)]">-</span>
+              <span>{renderMarkdownInline(item)}</span>
+            </li>
+          ))}
+        </ul>
+      )
+      listItems = []
+      inList = false
+    }
+  }
+
+  for (const line of lines) {
+    // Horizontal rule
+    if (line.match(/^-{3,}$/)) {
+      flushParagraph()
+      flushList()
+      elements.push(<hr key={elements.length} className="border-[var(--border)] my-10" />)
+      continue
+    }
+
+    // Headers
+    if (line.startsWith('## ')) {
+      flushParagraph()
+      flushList()
+      elements.push(
+        <h2 key={elements.length} className="text-2xl font-bold text-[var(--text-primary)] mt-10 mb-4">
+          {line.substring(3)}
+        </h2>
+      )
+      continue
+    }
+
+    if (line.startsWith('### ')) {
+      flushParagraph()
+      flushList()
+      elements.push(
+        <h3 key={elements.length} className="text-xl font-bold text-[var(--text-primary)] mt-8 mb-3">
+          {line.substring(4)}
+        </h3>
+      )
+      continue
+    }
+
+    // List items
+    if (line.startsWith('- ')) {
+      flushParagraph()
+      inList = true
+      listItems.push(line.substring(2))
+      continue
+    }
+
+    // Numbered list items
+    if (line.match(/^\d+\.\s/)) {
+      flushParagraph()
+      if (!inList) {
+        flushList()
+      }
+      inList = true
+      listItems.push(line.replace(/^\d+\.\s/, ''))
+      continue
+    }
+
+    // Empty line - flush paragraph
+    if (line.trim() === '') {
+      flushParagraph()
+      flushList()
+      continue
+    }
+
+    // Regular text
+    if (inList) {
+      flushList()
+    }
+    currentParagraph.push(line)
+  }
+
+  flushParagraph()
+  flushList()
+
+  return elements
+}
+
+/**
+ * Render inline markdown (bold, italic)
+ */
+function renderMarkdownInline(text: string): React.ReactNode[] {
+  // Handle **bold** and *italic*
+  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g)
+  return parts.map((part, idx) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={idx} className="text-[var(--text-primary)] font-semibold">{part.slice(2, -2)}</strong>
+    }
+    if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
+      return <em key={idx}>{part.slice(1, -1)}</em>
+    }
+    return part
+  })
+}
+
 export default async function NewsletterIssuePage({ params }: PageProps) {
   const { slug } = await params
   const issue = getIssueBySlug(slug)
@@ -87,6 +220,100 @@ export default async function NewsletterIssuePage({ params }: PageProps) {
     notFound()
   }
 
+  // Essay format
+  if (isEssay(issue)) {
+    return (
+      <div className="min-h-screen bg-[var(--bg-primary)]">
+        {/* Header */}
+        <header className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
+          <div className="max-w-4xl mx-auto px-6 py-4">
+            <Link
+              href="/newsletter"
+              className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Archive
+            </Link>
+          </div>
+        </header>
+
+        {/* Essay Content */}
+        <article className="max-w-3xl mx-auto px-6 py-12">
+          {/* Essay Header */}
+          <header className="mb-12">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-sm font-medium text-[var(--id8-orange)]">
+                Issue #{issue.issueNumber}
+              </span>
+              <span className="text-sm text-[var(--text-tertiary)]">
+                {issue.date}
+              </span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4">
+              {issue.title}
+            </h1>
+            {issue.subtitle && (
+              <p className="text-lg text-[var(--text-secondary)] italic">
+                {issue.subtitle}
+              </p>
+            )}
+            <p className="mt-4 text-sm text-[var(--text-tertiary)]">
+              by {issue.author}
+            </p>
+          </header>
+
+          {issue.heroImage && (
+            <div className="mb-10">
+              <img
+                src={issue.heroImage}
+                alt={issue.heroAlt || issue.title}
+                className="w-full rounded-lg"
+              />
+            </div>
+          )}
+
+          <hr className="border-[var(--border)] mb-10" />
+
+          {/* Essay Body */}
+          <div className="prose-custom">
+            {renderEssayContent(issue.content)}
+          </div>
+
+          {/* Author Bio */}
+          {issue.authorBio && (
+            <section className="mt-12 pt-8 border-t border-[var(--border)]">
+              <p className="text-sm text-[var(--text-tertiary)] italic">
+                {issue.authorBio}
+              </p>
+            </section>
+          )}
+        </article>
+
+        {/* Subscribe CTA */}
+        <section className="py-16 bg-[var(--bg-secondary)] border-t border-[var(--border)]">
+          <div className="max-w-2xl mx-auto px-6 text-center">
+            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">
+              Want more essays like this?
+            </h2>
+            <p className="text-[var(--text-secondary)] mb-8">
+              Subscribe to Signal:Noise for essays on building, thinking, and the patterns that transfer.
+            </p>
+            <NewsletterSubscribe
+              variant="inline"
+              source={`newsletter-issue-${issue.issueNumber}`}
+              title=""
+              description=""
+              buttonText="Subscribe"
+            />
+          </div>
+        </section>
+      </div>
+    )
+  }
+
+  // Legacy structured format
   return (
     <div className="min-h-screen bg-[var(--bg-primary)]">
       {/* Header */}
@@ -149,7 +376,7 @@ export default async function NewsletterIssuePage({ params }: PageProps) {
           </p>
           {issue.framework.steps && (
             <ol className="list-decimal list-inside space-y-2 text-[var(--text-secondary)]">
-              {issue.framework.steps.map((step, idx) => (
+              {issue.framework.steps.map((step: string, idx: number) => (
                 <li key={idx} className="leading-relaxed">
                   {renderListItem(step)}
                 </li>
@@ -237,7 +464,7 @@ export default async function NewsletterIssuePage({ params }: PageProps) {
             Want more insights like this?
           </h2>
           <p className="text-[var(--text-secondary)] mb-8">
-            Subscribe to signal:noise and get weekly frameworks, case studies, and actionable insights.
+            Subscribe to Signal:Noise for essays on building, thinking, and the patterns that transfer.
           </p>
           <NewsletterSubscribe
             variant="inline"

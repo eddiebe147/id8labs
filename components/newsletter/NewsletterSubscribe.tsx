@@ -19,8 +19,8 @@ interface NewsletterSubscribeProps {
 export default function NewsletterSubscribe({
   variant = 'inline',
   source = 'website',
-  title = 'The Innovation Brief',
-  description = 'Weekly insights on AI, automation, and building the future.',
+  title = 'Signal:Noise',
+  description = 'Essays on building, thinking, and the patterns that transfer.',
   buttonText = 'Subscribe',
   className = '',
   showPrivacyNote = true,
@@ -82,7 +82,7 @@ export default function NewsletterSubscribe({
         </svg>
       </div>
       <p className="text-[var(--text-primary)] text-sm">
-        You're subscribed to The Innovation Brief! Check your inbox.
+        You're subscribed to Signal:Noise! Check your inbox.
       </p>
     </m.div>
   )
@@ -248,7 +248,7 @@ export default function NewsletterSubscribe({
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">
-              Welcome to The Innovation Brief!
+              Welcome to Signal:Noise!
             </h3>
             <p className="text-[var(--text-secondary)]">
               Check your inbox for a confirmation email.

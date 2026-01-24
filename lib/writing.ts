@@ -47,10 +47,10 @@ function newsletterToWritingItem(issue: NewsletterIssuePreview): WritingItem {
   return {
     slug: `newsletter/${issue.slug}`,
     title: issue.title,
-    subtitle: issue.bigIdeaTitle,
+    subtitle: issue.subtitle,
     date: issue.date,
     category: 'newsletter',
-    readTime: '5 min read',
+    readTime: issue.isEssay ? '8 min read' : '5 min read',
     excerpt: issue.excerpt,
     tags: ['newsletter', 'signal:noise'],
     issueNumber: issue.issueNumber,

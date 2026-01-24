@@ -1,12 +1,20 @@
 /**
- * Newsletter Issues Management
+ * Newsletter Issues Management - Signal:Noise
  *
  * Handles fetching and managing newsletter issues for the archive page.
+ * Supports both legacy structured format (Issues 1-2) and essay format (Issue 3+).
  * Issues are stored in lib/email/templates/newsletter-template.ts
- * and can also be loaded from content/newsletter MDX files.
  */
 
-import { NEWSLETTER_ISSUE_1, NEWSLETTER_ISSUE_2, type NewsletterIssue } from '@/lib/email/templates/newsletter-template'
+import {
+  NEWSLETTER_ISSUE_1,
+  NEWSLETTER_ISSUE_2,
+  NEWSLETTER_ESSAY_3,
+  type NewsletterIssue,
+  type NewsletterEssay,
+  type NewsletterContent,
+  isEssay,
+} from '@/lib/email/templates/newsletter-template'
 
 export interface NewsletterIssuePreview {
   slug: string
@@ -14,26 +22,41 @@ export interface NewsletterIssuePreview {
   title: string
   date: string
   excerpt: string
-  bigIdeaTitle: string
+  subtitle?: string // For essays
+  isEssay: boolean
 }
 
 // All defined issues (add new issues here)
-const ALL_ISSUES: NewsletterIssue[] = [
+const ALL_ISSUES: NewsletterContent[] = [
   NEWSLETTER_ISSUE_1,
   NEWSLETTER_ISSUE_2,
+  NEWSLETTER_ESSAY_3,
 ]
 
 /**
  * Convert a full issue to a preview for listing
  */
-function issueToPreview(issue: NewsletterIssue): NewsletterIssuePreview {
+function issueToPreview(issue: NewsletterContent): NewsletterIssuePreview {
+  if (isEssay(issue)) {
+    return {
+      slug: `issue-${issue.issueNumber}`,
+      issueNumber: issue.issueNumber,
+      title: issue.title,
+      date: issue.date,
+      excerpt: issue.content.substring(0, 200).replace(/[*#_\-]/g, '').trim() + '...',
+      subtitle: issue.subtitle,
+      isEssay: true,
+    }
+  }
+
+  // Legacy structured format
   return {
     slug: `issue-${issue.issueNumber}`,
     issueNumber: issue.issueNumber,
     title: issue.subject,
     date: issue.date,
     excerpt: issue.bigIdea.content.substring(0, 200).replace(/<[^>]*>/g, '').trim() + '...',
-    bigIdeaTitle: issue.bigIdea.title,
+    isEssay: false,
   }
 }
 
@@ -49,7 +72,7 @@ export function getAllIssues(): NewsletterIssuePreview[] {
 /**
  * Get a specific issue by slug
  */
-export function getIssueBySlug(slug: string): NewsletterIssue | null {
+export function getIssueBySlug(slug: string): NewsletterContent | null {
   const match = slug.match(/^issue-(\d+)$/)
   if (!match) return null
 
@@ -60,7 +83,7 @@ export function getIssueBySlug(slug: string): NewsletterIssue | null {
 /**
  * Get the latest issue
  */
-export function getLatestIssue(): NewsletterIssue | null {
+export function getLatestIssue(): NewsletterContent | null {
   if (ALL_ISSUES.length === 0) return null
   return ALL_ISSUES.reduce((latest, current) =>
     current.issueNumber > latest.issueNumber ? current : latest
@@ -74,5 +97,6 @@ export function getIssueCount(): number {
   return ALL_ISSUES.length
 }
 
-// Re-export types
-export type { NewsletterIssue } from '@/lib/email/templates/newsletter-template'
+// Re-export types and utilities
+export type { NewsletterIssue, NewsletterEssay, NewsletterContent } from '@/lib/email/templates/newsletter-template'
+export { isEssay } from '@/lib/email/templates/newsletter-template'

@@ -3,8 +3,12 @@ import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 import {
   generateNewsletterHtml,
+  generateEssayHtml,
   NEWSLETTER_ISSUE_1,
-  type NewsletterIssue,
+  NEWSLETTER_ISSUE_2,
+  NEWSLETTER_ESSAY_3,
+  type NewsletterContent,
+  isEssay,
 } from '@/lib/email/templates/newsletter-template'
 
 // Email sender address
@@ -30,9 +34,27 @@ const getResend = () => {
   return new Resend(resendApiKey)
 }
 
-// Available newsletter issues
-const NEWSLETTER_ISSUES: Record<number, NewsletterIssue> = {
+// Available newsletter issues (structured + essays)
+const NEWSLETTER_ISSUES: Record<number, NewsletterContent> = {
   1: NEWSLETTER_ISSUE_1,
+  2: NEWSLETTER_ISSUE_2,
+  3: NEWSLETTER_ESSAY_3,
+}
+
+// Generate HTML based on content type
+function generateHtml(content: NewsletterContent, isAcademyMember: boolean): string {
+  if (isEssay(content)) {
+    return generateEssayHtml(content)
+  }
+  return generateNewsletterHtml(content, isAcademyMember)
+}
+
+// Get subject line from content
+function getSubject(content: NewsletterContent): string {
+  if (isEssay(content)) {
+    return content.title
+  }
+  return content.subject
 }
 
 // Verify admin secret for sending newsletters
@@ -82,12 +104,13 @@ export async function POST(request: NextRequest) {
     // Test mode - send to single email
     if (testEmail) {
       const isAcademyMember = audienceFilter === 'academy'
-      const html = generateNewsletterHtml(issue, isAcademyMember)
+      const html = generateHtml(issue, isAcademyMember)
+      const subject = getSubject(issue)
 
       const { error: sendError } = await resend.emails.send({
         from: EMAIL_FROM,
         to: testEmail,
-        subject: `[TEST] ${issue.subject}`,
+        subject: `[TEST] ${subject}`,
         html,
       })
 
@@ -141,14 +164,15 @@ export async function POST(request: NextRequest) {
     results.total = subscribers.length
 
     // Send to each subscriber
+    const subject = getSubject(issue)
     for (const subscriber of subscribers) {
       try {
-        const html = generateNewsletterHtml(issue, subscriber.is_academy_member)
+        const html = generateHtml(issue, subscriber.is_academy_member)
 
         const { error: sendError } = await resend.emails.send({
           from: EMAIL_FROM,
           to: subscriber.email,
-          subject: issue.subject,
+          subject,
           html,
         })
 
@@ -191,17 +215,18 @@ export async function POST(request: NextRequest) {
 
 // GET endpoint to list available issues
 export async function GET() {
-  const issues = Object.entries(NEWSLETTER_ISSUES).map(([num, issue]) => ({
+  const issues = Object.entries(NEWSLETTER_ISSUES).map(([num, content]) => ({
     issueNumber: Number(num),
-    date: issue.date,
-    subject: issue.subject,
+    date: content.date,
+    subject: getSubject(content),
+    isEssay: isEssay(content),
   }))
 
   return NextResponse.json({
     availableIssues: issues,
     instructions: {
-      testSend: 'POST with { issueNumber: 1, testEmail: "you@example.com", audienceFilter: "academy" | "free" }',
-      productionSend: 'POST with { issueNumber: 1, audienceFilter: "all" | "academy" | "free" }',
+      testSend: 'POST with { issueNumber: 3, testEmail: "you@example.com" }',
+      productionSend: 'POST with { issueNumber: 3, audienceFilter: "all" | "academy" | "free" }',
     },
   })
 }

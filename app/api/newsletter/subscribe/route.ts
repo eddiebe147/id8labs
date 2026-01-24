@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Successfully subscribed to The Innovation Brief!',
+      message: 'Successfully subscribed to Signal:Noise!',
       isNewSubscriber: true,
     })
 
