@@ -8,7 +8,7 @@ import { type ClaudeStats } from '@/lib/supabase'
 // Claude Code Arsenal Manifest
 const ARSENAL_MANIFEST = {
   agents: {
-    count: 64,
+    count: 40,
     categories: {
       'Core': ['general-purpose', 'Explore', 'Plan', 'claude-code-guide', 'statusline-setup'],
       'Development': ['code-reviewer', 'debugger', 'frontend-developer', 'fullstack-developer', 'backend-architect', 'nextjs-senior-dev', 'ui-ux-designer', 'database-architect'],
@@ -26,7 +26,7 @@ const ARSENAL_MANIFEST = {
     }
   },
   plugins: {
-    count: 18,
+    count: 1,
     list: [
       'agent-sdk-dev', 'pr-review-toolkit', 'commit-commands', 'feature-dev',
       'security-guidance', 'git-workflow', 'nextjs-vercel-pro', 'security-pro',
@@ -36,11 +36,11 @@ const ARSENAL_MANIFEST = {
     ]
   },
   mcpServers: {
-    count: 6,
-    list: ['Playwright', 'Supabase', 'GitHub', 'Memory', 'Firecrawl', 'Perplexity']
+    count: 5,
+    list: ['Notion', 'Supabase', 'Playwright Coordinator', 'Newsletter', 'Omni.vu']
   },
   skills: {
-    count: 96,
+    count: 293,
     categories: {
       'Development': ['start', 'ship', 'fix', 'test', 'verify', 'preview', 'cleanup', 'rollback'],
       'Git': ['commit', 'commit-push-pr', 'sync-main', 'compare'],
@@ -207,9 +207,9 @@ const fallbackStats: ClaudeStats = {
   mcp_used: { 'playwright': 185, 'supabase': 124, 'github': 89, 'memory': 52 },
   sessions_count: 198,
   hours_collaborated: 520,
-  tests_written: 187,
-  builds_succeeded: 97,
-  bugs_fixed: 31,
+  tests_written: 35820,
+  builds_succeeded: 80,
+  bugs_fixed: 47,
   last_synced_at: '2026-01-12T12:00:00Z',
   created_at: '2025-12-21T12:00:00Z',
   updated_at: '2026-01-12T12:00:00Z',
