@@ -244,8 +244,8 @@ export default function HomerPage() {
                         )}
                         {i === 14 && (
                           <>
-                            <div className="absolute inset-0.5 bg-purple-500/30 rounded border border-purple-500/50" />
-                            <div className="h-1 w-full bg-purple-400/60 rounded mt-1" />
+                            <div className="absolute inset-0.5 bg-amber-500/30 rounded border border-amber-500/50" />
+                            <div className="h-1 w-full bg-amber-400/60 rounded mt-1" />
                           </>
                         )}
                       </div>
@@ -254,7 +254,7 @@ export default function HomerPage() {
                   <div className="flex gap-4 pt-2 border-t border-white/10 text-[10px] text-zinc-400">
                     <span className="flex items-center gap-1"><div className="w-2 h-2 bg-emerald-400/60 rounded" />Buyer</span>
                     <span className="flex items-center gap-1"><div className="w-2 h-2 bg-blue-400/60 rounded" />Seller</span>
-                    <span className="flex items-center gap-1"><div className="w-2 h-2 bg-purple-400/60 rounded" />Agent</span>
+                    <span className="flex items-center gap-1"><div className="w-2 h-2 bg-amber-400/60 rounded" />Agent</span>
                   </div>
                 </div>
               </div>

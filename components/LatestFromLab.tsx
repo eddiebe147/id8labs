@@ -9,7 +9,7 @@ const categoryBadgeClass: Record<WritingItem['category'], string> = {
   essay: 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] border-[var(--id8-orange)]/20',
   research: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
   release: 'bg-green-500/10 text-green-400 border-green-500/20',
-  newsletter: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+  newsletter: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
 }
 
 function formatDate(dateString: string): string {
@@ -124,10 +124,10 @@ function NewsletterCTA() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: 0.4 }}
-      className="mt-6 p-4 rounded-lg border border-purple-500/20 bg-purple-500/5"
+      className="mt-6 p-4 rounded-lg border border-amber-500/20 bg-amber-500/5"
     >
       <div className="flex items-start gap-3">
-        <Newspaper className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+        <Newspaper className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
         <div className="flex-1">
           <h4 className="font-semibold text-[var(--text-primary)] mb-1">
             Signal:Noise Newsletter
@@ -137,7 +137,7 @@ function NewsletterCTA() {
           </p>
           <Link
             href="/newsletter"
-            className="inline-flex items-center gap-2 text-sm text-purple-400 font-semibold hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-sm text-amber-400 font-semibold hover:gap-3 transition-all"
           >
             Subscribe
             <ArrowRight className="w-3 h-3" />
