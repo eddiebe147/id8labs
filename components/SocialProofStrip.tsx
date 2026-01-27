@@ -42,13 +42,7 @@ export default function SocialProofStrip() {
   return (
     <section className="bg-zone-nav border-y border-[var(--border)]">
       <div className="container py-6">
-        <m.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-wrap justify-center lg:justify-between items-center gap-6 lg:gap-4"
-        >
+        <div className="flex flex-wrap justify-center lg:justify-between items-center gap-6 lg:gap-12">
           {metrics.map((metric, index) => (
             <m.div
               key={metric.label}
@@ -56,7 +50,7 @@ export default function SocialProofStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="flex items-center gap-3 px-4"
+              className="flex items-center gap-3"
             >
               <metric.icon className="w-5 h-5 text-[var(--id8-orange)]" strokeWidth={1.5} />
               <div className="flex items-baseline gap-2">
@@ -67,13 +61,9 @@ export default function SocialProofStrip() {
                   {metric.label}
                 </span>
               </div>
-              {/* Divider - hidden on last item and on mobile */}
-              {index < metrics.length - 1 && (
-                <div className="hidden lg:block w-px h-8 bg-[var(--border)] ml-4" />
-              )}
             </m.div>
           ))}
-        </m.div>
+        </div>
       </div>
     </section>
   )

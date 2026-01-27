@@ -5,19 +5,11 @@ import { m } from '@/components/motion'
 import { type WritingItem } from '@/lib/writing'
 import { ArrowRight, Newspaper } from 'lucide-react'
 
-function getCategoryBadgeClass(category: WritingItem['category']) {
-  switch (category) {
-    case 'essay':
-      return 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] border-[var(--id8-orange)]/20'
-    case 'research':
-      return 'bg-blue-500/10 text-blue-400 border-blue-500/20'
-    case 'release':
-      return 'bg-green-500/10 text-green-400 border-green-500/20'
-    case 'newsletter':
-      return 'bg-purple-500/10 text-purple-400 border-purple-500/20'
-    default:
-      return 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] border-[var(--border)]'
-  }
+const categoryBadgeClass: Record<WritingItem['category'], string> = {
+  essay: 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)] border-[var(--id8-orange)]/20',
+  research: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  release: 'bg-green-500/10 text-green-400 border-green-500/20',
+  newsletter: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
 }
 
 function formatDate(dateString: string): string {
@@ -30,12 +22,8 @@ function formatDate(dateString: string): string {
 }
 
 function FeaturedArticle({ item }: { item: WritingItem }) {
-  const href = item.category === 'newsletter'
-    ? `/writing/${item.slug}`
-    : `/writing/${item.slug}`
-
   return (
-    <Link href={href} className="block group">
+    <Link href={`/writing/${item.slug}`} className="block group">
       <m.article
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -47,7 +35,7 @@ function FeaturedArticle({ item }: { item: WritingItem }) {
         {/* Category Badge */}
         <div className="flex items-center gap-3 mb-4">
           <span
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full border ${getCategoryBadgeClass(item.category)}`}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full border ${categoryBadgeClass[item.category]}`}
           >
             {item.category === 'newsletter' && item.issueNumber && (
               <span>Issue #{item.issueNumber}</span>
@@ -94,10 +82,6 @@ function FeaturedArticle({ item }: { item: WritingItem }) {
 }
 
 function RecentArticleItem({ item, index }: { item: WritingItem; index: number }) {
-  const href = item.category === 'newsletter'
-    ? `/writing/${item.slug}`
-    : `/writing/${item.slug}`
-
   return (
     <m.div
       initial={{ opacity: 0, y: 10 }}
@@ -106,13 +90,13 @@ function RecentArticleItem({ item, index }: { item: WritingItem; index: number }
       transition={{ duration: 0.4, delay: index * 0.1 }}
     >
       <Link
-        href={href}
+        href={`/writing/${item.slug}`}
         className="flex items-start gap-4 py-4 px-3 -mx-3 rounded-lg hover:bg-[var(--bg-secondary)] transition-colors group"
       >
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span
-              className={`inline-flex items-center px-2 py-0.5 text-[10px] font-semibold rounded-full border ${getCategoryBadgeClass(item.category)}`}
+              className={`inline-flex items-center px-2 py-0.5 text-[10px] font-semibold rounded-full border ${categoryBadgeClass[item.category]}`}
             >
               {item.category === 'newsletter' ? `#${item.issueNumber}` : item.category}
             </span>
@@ -233,17 +217,7 @@ export default function LatestFromLab({ items }: LatestFromLabProps) {
                 className="inline-flex items-center gap-2 text-[var(--id8-orange)] font-semibold hover:gap-3 transition-all"
               >
                 View all writing
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
+                <ArrowRight className="w-5 h-5" />
               </Link>
             </m.div>
           </div>
