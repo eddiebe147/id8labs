@@ -54,8 +54,8 @@ const flagshipProducts: FlagshipProduct[] = [
     description: 'Parse contracts, coordinate calendars, track deadlines, automate compliance. HOMER manages the entire deal lifecycle—from contract to close. Built to eliminate deal friction.',
     version: 'v1.0 Free',
     status: 'live',
-    link: '/products/homer',
-    external: false,
+    link: 'https://tryhomer.vip',
+    external: true,
     image: '/products/homer/homer-dashboard.png',
     features: [
       'Contract parsing & extraction',
