@@ -69,41 +69,16 @@ function MiloPreview() {
 
 function HomerPreview() {
   return (
-    <div className="relative w-full h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden border-2 border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.15)] bg-gradient-to-br from-blue-500/10 to-transparent p-4">
-      {/* Abstract Deal Dashboard UI */}
-      <div className="relative z-10 h-full flex flex-col gap-3">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-blue-400" />
-            <div className="h-2 w-20 bg-white/20 rounded" />
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 rounded-full bg-emerald-400" />
-            <span className="text-[10px] text-emerald-400">Active</span>
-          </div>
-        </div>
-        {/* Deal Cards */}
-        <div className="flex-1 grid grid-cols-2 gap-2 overflow-hidden">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white/5 rounded-lg p-2 border border-white/10">
-              <div className="flex items-center gap-1 mb-2">
-                <div className={`w-1.5 h-1.5 rounded-full ${i === 0 ? 'bg-emerald-400' : i === 1 ? 'bg-blue-400' : i === 2 ? 'bg-amber-400' : 'bg-purple-400'}`} />
-                <div className="h-1.5 bg-white/20 rounded flex-1" />
-              </div>
-              <div className="space-y-1">
-                <div className="h-1 bg-white/10 rounded w-3/4" />
-                <div className="h-1 bg-white/10 rounded w-1/2" />
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* Footer */}
-        <div className="flex items-center justify-between text-[9px] text-zinc-400 pt-2 border-t border-white/10">
-          <span>4 Active Deals</span>
-          <span className="text-blue-400">View All</span>
-        </div>
-      </div>
+    <div className="relative w-full h-48 md:h-64 lg:h-72 rounded-lg overflow-hidden border-2 border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.15)]">
+      <Image
+        src="/products/homer/homer-dashboard.png"
+        alt="HOMER - Deal and negotiation automation platform"
+        fill
+        className="object-cover object-top"
+        sizes="(max-width: 768px) 100vw, 50vw"
+        priority
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
     </div>
   )
 }
