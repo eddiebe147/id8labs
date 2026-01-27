@@ -5,6 +5,9 @@ import ProductGrid from '@/components/ProductGrid'
 import Education from '@/components/Education'
 import Mission from '@/components/Mission'
 import HomeNavigation from '@/components/HomeNavigation'
+import SocialProofStrip from '@/components/SocialProofStrip'
+import LatestFromLab from '@/components/LatestFromLab'
+import { getAllWriting } from '@/lib/writing'
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -99,6 +102,9 @@ const schemas = [
 ]
 
 export default function Home() {
+  // Server-side: fetch writing content for Latest from Lab section
+  const writingItems = getAllWriting()
+
   return (
     <>
       {schemas.map(({ id, data }) => (
@@ -113,10 +119,12 @@ export default function Home() {
       ))}
       <HomeNavigation />
       <Hero />
-      <Builder />
+      <SocialProofStrip />
       <ProductGrid />
+      <LatestFromLab items={writingItems} />
       <Education />
       <Mission />
+      <Builder />
     </>
   )
 }

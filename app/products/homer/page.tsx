@@ -186,12 +186,31 @@ export default function HomerPage() {
                   ))}
                 </div>
               </div>
-              <div className="relative h-64 md:h-80 rounded-xl border border-blue-500/20 bg-blue-500/5 overflow-hidden">
+              <div className="relative h-64 md:h-80 rounded-xl border border-blue-500/20 bg-blue-500/5 overflow-hidden p-4">
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-4xl mb-2">📄</div>
-                    <p className="text-sm text-zinc-400">Contract Parser Demo</p>
+                {/* Abstract Contract Parser UI */}
+                <div className="relative z-10 h-full flex flex-col gap-3">
+                  {/* Header Bar */}
+                  <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                    <div className="w-3 h-3 rounded-full bg-blue-400" />
+                    <div className="h-2 w-24 bg-white/20 rounded" />
+                    <div className="ml-auto h-2 w-16 bg-blue-400/30 rounded" />
+                  </div>
+                  {/* Parsed Sections */}
+                  <div className="flex-1 space-y-2 overflow-hidden">
+                    {[...Array(5)].map((_, i) => (
+                      <div key={i} className="flex items-center gap-2 p-2 rounded bg-white/5">
+                        <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                        <div className="h-2 rounded bg-white/20" style={{ width: `${60 + Math.random() * 30}%` }} />
+                        <div className="ml-auto h-2 w-12 bg-blue-400/40 rounded text-[8px] flex items-center justify-center" />
+                      </div>
+                    ))}
+                  </div>
+                  {/* Footer Stats */}
+                  <div className="flex gap-4 pt-2 border-t border-white/10 text-[10px] text-zinc-400">
+                    <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />12 Terms</span>
+                    <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-blue-400 rounded-full" />5 Parties</span>
+                    <span className="flex items-center gap-1"><div className="w-1.5 h-1.5 bg-amber-400 rounded-full" />8 Dates</span>
                   </div>
                 </div>
               </div>
@@ -204,12 +223,34 @@ export default function HomerPage() {
               viewport={{ once: true }}
               className="grid md:grid-cols-2 gap-8 items-center md:grid-flow-dense"
             >
-              <div className="relative h-64 md:h-80 rounded-xl border border-emerald-500/20 bg-emerald-500/5 overflow-hidden md:order-2">
+              <div className="relative h-64 md:h-80 rounded-xl border border-emerald-500/20 bg-emerald-500/5 overflow-hidden md:order-2 p-4">
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-4xl mb-2">📅</div>
-                    <p className="text-sm text-zinc-400">Calendar Sync Demo</p>
+                {/* Abstract Calendar Sync UI */}
+                <div className="relative z-10 h-full flex flex-col gap-3">
+                  {/* Week Header */}
+                  <div className="flex justify-between text-[10px] text-zinc-400 pb-2 border-b border-white/10">
+                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map((day) => (
+                      <span key={day} className="w-12 text-center">{day}</span>
+                    ))}
+                  </div>
+                  {/* Calendar Grid */}
+                  <div className="flex-1 grid grid-cols-5 gap-1">
+                    {[...Array(20)].map((_, i) => (
+                      <div key={i} className="relative bg-white/5 rounded p-1">
+                        {i === 7 && <div className="absolute inset-0.5 bg-emerald-500/30 rounded border border-emerald-500/50" />}
+                        {i === 12 && <div className="absolute inset-0.5 bg-blue-500/30 rounded border border-blue-500/50" />}
+                        {i === 14 && <div className="absolute inset-0.5 bg-purple-500/30 rounded border border-purple-500/50" />}
+                        {i === 7 && <div className="h-1 w-full bg-emerald-400/60 rounded mt-1" />}
+                        {i === 12 && <div className="h-1 w-full bg-blue-400/60 rounded mt-1" />}
+                        {i === 14 && <div className="h-1 w-full bg-purple-400/60 rounded mt-1" />}
+                      </div>
+                    ))}
+                  </div>
+                  {/* Party Legend */}
+                  <div className="flex gap-4 pt-2 border-t border-white/10 text-[10px] text-zinc-400">
+                    <span className="flex items-center gap-1"><div className="w-2 h-2 bg-emerald-400/60 rounded" />Buyer</span>
+                    <span className="flex items-center gap-1"><div className="w-2 h-2 bg-blue-400/60 rounded" />Seller</span>
+                    <span className="flex items-center gap-1"><div className="w-2 h-2 bg-purple-400/60 rounded" />Agent</span>
                   </div>
                 </div>
               </div>
@@ -256,12 +297,42 @@ export default function HomerPage() {
                   ))}
                 </div>
               </div>
-              <div className="relative h-64 md:h-80 rounded-xl border border-amber-500/20 bg-amber-500/5 overflow-hidden">
+              <div className="relative h-64 md:h-80 rounded-xl border border-amber-500/20 bg-amber-500/5 overflow-hidden p-4">
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-4xl mb-2">⚡</div>
-                    <p className="text-sm text-zinc-400">Deal Dashboard Demo</p>
+                {/* Abstract Deal Dashboard UI */}
+                <div className="relative z-10 h-full flex flex-col gap-3">
+                  {/* Deal Health Header */}
+                  <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[10px] text-emerald-400 font-semibold">HEALTHY</span>
+                    </div>
+                    <div className="h-2 w-20 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full w-3/4 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full" />
+                    </div>
+                  </div>
+                  {/* Timeline */}
+                  <div className="flex-1 space-y-2">
+                    {[
+                      { label: 'Contract Signed', status: 'complete', color: 'emerald' },
+                      { label: 'Inspection', status: 'complete', color: 'emerald' },
+                      { label: 'Appraisal', status: 'active', color: 'amber' },
+                      { label: 'Final Walkthrough', status: 'pending', color: 'zinc' },
+                      { label: 'Closing', status: 'pending', color: 'zinc' },
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className={`w-2 h-2 rounded-full ${item.status === 'complete' ? 'bg-emerald-400' : item.status === 'active' ? 'bg-amber-400 animate-pulse' : 'bg-zinc-600'}`} />
+                        <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${item.status === 'complete' ? 'w-full bg-emerald-400/50' : item.status === 'active' ? 'w-1/2 bg-amber-400/50' : 'w-0'}`} />
+                        </div>
+                        <span className={`text-[9px] w-20 text-right ${item.status === 'active' ? 'text-amber-400' : 'text-zinc-500'}`}>{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Alert Banner */}
+                  <div className="p-2 rounded bg-amber-500/10 border border-amber-500/20 text-[10px] text-amber-400 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
+                    Appraisal due in 3 days
                   </div>
                 </div>
               </div>

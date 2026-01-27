@@ -5,10 +5,11 @@ import { useState, useEffect } from 'react'
 // Front page section definitions
 const sections = [
   { id: 'hero', title: 'ID8Labs' },
-  { id: 'builder', title: 'The Builder' },
   { id: 'products', title: 'Products' },
+  { id: 'latest', title: 'Latest' },
   { id: 'education', title: 'Learn' },
   { id: 'mission', title: 'Philosophy' },
+  { id: 'builder', title: 'Builder' },
 ]
 
 function SideNavigation({ activeSection }: { activeSection: string }) {
