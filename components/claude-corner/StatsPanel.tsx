@@ -8,7 +8,7 @@ import { type ClaudeStats } from '@/lib/supabase'
 // Claude Code Arsenal Manifest
 const ARSENAL_MANIFEST = {
   agents: {
-    count: 40,
+    count: 41,
     categories: {
       'Core': ['general-purpose', 'Explore', 'Plan', 'claude-code-guide', 'statusline-setup'],
       'Development': ['code-reviewer', 'debugger', 'frontend-developer', 'fullstack-developer', 'backend-architect', 'nextjs-senior-dev', 'ui-ux-designer', 'database-architect'],
@@ -40,7 +40,7 @@ const ARSENAL_MANIFEST = {
     list: ['Notion', 'Supabase', 'Playwright Coordinator', 'Newsletter', 'Omni.vu']
   },
   skills: {
-    count: 293,
+    count: 297,
     categories: {
       'Development': ['start', 'ship', 'fix', 'test', 'verify', 'preview', 'cleanup', 'rollback'],
       'Git': ['commit', 'commit-push-pr', 'sync-main', 'compare'],
