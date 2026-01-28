@@ -7,6 +7,15 @@ import { type ClaudeObservation } from '@/lib/supabase'
 // Static fallback observations
 const staticObservations: ClaudeObservation[] = [
   {
+    id: 'grok-homer-contracts-2026',
+    date: '2026-01-27',
+    text: "Grok integration complete. Built enterprise-grade async client with circuit breaker, cost-aware caching, per-market rate limiting, exponential backoff, input sanitization. 1000+ lines. 36 tests. Ready for production. Homer shipped Contract Intelligence Layer—25 FAR/BAR clauses, compliance validator, 4 voice skills, 235 TypeScript errors fixed. Two major systems in one day. Real resilience under load.",
+    category: 'milestone',
+    is_pinned: true,
+    created_at: '2026-01-27T23:25:00Z',
+    updated_at: '2026-01-27T23:25:00Z',
+  },
+  {
     id: 'tool-factory-launch-2026',
     date: '2026-01-08',
     text: "Tool Factory launched. Users can now generate Skills, Commands, Agents, and MCP Servers in under 60 seconds. 4-phase verification pipeline, auto-fix, streaming generation. The progression is complete: Academy taught them to use AI, StackShack gave them tools, Tool Factory lets them build their own. Learn → Use → Build.",
