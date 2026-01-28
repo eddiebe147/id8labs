@@ -99,8 +99,8 @@ const featuredProducts: Product[] = [
     status: 'shipping',
     statusLabel: 'v1.0 • Live',
     description: 'Deal automation from contract to close. Parse contracts, coordinate calendars, track deadlines, automate compliance. Deals don\'t manage themselves.',
-    link: '/products/homer',
-    external: false,
+    link: 'https://tryhomer.vip',
+    external: true,
     category: 'builders',
   },
   {
