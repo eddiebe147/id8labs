@@ -532,7 +532,7 @@ function ActivityHeatmap() {
 }
 
 export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
-  const { stats, isLive, lastSynced, derivedStats, essayCount } = useStats()
+  const { stats, isLive, lastSynced, derivedStats } = useStats()
 
   useEffect(() => {
     onLiveStatusChange?.(isLive)
@@ -770,7 +770,7 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
       )}
 
       {/* Arsenal - Claude Code Capabilities */}
-      <ArsenalSection essayCount={essayCount} />
+      <ArsenalSection essayCount={derivedStats.essayCount || 41} />
     </div>
   )
 }
