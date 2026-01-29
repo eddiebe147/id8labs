@@ -251,15 +251,20 @@ function useStats() {
 
         const data = await response.json()
         if (data.stats) {
-          setStats(data.stats)
+          // Merge API stats with fallback to ensure all fields exist
+          const mergedStats = { ...fallbackStats, ...data.stats }
+          setStats(mergedStats)
           setIsLive(true)
-          setLastSynced(data.stats.last_synced_at)
+          setLastSynced(data.stats.last_synced_at || data.stats.updated_at)
+          console.log('✅ Live stats fetched:', mergedStats)
         }
       } catch (err) {
         console.log('Using fallback stats:', err)
+        setStats(fallbackStats)
       }
     }
 
+    // Fetch immediately and then every 30 seconds
     fetchStats()
     const interval = setInterval(fetchStats, 30000)
     return () => clearInterval(interval)
@@ -289,10 +294,10 @@ function useStats() {
   }, [stats.first_commit_date])
 
   const derivedStats = useMemo(() => {
-    return { monthsBuilding }
-  }, [monthsBuilding])
+    return { monthsBuilding, essayCount }
+  }, [monthsBuilding, essayCount])
 
-  return { stats, isLive, lastSynced, derivedStats }
+  return { stats, isLive, lastSynced, derivedStats, essayCount }
 }
 
 // Arsenal Section with expandable manifest
