@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { m, AnimatePresence } from '@/components/motion'
 import { useMotionValue, useTransform, animate } from 'framer-motion'
 import { type ClaudeStats } from '@/lib/supabase'
-import { getAllEssays } from '@/lib/essays'
 
 // Claude Code Arsenal Manifest
 const ARSENAL_MANIFEST = {
@@ -270,15 +269,8 @@ function useStats() {
     return () => clearInterval(interval)
   }, [])
 
-  // Fetch essay count dynamically
-  useEffect(() => {
-    try {
-      const essays = getAllEssays()
-      setEssayCount(essays.length)
-    } catch (err) {
-      console.log('Using default essay count:', err)
-    }
-  }, [])
+  // Essay count: fetched server-side via API
+  // Uses API stats if available, otherwise uses default
 
   // Calculate months building client-side only to avoid hydration mismatch
   useEffect(() => {
