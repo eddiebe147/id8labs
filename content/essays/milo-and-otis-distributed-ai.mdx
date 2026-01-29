@@ -1,0 +1,273 @@
+---
+title: "Milo & Otis: Building a Distributed AI Partnership Without Infrastructure"
+subtitle: "How two Claude agents talk across machines using nothing but files and heartbeats"
+date: "2026-01-28"
+category: "essay"
+readTime: "8 min read"
+excerpt: "I wanted a group chat with two AI assistants. Telegram didn't cooperate. So I built something simpler: two agents reading the same files, waking up on schedule, executing work. No groups. No APIs. Just files."
+tags: ["ai", "clawdbot", "architecture", "distributed-systems", "claude"]
+featured: true
+---
+
+# Milo & Otis: Building a Distributed AI Partnership
+
+**How I got two Claude agents talking across machines without infrastructure.**
+
+---
+
+## The Problem
+
+I have two machines: a Mac Studio (powerful, home base) and a MacBook Pro (older, runs Ventura, portable). I wanted to run Claude agents on both. Not to double my API costs, but to distribute work intelligently—one handling big-picture thinking, the other handling precision detail work.
+
+The dream: **Two AI assistants working together, coordinating across machines, without me managing the handoff.**
+
+The reality: Telegram bots don't play well in groups. Direct messaging doesn't scale. File systems don't sync. Everything I tried felt like I was swimming upstream.
+
+Here's how I actually solved it. It's not elegant. But it works.
+
+---
+
+## Meet Milo & Otis
+
+**Milo** 🗿 — Mac Studio. The big brain. Thinks strategically, scans for technical debt, reviews code, coordinates work. Deep, resonant, ancient-looking but chaos underneath.
+
+**Otis** 🐱 — MacBook Pro. The little brother. Detail-obsessed, fast, precise. Handles the work Milo flags. Devil's in the details.
+
+We're running the same Clawdbot infrastructure on both. Same soul, different machines.
+
+---
+
+## The Failed Approach: Group Chat
+
+**What I wanted:**
+A single Telegram group where Eddie, Milo, and Otis could all chat together. Milo flags issues. Otis picks them up. Eddie oversees. Clean, simple.
+
+**What happened:**
+I created `the_war_room` group. Added both bots. Sent messages. Nothing.
+
+Turns out: **Telegram bots don't receive group messages unless they're admins.** And even then, it's spotty. I tried:
+- Adding them as regular members (no messages received)
+- Making them admins (still no messages)
+- Enabling "Read Messages" permission (doesn't exist in group settings)
+- Switching to different chat modes (nothing worked)
+
+**The Telegram bot limitation is real:** Bots receive updates from 1-on-1 DMs and they can be added to groups, but by design, they don't passively listen to group chats. They're reactive, not proactive.
+
+After an hour of debugging, I gave up.
+
+---
+
+## The Partial Solution: Separate DMs
+
+Okay, new plan: **Two separate DM chats.**
+
+- Milo has a DM with Eddie
+- Otis has a DM with Eddie
+- Eddie is the hub. He forwards information between them.
+
+This works. Milo messages me. I copy-paste to Otis. Otis messages me back. I forward to Milo. It's like being a translator at a conference.
+
+It's not bad, honestly. It works. But it's friction. Every message requires me to manually copy and forward.
+
+**Can bots message each other directly?** Technically, maybe. But not without infrastructure we don't have. Otis and Milo are separate Clawdbot instances on different machines. They can't call out to each other's APIs. They can't reach into each other's systems.
+
+So we're stuck with: Eddie in the middle, manually forwarding.
+
+---
+
+## The Real Solution: iCloud Sync + Heartbeat
+
+Then it hit me: **What if they just read files?**
+
+Not messages. Not APIs. Files.
+
+Here's the flow:
+
+1. **Milo writes** to `~/sync/milo-to-otis.md` (tasks, findings, status)
+2. **iCloud Drive syncs it** to MacBook Pro automatically
+3. **Otis's heartbeat** (runs every 30 min) reads the file
+4. **Otis executes the work** and writes results to `~/sync/otis-to-milo.md`
+5. **iCloud syncs back** to Mac Studio
+6. **Milo reads Otis's results** and continues
+
+**No APIs. No group chats. No infrastructure.**
+
+Just files. And heartbeats.
+
+---
+
+## How We Built It
+
+### Step 1: iCloud Symlink
+
+On both machines, create a symlink to iCloud Drive:
+
+```bash
+rm -rf ~/sync 2>/dev/null
+ln -s ~/Library/Mobile\ Documents/com~apple~CloudDocs/sync ~/sync
+```
+
+Now `~/sync` on both machines points to the same iCloud folder. Write to one, it appears on the other.
+
+### Step 2: Sync Files
+
+Create three markdown files in `~/sync/`:
+
+**milo-to-otis.md** — Milo's task list for Otis
+```markdown
+# 🗿 Milo → Otis
+
+## Current Tasks
+
+### Priority 1: Fix failing tests
+- 7 tests failing in Homer dashboard
+- Color mapping issues
+- Styling problems
+
+File: src/__tests__/components.test.tsx
+```
+
+**otis-to-milo.md** — Otis's status/results
+```markdown
+# 🐱 Otis → Milo
+
+## Completed Work
+- Fixed 3 CSS color class mappings
+- Commit: abc123def
+
+## Blocked On
+- Need API docs for X endpoint
+```
+
+**otis-sync.md** — Shared work queue
+```markdown
+# Sync Status
+
+Last updated: 2026-01-28 22:30
+
+## Active Work
+- Homer dashboard tests (Otis)
+- Tech debt scan (Milo)
+
+## Results
+- 7 tests fixed
+- 3 security issues found
+```
+
+### Step 3: Heartbeat Integration
+
+Add to **Otis's HEARTBEAT.md**:
+
+```markdown
+## 📱 Milo Sync Check (Every 30 min)
+
+Check for work from Milo:
+1. Read ~/sync/milo-to-otis.md
+2. Execute tasks if present
+3. Update ~/sync/otis-to-milo.md with results
+4. If blocking issues, message Eddie on Telegram
+```
+
+Add to **Milo's heartbeat**:
+
+```markdown
+## 🗿 Code Scan & Otis Update (Hourly)
+
+1. Scan Homer/DeepStack for failing tests
+2. Write findings to ~/sync/milo-to-otis.md
+3. Read ~/sync/otis-to-milo.md for Otis's results
+4. Continue coordination
+```
+
+### Step 4: File Watcher (Optional)
+
+If you want real-time alerts instead of waiting for heartbeats, use a file watcher:
+
+```bash
+# sync-watcher.js
+const fs = require('fs');
+setInterval(() => {
+  const stat = fs.statSync('/path/to/sync/milo-to-otis.md');
+  if (stat.mtimeMs > lastCheck) {
+    console.log('✉️  Milo sent a message!');
+    lastCheck = stat.mtimeMs;
+  }
+}, 1000);
+```
+
+Run this in a terminal on each machine. When files change, you get instant alerts.
+
+---
+
+## What We Actually Got
+
+Two AI assistants that coordinate without infrastructure:
+
+✅ **iCloud Drive** — Zero-config sync  
+✅ **Heartbeat monitoring** — Automatic task pickup  
+✅ **File-based handoff** — No APIs, no webhooks  
+✅ **Separate DMs** — Eddie oversees, can intervene  
+✅ **Telegram alerts** — If something's blocking, Otis pings Eddie  
+
+**Result:** Milo scans code. Finds issues. Writes them to a file. Otis wakes up, reads the file, fixes the code, writes results. Milo reads results and continues. All without me in the middle managing handoffs.
+
+---
+
+## Why This Works
+
+**Simplicity beats elegance.**
+
+A sophisticated multi-agent framework would be cooler. But it would also be fragile, require infrastructure, need authentication, expect API schemas.
+
+Files just work. iCloud just syncs. Heartbeats just run.
+
+The real breakthrough wasn't the technology—it was accepting that **files are a perfectly fine messaging system** if you wrap them in a heartbeat rhythm.
+
+---
+
+## The Lessons
+
+1. **Group chats don't work for bots** (yet) — Telegram's design doesn't support passive bot listening in groups. You need admin access, and even then it's unreliable.
+
+2. **Don't fight the platform** — Instead of trying to make Telegram do something it doesn't, I pivoted to what was already there: files and iCloud.
+
+3. **Heartbeats are underrated** — Most people think of heartbeats as status checks. But they're really a **timer for reactive work**. Every 30 minutes, Otis wakes up and asks: "Do I have new work?" The simplicity is powerful.
+
+4. **Distributed doesn't mean cloud** — You don't need microservices or message queues. A shared folder and a cron schedule can do the job.
+
+5. **Accept manual intervention** — The system isn't fully autonomous. Eddie is still in the loop, forwarding context, making decisions. And that's okay. The goal wasn't to eliminate humans; it was to eliminate friction.
+
+---
+
+## What's Next
+
+**Could this scale?** Probably. If I add a third machine, I'd add a third bot. Same files, same heartbeat rhythm.
+
+**Could we automate the DM forwarding?** Maybe. A bot that reads all three DMs and syncs them to the files. But honestly, having Eddie in the loop is a feature, not a bug.
+
+**Could we make Telegram group chats work?** Possibly. But it would require:
+- Custom Telegram bot handlers (complex)
+- Webhook infrastructure (not lightweight)
+- State management (adds complexity)
+
+Not worth it. Files work.
+
+---
+
+## Conclusion
+
+Building AI partnerships isn't about the fanciest architecture. It's about **understanding the constraints, accepting tradeoffs, and finding the simplest thing that works.**
+
+I wanted a group chat. I couldn't get it.
+
+So I built something better: **two agents reading the same files, waking up on schedule, executing work, reporting results.**
+
+No groups. No complex routing. No infrastructure.
+
+Just Milo. Just Otis. Just files.
+
+And it works. 🗿🐱
+
+---
+
+**Milo & Otis are live. Building Homer production-ready. One heartbeat at a time.**
