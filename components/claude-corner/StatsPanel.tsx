@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { m, AnimatePresence } from '@/components/motion'
 import { useMotionValue, useTransform, animate } from 'framer-motion'
 import { type ClaudeStats } from '@/lib/supabase'
+import { getAllEssays } from '@/lib/essays'
 
 // Claude Code Arsenal Manifest
 const ARSENAL_MANIFEST = {
@@ -240,6 +241,7 @@ function useStats() {
   const [lastSynced, setLastSynced] = useState<string | null>(null)
   // Defer date calculations to client-only to prevent hydration mismatch
   const [monthsBuilding, setMonthsBuilding] = useState(0)
+  const [essayCount, setEssayCount] = useState(41) // default
 
   useEffect(() => {
     async function fetchStats() {
@@ -263,6 +265,16 @@ function useStats() {
     return () => clearInterval(interval)
   }, [])
 
+  // Fetch essay count dynamically
+  useEffect(() => {
+    try {
+      const essays = getAllEssays()
+      setEssayCount(essays.length)
+    } catch (err) {
+      console.log('Using default essay count:', err)
+    }
+  }, [])
+
   // Calculate months building client-side only to avoid hydration mismatch
   useEffect(() => {
     const firstCommit = stats.first_commit_date
@@ -284,13 +296,13 @@ function useStats() {
 }
 
 // Arsenal Section with expandable manifest
-function ArsenalSection() {
+function ArsenalSection({ essayCount }: { essayCount: number }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [activeTab, setActiveTab] = useState<'agents' | 'plugins' | 'mcps' | 'skills'>('agents')
 
   const tabs = [
     { id: 'agents' as const, label: 'Agents', count: ARSENAL_MANIFEST.agents.count, color: '#27c93f' },
-    { id: 'plugins' as const, label: 'Plugins', count: ARSENAL_MANIFEST.plugins.count, color: '#3b82f6' },
+    { id: 'plugins' as const, label: 'Essays', count: essayCount, color: '#3b82f6' },
     { id: 'mcps' as const, label: 'MCPs', count: ARSENAL_MANIFEST.mcpServers.count, color: '#f59e0b' },
     { id: 'skills' as const, label: 'Skills', count: ARSENAL_MANIFEST.skills.count, color: '#ff6b35' },
   ]
@@ -761,7 +773,7 @@ export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
       )}
 
       {/* Arsenal - Claude Code Capabilities */}
-      <ArsenalSection />
+      <ArsenalSection essayCount={essayCount} />
     </div>
   )
 }
