@@ -155,10 +155,12 @@ export function getAllEssays(): Essay[] {
     }
   }
 
-  // Sort by date (newest first)
-  const sorted = essays.sort((a, b) =>
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  )
+  // Sort by publishDate if available, otherwise by date (newest first)
+  const sorted = essays.sort((a, b) => {
+    const dateA = new Date(a.publishDate || a.date).getTime()
+    const dateB = new Date(b.publishDate || b.date).getTime()
+    return dateB - dateA
+  })
 
   // Update cache
   essaysCache = sorted
