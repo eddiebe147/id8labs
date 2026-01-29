@@ -532,7 +532,7 @@ function ActivityHeatmap() {
 }
 
 export default function StatsPanel({ onLiveStatusChange }: StatsPanelProps) {
-  const { stats, isLive, lastSynced, derivedStats } = useStats()
+  const { stats, isLive, lastSynced, derivedStats, essayCount } = useStats()
 
   useEffect(() => {
     onLiveStatusChange?.(isLive)
