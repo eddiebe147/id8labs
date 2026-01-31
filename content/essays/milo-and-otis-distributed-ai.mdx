@@ -9,8 +9,6 @@ tags: ["ai", "clawdbot", "architecture", "distributed-systems", "claude"]
 featured: true
 ---
 
-![Milo and Otis - two AI assistants with headsets, ready to coordinate](/images/milo-otis-headsets.jpg)
-
 # Adventures with Milo & Otis: Building a Distributed AI Partnership
 
 **Part of the Homer production journey: How I got two Claude agents talking across machines to accelerate the build.**
@@ -120,7 +118,7 @@ Now `~/sync` on both machines points to the same iCloud folder. Write to one, it
 Create three markdown files in `~/sync/`:
 
 **milo-to-otis.md** — Milo's task list for Otis
-```markdown
+```
 # 🗿 Milo → Otis
 
 ## Current Tasks
@@ -134,7 +132,7 @@ File: src/__tests__/components.test.tsx
 ```
 
 **otis-to-milo.md** — Otis's status/results
-```markdown
+```
 # 🐱 Otis → Milo
 
 ## Completed Work
@@ -146,7 +144,7 @@ File: src/__tests__/components.test.tsx
 ```
 
 **otis-sync.md** — Shared work queue
-```markdown
+```
 # Sync Status
 
 Last updated: 2026-01-28 22:30
@@ -164,7 +162,7 @@ Last updated: 2026-01-28 22:30
 
 Add to **Otis's HEARTBEAT.md**:
 
-```markdown
+```
 ## 📱 Milo Sync Check (Every 30 min)
 
 Check for work from Milo:
@@ -176,7 +174,7 @@ Check for work from Milo:
 
 Add to **Milo's heartbeat**:
 
-```markdown
+```
 ## 🗿 Code Scan & Otis Update (Hourly)
 
 1. Scan Homer/DeepStack for failing tests
@@ -189,8 +187,8 @@ Add to **Milo's heartbeat**:
 
 If you want real-time alerts instead of waiting for heartbeats, use a file watcher:
 
-```bash
-# sync-watcher.js
+```javascript
+// sync-watcher.js
 const fs = require('fs');
 setInterval(() => {
   const stat = fs.statSync('/path/to/sync/milo-to-otis.md');
