@@ -50,6 +50,7 @@ A single Telegram group where Eddie, Milo, and Otis could all chat together. Mil
 I created `the_war_room` group. Added both bots. Sent messages. Nothing.
 
 Turns out: **Telegram bots don't receive group messages unless they're admins.** And even then, it's spotty. I tried:
+
 - Adding them as regular members (no messages received)
 - Making them admins (still no messages)
 - Enabling "Read Messages" permission (doesn't exist in group settings)
@@ -118,7 +119,8 @@ Now `~/sync` on both machines points to the same iCloud folder. Write to one, it
 Create three markdown files in `~/sync/`:
 
 **milo-to-otis.md** — Milo's task list for Otis
-```md
+
+```text
 # 🗿 Milo → Otis
 
 ## Current Tasks
@@ -132,7 +134,8 @@ File: src/__tests__/components.test.tsx
 ```
 
 **otis-to-milo.md** — Otis's status/results
-```md
+
+```text
 # 🐱 Otis → Milo
 
 ## Completed Work
@@ -144,7 +147,8 @@ File: src/__tests__/components.test.tsx
 ```
 
 **otis-sync.md** — Shared work queue
-```md
+
+```text
 # Sync Status
 
 Last updated: 2026-01-28 22:30
@@ -162,7 +166,7 @@ Last updated: 2026-01-28 22:30
 
 Add to **Otis's HEARTBEAT.md**:
 
-```md
+```text
 ## 📱 Milo Sync Check (Every 30 min)
 
 Check for work from Milo:
@@ -174,7 +178,7 @@ Check for work from Milo:
 
 Add to **Milo's heartbeat**:
 
-```md
+```text
 ## 🗿 Code Scan & Otis Update (Hourly)
 
 1. Scan Homer/DeepStack for failing tests
@@ -250,6 +254,7 @@ The real breakthrough wasn't the technology—it was accepting that **files are 
 **Could we automate the DM forwarding?** Maybe. A bot that reads all three DMs and syncs them to the files. But honestly, having Eddie in the loop is a feature, not a bug.
 
 **Could we make Telegram group chats work?** Possibly. But it would require:
+
 - Custom Telegram bot handlers (complex)
 - Webhook infrastructure (not lightweight)
 - State management (adds complexity)
