@@ -12,12 +12,28 @@ interface WritingListProps {
 
 /**
  * Format a date string - handles both ISO dates and human-readable dates like "January 2025"
+ * Uses UTC parsing to avoid timezone hydration mismatches
  */
 function formatDate(dateStr: string): string {
-  // Try parsing as a standard date
+  // Handle edge case where dateStr might be undefined or null
+  if (!dateStr) return 'Unknown Date'
+  
+  // Try parsing as ISO date first (YYYY-MM-DD format)
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    const parsed = new Date(dateStr + 'T00:00:00.000Z') // Force UTC to avoid timezone issues
+    
+    if (!isNaN(parsed.getTime())) {
+      return parsed.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'UTC' // Force UTC to match server rendering
+      })
+    }
+  }
+  
+  // Try parsing as a standard date (fallback)
   const parsed = new Date(dateStr + 'T00:00:00')
-
-  // Check if it's a valid date
   if (!isNaN(parsed.getTime())) {
     return parsed.toLocaleDateString('en-US', {
       month: 'long',
@@ -212,7 +228,17 @@ export function WritingList({ items }: WritingListProps) {
                       )}
                       <span>·</span>
                       <time dateTime={item.date} suppressHydrationWarning>
-                        {formatDate(item.date)}
+                        {(() => {
+                          // Temporary debug logging
+                          if (typeof window !== 'undefined' && item.title.includes('Upload')) {
+                            console.log('MILO article date debug:', {
+                              title: item.title,
+                              rawDate: item.date,
+                              formattedDate: formatDate(item.date)
+                            })
+                          }
+                          return formatDate(item.date)
+                        })()}
                       </time>
                       <span>·</span>
                       <span>{item.readTime}</span>
