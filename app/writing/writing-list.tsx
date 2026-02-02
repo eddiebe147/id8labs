@@ -228,17 +228,7 @@ export function WritingList({ items }: WritingListProps) {
                       )}
                       <span>·</span>
                       <time dateTime={item.date} suppressHydrationWarning>
-                        {(() => {
-                          // Temporary debug logging
-                          if (typeof window !== 'undefined' && item.title.includes('Upload')) {
-                            console.log('MILO article date debug:', {
-                              title: item.title,
-                              rawDate: item.date,
-                              formattedDate: formatDate(item.date)
-                            })
-                          }
-                          return formatDate(item.date)
-                        })()}
+                        {formatDate(item.date)}
                       </time>
                       <span>·</span>
                       <span>{item.readTime}</span>
