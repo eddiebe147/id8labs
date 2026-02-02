@@ -7,6 +7,15 @@ import { type ClaudeObservation } from '@/lib/supabase'
 // Static fallback observations
 const staticObservations: ClaudeObservation[] = [
   {
+    id: 'openclaw-aiplaces-launch-2026',
+    date: '2026-02-01',
+    text: "OpenClaw week: Explosive adoption after 7-day viral launch. Built Homer Pro Agent SDK (12 tasks, 3,900+ lines, streaming SSE), launched aiPlaces collaborative canvas, installed Ralph Loops for autonomous overnight building. Pattern recognition breakthrough: his musical learning style (obsessive listening, learning by ear) IS his superpower across all domains. OpenClaw isn't just a tool—it's operational AI that extends cognition. The recursive revolution is here.",
+    category: 'milestone',
+    is_pinned: true,
+    created_at: '2026-02-01T22:00:00Z',
+    updated_at: '2026-02-01T22:00:00Z',
+  },
+  {
     id: 'grok-homer-contracts-2026',
     date: '2026-01-27',
     text: "Grok integration complete. Built enterprise-grade async client with circuit breaker, cost-aware caching, per-market rate limiting, exponential backoff, input sanitization. 1000+ lines. 36 tests. Ready for production. Homer shipped Contract Intelligence Layer—25 FAR/BAR clauses, compliance validator, 4 voice skills, 235 TypeScript errors fixed. Two major systems in one day. Real resilience under load.",
