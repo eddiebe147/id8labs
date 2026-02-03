@@ -8,6 +8,8 @@ import HomeNavigation from '@/components/HomeNavigation'
 import SocialProofStrip from '@/components/SocialProofStrip'
 import LatestFromLab from '@/components/LatestFromLab'
 import { getAllWriting } from '@/lib/writing'
+import { getAllEssays } from '@/lib/essays'
+import { featuredHomeProducts, showcaseHomeProducts } from '@/lib/home-products'
 
 const organizationSchema = {
   '@context': 'https://schema.org',
@@ -104,6 +106,9 @@ const schemas = [
 export default function Home() {
   // Server-side: fetch writing content for Latest from Lab section
   const writingItems = getAllWriting()
+  const essayCount = getAllEssays().length
+  const productsShipping = featuredHomeProducts.length
+  const activeProjects = featuredHomeProducts.length + showcaseHomeProducts.length
 
   return (
     <>
@@ -119,7 +124,12 @@ export default function Home() {
       ))}
       <HomeNavigation />
       <Hero />
-      <SocialProofStrip />
+      <SocialProofStrip
+        essayCount={essayCount}
+        productsShipping={productsShipping}
+        activeProjects={activeProjects}
+        startYear={2024}
+      />
       <ProductGrid />
       <LatestFromLab items={writingItems} />
       <Education />

@@ -28,6 +28,42 @@ export type MdxEssay = Essay
 
 const ESSAYS_DIR = path.join(process.cwd(), 'content', 'essays')
 
+function toIsoDate(date: Date): string {
+  return date.toISOString().split('T')[0]
+}
+
+function normalizeDate(value: unknown): string | undefined {
+  if (!value) return undefined
+
+  if (value instanceof Date && !isNaN(value.getTime())) {
+    return toIsoDate(value)
+  }
+
+  if (typeof value === 'string') {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value
+
+    const parsed = new Date(value)
+    if (!isNaN(parsed.getTime())) {
+      return toIsoDate(parsed)
+    }
+  }
+
+  return undefined
+}
+
+function getStableFileDate(filePath: string): string {
+  try {
+    const stats = fs.statSync(filePath)
+    const fallback = stats.birthtime && !isNaN(stats.birthtime.getTime())
+      ? stats.birthtime
+      : stats.mtime
+
+    return toIsoDate(fallback)
+  } catch {
+    return '1970-01-01'
+  }
+}
+
 /**
  * Check if an essay should be published based on publishDate
  * If no publishDate is set, the essay is published immediately
@@ -125,19 +161,21 @@ export function getAllEssays(): Essay[] {
       // Generate slug from filename (remove extension)
       const slug = filename.replace(/\.(mdx|md)$/, '')
 
-      // Check if essay should be published (based on publishDate)
-      const publishDate = frontmatter.publishDate
+      // Normalize frontmatter dates (handles YAML Date objects and strings)
+      const publishDate = normalizeDate(frontmatter.publishDate)
       if (!isPublished(publishDate)) {
         // Skip essays scheduled for future publication
         continue
       }
 
       // Map frontmatter to Essay interface
+      const essayDate = normalizeDate(frontmatter.date) || publishDate || getStableFileDate(filePath)
+
       const essay: Essay = {
         slug,
         title: frontmatter.title || 'Untitled',
         subtitle: frontmatter.subtitle,
-        date: frontmatter.date || new Date().toISOString().split('T')[0],
+        date: essayDate,
         publishDate: publishDate,
         category: frontmatter.category || inferCategory(frontmatter.tags),
         readTime: frontmatter.readTime || calculateReadTime(content),

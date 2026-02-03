@@ -4,6 +4,7 @@ import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { getEssayBySlug, getAllEssays } from '@/lib/essays'
+import { CopyPageButton } from '@/components/CopyPageButton'
 
 // Revalidate every hour to pick up scheduled posts
 export const revalidate = 3600  // 1 hour in seconds
@@ -28,21 +29,25 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <article>
+    <article data-copy-root="article">
       {/* Header */}
       <section className="section-spacing border-b border-[var(--border)]">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <Link
-              href="/writing"
-              className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-id8-orange mb-8 transition-colors"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-              </svg>
-              Back to Essays
-            </Link>
+            <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
+              <Link
+                href="/writing"
+                data-copy-exclude="true"
+                className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-id8-orange transition-colors"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+                Back to Essays
+              </Link>
+              <CopyPageButton />
+            </div>
 
             <div className="mb-6 flex items-center gap-3 text-sm text-[var(--text-secondary)]">
               <span className="uppercase tracking-wide">
@@ -138,6 +143,7 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
           <div className="max-w-3xl mx-auto">
             <Link
               href="/writing"
+              data-copy-exclude="true"
               className="inline-flex items-center gap-2 text-sm text-id8-orange hover:opacity-70 transition-opacity"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

@@ -15,30 +15,48 @@ interface Metric {
   icon: LucideIcon
 }
 
-const metrics: Metric[] = [
-  {
-    label: 'Essays Published',
-    value: '41',
-    icon: FileText,
-  },
-  {
-    label: 'Products Shipping',
-    value: '4',
-    icon: Package,
-  },
-  {
-    label: 'Active Projects',
-    value: '9',
-    icon: Beaker,
-  },
-  {
-    label: 'Building in Public Since',
-    value: '2024',
-    icon: Calendar,
-  },
-]
+interface SocialProofStripProps {
+  essayCount?: number
+  productsShipping?: number
+  activeProjects?: number
+  startYear?: number
+}
 
-export default function SocialProofStrip() {
+const DEFAULT_METRICS = {
+  essayCount: 41,
+  productsShipping: 4,
+  activeProjects: 9,
+  startYear: 2024,
+}
+
+export default function SocialProofStrip({
+  essayCount = DEFAULT_METRICS.essayCount,
+  productsShipping = DEFAULT_METRICS.productsShipping,
+  activeProjects = DEFAULT_METRICS.activeProjects,
+  startYear = DEFAULT_METRICS.startYear,
+}: SocialProofStripProps) {
+  const metrics: Metric[] = [
+    {
+      label: 'Essays Published',
+      value: String(essayCount),
+      icon: FileText,
+    },
+    {
+      label: 'Products Shipping',
+      value: String(productsShipping),
+      icon: Package,
+    },
+    {
+      label: 'Active Projects',
+      value: String(activeProjects),
+      icon: Beaker,
+    },
+    {
+      label: 'Building in Public Since',
+      value: String(startYear),
+      icon: Calendar,
+    },
+  ]
   return (
     <section className="bg-zone-nav border-y border-[var(--border)]">
       <div className="container py-6">

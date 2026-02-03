@@ -3,17 +3,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { m } from '@/components/motion'
-
-interface Product {
-  name: string
-  status: 'shipping' | 'development' | 'exploration' | 'internal'
-  statusLabel: string
-  description: string
-  link?: string
-  external?: boolean
-  category: 'creators' | 'builders' | 'fun'
-  previewImage?: string
-}
+import {
+  featuredHomeProducts,
+  showcaseHomeProducts,
+  type HomeProduct,
+} from '@/lib/home-products'
 
 // Real product screenshots - full images with CSS cropping to show top content
 function ComposerPreview() {
@@ -83,75 +77,8 @@ function HomerPreview() {
   )
 }
 
-// Featured products with screenshots
-const featuredProducts: Product[] = [
-  {
-    name: 'Composer',
-    status: 'shipping',
-    statusLabel: 'v1.8161 • Live',
-    description: 'AI writing partner that actually remembers your story world. Built in the field when other tools failed us.',
-    link: 'https://id8composer.app',
-    external: true,
-    category: 'creators',
-  },
-  {
-    name: 'HOMER',
-    status: 'shipping',
-    statusLabel: 'v1.0 • Live',
-    description: 'Deal automation from contract to close. Parse contracts, coordinate calendars, track deadlines, automate compliance. Deals don\'t manage themselves.',
-    link: 'https://tryhomer.vip',
-    external: true,
-    category: 'builders',
-  },
-  {
-    name: 'DeepStack',
-    status: 'shipping',
-    statusLabel: 'v2.5.0 • Live',
-    description: 'Trading research with Claude. 30+ analysis tools, thesis tracking, emotion-aware journaling. Blocks revenge trades.',
-    link: 'https://deepstack.trade',
-    external: true,
-    category: 'builders',
-  },
-  {
-    name: 'MILO',
-    status: 'internal',
-    statusLabel: 'Open Source • Free',
-    description: 'Signal-to-noise task manager with Claude Code integration. Jobs/Musk-level filtering. 17 MCP tools for natural language task management.',
-    link: '/products/milo',
-    external: false,
-    category: 'builders',
-  },
-]
 
-// Compact showcase - best of the rest
-const showcaseProducts: Product[] = [
-  {
-    name: 'LLC Ops',
-    status: 'internal',
-    statusLabel: 'Internal',
-    description: '9 AI agents for taxes, compliance, asset protection.',
-    link: '/products/llc-ops',
-    category: 'builders',
-  },
-  {
-    name: 'Pipeline',
-    status: 'internal',
-    statusLabel: 'Internal',
-    description: 'Idea-to-exit in 11 stages. Decay mechanics keep projects moving.',
-    link: '/products/pipeline',
-    category: 'builders',
-  },
-  {
-    name: 'Lexicon',
-    status: 'development',
-    statusLabel: 'In Development',
-    description: 'Story bible as knowledge graph. 100 episodes deep, instantly searchable.',
-    link: '/products/lexicon',
-    category: 'creators',
-  },
-]
-
-function FeaturedCard({ product, index }: { product: Product; index: number }) {
+function FeaturedCard({ product, index }: { product: HomeProduct; index: number }) {
   const getPreview = () => {
     switch (product.name) {
       case 'Composer':
@@ -246,8 +173,8 @@ function FeaturedCard({ product, index }: { product: Product; index: number }) {
   return <Link href={product.link || '#'}>{content}</Link>
 }
 
-function ProductCard({ product, index }: { product: Product; index: number }) {
-  const getStatusBadgeClass = (status: Product['status']) => {
+function ProductCard({ product, index }: { product: HomeProduct; index: number }) {
+  const getStatusBadgeClass = (status: HomeProduct['status']) => {
     switch (status) {
       case 'development':
         return 'badge-development'
@@ -260,7 +187,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
     }
   }
 
-  const getCardStyle = (status: Product['status']) => {
+  const getCardStyle = (status: HomeProduct['status']) => {
     switch (status) {
       case 'shipping':
         return 'border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.1)] hover:shadow-[0_0_30px_rgba(34,197,94,0.15)]'
@@ -388,7 +315,7 @@ export default function ProductGrid() {
           <div className="space-y-12">
             {/* Featured Products - Shipping Now */}
             <div>
-              {featuredProducts.map((product, index) => (
+              {featuredHomeProducts.map((product, index) => (
                 <FeaturedCard key={product.name} product={product} index={index} />
               ))}
             </div>
@@ -399,7 +326,7 @@ export default function ProductGrid() {
                 More from the Lab
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {showcaseProducts.map((product, index) => (
+                {showcaseHomeProducts.map((product, index) => (
                   <ProductCard key={product.name} product={product} index={index} />
                 ))}
               </div>
