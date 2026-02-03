@@ -1,4 +1,30 @@
-# ID8Labs - Claude Coding Context
+# ID8Labs - Advanced Claude Context
+
+**Project:** id8Labs  
+**Product:** Professional company website  
+**Company:** id8Labs  
+
+## 🎯 Karpathy Senior Software Engineer Principles
+
+**BEFORE STARTING: Follow these principles religiously**
+
+1. **Surface assumptions explicitly** before proceeding
+2. **Stop and clarify** when encountering inconsistencies  
+3. **Push back on bad approaches** with concrete alternatives
+4. **Prefer simple, obvious solutions** over clever complexity
+5. **Touch only what you're asked to touch** (surgical precision)
+6. **List dead code for approval** before deleting
+
+## 🚀 Anthropic Team Advanced Techniques
+
+**Development Methodology (Boris Cherny - Claude Code Creator):**
+
+1. **Plan mode first** - Pour energy into planning for 1-shot implementation
+2. **Parallel worktrees** - Use 3-5 git worktrees, each with own Claude session
+3. **Custom skills in git** - If you do something >1x/day, make it a skill
+4. **Advanced prompting** - "Grill me on changes," "Prove this works," "Scrap and implement elegant solution"
+5. **Subagents** - Append "use subagents" for more compute, keep main context clean
+6. **Auto bug fixing** - Paste error logs, say "fix" - point at specific failure sources
 
 ## Project Philosophy
 **"Professional tools for the AI era" - Clean, scientific, credible company presence.**
