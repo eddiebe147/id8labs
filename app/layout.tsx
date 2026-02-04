@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ID8Labs - Professional Tools for the AI Era',
     description: 'AI tools for creators and builders. Claude Code training, Composer, DeepStack, and more.',
-    creator: '@eddiebe147',
+    creator: '@eddiebelaval',
     images: ['/og-image.png'],
   },
   robots: {

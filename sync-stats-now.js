@@ -8,21 +8,21 @@ require('dotenv').config({ path: '.env.local' })
 const { createClient } = require('@supabase/supabase-js')
 
 const TRACKED_REPOS = [
-  { owner: 'eddiebe147', repo: 'id8labs' },
-  { owner: 'eddiebe147', repo: 'id8composer-rebuild' },
-  { owner: 'eddiebe147', repo: 'Deepstack' },
-  { owner: 'eddiebe147', repo: 'milo' },
-  { owner: 'eddiebe147', repo: 'lexicon' },
-  { owner: 'eddiebe147', repo: 'llc-ops' },
-  { owner: 'eddiebe147', repo: 'claude-settings' },
-  { owner: 'eddiebe147', repo: 'umami' },
-  { owner: 'eddiebe147', repo: 'ai-academy-anthropic' },
-  { owner: 'eddiebe147', repo: 'ai-academy-openai' },
-  { owner: 'eddiebe147', repo: 'ai-academy-huggingface' },
-  { owner: 'eddiebe147', repo: 'ai-academy-ms-genai' },
-  { owner: 'eddiebe147', repo: 'ai-academy-curriculum' },
-  { owner: 'eddiebe147', repo: 'ai-academy-frameworks' },
-  { owner: 'eddiebe147', repo: 'ai-academy-community' },
+  { owner: 'eddiebelaval', repo: 'id8labs' },
+  { owner: 'eddiebelaval', repo: 'id8composer-rebuild' },
+  { owner: 'eddiebelaval', repo: 'Deepstack' },
+  { owner: 'eddiebelaval', repo: 'milo' },
+  { owner: 'eddiebelaval', repo: 'lexicon' },
+  { owner: 'eddiebelaval', repo: 'llc-ops' },
+  { owner: 'eddiebelaval', repo: 'claude-settings' },
+  { owner: 'eddiebelaval', repo: 'umami' },
+  { owner: 'eddiebelaval', repo: 'ai-academy-anthropic' },
+  { owner: 'eddiebelaval', repo: 'ai-academy-openai' },
+  { owner: 'eddiebelaval', repo: 'ai-academy-huggingface' },
+  { owner: 'eddiebelaval', repo: 'ai-academy-ms-genai' },
+  { owner: 'eddiebelaval', repo: 'ai-academy-curriculum' },
+  { owner: 'eddiebelaval', repo: 'ai-academy-frameworks' },
+  { owner: 'eddiebelaval', repo: 'ai-academy-community' },
 ]
 
 async function fetchRepoCommits(owner, repo, token) {

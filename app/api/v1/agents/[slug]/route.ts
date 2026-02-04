@@ -64,7 +64,7 @@ export async function GET(
 
       if (!content) {
         // Fetch content from GitHub repository
-        const repoBase = process.env.GITHUB_AGENTS_REPO || process.env.GITHUB_SKILLS_REPO || 'https://raw.githubusercontent.com/eddiebe147/claude-settings/main'
+        const repoBase = process.env.GITHUB_AGENTS_REPO || process.env.GITHUB_SKILLS_REPO || 'https://raw.githubusercontent.com/eddiebelaval/claude-settings/main'
         const contentUrl = `${repoBase}/agents/${slug}.md`
 
         try {
@@ -90,7 +90,7 @@ export async function GET(
         featured: agent.featured,
         author: agent.author || 'ID8Labs',
         license: agent.license || 'MIT',
-        repository: agent.repo_url || 'https://github.com/eddiebe147/claude-settings',
+        repository: agent.repo_url || 'https://github.com/eddiebelaval/claude-settings',
         repository_path: agent.repo_path || `agents/${slug}.md`,
         downloads: agent.install_count || 0,
         rating: agent.avg_rating || 0,
@@ -105,7 +105,7 @@ export async function GET(
 
     if (!content) {
       // Fetch content from GitHub repository
-      const repoBase = process.env.GITHUB_AGENTS_REPO || 'https://raw.githubusercontent.com/eddiebe147/claude-settings/main'
+      const repoBase = process.env.GITHUB_AGENTS_REPO || 'https://raw.githubusercontent.com/eddiebelaval/claude-settings/main'
       const contentUrl = `${repoBase}/agents/${slug}.md`
 
       try {
@@ -132,7 +132,7 @@ export async function GET(
       featured: skill.featured,
       author: skill.author || 'ID8Labs',
       license: skill.license || 'MIT',
-      repository: skill.repo_url || 'https://github.com/eddiebe147/claude-settings',
+      repository: skill.repo_url || 'https://github.com/eddiebelaval/claude-settings',
       repository_path: skill.repo_path || `agents/${slug}.md`,
       downloads: skill.install_count || 0,
       rating: skill.avg_rating || 0,

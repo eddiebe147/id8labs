@@ -43,7 +43,7 @@ ${commands.join('\n')}
     const commands = items.filter(i => i.type === 'command')
     const settings = items.filter(i => i.type === 'setting')
 
-    const repoBase = 'https://raw.githubusercontent.com/eddiebe147/claude-settings/main/skills'
+    const repoBase = 'https://raw.githubusercontent.com/eddiebelaval/claude-settings/main/skills'
     
     let scriptParts: string[] = []
 

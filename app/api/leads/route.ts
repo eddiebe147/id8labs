@@ -359,7 +359,7 @@ function generateWelcomeEmail(
                     <p style="margin: 0 0 10px; color: #737373; font-size: 14px;">
                       Production-ready hooks you can clone and customize.
                     </p>
-                    <a href="https://github.com/eddiebe147/id8labs-starter" style="color: #3B82F6; font-size: 14px; font-weight: 600; text-decoration: none;">
+                    <a href="https://github.com/eddiebelaval/id8labs-starter" style="color: #3B82F6; font-size: 14px; font-weight: 600; text-decoration: none;">
                       Clone from GitHub →
                     </a>
                   </td>

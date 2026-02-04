@@ -110,7 +110,7 @@ async function importAgents() {
       tags: ['agent', 'autonomous', isTMNT ? 'tmnt-squad' : 'specialist'],
       content,
       readme: null,
-      repo_url: 'https://github.com/eddiebe147/claude-settings',
+      repo_url: 'https://github.com/eddiebelaval/claude-settings',
       repo_path: `agents/${file}`,
       quality_score: 80,
       quality_tier: 'gold' as const,

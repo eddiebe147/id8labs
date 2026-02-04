@@ -32,8 +32,8 @@ const organizationSchema = {
     availableLanguage: ['English', 'Spanish'],
   },
   sameAs: [
-    'https://twitter.com/eddiebe147',
-    'https://github.com/eddiebe147',
+    'https://twitter.com/eddiebelaval',
+    'https://github.com/eddiebelaval',
   ],
   knowsAbout: [
     'Artificial Intelligence',

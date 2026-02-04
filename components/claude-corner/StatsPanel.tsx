@@ -463,7 +463,7 @@ function ActivityHeatmap() {
 
   return (
     <a
-      href="https://github.com/eddiebe147"
+      href="https://github.com/eddiebelaval"
       target="_blank"
       rel="noopener noreferrer"
       className="block bg-[#0d1117] rounded-lg border border-[#30363d] p-3 hover:border-[#ff6b35]/50 transition-all group"

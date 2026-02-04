@@ -68,10 +68,10 @@ export default function MILOLandingPage() {
               <GlowButton
                 variant="primary"
                 size="lg"
-                href="https://github.com/eddiebe147/milo/releases/latest"
+                href="https://github.com/eddiebelaval/milo/releases/latest"
                 onClick={(e) => {
                   e.preventDefault()
-                  window.open('https://github.com/eddiebe147/milo/releases/latest', '_blank')
+                  window.open('https://github.com/eddiebelaval/milo/releases/latest', '_blank')
                 }}
               >
                 <Github className="w-5 h-5 mr-2" />
@@ -534,7 +534,7 @@ export default function MILOLandingPage() {
 
           <ScrollReveal delay={0.3}>
             <div className="border-2 border-[#00ff41] border-opacity-30 bg-[#000a00] rounded-lg p-8 space-y-4 font-mono text-sm md:text-base">
-              <div className="text-[#00ff41]">$ bash &lt;(curl -s https://raw.githubusercontent.com/eddiebe147/milo/main/scripts/setup-claude.sh) YOUR_API_KEY</div>
+              <div className="text-[#00ff41]">$ bash &lt;(curl -s https://raw.githubusercontent.com/eddiebelaval/milo/main/scripts/setup-claude.sh) YOUR_API_KEY</div>
               <div className="text-[#666666] text-xs md:text-sm leading-relaxed space-y-2 pt-4">
                 <div>• Clones the repo</div>
                 <div>• Installs dependencies</div>
@@ -566,10 +566,10 @@ export default function MILOLandingPage() {
               <GlowButton
                 variant="secondary"
                 size="lg"
-                href="https://github.com/eddiebe147/milo/blob/main/CLAUDE.md"
+                href="https://github.com/eddiebelaval/milo/blob/main/CLAUDE.md"
                 onClick={(e) => {
                   e.preventDefault()
-                  window.open('https://github.com/eddiebe147/milo/blob/main/CLAUDE.md', '_blank')
+                  window.open('https://github.com/eddiebelaval/milo/blob/main/CLAUDE.md', '_blank')
                 }}
               >
                 Full Integration Guide
@@ -701,7 +701,7 @@ export default function MILOLandingPage() {
 
             <div className="flex gap-6">
               <Link
-                href="https://github.com/eddiebe147/milo"
+                href="https://github.com/eddiebelaval/milo"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group"

@@ -121,7 +121,7 @@ export default function Footer() {
                 X @eddiebe
               </a>
               <a
-                href="https://github.com/eddiebe147"
+                href="https://github.com/eddiebelaval"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[var(--text-secondary)] hover:text-id8-orange transition-colors"

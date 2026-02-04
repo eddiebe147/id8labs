@@ -15,7 +15,7 @@ interface GitHubConfig {
 
 function getConfig(): GitHubConfig {
   const token = process.env.GITHUB_TOKEN
-  const owner = process.env.GITHUB_REPO_OWNER || 'eddiebe147'
+  const owner = process.env.GITHUB_REPO_OWNER || 'eddiebelaval'
   const repo = process.env.GITHUB_AGENT_KITS_REPO || 'agent-kits'
 
   if (!token) {

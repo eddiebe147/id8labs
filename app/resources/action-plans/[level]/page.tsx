@@ -162,7 +162,7 @@ const actionPlans: Record<string, {
     ctaLinkText: 'Join #explorer-help on Discord',
     freeResource: {
       title: 'ID8Labs Hooks Starter Kit',
-      url: 'https://github.com/eddiebe147/id8labs-starter'
+      url: 'https://github.com/eddiebelaval/id8labs-starter'
     }
   },
   adopter: {

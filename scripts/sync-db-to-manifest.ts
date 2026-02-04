@@ -71,7 +71,7 @@ async function syncToManifest() {
       name: skill.name,
       description: skill.description,
       source: 'repo',
-      repository: 'eddiebe147/claude-settings',
+      repository: 'eddiebelaval/claude-settings',
       path: `skills/${skill.slug}`,
       installPath: `~/.claude/skills/${skill.slug}`,
       version: skill.version || '1.0.0',
