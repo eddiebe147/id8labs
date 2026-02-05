@@ -1,0 +1,614 @@
+---
+title: "Build Your Own HYDRA: A Multi-Agent System in One Day"
+subtitle: "Complete guide to building a hybrid AI-human operating system with launchd, SQLite, and tiered AI agents"
+date: "2026-02-05"
+category: "essay"
+readTime: "25 min read"
+excerpt: "Step-by-step tutorial for building HYDRA - a system that combines cheap signal detection (shell scripts) with intelligent coordination (SQLite) and specialized AI agents. Total cost: ~$10/day. Build time: one afternoon."
+tags: ["AI", "automation", "multi-agent", "tutorial", "HYDRA", "launchd", "SQLite", "Claude", "productivity"]
+featured: true
+image: "/images/hydra-tutorial-hero.png"
+---
+
+This is the complete guide to building HYDRA (Hybrid Unified Dispatch and Response Architecture) - a multi-agent system that coordinates AI specialists through a SQLite database, with signal detection handled by cheap shell scripts.
+
+**What you'll build:**
+- 4 AI agents with specialized roles (coordinator + 3 specialists)
+- SQLite coordination database with intelligent task routing
+- @mention system for agent communication
+- Daily briefings delivered to Telegram
+- CLI for manual control
+
+**Total cost:** ~$300/month (only the coordinator needs a premium model)
+**Build time:** 4-6 hours
+
+---
+
+## The Problem
+
+I had 23 launchd jobs detecting signals across my development environment - dependency vulnerabilities, marketing streaks, stuck projects, context switches. Each job generated a report. The reports piled up unread.
+
+The alternative - Bhanu Teja P's "Mission Control" pattern - used 10 AI agents coordinating through a database. Smart, but expensive ($40/day for 10 premium agents).
+
+**The insight:** Signal detection is cheap. Coordination is cheap. Only the *thinking* needs to be expensive.
+
+HYDRA combines:
+- **Cheap signal detection** (shell scripts on launchd)
+- **Cheap coordination** (SQLite database)
+- **Expensive thinking** (one premium coordinator)
+- **Free execution** (open-source specialist models)
+
+---
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SIGNAL DETECTION (launchd)               │
+│  8:00 AM   seventy-percent.sh    → "3 stuck projects"      │
+│  8:15 AM   dependency-guardian   → "2 vulnerabilities"     │
+│  8:30 AM   hydra-sync.sh        → creates tasks in DB      │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    COORDINATION (SQLite)                     │
+│  ~/.hydra/hydra.db                                          │
+│  ├── agents        (roster)                                 │
+│  ├── tasks         (work queue)                             │
+│  ├── messages      (@mentions)                              │
+│  └── notifications (delivery queue)                         │
+└─────────────────────────────────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+  ┌───────────┐       ┌───────────┐       ┌───────────┐
+  │   MILO    │       │   FORGE   │       │   SCOUT   │
+  │coordinator│──────▶│  dev work │       │ research  │
+  │ Claude $  │       │   FREE    │       │   FREE    │
+  │  15m HB   │       │  30m HB   │       │   60m HB  │
+  └───────────┘       └───────────┘       └───────────┘
+        │
+        ▼
+  ┌───────────┐       ┌───────────┐
+  │   PULSE   │       │ Telegram  │
+  │    ops    │◀──────│  Bot API  │
+  │   FREE    │       └───────────┘
+  └───────────┘
+```
+
+**Cost breakdown:**
+- MILO (coordinator): Claude Sonnet @ ~$10/day
+- FORGE, SCOUT, PULSE: Free models (DeepSeek, Qwen, Llama)
+- Infrastructure: $0 (SQLite + launchd)
+
+---
+
+## Phase 1: Create the Database (30 min)
+
+### Directory Structure
+
+```bash
+mkdir -p ~/.hydra/{config,sessions,daemons,tools,reports,briefings,logs}
+mkdir -p ~/.hydra/sessions/{milo,forge,scout,pulse}
+mkdir -p ~/.hydra/reports/{milo,forge,scout,pulse}
+```
+
+### Database Schema
+
+Create `~/.hydra/init-db.sql`:
+
+```sql
+-- HYDRA Database Schema
+PRAGMA foreign_keys = ON;
+
+-- Agents: The roster of AI agents
+CREATE TABLE IF NOT EXISTS agents (
+    id TEXT PRIMARY KEY,              -- 'milo', 'forge', 'scout', 'pulse'
+    name TEXT NOT NULL,               -- Display name
+    role TEXT NOT NULL,               -- 'coordinator', 'dev', 'research', 'ops'
+    model TEXT NOT NULL,              -- 'claude-sonnet-4', 'deepseek-v3', etc.
+    heartbeat_minutes INTEGER DEFAULT 15,
+    cost_tier TEXT DEFAULT 'cheap',   -- 'cheap' or 'premium'
+    status TEXT DEFAULT 'active',
+    last_heartbeat_at TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
+-- Tasks: Shared work queue
+CREATE TABLE IF NOT EXISTS tasks (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    source TEXT NOT NULL,             -- 'automation', 'user', 'agent'
+    assigned_to TEXT,                 -- agent.id
+    status TEXT DEFAULT 'pending',    -- 'pending', 'in_progress', 'completed'
+    priority INTEGER DEFAULT 3,       -- 1=urgent, 5=low
+    task_type TEXT,                   -- 'dev', 'research', 'ops'
+    created_at TEXT DEFAULT (datetime('now')),
+    completed_at TEXT,
+    FOREIGN KEY (assigned_to) REFERENCES agents(id)
+);
+
+-- Messages: @mention communication
+CREATE TABLE IF NOT EXISTS messages (
+    id TEXT PRIMARY KEY,
+    sender TEXT NOT NULL,
+    content TEXT NOT NULL,
+    mentions TEXT,                    -- JSON array: ["forge", "pulse"]
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
+-- Notifications: Delivery queue
+CREATE TABLE IF NOT EXISTS notifications (
+    id TEXT PRIMARY KEY,
+    target_agent TEXT NOT NULL,
+    notification_type TEXT,           -- 'mention', 'task_assigned', 'urgent'
+    source_type TEXT,                 -- 'message', 'task'
+    source_id TEXT,
+    priority TEXT DEFAULT 'normal',
+    content_preview TEXT,
+    delivered BOOLEAN DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (target_agent) REFERENCES agents(id)
+);
+
+-- Activities: Audit log
+CREATE TABLE IF NOT EXISTS activities (
+    id TEXT PRIMARY KEY,
+    agent_id TEXT,
+    activity_type TEXT,               -- 'heartbeat', 'task_complete', etc.
+    description TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
+-- View: Agent workload at a glance
+CREATE VIEW IF NOT EXISTS v_agent_workload AS
+SELECT
+    a.id as agent_id,
+    a.name as agent_name,
+    a.status as agent_status,
+    COUNT(CASE WHEN t.status = 'pending' THEN 1 END) as pending_tasks,
+    COUNT(CASE WHEN t.status = 'in_progress' THEN 1 END) as in_progress_tasks,
+    COUNT(CASE WHEN t.status = 'blocked' THEN 1 END) as blocked_tasks,
+    COUNT(CASE WHEN t.status = 'completed' 
+          AND date(t.completed_at) = date('now') THEN 1 END) as completed_today
+FROM agents a
+LEFT JOIN tasks t ON t.assigned_to = a.id
+GROUP BY a.id;
+
+-- View: Pending notifications
+CREATE VIEW IF NOT EXISTS v_pending_notifications AS
+SELECT 
+    n.*,
+    a.name as agent_name
+FROM notifications n
+JOIN agents a ON n.target_agent = a.id
+WHERE n.delivered = 0
+ORDER BY 
+    CASE n.priority WHEN 'urgent' THEN 1 WHEN 'high' THEN 2 ELSE 3 END,
+    n.created_at;
+```
+
+### Initialize Database
+
+```bash
+sqlite3 ~/.hydra/hydra.db < ~/.hydra/init-db.sql
+```
+
+### Seed Agent Roster
+
+```bash
+sqlite3 ~/.hydra/hydra.db << 'EOF'
+INSERT INTO agents (id, name, role, model, heartbeat_minutes, cost_tier) VALUES
+('milo', 'MILO', 'coordinator', 'claude-sonnet-4', 15, 'premium'),
+('forge', 'FORGE', 'dev', 'deepseek-v3', 30, 'cheap'),
+('scout', 'SCOUT', 'research', 'qwen-235b', 60, 'cheap'),
+('pulse', 'PULSE', 'ops', 'llama-4-maverick', 30, 'cheap');
+EOF
+```
+
+**Verify:**
+```bash
+sqlite3 ~/.hydra/hydra.db "SELECT * FROM agents;"
+```
+
+---
+
+## Phase 2: Build the Sync Pipeline (1 hour)
+
+The sync script reads automation reports and creates routed tasks.
+
+### Create `~/Development/scripts/hydra-sync.sh`:
+
+```bash
+#!/bin/bash
+# hydra-sync.sh - Convert automation findings to routed tasks
+set -euo pipefail
+
+HYDRA_DB="$HOME/.hydra/hydra.db"
+LOGS_BASE="$HOME/Library/Logs/claude-automation"
+LOG_FILE="$LOGS_BASE/hydra-sync/sync-$(date +%Y-%m-%d).log"
+
+mkdir -p "$(dirname "$LOG_FILE")"
+
+log() { echo "[$(date '+%H:%M:%S')] $1" | tee -a "$LOG_FILE"; }
+
+# Route task to appropriate agent
+get_agent_for_type() {
+    case "$1" in
+        dev|code|bug|feature) echo "forge" ;;
+        research|marketing|seo|content) echo "scout" ;;
+        ops|devops|security|infra) echo "pulse" ;;
+        *) echo "milo" ;;
+    esac
+}
+
+# Create task in database
+create_task() {
+    local title="$1" desc="$2" type="$3" priority="${4:-3}"
+    local agent=$(get_agent_for_type "$type")
+    local id=$(uuidgen | tr '[:upper:]' '[:lower:]')
+    
+    sqlite3 "$HYDRA_DB" "
+        INSERT INTO tasks (id, title, description, source, assigned_to, task_type, priority)
+        VALUES ('$id', '$(echo "$title" | sed "s/'/''/g")', '$(echo "$desc" | sed "s/'/''/g")', 'automation', '$agent', '$type', $priority);
+    "
+    log "Created: [$agent] $title"
+}
+
+log "=== HYDRA Sync Starting ==="
+
+# Example: Read 70% detector report
+REPORT="$LOGS_BASE/seventy-percent-detector/report-$(date +%Y-%m-%d).md"
+if [[ -f "$REPORT" ]]; then
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^-\ (.+)$ ]]; then
+            create_task "Finish: ${BASH_REMATCH[1]}" "From 70% detector" "dev" 2
+        fi
+    done < <(grep "^- " "$REPORT")
+fi
+
+# Add your other automation report parsers here...
+
+log "=== HYDRA Sync Complete ==="
+```
+
+```bash
+chmod +x ~/Development/scripts/hydra-sync.sh
+```
+
+---
+
+## Phase 3: Build the CLI (1 hour)
+
+### Create `~/.hydra/tools/hydra-cli.sh`:
+
+```bash
+#!/bin/bash
+# hydra-cli.sh - HYDRA command-line interface
+set -euo pipefail
+
+HYDRA_DB="$HOME/.hydra/hydra.db"
+
+show_help() {
+    cat << 'EOF'
+HYDRA Multi-Agent CLI
+
+Commands:
+  status              System overview
+  tasks [agent]       List tasks
+  route "message"     Route with @mentions
+  notifications       Pending notifications
+EOF
+}
+
+cmd_status() {
+    echo "HYDRA System Status"
+    echo "==================="
+    sqlite3 -header -column "$HYDRA_DB" "SELECT * FROM v_agent_workload;"
+    echo ""
+    echo "Pending Notifications: $(sqlite3 "$HYDRA_DB" "SELECT COUNT(*) FROM notifications WHERE delivered=0;")"
+}
+
+cmd_route() {
+    local content="$1"
+    local msg_id=$(uuidgen | tr '[:upper:]' '[:lower:]')
+    
+    # Extract @mentions
+    local mentions=$(echo "$content" | grep -oE '@[a-z]+' | tr -d '@' | sort -u | tr '\n' ',' | sed 's/,$//')
+    
+    # Insert message
+    sqlite3 "$HYDRA_DB" "
+        INSERT INTO messages (id, sender, content, mentions)
+        VALUES ('$msg_id', 'user', '$(echo "$content" | sed "s/'/''/g")', '[$mentions]');
+    "
+    
+    # Create notifications for mentioned agents
+    for agent in $(echo "$mentions" | tr ',' '\n'); do
+        local notif_id=$(uuidgen | tr '[:upper:]' '[:lower:]')
+        local priority="normal"
+        [[ "$content" =~ [Uu]rgent ]] && priority="urgent"
+        
+        sqlite3 "$HYDRA_DB" "
+            INSERT INTO notifications (id, target_agent, notification_type, source_type, source_id, priority, content_preview)
+            VALUES ('$notif_id', '$agent', 'mention', 'message', '$msg_id', '$priority', '$(echo "$content" | head -c 100 | sed "s/'/''/g")');
+        "
+        echo "Notified @$agent"
+    done
+}
+
+case "${1:-help}" in
+    status) cmd_status ;;
+    route) cmd_route "$2" ;;
+    help|--help|-h) show_help ;;
+    *) show_help ;;
+esac
+```
+
+```bash
+chmod +x ~/.hydra/tools/hydra-cli.sh
+ln -sf ~/.hydra/tools/hydra-cli.sh ~/.local/bin/hydra
+```
+
+**Test it:**
+```bash
+hydra status
+hydra route "Hey @forge can you fix the auth bug? Urgent!"
+```
+
+---
+
+## Phase 4: Telegram Notifications (30 min)
+
+### Get Credentials
+
+1. Message [@BotFather](https://t.me/BotFather) → `/newbot` → copy token
+2. Message [@userinfobot](https://t.me/userinfobot) → copy your chat ID
+
+### Create `~/.hydra/config/telegram.env`:
+
+```bash
+TELEGRAM_BOT_TOKEN="your-bot-token-here"
+TELEGRAM_CHAT_ID="your-chat-id-here"
+```
+
+```bash
+chmod 600 ~/.hydra/config/telegram.env
+```
+
+### Create `~/.hydra/daemons/notify-eddie.sh`:
+
+```bash
+#!/bin/bash
+# notify-eddie.sh - Send notifications via Telegram
+set -euo pipefail
+
+source ~/.hydra/config/telegram.env
+
+PRIORITY="${1:-normal}"
+TITLE="${2:-HYDRA}"
+MESSAGE="${3:-}"
+
+send_telegram() {
+    local text="$TITLE\n\n$MESSAGE\n\n$(date '+%Y-%m-%d %H:%M')"
+    local json_text=$(printf '%s' "$text" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()))')
+    
+    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+        -H "Content-Type: application/json" \
+        -d "{\"chat_id\": \"${TELEGRAM_CHAT_ID}\", \"text\": ${json_text}}" \
+        >/dev/null
+}
+
+[[ "$PRIORITY" == "urgent" || "$PRIORITY" == "high" ]] && send_telegram
+```
+
+```bash
+chmod +x ~/.hydra/daemons/notify-eddie.sh
+```
+
+**Test:**
+```bash
+~/.hydra/daemons/notify-eddie.sh urgent "Test" "Telegram working!"
+```
+
+---
+
+## Phase 5: Schedule with launchd (30 min)
+
+### Create `~/Library/LaunchAgents/com.hydra.sync.plist`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.hydra.sync</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/YOUR_USERNAME/Development/scripts/hydra-sync.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key><integer>8</integer>
+        <key>Minute</key><integer>30</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/Users/YOUR_USERNAME/Library/Logs/claude-automation/hydra-sync/launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/YOUR_USERNAME/Library/Logs/claude-automation/hydra-sync/launchd-error.log</string>
+</dict>
+</plist>
+```
+
+**Replace `YOUR_USERNAME` with your actual username**, then:
+
+```bash
+launchctl load ~/Library/LaunchAgents/com.hydra.sync.plist
+launchctl list | grep hydra
+```
+
+---
+
+## Phase 6: Daily Briefing (30 min)
+
+### Create `~/.hydra/daemons/daily-briefing.sh`:
+
+```bash
+#!/bin/bash
+# daily-briefing.sh - Morning briefing generator
+set -euo pipefail
+
+HYDRA_DB="$HOME/.hydra/hydra.db"
+BRIEFING_DIR="$HOME/.hydra/briefings"
+DATE=$(date +%Y-%m-%d)
+BRIEFING_FILE="$BRIEFING_DIR/briefing-$DATE.md"
+
+mkdir -p "$BRIEFING_DIR"
+
+# Gather data
+WORKLOAD=$(sqlite3 "$HYDRA_DB" "SELECT agent_name || ': ' || pending_tasks || 'P/' || in_progress_tasks || 'WIP' FROM v_agent_workload;")
+URGENT=$(sqlite3 "$HYDRA_DB" "SELECT COUNT(*) FROM notifications WHERE priority='urgent' AND delivered=0;")
+PENDING=$(sqlite3 "$HYDRA_DB" "SELECT COUNT(*) FROM tasks WHERE status='pending';")
+
+# Generate briefing
+cat > "$BRIEFING_FILE" << EOF
+# HYDRA Morning Briefing
+**Date:** $DATE
+
+## Agent Workload
+$WORKLOAD
+
+## Summary
+- Urgent items: $URGENT
+- Pending tasks: $PENDING
+
+## Quick Commands
+\`\`\`bash
+hydra status
+hydra tasks
+hydra route "@agent message"
+\`\`\`
+EOF
+
+# Open in MacDown (or default app)
+[[ -d "/Applications/MacDown.app" ]] && open -a "MacDown" "$BRIEFING_FILE" || open "$BRIEFING_FILE"
+
+# Telegram notification
+~/.hydra/daemons/notify-eddie.sh urgent "HYDRA Briefing" "$URGENT urgent | $PENDING pending"
+```
+
+```bash
+chmod +x ~/.hydra/daemons/daily-briefing.sh
+```
+
+---
+
+## Using HYDRA
+
+### Daily Workflow
+
+```bash
+# Check system status
+hydra status
+
+# Route work to agents
+hydra route "Hey @forge fix the login bug, it's urgent"
+hydra route "@scout research competitor pricing strategies"
+hydra route "@pulse check the deployment logs"
+
+# View tasks by agent
+hydra tasks forge
+hydra tasks scout
+
+# Manual briefing
+~/.hydra/daemons/daily-briefing.sh
+```
+
+### The @Mention System
+
+Messages are parsed for @mentions:
+- `@forge` → routes to FORGE (dev work)
+- `@scout` → routes to SCOUT (research)  
+- `@pulse` → routes to PULSE (ops)
+- `@milo` → routes to MILO (coordination)
+- `@all` → notifies everyone
+- Contains "urgent" → marked high priority
+
+---
+
+## Cost Analysis
+
+| Component | Cost |
+|-----------|------|
+| MILO (Claude Sonnet 4) | ~$10/day |
+| FORGE (DeepSeek V3) | FREE |
+| SCOUT (Qwen 235B) | FREE |
+| PULSE (Llama 4) | FREE |
+| SQLite | FREE |
+| launchd | FREE |
+| **Total** | **~$300/month** |
+
+Compare to 4 Claude agents: ~$1,200/month (75% savings).
+
+---
+
+## Extending HYDRA
+
+### Add More Automation Sources
+
+Edit `hydra-sync.sh` to parse more reports:
+
+```bash
+# Security vulnerabilities
+SECURITY_REPORT="$LOGS_BASE/dependency-guardian/report-$DATE.md"
+if [[ -f "$SECURITY_REPORT" ]]; then
+    grep "CRITICAL\|HIGH" "$SECURITY_REPORT" | while read -r vuln; do
+        create_task "Security: $vuln" "From dependency scan" "security" 1
+    done
+fi
+```
+
+### Add Agent Heartbeats
+
+Create a script that runs each agent's heartbeat, checking their notification queue and processing tasks. This is where you'd integrate with your actual AI backend (OpenClaw, direct API calls, etc.).
+
+### Add Cross-Agent Threads
+
+Extend the messages table to support threads where agents can discuss tasks with each other.
+
+---
+
+## Key Principles
+
+1. **Cheap signal detection** - Shell scripts + launchd are free and reliable
+2. **Cheap coordination** - SQLite handles concurrent reads, no hosting needed
+3. **Expensive thinking, cheap doing** - Only coordinator needs premium model
+4. **@mentions over queues** - Language models understand language
+5. **Daily forcing functions** - Briefings prevent report pile-up
+
+---
+
+## Full Source Code
+
+All code is available at: [github.com/eddiebelaval/claude-automation-pipeline](https://github.com/eddiebelaval/claude-automation-pipeline)
+
+Key files:
+- `~/.hydra/init-db.sql` - Database schema
+- `~/Development/scripts/hydra-sync.sh` - Sync pipeline
+- `~/.hydra/tools/hydra-cli.sh` - CLI interface
+- `~/.hydra/daemons/notify-eddie.sh` - Telegram notifications
+- `~/.hydra/daemons/daily-briefing.sh` - Morning briefing
+
+---
+
+**HYDRA doesn't think for you. It thinks *with* you.**
+
+The system detects signals cheaply, routes them intelligently, and lets specialized agents execute. You stay in control. The agents handle the work.
+
+Build it in an afternoon. Run it for $10/day.
+
+---
+
+*Built with Claude Code. Inspired by Bhanu Teja P's Mission Control pattern.*
