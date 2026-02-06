@@ -158,7 +158,7 @@ const applySkillFilters = (skills: Skill[], filters: SkillFilters): Skill[] => {
     filtered = filtered.filter((skill) => skill.quality_tier === filters.qualityTier)
   }
   if (filters.minRating) {
-    filtered = filtered.filter((skill) => skill.avg_rating >= filters.minRating)
+    filtered = filtered.filter((skill) => skill.avg_rating >= filters.minRating!)
   }
   if (filters.itemType === 'agents') {
     filtered = filtered.filter((skill) => skill.tags?.includes('agent'))
