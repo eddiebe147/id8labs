@@ -23,6 +23,9 @@ const nextConfig = {
 
   // Redirects for backwards compatibility
   async redirects() {
+    if (process.env.DISABLE_MARKETPLACE_REDIRECTS === 'true') {
+      return []
+    }
     return [
       // Legacy /skills routes
       {

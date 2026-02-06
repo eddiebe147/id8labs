@@ -5,6 +5,59 @@
 
 import { createClient as createServerClient } from '@/lib/supabase/server'
 
+const HAS_SUPABASE =
+  Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
+  Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+
+const FALLBACK_DATE = '2026-02-05T00:00:00.000Z'
+
+const FALLBACK_SETTINGS: Setting[] = [
+  {
+    id: 'setting-claude-opus-max-quality',
+    slug: 'claude-opus-max-quality',
+    name: 'Claude Opus Max Quality',
+    description: 'High-accuracy configuration for complex reasoning tasks.',
+    category: 'model',
+    model: 'claude-3-opus',
+    max_tokens: 4096,
+    temperature: 0.2,
+    use_case: 'Long-form reasoning and decision support',
+    settings: {
+      model: 'claude-3-opus',
+      max_tokens: 4096,
+      temperature: 0.2,
+    },
+    tags: ['model', 'quality'],
+    install_count: 980,
+    verified: true,
+    status: 'published',
+    created_at: FALLBACK_DATE,
+    updated_at: FALLBACK_DATE,
+  },
+  {
+    id: 'setting-context-window-boost',
+    slug: 'context-window-boost',
+    name: 'Context Window Boost',
+    description: 'Balanced configuration for long transcripts and large specs.',
+    category: 'context',
+    model: 'claude-3-sonnet',
+    max_tokens: 8192,
+    temperature: 0.3,
+    use_case: 'Summaries and document analysis',
+    settings: {
+      model: 'claude-3-sonnet',
+      max_tokens: 8192,
+      temperature: 0.3,
+    },
+    tags: ['context', 'summaries'],
+    install_count: 640,
+    verified: false,
+    status: 'published',
+    created_at: FALLBACK_DATE,
+    updated_at: FALLBACK_DATE,
+  },
+]
+
 export interface Setting {
   id: string
   slug: string
@@ -28,11 +81,14 @@ export interface Setting {
  * Get all published settings
  */
 export async function getAllSettings(): Promise<Setting[]> {
+  if (!HAS_SUPABASE) {
+    return FALLBACK_SETTINGS
+  }
   try {
     const supabase = await createServerClient()
     if (!supabase) {
       console.error('[getAllSettings] Supabase client failed')
-      return []
+      return FALLBACK_SETTINGS
     }
 
     const { data, error } = await supabase
@@ -43,13 +99,13 @@ export async function getAllSettings(): Promise<Setting[]> {
 
     if (error) {
       console.error('[getAllSettings] Error:', error)
-      return []
+      return FALLBACK_SETTINGS
     }
 
     return data || []
   } catch (error) {
     console.error('[getAllSettings] Unexpected error:', error)
-    return []
+    return FALLBACK_SETTINGS
   }
 }
 
@@ -57,10 +113,13 @@ export async function getAllSettings(): Promise<Setting[]> {
  * Get setting by slug
  */
 export async function getSetting(slug: string): Promise<Setting | null> {
+  if (!HAS_SUPABASE) {
+    return FALLBACK_SETTINGS.find((setting) => setting.slug === slug) || null
+  }
   try {
     const supabase = await createServerClient()
     if (!supabase) {
-      return null
+      return FALLBACK_SETTINGS.find((setting) => setting.slug === slug) || null
     }
 
     const { data, error } = await supabase
@@ -72,13 +131,13 @@ export async function getSetting(slug: string): Promise<Setting | null> {
 
     if (error || !data) {
       console.error('[getSetting] Error:', error)
-      return null
+      return FALLBACK_SETTINGS.find((setting) => setting.slug === slug) || null
     }
 
     return data
   } catch (error) {
     console.error('[getSetting] Unexpected error:', error)
-    return null
+    return FALLBACK_SETTINGS.find((setting) => setting.slug === slug) || null
   }
 }
 
@@ -86,10 +145,13 @@ export async function getSetting(slug: string): Promise<Setting | null> {
  * Get settings by category
  */
 export async function getSettingsByCategory(category: string): Promise<Setting[]> {
+  if (!HAS_SUPABASE) {
+    return FALLBACK_SETTINGS.filter((setting) => setting.category === category)
+  }
   try {
     const supabase = await createServerClient()
     if (!supabase) {
-      return []
+      return FALLBACK_SETTINGS.filter((setting) => setting.category === category)
     }
 
     const { data, error } = await supabase
@@ -101,13 +163,13 @@ export async function getSettingsByCategory(category: string): Promise<Setting[]
 
     if (error) {
       console.error('[getSettingsByCategory] Error:', error)
-      return []
+      return FALLBACK_SETTINGS.filter((setting) => setting.category === category)
     }
 
     return data || []
   } catch (error) {
     console.error('[getSettingsByCategory] Unexpected error:', error)
-    return []
+    return FALLBACK_SETTINGS.filter((setting) => setting.category === category)
   }
 }
 
@@ -129,5 +191,4 @@ export async function getSettingCategories(): Promise<Record<string, number>> {
     return {}
   }
 }
-
 

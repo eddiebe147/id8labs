@@ -30,7 +30,10 @@ interface PageProps {
   searchParams: Promise<{ tab?: MarketplaceTab; type?: string; category?: string }>
 }
 
-export default async function StackShackMarketplacePage({ searchParams }: PageProps) {
+export default async function StackShackMarketplacePage({
+  searchParams,
+  basePath = '/stackshack',
+}: PageProps & { basePath?: string }) {
   const params = await searchParams
   const activeTab = params?.tab || 'skills'
   const typeFilter = params?.type || 'all'
@@ -152,13 +155,14 @@ export default async function StackShackMarketplacePage({ searchParams }: PagePr
         </div>
       </section>
 
-      <MarketplaceTabs activeTab={activeTab} counts={tabCounts} />
+      <MarketplaceTabs activeTab={activeTab} counts={tabCounts} basePath={basePath} />
 
       <section className="py-8 md:py-12">
         <div className="container">
           <div className="flex gap-8">
             <MarketplaceSidebar
               activeTab={activeTab}
+              basePath={basePath}
               skillCategories={categories}
               collections={collections}
               skillCounts={{

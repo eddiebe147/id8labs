@@ -12,6 +12,7 @@ interface TabConfig {
 
 interface MarketplaceTabsProps {
   activeTab?: MarketplaceTab
+  basePath?: string
   counts?: {
     skills?: number
     commands?: number
@@ -21,7 +22,7 @@ interface MarketplaceTabsProps {
   }
 }
 
-export function MarketplaceTabs({ activeTab = 'skills', counts }: MarketplaceTabsProps) {
+export function MarketplaceTabs({ activeTab = 'skills', counts, basePath = '/stackshack' }: MarketplaceTabsProps) {
 
   const tabs: TabConfig[] = [
     {
@@ -62,7 +63,7 @@ export function MarketplaceTabs({ activeTab = 'skills', counts }: MarketplaceTab
         <nav className="flex items-center justify-center gap-1 overflow-x-auto scrollbar-hide py-2">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id
-            const href = tab.id === 'skills' ? '/stackshack' : '/stackshack?tab=' + tab.id
+            const href = tab.id === 'skills' ? basePath : basePath + '?tab=' + tab.id
 
             return (
               <Link

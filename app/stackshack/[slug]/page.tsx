@@ -60,7 +60,10 @@ export async function generateStaticParams() {
   }
 }
 
-export default async function SkillDetailPage({ params }: PageProps) {
+export default async function SkillDetailPage({
+  params,
+  basePath = '/stackshack',
+}: PageProps & { basePath?: string }) {
   const { slug } = await params
   const skill = await getSkillBySlug(slug)
 
@@ -84,7 +87,7 @@ export default async function SkillDetailPage({ params }: PageProps) {
       <div className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
         <div className="container py-6">
           <Link
-            href="/stackshack"
+            href={basePath}
             className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--id8-orange)] mb-4 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -254,7 +257,7 @@ export default async function SkillDetailPage({ params }: PageProps) {
                   {skill.tags.map((tag) => (
                     <Link
                       key={tag}
-                      href={`/skills/search?q=${encodeURIComponent(tag)}`}
+                      href={`${basePath}/search?q=${encodeURIComponent(tag)}`}
                       className="px-3 py-1 bg-[var(--bg-secondary)] text-[var(--text-secondary)] rounded-md text-sm hover:bg-[var(--bg-tertiary)] transition-colors"
                     >
                       {tag}

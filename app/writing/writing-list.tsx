@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { m } from '@/components/motion'
 import { type WritingItem, type WritingCategory } from '@/lib/writing'
@@ -148,11 +149,14 @@ export function WritingList({ items }: WritingListProps) {
               transition={{ duration: 0.8 }}
               className="relative w-full h-64 md:h-80 lg:h-96 overflow-hidden"
             >
-              <img
+              <Image
                 src="/images/newsletter-header.jpg"
                 alt="Hidden leafhopper in flower - signal:noise newsletter"
-                className="w-full h-full object-cover"
+                fill
+                sizes="100vw"
+                className="object-cover"
                 style={{ objectPosition: '50% 55%' }}
+                priority
               />
               {/* Subtle gradient for text readability - just where text sits */}
               <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/40 to-transparent" />

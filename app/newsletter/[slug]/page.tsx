@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import { getIssueBySlug, getAllIssues, isEssay } from '@/lib/newsletter/issues'
 import { NewsletterSubscribe } from '@/components/newsletter'
@@ -266,10 +267,13 @@ export default async function NewsletterIssuePage({ params }: PageProps) {
 
           {issue.heroImage && (
             <div className="mb-10">
-              <img
+              <Image
                 src={issue.heroImage}
                 alt={issue.heroAlt || issue.title}
-                className="w-full rounded-lg"
+                width={1200}
+                height={675}
+                sizes="(min-width: 1024px) 768px, 100vw"
+                className="w-full h-auto rounded-lg"
               />
             </div>
           )}

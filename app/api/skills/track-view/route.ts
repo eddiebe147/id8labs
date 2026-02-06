@@ -14,7 +14,16 @@ export async function POST(request: NextRequest) {
     )
   }
   try {
-    const body = await request.json()
+    const rawBody = await request.text()
+    let body: { skillId?: string; sessionId?: string; referrer?: string } = {}
+    if (rawBody) {
+      try {
+        body = JSON.parse(rawBody)
+      } catch {
+        // Ignore malformed payloads to avoid noisy client errors
+        return NextResponse.json({ success: true })
+      }
+    }
     const { skillId, sessionId, referrer } = body
 
     if (!skillId) {
@@ -23,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient()
     if (!supabase) {
-      return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+      return NextResponse.json({ success: true })
     }
 
     await supabase.rpc('track_skill_view', {

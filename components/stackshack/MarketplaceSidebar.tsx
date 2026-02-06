@@ -57,6 +57,7 @@ const PLUGIN_CATEGORY_EMOJI: Record<string, string> = {
 
 interface MarketplaceSidebarProps {
   activeTab: MarketplaceTab
+  basePath?: string
   skillCategories?: SkillCategory[]
   collections?: SkillCollection[]
   skillCounts?: {
@@ -75,6 +76,7 @@ interface MarketplaceSidebarProps {
 
 export function MarketplaceSidebar({
   activeTab,
+  basePath = '/stackshack',
   skillCategories = [],
   collections = [],
   skillCounts,
@@ -99,11 +101,11 @@ export function MarketplaceSidebar({
       params.set('category', targetCategory)
     }
     const queryString = params.toString()
-    return '/stackshack' + (queryString ? '?' + queryString : '')
+    return basePath + (queryString ? '?' + queryString : '')
   }
 
   const hasActiveFilters = currentType !== 'all' || currentCategory !== null
-  const clearUrl = activeTab === 'skills' ? '/stackshack' : '/stackshack?tab=' + activeTab
+  const clearUrl = activeTab === 'skills' ? basePath : basePath + '?tab=' + activeTab
 
   return (
     <aside className="hidden lg:block w-64 flex-shrink-0">
@@ -209,7 +211,7 @@ export function MarketplaceSidebar({
               <h4 className="text-sm font-medium mb-3">Categories</h4>
               <div className="space-y-1">
                 <Link
-                  href="/stackshack?tab=commands"
+                  href={basePath + '?tab=commands'}
                   className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
                     (!currentCategory
                       ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
@@ -229,7 +231,7 @@ export function MarketplaceSidebar({
                     return (
                       <Link
                         key={category}
-                        href={isSelected ? '/stackshack?tab=commands' : '/stackshack?tab=commands&category=' + category}
+                        href={isSelected ? basePath + '?tab=commands' : basePath + '?tab=commands&category=' + category}
                         className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
                           (isSelected
                             ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
@@ -250,7 +252,7 @@ export function MarketplaceSidebar({
               <h4 className="text-sm font-medium mb-3">Categories</h4>
               <div className="space-y-1">
                 <Link
-                  href="/stackshack?tab=settings"
+                  href={basePath + '?tab=settings'}
                   className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
                     (!currentCategory
                       ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
@@ -270,7 +272,7 @@ export function MarketplaceSidebar({
                     return (
                       <Link
                         key={category}
-                        href={isSelected ? '/stackshack?tab=settings' : '/stackshack?tab=settings&category=' + category}
+                        href={isSelected ? basePath + '?tab=settings' : basePath + '?tab=settings&category=' + category}
                         className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
                           (isSelected
                             ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
@@ -291,7 +293,7 @@ export function MarketplaceSidebar({
               <h4 className="text-sm font-medium mb-3">Categories</h4>
               <div className="space-y-1">
                 <Link
-                  href="/stackshack?tab=plugins"
+                  href={basePath + '?tab=plugins'}
                   className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
                     (!currentCategory
                       ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
@@ -315,7 +317,7 @@ export function MarketplaceSidebar({
                     return (
                       <Link
                         key={category}
-                        href={isSelected ? '/stackshack?tab=plugins' : '/stackshack?tab=plugins&category=' + category}
+                        href={isSelected ? basePath + '?tab=plugins' : basePath + '?tab=plugins&category=' + category}
                         className={'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ' +
                           (isSelected
                             ? 'bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]'
@@ -336,7 +338,7 @@ export function MarketplaceSidebar({
               <h4 className="text-sm font-medium mb-3">Browse</h4>
               <div className="space-y-1">
                 <Link
-                  href="/stackshack?tab=kits"
+                  href={basePath + '?tab=kits'}
                   className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[var(--id8-orange)]/10 text-[var(--id8-orange)]"
                 >
                   <Package className="w-4 h-4" />
@@ -366,7 +368,7 @@ export function MarketplaceSidebar({
                 {collections.slice(0, 3).map((collection) => (
                   <Link
                     key={collection.id}
-                    href={'/stackshack/starter-kits#' + collection.id}
+                    href={`${basePath}/starter-kits#${collection.id}`}
                     className="block p-3 rounded-lg border border-[var(--border)] hover:border-purple-500/30 hover:bg-purple-500/5 transition-colors group"
                   >
                     <div className="flex items-center gap-2">
@@ -382,7 +384,7 @@ export function MarketplaceSidebar({
                 ))}
               </div>
               <Link
-                href="/stackshack/starter-kits"
+                href={`${basePath}/starter-kits`}
                 className="block mt-3 text-sm text-[var(--id8-orange)] hover:text-[var(--id8-orange-hover)] font-medium"
               >
                 Browse all kits →

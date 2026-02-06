@@ -22,6 +22,173 @@ export type {
 
 import type { Skill, SkillCategory, SkillReview, SkillCollection } from './skill-types'
 
+const HAS_SUPABASE =
+  Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
+  Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+
+const FALLBACK_DATE = '2026-02-05T00:00:00.000Z'
+
+const FALLBACK_CATEGORIES: SkillCategory[] = [
+  {
+    id: 'code',
+    name: 'Code',
+    description: 'Engineering and development workflows',
+    emoji: '💻',
+    display_order: 1,
+    created_at: FALLBACK_DATE,
+  },
+  {
+    id: 'research',
+    name: 'Research',
+    description: 'Research, synthesis, and briefs',
+    emoji: '🔍',
+    display_order: 2,
+    created_at: FALLBACK_DATE,
+  },
+]
+
+const FALLBACK_SKILLS: Skill[] = [
+  {
+    id: 'skill-supabase-expert',
+    slug: 'supabase-expert',
+    name: 'Supabase Expert',
+    description: 'Design schemas, queries, and policies for Supabase-backed apps.',
+    category_id: 'code',
+    complexity: 'complex',
+    version: '1.0.0',
+    author: 'id8Labs',
+    license: 'MIT',
+    triggers: ['supabase', 'postgres', 'schema design'],
+    commands: ['db-review', 'schema-check'],
+    tags: ['database', 'supabase'],
+    content: null,
+    readme: null,
+    repo_url: null,
+    repo_path: null,
+    quality_score: 92,
+    quality_tier: 'gold',
+    validated: true,
+    install_count: 1240,
+    view_count: 3280,
+    review_count: 18,
+    avg_rating: 4.8,
+    status: 'published',
+    featured: true,
+    verified: true,
+    created_at: FALLBACK_DATE,
+    updated_at: FALLBACK_DATE,
+    published_at: FALLBACK_DATE,
+    category: FALLBACK_CATEGORIES[0],
+  },
+  {
+    id: 'skill-research-brief',
+    slug: 'research-brief',
+    name: 'Research Brief',
+    description: 'Summarize sources into a crisp executive brief.',
+    category_id: 'research',
+    complexity: 'simple',
+    version: '1.0.0',
+    author: 'id8Labs',
+    license: 'MIT',
+    triggers: ['research brief', 'exec summary'],
+    commands: ['brief'],
+    tags: ['research', 'agent'],
+    content: null,
+    readme: null,
+    repo_url: null,
+    repo_path: null,
+    quality_score: 78,
+    quality_tier: 'silver',
+    validated: true,
+    install_count: 680,
+    view_count: 1520,
+    review_count: 6,
+    avg_rating: 4.4,
+    status: 'published',
+    featured: false,
+    verified: false,
+    created_at: FALLBACK_DATE,
+    updated_at: FALLBACK_DATE,
+    published_at: FALLBACK_DATE,
+    category: FALLBACK_CATEGORIES[1],
+  },
+]
+
+const FALLBACK_COLLECTIONS: SkillCollection[] = [
+  {
+    id: 'kit-shipping',
+    slug: 'shipping-starter-kit',
+    name: 'Shipping Starter Kit',
+    description: 'A curated bundle to ship features faster.',
+    emoji: '📦',
+    author: 'id8Labs',
+    is_official: true,
+    is_public: true,
+    skill_count: 2,
+    created_at: FALLBACK_DATE,
+    updated_at: FALLBACK_DATE,
+    content_type: 'skill_bundle',
+    skills: FALLBACK_SKILLS,
+  },
+]
+
+const getFallbackSkills = (): Skill[] => {
+  return FALLBACK_SKILLS.map((skill) => ({
+    ...skill,
+    category: skill.category || FALLBACK_CATEGORIES.find((cat) => cat.id === skill.category_id),
+  }))
+}
+
+const applySkillFilters = (skills: Skill[], filters: SkillFilters): Skill[] => {
+  let filtered = [...skills]
+
+  if (filters.category) {
+    filtered = filtered.filter((skill) => skill.category_id === filters.category)
+  }
+  if (filters.complexity) {
+    filtered = filtered.filter((skill) => skill.complexity === filters.complexity)
+  }
+  if (filters.verified !== undefined) {
+    filtered = filtered.filter((skill) => skill.verified === filters.verified)
+  }
+  if (filters.featured !== undefined) {
+    filtered = filtered.filter((skill) => skill.featured === filters.featured)
+  }
+  if (filters.qualityTier) {
+    filtered = filtered.filter((skill) => skill.quality_tier === filters.qualityTier)
+  }
+  if (filters.minRating) {
+    filtered = filtered.filter((skill) => skill.avg_rating >= filters.minRating)
+  }
+  if (filters.itemType === 'agents') {
+    filtered = filtered.filter((skill) => skill.tags?.includes('agent'))
+  } else if (filters.itemType === 'skills') {
+    filtered = filtered.filter((skill) => !skill.tags?.includes('agent'))
+  }
+
+  switch (filters.sortBy) {
+    case 'newest':
+      filtered.sort((a, b) => (b.published_at || '').localeCompare(a.published_at || ''))
+      break
+    case 'popular':
+      filtered.sort((a, b) => b.view_count - a.view_count)
+      break
+    case 'rating':
+      filtered.sort((a, b) => b.avg_rating - a.avg_rating)
+      break
+    case 'installs':
+      filtered.sort((a, b) => b.install_count - a.install_count)
+      break
+    default:
+      filtered.sort((a, b) => Number(b.featured) - Number(a.featured))
+      break
+  }
+
+  const limit = filters.limit || 100
+  const offset = filters.offset || 0
+  return filtered.slice(offset, offset + limit)
+}
+
 // Additional types specific to this module
 export interface UserSkillStack {
   id: string
@@ -64,12 +231,15 @@ export interface TrendingSkill {
  * Get all published skills with optional filtering
  */
 export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]> {
+  if (!HAS_SUPABASE) {
+    return applySkillFilters(getFallbackSkills(), filters)
+  }
   try {
     const supabase = await createServerClient()
 
     if (!supabase) {
       console.error('[getAllSkills] Supabase client failed to initialize')
-      return []
+      return applySkillFilters(getFallbackSkills(), filters)
     }
 
     let query = supabase
@@ -138,7 +308,7 @@ export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]>
         code: error.code,
         filters
       })
-      return []
+      return applySkillFilters(getFallbackSkills(), filters)
     }
 
     return data as Skill[]
@@ -148,7 +318,7 @@ export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]>
       stack: err instanceof Error ? err.stack : undefined,
       filters
     })
-    return []
+    return applySkillFilters(getFallbackSkills(), filters)
   }
 }
 
@@ -156,17 +326,20 @@ export async function getAllSkills(filters: SkillFilters = {}): Promise<Skill[]>
  * Get a single skill by slug
  */
 export async function getSkillBySlug(slug: string): Promise<Skill | null> {
+  if (!HAS_SUPABASE) {
+    return getFallbackSkills().find((skill) => skill.slug === slug) || null
+  }
   try {
     if (!slug || typeof slug !== 'string') {
       console.error('[getSkillBySlug] Invalid slug provided:', slug)
-      return null
+      return getFallbackSkills().find((skill) => skill.slug === slug) || null
     }
 
     const supabase = await createServerClient()
 
     if (!supabase) {
       console.error('[getSkillBySlug] Supabase client failed to initialize')
-      return null
+      return getFallbackSkills().find((skill) => skill.slug === slug) || null
     }
 
     const { data, error } = await supabase
@@ -194,7 +367,7 @@ export async function getSkillBySlug(slug: string): Promise<Skill | null> {
 
     if (!data) {
       console.warn('[getSkillBySlug] No data returned for slug:', slug)
-      return null
+      return getFallbackSkills().find((skill) => skill.slug === slug) || null
     }
 
     return data as Skill
@@ -204,7 +377,7 @@ export async function getSkillBySlug(slug: string): Promise<Skill | null> {
       stack: err instanceof Error ? err.stack : undefined,
       slug
     })
-    return null
+    return getFallbackSkills().find((skill) => skill.slug === slug) || null
   }
 }
 
@@ -212,9 +385,12 @@ export async function getSkillBySlug(slug: string): Promise<Skill | null> {
  * Get all skill categories
  */
 export async function getAllCategories(): Promise<SkillCategory[]> {
+  if (!HAS_SUPABASE) {
+    return FALLBACK_CATEGORIES
+  }
   try {
     const supabase = await createServerClient()
-    if (!supabase) return []
+    if (!supabase) return FALLBACK_CATEGORIES
 
     const { data, error } = await supabase
       .from('skill_categories')
@@ -223,13 +399,13 @@ export async function getAllCategories(): Promise<SkillCategory[]> {
 
     if (error) {
       console.error('Error fetching categories:', error)
-      return []
+      return FALLBACK_CATEGORIES
     }
 
     return data as SkillCategory[]
   } catch (error) {
     console.error('Failed to get categories:', error)
-    return []
+    return FALLBACK_CATEGORIES
   }
 }
 
@@ -244,9 +420,24 @@ export async function getSkillsByCategory(categoryId: string): Promise<Skill[]> 
  * Search skills using full-text search
  */
 export async function searchSkills(query: string, limit: number = 20): Promise<Skill[]> {
+  if (!HAS_SUPABASE) {
+    const needle = query.toLowerCase()
+    return getFallbackSkills()
+      .filter((skill) => {
+        const haystack = [
+          skill.name,
+          skill.description,
+          ...(skill.tags || []),
+        ]
+          .join(' ')
+          .toLowerCase()
+        return haystack.includes(needle)
+      })
+      .slice(0, limit)
+  }
   try {
     const supabase = await createServerClient()
-    if (!supabase) return []
+    if (!supabase) return getFallbackSkills().slice(0, limit)
 
     // Use the search_skills database function
     const { data, error } = await supabase
@@ -254,13 +445,13 @@ export async function searchSkills(query: string, limit: number = 20): Promise<S
 
     if (error) {
       console.error('Error searching skills:', error)
-      return []
+      return getFallbackSkills().slice(0, limit)
     }
 
     return data as Skill[]
   } catch (error) {
     console.error('Failed to search skills:', error)
-    return []
+    return getFallbackSkills().slice(0, limit)
   }
 }
 
@@ -268,6 +459,17 @@ export async function searchSkills(query: string, limit: number = 20): Promise<S
  * Get trending skills (most views in last N days)
  */
 export async function getTrendingSkills(daysBack: number = 7, limit: number = 10): Promise<TrendingSkill[]> {
+  if (!HAS_SUPABASE) {
+    return getFallbackSkills()
+      .sort((a, b) => b.view_count - a.view_count)
+      .slice(0, limit)
+      .map((skill) => ({
+        skill_id: skill.id,
+        skill_slug: skill.slug,
+        skill_name: skill.name,
+        view_count: skill.view_count,
+      }))
+  }
   try {
     const supabase = await createServerClient()
     if (!supabase) return []
@@ -305,13 +507,20 @@ export async function getNewSkills(limit: number = 10): Promise<Skill[]> {
  * Get skill collections (starter kits)
  */
 export async function getAllCollections(officialOnly: boolean = false): Promise<SkillCollection[]> {
+  if (!HAS_SUPABASE) {
+    return officialOnly
+      ? FALLBACK_COLLECTIONS.filter((collection) => collection.is_official)
+      : FALLBACK_COLLECTIONS
+  }
   try {
     const supabase = await createServerClient()
 
     // Verify Supabase client is properly initialized
     if (!supabase) {
       console.error('[getAllCollections] Supabase client failed to initialize')
-      return []
+      return officialOnly
+        ? FALLBACK_COLLECTIONS.filter((collection) => collection.is_official)
+        : FALLBACK_COLLECTIONS
     }
 
     // Select only necessary fields to avoid query timeout
@@ -349,12 +558,16 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
         hint: error.hint,
         officialOnly
       })
-      return []
+      return officialOnly
+        ? FALLBACK_COLLECTIONS.filter((collection) => collection.is_official)
+        : FALLBACK_COLLECTIONS
     }
 
     if (!data) {
       console.warn('[getAllCollections] No data returned from query')
-      return []
+      return officialOnly
+        ? FALLBACK_COLLECTIONS.filter((collection) => collection.is_official)
+        : FALLBACK_COLLECTIONS
     }
 
     // Transform the nested data
@@ -369,7 +582,9 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
       stack: err instanceof Error ? err.stack : undefined,
       officialOnly
     })
-    return []
+    return officialOnly
+      ? FALLBACK_COLLECTIONS.filter((collection) => collection.is_official)
+      : FALLBACK_COLLECTIONS
   }
 }
 
@@ -377,6 +592,9 @@ export async function getAllCollections(officialOnly: boolean = false): Promise<
  * Get a single collection by slug
  */
 export async function getCollectionBySlug(slug: string): Promise<SkillCollection | null> {
+  if (!HAS_SUPABASE) {
+    return FALLBACK_COLLECTIONS.find((collection) => collection.slug === slug) || null
+  }
   try {
     if (!slug || typeof slug !== 'string') {
       console.error('[getCollectionBySlug] Invalid slug provided:', slug)
@@ -387,7 +605,7 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
 
     if (!supabase) {
       console.error('[getCollectionBySlug] Supabase client failed to initialize')
-      return null
+      return FALLBACK_COLLECTIONS.find((collection) => collection.slug === slug) || null
     }
 
     // Select only necessary fields to avoid query timeout
@@ -434,7 +652,7 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
 
     if (!data) {
       console.warn('[getCollectionBySlug] No data returned for slug:', slug)
-      return null
+      return FALLBACK_COLLECTIONS.find((collection) => collection.slug === slug) || null
     }
 
     return {
@@ -455,7 +673,7 @@ export async function getCollectionBySlug(slug: string): Promise<SkillCollection
       stack: err instanceof Error ? err.stack : undefined,
       slug
     })
-    return null
+    return FALLBACK_COLLECTIONS.find((collection) => collection.slug === slug) || null
   }
 }
 
@@ -484,10 +702,25 @@ export async function getSkillReviews(skillId: string): Promise<SkillReview[]> {
  * Get total skill count by status
  */
 export async function getSkillCounts(): Promise<{ total: number; published: number; byCategory: Record<string, number> }> {
+  if (!HAS_SUPABASE) {
+    const skills = getFallbackSkills()
+    const byCategory: Record<string, number> = {}
+    skills.forEach((skill) => {
+      const cat = skill.category_id || 'uncategorized'
+      byCategory[cat] = (byCategory[cat] || 0) + 1
+    })
+    return { total: skills.length, published: skills.length, byCategory }
+  }
   try {
     const supabase = await createServerClient()
     if (!supabase) {
-      return { total: 0, published: 0, byCategory: {} }
+      const skills = getFallbackSkills()
+      const byCategory: Record<string, number> = {}
+      skills.forEach((skill) => {
+        const cat = skill.category_id || 'uncategorized'
+        byCategory[cat] = (byCategory[cat] || 0) + 1
+      })
+      return { total: skills.length, published: skills.length, byCategory }
     }
 
     const [totalResult, publishedResult, categoryResult] = await Promise.all([
@@ -514,10 +747,12 @@ export async function getSkillCounts(): Promise<{ total: number; published: numb
     }
   } catch (error) {
     console.error('Failed to get skill counts:', error)
-    return {
-      total: 0,
-      published: 0,
-      byCategory: {}
-    }
+    const skills = getFallbackSkills()
+    const byCategory: Record<string, number> = {}
+    skills.forEach((skill) => {
+      const cat = skill.category_id || 'uncategorized'
+      byCategory[cat] = (byCategory[cat] || 0) + 1
+    })
+    return { total: skills.length, published: skills.length, byCategory }
   }
 }

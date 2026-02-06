@@ -536,7 +536,14 @@ export const BUNDLE_KIT_IDS = [
   'agent-kit-factory',
 ] as const
 
-// Legacy export - course is now free, kept for backwards compatibility
-export const COURSE_PRODUCTS = {} as const
+// Legacy export - retained for Stripe/backwards compatibility tests
+export const COURSE_PRODUCTS = {
+  'claude-for-knowledge-workers': {
+    name: 'Claude Code for Knowledge Workers',
+    description: 'Complete 6-module course + lifetime updates. No programming required — just delegation.',
+    price: 9900,
+    currency: 'usd',
+  },
+} as const
 
 export type CourseProductId = keyof typeof COURSE_PRODUCTS
