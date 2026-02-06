@@ -5,8 +5,10 @@ import SkillDetailPage, {
 
 export { generateMetadata, generateStaticParams }
 
-export default async function SkillsSlugPage(
-  props: Parameters<typeof SkillDetailPage>[0]
-) {
+interface PageProps {
+  params: Promise<{ slug: string }>
+}
+
+export default async function SkillsSlugPage(props: PageProps) {
   return SkillDetailPage({ ...props, basePath: '/skills' })
 }
