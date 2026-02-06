@@ -5,8 +5,10 @@ import StarterKitPage, {
 
 export { generateMetadata, generateStaticParams }
 
-export default async function SkillsStarterKitDetailPage(
-  props: Parameters<typeof StarterKitPage>[0]
-) {
+interface PageProps {
+  params: Promise<{ kit: string }>
+}
+
+export default async function SkillsStarterKitDetailPage(props: PageProps) {
   return StarterKitPage(props)
 }

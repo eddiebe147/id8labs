@@ -1,7 +1,9 @@
 import SearchPage from '../../stackshack/search/page'
 
-export default async function SkillsSearchPage(
-  props: Parameters<typeof SearchPage>[0]
-) {
-  return SearchPage(props)
+interface PageProps {
+  searchParams: Promise<{ q?: string; category?: string; complexity?: string }>
+}
+
+export default async function SkillsSearchPage({ searchParams }: PageProps) {
+  return SearchPage({ searchParams })
 }
