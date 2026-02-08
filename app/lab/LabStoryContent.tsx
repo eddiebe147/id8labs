@@ -3,15 +3,17 @@
 import Link from 'next/link'
 import { m, useInView } from '@/components/motion'
 import { useRef, useState, useEffect } from 'react'
+import { featuredHomeProducts } from '@/lib/home-products'
 
 // Section data for navigation
 const sections = [
-  { id: 'problem', title: 'The Problem' },
-  { id: 'how-i-build', title: 'How I Build' },
-  { id: 'what-lab-became', title: 'What This Lab Has Become' },
-  { id: 'philosophy', title: 'The Philosophy' },
-  { id: 'shift', title: 'The Shift' },
-  { id: 'shipping', title: "What's Shipping" },
+  { id: 'origin', title: 'Where It Started' },
+  { id: 'thesis', title: 'The Thesis' },
+  { id: 'proof', title: 'What We Shipped' },
+  { id: 'system', title: 'The System' },
+  { id: 'method', title: 'How I Build' },
+  { id: 'ecosystem', title: 'The Ecosystem' },
+  { id: 'public', title: 'Working in Public' },
   { id: 'contact', title: 'Get in Touch' },
 ]
 
@@ -93,8 +95,16 @@ function SideNavigation({ activeSection }: { activeSection: string }) {
   )
 }
 
+// Map product names to what they offload
+const productOffloads: Record<string, string> = {
+  Composer: 'context & continuity',
+  HOMER: 'deal lifecycle management',
+  DeepStack: 'pattern recognition & emotional guardrails',
+  MILO: 'signal-to-noise task management',
+}
+
 export default function LabStoryContent() {
-  const [activeSection, setActiveSection] = useState('problem')
+  const [activeSection, setActiveSection] = useState('origin')
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
@@ -153,245 +163,268 @@ export default function LabStoryContent() {
             <div className="space-y-6 text-lg leading-relaxed">
               <p>I started as a cameraman.</p>
               <p>
-                First 48. Orange County Choppers. 90 Day Fiancé. Twenty years of production work taught me to see
-                the machinery behind stories—not just what's on screen, but the systems that make them possible.
+                First 48. Orange County Choppers. 90 Day Fiance. Twenty years of production
+                work — from hands-on camera to story development, cast management, and the invisible
+                infrastructure that turns chaos into narrative. Somewhere in there, I stopped
+                capturing footage and started architecting systems.
               </p>
               <p>
-                Somewhere along the way, I stopped being the person who captures the footage and became the person
-                who architects the whole thing. Story development. Production logistics. Cast management. The invisible
-                infrastructure that turns chaos into narrative.
+                That shift is what this lab is about.
               </p>
             </div>
           </FadeInSection>
         </header>
 
-        {/* The Problem */}
-        <StickySection id="problem" title="The Problem I Couldn't Ignore">
+        {/* Where It Started */}
+        <StickySection id="origin" title="Where It Started">
           <p>
-            AI showed up and everyone celebrated the wrong thing.
+            The hardest part of production was never the work itself. It was the mental overhead.
+            Holding a complex project in your head while simultaneously trying to develop it.
+            Remembering what you decided three weeks ago so you can focus on what comes next.
           </p>
           <p>
-            "It can write!" they said. "It can generate ideas!" As if the bottleneck in creative work
-            was ever the generation of raw material.
-          </p>
-          <p>
-            The real bottleneck is cognitive. It's the mental load of holding a complex project in your
-            head while simultaneously trying to develop it. It's the bandwidth consumed by remembering
-            what you've already decided so you can focus on what comes next.
-          </p>
-          <p>
-            Every AI session started the same way: re-uploading documents, re-explaining characters,
-            rebuilding context from scratch. By the third revision, the AI had forgotten half the story world.
+            When AI tools arrived, they promised to help — but every session started the same way.
+            Re-uploading documents. Re-explaining context. Rebuilding from scratch. By the third
+            revision, the AI had forgotten half the project.
           </p>
           <p className="text-2xl font-bold text-id8-orange">
             Context rot.
           </p>
           <p>
-            But the real problem wasn't that the AI forgot. It was what that forgetting cost me:
-            creative bandwidth. Every time I had to rebuild context, that was mental energy
-            not available for actual creative work. Repetitive cognitive labor masquerading as progress.
+            That was the named problem. Not that AI forgot — but what that forgetting cost: creative
+            bandwidth. Every time I rebuilt context, that was mental energy not available for actual
+            creative work. Repetitive cognitive labor masquerading as progress.
           </p>
           <p>
-            I needed tools that would handle the low-level memory work so my brain could operate
-            at the level where creative breakthroughs actually happen.
+            The question became: <span className="font-bold">what cognitive work should not be done by a human?</span>
           </p>
           <p>
-            So I built ID8Composer. That was the first product. It wasn't the last.
+            ID8Composer was the first answer — an AI writing partner that actually remembers your
+            story world across sessions. That was product one. The lab kept going.
           </p>
         </StickySection>
 
-        {/* How I Build */}
-        <StickySection id="how-i-build" title="How I Build">
-          <p>
-            I don't build from whiteboards. I build from the field.
-          </p>
-          <p>
-            Every tool starts with friction I personally experienced. Not "wouldn't it be nice if"—but
-            "I need this right now or this project fails." Battle-tested in real production environments.
-            Refined through actual creative work, not focus groups.
-          </p>
-          <p>
-            The question I ask: <span className="font-bold">What cognitive work shouldn't I be doing?</span>
-          </p>
-          <p>
-            What's repetitive? What's taxing my working memory without generating insight? What could
-            a system handle so I can think about the things that actually require human judgment?
-          </p>
-          <p>
-            That's the filter. That's what makes an ID8Labs tool worth building.
-          </p>
-          <p>
-            I see patterns across domains that other people miss. Filmmaking and mycology have more in common
-            than you'd think—both are about understanding how systems grow, how networks form, how small changes
-            cascade. Wildlife biology teaches you to observe without interfering. Trading systems teach you to
-            build guardrails against your own worst instincts.
-          </p>
-          <p>
-            Cross-domain pattern recognition is itself a form of cognitive leverage. Insights from one field
-            become tools in another.
-          </p>
-        </StickySection>
-
-        {/* What This Lab Has Become */}
-        <StickySection id="what-lab-became" title="What This Lab Has Become">
-          <p>
-            ID8Labs started as a workshop where I solved problems that other tools ignored.
-            It's grown into something more structured—three lanes, each targeting different
-            kinds of cognitive work to offload.
-          </p>
-          <div className="pl-6 border-l-4 border-id8-orange space-y-6 rounded-subtle">
-            <div>
-              <p className="font-bold text-id8-orange mb-1">For Creators</p>
-              <p className="text-[var(--text-secondary)] text-sm mb-2">Offload: context management, continuity tracking</p>
-              <p>
-                ID8Composer handles the memory work so you can focus on the creative work. Knowledge bases,
-                context persistence, writing assistance that actually remembers your story world across sessions.
-              </p>
-            </div>
-            <div>
-              <p className="font-bold text-[#A855F7] mb-1">For Builders</p>
-              <p className="text-[var(--text-secondary)] text-sm mb-2">Offload: pattern recognition, data processing</p>
-              <p>
-                DeepStack handles market analysis so you can focus on decision-making. Pipeline CLI handles
-                project state tracking so you can focus on the work itself. Infrastructure for people
-                who build things.
-              </p>
-            </div>
-            <div>
-              <p className="font-bold text-[#06B6D4] mb-1">For Fun</p>
-              <p className="text-[var(--text-secondary)] text-sm mb-2">Offload: nothing specific—this is play</p>
-              <p>
-                Experiments. The weird stuff that might become products or might just be interesting.
-                Not everything needs a business case. Sometimes you build to learn what's possible.
-              </p>
-            </div>
-          </div>
-          <p className="text-[var(--text-secondary)] font-medium italic">
-            Products get personality. The lab stays focused on the thesis.
-          </p>
-        </StickySection>
-
-        {/* The Philosophy */}
-        <StickySection id="philosophy" title="The Philosophy">
+        {/* The Thesis */}
+        <StickySection id="thesis" title="The Thesis">
           <p className="text-2xl font-bold text-id8-orange mb-4">
             AI as an auxiliary layer of the brain.
-          </p>
-          <p className="text-xl mb-8">
-            Handle the low-level repetitive work so there's bandwidth for high-level creative thinking.
-          </p>
-          <p>
-            That's the core thesis. Not AI as replacement. Not AI as magic content machine. AI as cognitive
-            extension—an additional layer of processing that handles the work your brain shouldn't waste
-            cycles on.
-          </p>
-          <p>
-            When you're building a story world, you shouldn't burn mental energy remembering what you
-            decided three weeks ago about a character's backstory. When you're analyzing markets, you
-            shouldn't spend hours on data formatting. When you're managing projects, you shouldn't
-            track decay patterns manually.
-          </p>
-          <p>
-            The brain has limited bandwidth. Every cycle spent on repetitive cognitive work is a cycle
-            not available for the creative leaps, the strategic insights, the connections that actually matter.
-          </p>
-          <p className="font-bold">
-            The tools I build are designed around this principle.
           </p>
           <div className="mt-8 space-y-6">
             <div>
               <p className="font-bold text-id8-orange mb-2">Offload context management.</p>
               <p>
-                Let the system remember so you can focus on creating. That's what ID8Composer does.
+                Let the system remember so you can focus on creating.
               </p>
             </div>
             <div>
-              <p className="font-bold text-id8-orange mb-2">Automate the pattern recognition.</p>
+              <p className="font-bold text-id8-orange mb-2">Automate pattern recognition.</p>
               <p>
-                Let the system surface signals so you can focus on decisions. That's what DeepStack does.
+                Let the system surface signals so you can focus on decisions.
               </p>
             </div>
             <div>
               <p className="font-bold text-id8-orange mb-2">Build systems, not features.</p>
               <p>
                 A feature solves one problem once. A system solves categories of problems continuously.
-                The goal is compounding leverage—tools that get more valuable as you use them.
+                The goal is compounding leverage — tools that get more valuable as you use them.
+              </p>
+            </div>
+          </div>
+          <p className="mt-8">
+            What this is <span className="font-bold">not:</span> replacement. Not a content machine.
+            Not a chatbot. This is cognitive extension — an additional layer of processing that
+            handles the work your brain shouldn&apos;t waste cycles on.
+          </p>
+          <p>
+            In 2025, this was speculative. In 2026, it&apos;s proven. Four products shipping. An
+            operating system connecting them. Forty-nine essays documenting the process. The thesis
+            held up.
+          </p>
+        </StickySection>
+
+        {/* What We Shipped */}
+        <StickySection id="proof" title="What We Shipped">
+          <p>
+            Every product is a specific answer to: &ldquo;What cognitive work can I offload?&rdquo;
+          </p>
+          <div className="py-8 px-6 border border-[var(--border)] rounded-soft bg-[var(--bg-secondary)]">
+            <div className="grid gap-4">
+              {featuredHomeProducts.map((product) => (
+                <div key={product.name} className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full mt-2 flex-shrink-0" />
+                  <div>
+                    <span className="font-bold">{product.name}</span>
+                    {product.statusLabel && (
+                      <span className="text-[var(--text-tertiary)] text-sm ml-2">{product.statusLabel}</span>
+                    )}
+                    <span className="text-[var(--text-secondary)]">
+                      {' '}&mdash; Offloads {productOffloads[product.name] || product.description}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p>
+            Composer handles context so you can create. HOMER handles deal complexity so you can
+            close. DeepStack handles market analysis so you can decide. MILO handles task noise
+            so you can focus. Each one removes a category of cognitive overhead.
+          </p>
+        </StickySection>
+
+        {/* The System That Runs the Lab */}
+        <StickySection id="system" title="The System That Runs the Lab">
+          <p>
+            The products solve individual problems. HYDRA connects them all.
+          </p>
+          <p>
+            HYDRA is the operating system behind this lab — 23 automated jobs, 4 AI agents (MILO
+            as coordinator plus 3 domain specialists), SQLite for local state, and Telegram for
+            natural language control. It runs the infrastructure so I can focus on building.
+          </p>
+          <div className="pl-6 border-l-4 border-id8-orange space-y-4 rounded-subtle">
+            <div>
+              <p className="font-bold text-id8-orange mb-1">Economics</p>
+              <p className="text-[var(--text-secondary)]">
+                $300/month. 75% cost reduction from traditional multi-agent systems. Premium
+                coordination (Claude) plus free execution (open models).
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-id8-orange mb-1">The recursion</p>
+              <p className="text-[var(--text-secondary)]">
+                AI as cognitive leverage to build a system that provides cognitive leverage.
+                The thesis eating its own tail.
+              </p>
+            </div>
+          </div>
+          <p>
+            HYDRA isn&apos;t a product for sale. It&apos;s proof-of-thesis — a living demonstration that
+            the cognitive leverage model works at the systems level, not just the tool level.
+          </p>
+          <p>
+            The full technical breakdown is in the{' '}
+            <Link
+              href="/writing/building-ai-human-os-v2"
+              className="border-b-2 border-id8-orange text-id8-orange hover:opacity-70 transition-opacity"
+            >
+              HYDRA essay
+            </Link>
+            .
+          </p>
+        </StickySection>
+
+        {/* How I Build */}
+        <StickySection id="method" title="How I Build">
+          <p>
+            <span className="font-bold">Problem-first.</span> Every tool starts with friction
+            experienced in production. Not &ldquo;wouldn&apos;t it be nice if&rdquo; — but &ldquo;I
+            need this right now or this project fails.&rdquo;
+          </p>
+          <p>
+            <span className="font-bold">Ship to learn.</span> The first version teaches what the
+            real version needs. Production feedback over planning documents.
+          </p>
+          <p>
+            <span className="font-bold">Cross-domain pattern recognition.</span> Filmmaking and
+            mycology have more in common than you&apos;d think — both are about how systems grow, how
+            networks form, how small changes cascade. Wildlife biology teaches you to observe
+            without interfering. Trading systems teach you to build guardrails against your own
+            worst instincts.
+          </p>
+          <p>
+            <span className="font-bold">Working in public.</span> Ship before polished. Let real
+            feedback shape the direction.
+          </p>
+          <p>
+            <span className="font-bold">Claude as creative partner.</span> Director/Builder
+            pattern — I plan and review, AI executes scoped tasks. It&apos;s the thesis applied to the
+            build process itself.
+          </p>
+        </StickySection>
+
+        {/* The Ecosystem */}
+        <StickySection id="ecosystem" title="The Ecosystem">
+          <p>
+            What started as a workshop has grown into four pillars.
+          </p>
+          <div className="pl-6 border-l-4 border-id8-orange space-y-6 rounded-subtle">
+            <div>
+              <p className="font-bold text-id8-orange mb-1">Products</p>
+              <p className="text-[var(--text-secondary)]">
+                Composer, HOMER, DeepStack, MILO, Pipeline, LLC Ops — each targeting a different
+                category of cognitive overhead.
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-id8-orange mb-1">Education</p>
+              <p className="text-[var(--text-secondary)]">
+                Academy courses on AI workflows and prompt engineering. StackShack with 228+ free
+                Claude Code skills. Learn by building, not watching.
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-id8-orange mb-1">Services</p>
+              <p className="text-[var(--text-secondary)]">
+                AI implementation consulting for businesses that know AI matters but need help
+                making it operational.{' '}
+                <Link
+                  href="/services"
+                  className="border-b border-id8-orange text-id8-orange hover:opacity-70 transition-opacity"
+                >
+                  Learn more
+                </Link>
+                .
+              </p>
+            </div>
+            <div>
+              <p className="font-bold text-id8-orange mb-1">Writing</p>
+              <p className="text-[var(--text-secondary)]">
+                49+ essays on building in public — technical breakdowns, product thinking, and the
+                philosophy behind the tools.
               </p>
             </div>
           </div>
         </StickySection>
 
-        {/* The Shift */}
-        <StickySection id="shift" title="The Shift">
+        {/* Working in Public */}
+        <StickySection id="public" title="Working in Public">
           <p>
-            Television is changing. The industry I spent twenty years in is transforming in ways that
-            make this the right moment to transition.
+            Forty-nine essays published. Open source tools (MILO, StackShack skills). Free Academy
+            courses. Everything built in the open.
           </p>
           <p>
-            But more importantly: tools like Claude Code have arrived. Not just AI that can write—AI
-            that can be directed as a thinking extension. For the first time, someone with deep domain
-            expertise can actually build professional software by focusing on what to build while the
-            AI handles how to build it.
+            The philosophy: ship before ready, iterate on real feedback, document as you go. Trust
+            through transparency.
           </p>
           <p>
-            That's the thesis in action. I'm using AI as cognitive leverage to build tools that provide
-            cognitive leverage. It's recursive.
-          </p>
-          <p>
-            I can take everything I learned in two decades of production—the problems nobody's solving,
-            the workflows nobody's optimizing, the cognitive burdens nobody's offloading—and actually
-            build solutions myself.
+            The{' '}
+            <Link
+              href="/writing/building-ai-human-os-v2"
+              className="border-b-2 border-id8-orange text-id8-orange hover:opacity-70 transition-opacity"
+            >
+              HYDRA article
+            </Link>
+            {' '}is a good example — a 4,000-word technical breakdown of the entire AI-Human OS,
+            published for anyone to read and learn from. That&apos;s the standard: build something
+            real, then show exactly how it works.
           </p>
           <p className="font-bold">
-            That's what this lab is. The convergence of twenty years of knowing what's broken and the
-            tools to finally fix it.
+            If you&apos;re here, you&apos;re watching the lab in real time. Stick around. It keeps going.
           </p>
-          <p>
-            ID8Composer proved the model works. DeepStack proved the lab can serve different domains.
-            Pipeline CLI proved I can build the tools I need to build the tools I ship. The flywheel is spinning.
-          </p>
-        </StickySection>
-
-        {/* What's Shipping */}
-        <StickySection id="shipping" title="What's Shipping">
-          <div className="py-8 px-6 border border-[var(--border)] rounded-soft bg-[var(--bg-secondary)]">
-            <p>
-              This lab is where I figure things out in public. Every product is a specific answer to:
-              "What cognitive work can I offload?"
-            </p>
-            <div className="grid gap-4 my-8">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
-                <span className="font-bold">ID8Composer v1.8161</span>
-                <span className="text-[var(--text-secondary)]">— Offloads context & continuity</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
-                <span className="font-bold">DeepStack v2.5.0</span>
-                <span className="text-[var(--text-secondary)]">— Offloads pattern recognition</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-2 bg-[var(--accent-green)] rounded-full" />
-                <span className="font-bold">Pipeline CLI</span>
-                <span className="text-[var(--text-secondary)]">— Offloads project state tracking</span>
-              </div>
-            </div>
-            <p className="font-bold">
-              If you're here, you're early. Stick around. It gets interesting.
-            </p>
-          </div>
         </StickySection>
 
         {/* Signature */}
         <FadeInSection>
           <section className="mb-16 text-center">
             <p className="text-xl font-bold">Eddie Belaval</p>
-            <p className="text-[var(--text-secondary)]">Miami, 2025</p>
+            <p className="text-[var(--text-secondary)]">Miami, 2026</p>
           </section>
         </FadeInSection>
 
-        {/* Contact */}
+        {/* Get in Touch */}
         <StickySection id="contact" title="Get in Touch">
-          <div className="pt-8 space-y-4">
+          <div className="pt-8 space-y-6">
             <p className="text-[var(--text-secondary)]">
               Questions? Feedback? Want to collaborate?
             </p>
@@ -404,6 +437,33 @@ export default function LabStoryContent() {
                 eb@id8labs.tech
               </a>
             </p>
+            <p>
+              Want to work together?{' '}
+              <Link
+                href="/services"
+                className="border-b-2 border-id8-orange text-id8-orange hover:opacity-70 transition-opacity rounded-gentle"
+              >
+                Book a call
+              </Link>
+            </p>
+            <div className="flex items-center gap-6 pt-4 text-sm text-[var(--text-tertiary)]">
+              <a
+                href="https://twitter.com/eddiebe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-id8-orange transition-colors"
+              >
+                X / Twitter
+              </a>
+              <a
+                href="https://github.com/eddiebelaval"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-id8-orange transition-colors"
+              >
+                GitHub
+              </a>
+            </div>
           </div>
         </StickySection>
       </article>
