@@ -113,6 +113,9 @@ export default function EssayPage({ params }: { params: { slug: string } }) {
                     {children}
                   </li>
                 ),
+                a: ({ href, children }) => (
+                  <a href={href} className="text-id8-orange hover:opacity-70 transition-opacity underline underline-offset-2" target={href?.startsWith('/') ? undefined : '_blank'} rel={href?.startsWith('/') ? undefined : 'noopener noreferrer'}>{children}</a>
+                ),
                 hr: () => <hr className="my-12 border-[var(--border)]" />,
                 em: ({ children }) => <em className="italic text-[var(--text-secondary)]">{children}</em>,
                 table: ({ children }) => (
