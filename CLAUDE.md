@@ -174,6 +174,31 @@ export default function PageName() {
 - **Image optimization** with Next.js Image component
 - **Font optimization** with Next.js Font system
 
+## Essay Frontmatter Schema (STRICT)
+
+All articles in `content/essays/` MUST use this exact frontmatter schema. The build will fail if required fields are missing. The parser auto-corrects common aliases but warns loudly.
+
+```yaml
+---
+title: "Article Title"              # REQUIRED — the article heading
+subtitle: "Subtitle for preview"    # Optional — shown below title
+date: "YYYY-MM-DD"                  # REQUIRED — publication date, quoted string
+category: "essay"                   # Recommended — "essay" | "research" | "release"
+readTime: "X min read"              # Optional — auto-calculated if missing
+excerpt: "First paragraph preview"  # Recommended — shown in article list
+tags: ["tag1", "tag2"]              # Recommended — array of strings
+featured: false                     # Optional — show on homepage
+---
+```
+
+**DO NOT use these field names** (common mistakes the validator catches):
+- `publishedAt` / `published_at` / `createdAt` — use `date`
+- `description` / `summary` / `abstract` — use `excerpt`
+- `readingTime` / `reading_time` — use `readTime`
+- `image` / `cover` / `coverImage` — use `heroImage`
+
+**Validation:** Run `npm run validate:essays` to check all articles. This also runs automatically before every build.
+
 ## Deployment Standards
 - **Vercel** for hosting and deployment
 - **Environment variables** for configuration
