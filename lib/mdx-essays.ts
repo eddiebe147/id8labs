@@ -115,6 +115,77 @@ function extractExcerpt(content: string, maxLength = 200): string {
   return ''
 }
 
+// Common frontmatter field aliases that authors might use by mistake
+const FIELD_ALIASES: Record<string, { canonical: string; field: string }> = {
+  publishedAt: { canonical: 'date', field: 'date' },
+  published_at: { canonical: 'date', field: 'date' },
+  createdAt: { canonical: 'date', field: 'date' },
+  created_at: { canonical: 'date', field: 'date' },
+  description: { canonical: 'excerpt', field: 'excerpt' },
+  summary: { canonical: 'excerpt', field: 'excerpt' },
+  abstract: { canonical: 'excerpt', field: 'excerpt' },
+  readingTime: { canonical: 'readTime', field: 'readTime' },
+  reading_time: { canonical: 'readTime', field: 'readTime' },
+  image: { canonical: 'heroImage', field: 'heroImage' },
+  cover: { canonical: 'heroImage', field: 'heroImage' },
+  coverImage: { canonical: 'heroImage', field: 'heroImage' },
+}
+
+const REQUIRED_FIELDS = ['title', 'date'] as const
+const RECOMMENDED_FIELDS = ['category', 'excerpt', 'tags'] as const
+
+/**
+ * Validate frontmatter and resolve common field name aliases.
+ * Warns loudly for missing required fields and auto-corrects aliases.
+ * Returns the corrected frontmatter object.
+ */
+function validateAndNormalizeFrontmatter(
+  frontmatter: Record<string, any>,
+  filename: string
+): Record<string, any> {
+  const corrected = { ...frontmatter }
+  const warnings: string[] = []
+
+  // Check for aliased fields and auto-correct them
+  for (const [alias, mapping] of Object.entries(FIELD_ALIASES)) {
+    if (frontmatter[alias] !== undefined && frontmatter[mapping.canonical] === undefined) {
+      corrected[mapping.field] = frontmatter[alias]
+      warnings.push(
+        `  Field "${alias}" should be "${mapping.canonical}" — auto-corrected`
+      )
+    }
+  }
+
+  // Check required fields
+  for (const field of REQUIRED_FIELDS) {
+    if (!corrected[field]) {
+      warnings.push(
+        `  MISSING required field "${field}" — will fall back to unreliable default`
+      )
+    }
+  }
+
+  // Check recommended fields
+  for (const field of RECOMMENDED_FIELDS) {
+    if (!corrected[field]) {
+      warnings.push(
+        `  Missing recommended field "${field}" — will be auto-generated`
+      )
+    }
+  }
+
+  // Print warnings
+  if (warnings.length > 0) {
+    console.warn(
+      `\n[FRONTMATTER] ${filename}:\n${warnings.join('\n')}\n` +
+      `  Required schema: title, date, category, excerpt, tags\n` +
+      `  See CLAUDE.md "Essay Frontmatter Schema" for details.\n`
+    )
+  }
+
+  return corrected
+}
+
 /**
  * Map frontmatter tags to category
  */
@@ -156,7 +227,10 @@ export function getAllEssays(): Essay[] {
       const filePath = path.join(ESSAYS_DIR, filename)
       const fileContents = fs.readFileSync(filePath, 'utf8')
 
-      const { data: frontmatter, content } = matter(fileContents)
+      const { data: rawFrontmatter, content } = matter(fileContents)
+
+      // Validate and normalize frontmatter (catches aliases like publishedAt → date)
+      const frontmatter = validateAndNormalizeFrontmatter(rawFrontmatter, filename)
 
       // Generate slug from filename (remove extension)
       const slug = filename.replace(/\.(mdx|md)$/, '')
