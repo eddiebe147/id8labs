@@ -32,7 +32,7 @@ const organizationSchema = {
     availableLanguage: ['English', 'Spanish'],
   },
   sameAs: [
-    'https://twitter.com/eddiebelaval',
+    'https://twitter.com/eddiebe',
     'https://github.com/eddiebelaval',
   ],
   knowsAbout: [
