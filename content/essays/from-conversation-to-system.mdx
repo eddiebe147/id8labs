@@ -191,6 +191,28 @@ Every animation rule is baked into the `/visualize` command spec. Every future d
 
 ---
 
+## The Assessment Tab: From Educational to Actionable
+
+The animations made the visualizations beautiful. But beautiful documentation has the same problem as ugly documentation — you read it, you understand the system, and then you close the tab and go figure out what to do next.
+
+I wanted to close that gap.
+
+Every visualization now has a mandatory final tab called **Assessment**. It's a senior developer code review of the system being visualized, baked directly into the artifact. Four sections:
+
+**What We Did Right** — architectural wins, good patterns, smart decisions. Be specific: reference actual files and line numbers. This reinforces good habits and prevents the refactoring impulse from touching things that are working.
+
+**What Needs Fixing** — issues, anti-patterns, missing pieces, tech debt. Each card has a severity badge (CRITICAL / HIGH / MEDIUM / LOW), a description of why it matters, and — this is the key part — **a ready-to-paste Claude Code prompt to fix the issue**.
+
+**High-Impact Next Steps** — the "if you only do three things, do these" list. Ordered by leverage. Each item includes what to do, why it matters, and a prompt.
+
+**Prompts Summary** — every prompt from the assessment, numbered and listed in one place. This is the action sheet. Work through them top to bottom.
+
+The prompt blocks have copy-to-clipboard buttons. You read the assessment, spot an issue, click COPY, paste it into Claude Code, and the fix starts. The visualization isn't just a map of your system — it's a command center.
+
+This changes what a `/visualize` output *is*. It's not documentation anymore. It's a diagnostic tool with the prescriptions built in. You don't visualize to understand — you visualize to understand *and then act*, without leaving the browser.
+
+---
+
 ## HTML as Artifacts
 
 Here's the meta-realization that ties this all together.
