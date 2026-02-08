@@ -553,6 +553,56 @@
     margin-top: 8px;
   }
 
+  /* ── Assessment View ── */
+  .assess-section { margin-bottom: 48px; }
+  .assess-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .assess-section-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .assess-section-dot.teal   { background: var(--teal); }
+  .assess-section-dot.amber  { background: var(--amber); }
+  .assess-section-dot.orange { background: var(--accent); }
+  .assess-section-label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-secondary); }
+  .assess-section-title { font-family: var(--font-sans); font-size: 24px; font-weight: 400; letter-spacing: -1px; color: var(--text-primary); margin-bottom: 16px; }
+
+  .assess-card {
+    background: var(--base-card); border: 1px solid var(--border-subtle); border-radius: var(--radius);
+    padding: 24px 28px; margin-bottom: 12px; transition: border-color 0.15s ease, transform 0.2s ease; opacity: 0;
+  }
+  .assess-card:hover { border-color: var(--border-visible); transform: translateY(-2px); }
+  .assess-card.assess-visible { animation: fadeSlideUp 0.4s ease both; }
+  .assess-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .assess-card-title { font-family: var(--font-sans); font-size: 17px; font-weight: 400; letter-spacing: -0.3px; color: var(--text-primary); }
+  .assess-card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .assess-card-desc code { font-family: var(--font-mono); font-size: 12px; color: var(--accent); background: var(--base-secondary); padding: 1px 5px; border-radius: 3px; }
+
+  .severity-badge { font-family: var(--font-mono); font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 10px; flex-shrink: 0; }
+  .severity-critical { background: rgba(239,68,68,0.15); color: #ef4444; }
+  .severity-high     { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .severity-medium   { background: rgba(239,111,46,0.15); color: var(--accent); }
+  .severity-low      { background: rgba(164,157,154,0.15); color: var(--neutral-400); }
+
+  .prompt-block { position: relative; background: var(--base-secondary); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent); border-radius: var(--radius-sm); padding: 14px 60px 14px 16px; margin-top: 12px; }
+  .prompt-text { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+  .copy-btn { position: absolute; top: 10px; right: 10px; background: transparent; border: 1px solid var(--border-subtle); color: var(--text-muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s ease; }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .copy-btn.copied { color: var(--teal); border-color: var(--teal); }
+
+  .assess-step-num { font-family: var(--font-mono); font-size: 13px; color: var(--accent); min-width: 24px; flex-shrink: 0; }
+
+  .prompt-summary-item { background: var(--base-card); border: 1px solid var(--border-subtle); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px; opacity: 0; transition: border-color 0.15s ease; }
+  .prompt-summary-item:hover { border-color: var(--border-visible); }
+  .prompt-summary-item.assess-visible { animation: fadeSlideUp 0.4s ease both; }
+  .prompt-summary-num { font-family: var(--font-mono); font-size: 12px; color: var(--accent); min-width: 20px; padding-top: 1px; }
+  .prompt-summary-content { flex: 1; }
+  .prompt-summary-label { font-size: 13px; color: var(--text-primary); margin-bottom: 8px; line-height: 1.4; }
+  .prompt-summary-content .prompt-block { margin-top: 8px; }
+
+  @media (max-width: 768px) {
+    .assess-section-title { font-size: 20px; }
+    .assess-card { padding: 18px 20px; }
+    .copy-btn { position: static; margin-top: 10px; display: inline-block; }
+    .prompt-block { padding: 12px 16px 12px 14px; }
+  }
+
   /* ── Animations ── */
 
   /* Keyframes */
@@ -749,6 +799,7 @@
   <button class="nav-btn" onclick="showView('explorer')">File Explorer</button>
   <button class="nav-btn" onclick="showView('cheatsheet')">Cheatsheet</button>
   <button class="nav-btn" onclick="showView('superpowers')">Superpowers</button>
+  <button class="nav-btn" onclick="showView('assessment')">Assessment</button>
 </div>
 
 <!-- ═══════ CONTENT ═══════ -->
@@ -1299,6 +1350,233 @@
     </div>
   </div>
 
+  <!-- ─── ASSESSMENT ─── -->
+  <div id="assessment" class="view">
+
+    <!-- Section 1: What We Did Right -->
+    <div class="assess-section">
+      <div class="assess-section-header">
+        <div class="assess-section-dot teal"></div>
+        <span class="assess-section-label">What We Did Right</span>
+      </div>
+      <div class="assess-section-title">Strengths</div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <div class="assess-card-title">Two-level architecture</div>
+        </div>
+        <div class="assess-card-desc">
+          Global templates (<code>~/.claude/</code>) shared across every project + per-project workspaces (<code>&lt;project&gt;/workspace/</code>) for local state. Clean separation of concerns: shared knowledge stays global, project context stays local. Change a template once, every future project gets it.
+        </div>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <div class="assess-card-title">Bash 3.2 compatibility</div>
+        </div>
+        <div class="assess-card-desc">
+          Zero dependencies beyond what macOS ships. Every generator runs on the stock <code>/bin/bash</code> (3.2) without Homebrew, without Python, without Node. Portable, debuggable, and runs everywhere on macOS out of the box.
+        </div>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <div class="assess-card-title">Conversational form filling</div>
+        </div>
+        <div class="assess-card-desc">
+          Templates guide the conversation, conversation fills the templates. Claude uses <code>AskUserQuestion</code> to interview you through each field. No brackets to fill in, no guessing what goes where. The template defines structure; you just talk.
+        </div>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <div class="assess-card-title">File-based over database</div>
+        </div>
+        <div class="assess-card-desc">
+          Everything is a markdown file. Git-tracked, portable, readable with any text editor, no infrastructure to maintain. Grep works. Diff works. Backup is just a git push. No server, no schema, no migrations.
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: What Needs Fixing -->
+    <div class="assess-section">
+      <div class="assess-section-header">
+        <div class="assess-section-dot amber"></div>
+        <span class="assess-section-label">What Needs Fixing</span>
+      </div>
+      <div class="assess-section-title">Issues</div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <span class="severity-badge severity-medium">Medium</span>
+          <div class="assess-card-title">No automated task cleanup</div>
+        </div>
+        <div class="assess-card-desc">
+          The <code>.done/</code> directory accumulates completed tasks forever. No archival, no rotation, no size limit. Over months of use, this becomes a noise problem when searching or browsing.
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+          <div class="prompt-text">In ~/.claude/generators/, create a cleanup-done.sh script that archives .done/ tasks older than 30 days into a .done/archive/ folder with YYYY-MM prefix. Keep the 10 most recent in .done/ for quick reference. Bash 3.2 compatible.</div>
+        </div>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <span class="severity-badge severity-low">Low</span>
+          <div class="assess-card-title">No template versioning</div>
+        </div>
+        <div class="assess-card-desc">
+          Templates evolve as the system grows, but old task files created from earlier versions reference outdated formats. No way to know which version of a template produced a given file, which makes migration harder.
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+          <div class="prompt-text">Add a 'template_version: 1' field to each template in ~/.claude/doc-templates/ and ~/.claude/prep-templates/. Update generators to stamp the version into created files. This enables future migration scripts.</div>
+        </div>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <span class="severity-badge severity-medium">Medium</span>
+          <div class="assess-card-title">Workspace scratch/ has no size guard</div>
+        </div>
+        <div class="assess-card-desc">
+          The <code>scratch/</code> directory is gitignored by design -- experiments live there. But nothing warns you when it grows unbounded. A forgotten prototype or large dataset can silently consume disk space.
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+          <div class="prompt-text">In ~/.claude/generators/_workspace-utils.sh, add a check_scratch_size() function that warns when any project's workspace/scratch/ exceeds 50MB. Wire it into the generators as a non-blocking warning.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: High-Impact Next Steps -->
+    <div class="assess-section">
+      <div class="assess-section-header">
+        <div class="assess-section-dot orange"></div>
+        <span class="assess-section-label">High-Impact Next Steps</span>
+      </div>
+      <div class="assess-section-title">Ordered by Leverage</div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <span class="assess-step-num">01</span>
+          <div class="assess-card-title">Visualize Homer architecture</div>
+        </div>
+        <div class="assess-card-desc">
+          The Homer monorepo has dashboard, api, widget, and packages layers with Supabase data flow, proxy whitelists, and API route patterns. A visual map makes onboarding instant and helps spot architectural drift.
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+          <div class="prompt-text">/visualize Homer monorepo architecture -- show dashboard, api, widget, and packages layers with Supabase data flow. Include the proxy whitelist and API route patterns.</div>
+        </div>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <span class="assess-step-num">02</span>
+          <div class="assess-card-title">Wire /task into HYDRA Telegram</div>
+        </div>
+        <div class="assess-card-desc">
+          Create tasks from Telegram via natural language. Say "create a task for fixing the auth bug" and HYDRA routes it to <code>new-task.sh</code>. Removes the need to be at a terminal to capture work.
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+          <div class="prompt-text">In ~/.hydra/telegram-listener.sh, add a 'task:' command type that calls new-task.sh with the message content. Add NL parsing examples to telegram-parse-natural.sh: 'create a task for...' and 'new task:...' patterns.</div>
+        </div>
+      </div>
+
+      <div class="assess-card">
+        <div class="assess-card-header">
+          <span class="assess-step-num">03</span>
+          <div class="assess-card-title">Template usage analytics</div>
+        </div>
+        <div class="assess-card-desc">
+          Track which templates get used most and by which project. Reveals which templates pull their weight and which are dead weight. Data-driven template evolution instead of guessing.
+        </div>
+        <div class="prompt-block">
+          <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+          <div class="prompt-text">Add a log line to each generator in ~/.claude/generators/ that appends '{date}|{template}|{project}' to ~/.claude/workspace-usage.log. Create a workspace-stats.sh that summarizes usage by template and project.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4: Prompts Summary -->
+    <div class="assess-section">
+      <div class="assess-section-header">
+        <div class="assess-section-dot teal"></div>
+        <span class="assess-section-label">Prompts Summary</span>
+      </div>
+      <div class="assess-section-title">All Prompts</div>
+
+      <div class="prompt-summary-item">
+        <span class="prompt-summary-num">1.</span>
+        <div class="prompt-summary-content">
+          <div class="prompt-summary-label">Automated task cleanup script</div>
+          <div class="prompt-block">
+            <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+            <div class="prompt-text">In ~/.claude/generators/, create a cleanup-done.sh script that archives .done/ tasks older than 30 days into a .done/archive/ folder with YYYY-MM prefix. Keep the 10 most recent in .done/ for quick reference. Bash 3.2 compatible.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-summary-item">
+        <span class="prompt-summary-num">2.</span>
+        <div class="prompt-summary-content">
+          <div class="prompt-summary-label">Template versioning</div>
+          <div class="prompt-block">
+            <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+            <div class="prompt-text">Add a 'template_version: 1' field to each template in ~/.claude/doc-templates/ and ~/.claude/prep-templates/. Update generators to stamp the version into created files. This enables future migration scripts.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-summary-item">
+        <span class="prompt-summary-num">3.</span>
+        <div class="prompt-summary-content">
+          <div class="prompt-summary-label">Scratch directory size guard</div>
+          <div class="prompt-block">
+            <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+            <div class="prompt-text">In ~/.claude/generators/_workspace-utils.sh, add a check_scratch_size() function that warns when any project's workspace/scratch/ exceeds 50MB. Wire it into the generators as a non-blocking warning.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-summary-item">
+        <span class="prompt-summary-num">4.</span>
+        <div class="prompt-summary-content">
+          <div class="prompt-summary-label">Visualize Homer monorepo architecture</div>
+          <div class="prompt-block">
+            <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+            <div class="prompt-text">/visualize Homer monorepo architecture -- show dashboard, api, widget, and packages layers with Supabase data flow. Include the proxy whitelist and API route patterns.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-summary-item">
+        <span class="prompt-summary-num">5.</span>
+        <div class="prompt-summary-content">
+          <div class="prompt-summary-label">Wire /task into HYDRA Telegram</div>
+          <div class="prompt-block">
+            <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+            <div class="prompt-text">In ~/.hydra/telegram-listener.sh, add a 'task:' command type that calls new-task.sh with the message content. Add NL parsing examples to telegram-parse-natural.sh: 'create a task for...' and 'new task:...' patterns.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-summary-item">
+        <span class="prompt-summary-num">6.</span>
+        <div class="prompt-summary-content">
+          <div class="prompt-summary-label">Template usage analytics</div>
+          <div class="prompt-block">
+            <button class="copy-btn" onclick="copyPrompt(this)">COPY</button>
+            <div class="prompt-text">Add a log line to each generator in ~/.claude/generators/ that appends '{date}|{template}|{project}' to ~/.claude/workspace-usage.log. Create a workspace-stats.sh that summarizes usage by template and project.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 <script>
@@ -1360,6 +1638,9 @@ function showView(id) {
     staggerReveal(view, '.power-card', 'power-visible', 50, 120);
   } else if (id === 'flows') {
     staggerReveal(view, '.flow-scenario', 'animate-in', 50, 100);
+  } else if (id === 'assessment') {
+    staggerReveal(view, '.assess-card', 'assess-visible', 50, 100);
+    staggerReveal(view, '.prompt-summary-item', 'assess-visible', 400, 80);
   } else if (id === 'overview') {
     // Re-trigger architecture animations
     const layers = view.querySelectorAll('.layer');
@@ -1386,6 +1667,29 @@ function toggleFlow(el) {
       step.classList.add('step-visible');
     });
   }
+}
+
+// ── Copy prompt to clipboard ──
+function copyPrompt(btn) {
+  var block = btn.closest('.prompt-block');
+  var text = block.querySelector('.prompt-text').textContent.trim();
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 1500);
+  }).catch(function() {
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(function() { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 1500);
+  });
 }
 
 // ── Initial page load animations ──
