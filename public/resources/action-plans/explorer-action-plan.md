@@ -36,10 +36,10 @@ Create `~/.claude/CLAUDE.md`:
 ---
 
 ## Week 2: First Hook
-Clone the [ID8Labs Hooks Starter Kit](https://github.com/eddiebe147/id8labs-starter):
+Clone the [ID8Labs Hooks Starter Kit](https://github.com/eddiebelaval/id8labs-starter):
 
 ```bash
-git clone https://github.com/eddiebe147/id8labs-starter ~/.claude/hooks
+git clone https://github.com/eddiebelaval/id8labs-starter ~/.claude/hooks
 chmod +x ~/.claude/hooks/**/*.sh
 ```
 

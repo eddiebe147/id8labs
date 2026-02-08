@@ -17,7 +17,7 @@
 | **Schedule Span** | 11 days (Week 1 + Week 2) |
 | **Start Date** | January 6, 2025 (Monday) |
 | **End Date** | January 16, 2025 (Thursday) |
-| **Profile** | Eddie Belaval (@eddiebe147) |
+| **Profile** | Eddie Belaval (@eddiebelaval) |
 
 ---
 

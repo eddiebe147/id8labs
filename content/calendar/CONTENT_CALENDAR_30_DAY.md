@@ -229,7 +229,7 @@ The ID8Labs digital engine is tuned to perfection. Now we add fuel.
 #### Day 30 - Manifesto
 **Hook:** "After 30 days of sharing what we're building at ID8Labs, here's what I actually believe about AI."
 **Body:** Core philosophy: AI as augmentation. The future we're working toward. Invitation to join.
-**CTA:** "Follow @eddiebe147 and visit id8labs.app. We're just getting started."
+**CTA:** "Follow @eddiebelaval and visit id8labs.app. We're just getting started."
 **Format:** Text post (closer)
 
 ---
