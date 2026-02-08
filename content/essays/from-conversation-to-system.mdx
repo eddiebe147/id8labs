@@ -4,7 +4,7 @@ subtitle: "How a FaceTime call with a friend became my entire dev workflow — f
 date: "2026-02-08"
 category: "essay"
 readTime: "14 min read"
-excerpt: "Last night, my friend Shah showed me his project structure over FaceTime. All I had was a screenshot and a conversation. By the next morning, I'd built a complete workspace system with templates, generators, conversational form filling, and interactive HTML visualizations powered by a stolen design language."
+excerpt: "Last night, my friend Shah showed me his project structure over FaceTime. All I had was a screenshot and a conversation. By the next morning, I'd built a complete workspace system with templates, generators, conversational form filling, and interactive HTML visualizations with a formalized design language."
 tags: ["AI", "developer-tools", "workflow", "design-system", "claude-code", "productivity"]
 featured: true
 ---
@@ -136,24 +136,26 @@ But the first version looked... generic. Dark mode with blue accents. Could have
 
 ---
 
-## Stealing a Design Language (With Permission From the Source Code)
+## Finding the Right Visual Language
 
-I'd been admiring factory.ai's design for a while — the AI company that builds autonomous coding agents. Their site has this quality I couldn't name at first. Professional without being corporate. Dark without being gloomy. Technical without being cold.
+id8labs already had a design philosophy: monochromatic, no shadows, no gradients, generous whitespace, maximum credibility. Our site is literally called the "White Paper Edition" internally — boring on purpose, because the lab coat needs to be trusted.
 
-So I did what any builder would do. I opened it in Playwright, extracted every CSS variable, and reverse-engineered their design system.
+But that philosophy was for the company site. The visualizations needed something different — a dark-mode technical aesthetic for tools that explain architecture and systems. I knew the *principles* I wanted (restraint, warmth, surgical use of color), but I hadn't formalized the tokens.
 
-What I found:
+So I went looking for reference. I studied a handful of sites in the AI/dev tools space — companies whose design felt the way I wanted my visualizations to feel. Professional without being corporate. Dark without being gloomy. Technical without being cold. A few patterns kept showing up across the best ones:
 
 - **Near-black, not pure black** — `#020202` instead of `#000`. Subtle, but it removes the harshness.
 - **Near-white, not pure white** — `#eeeeee` instead of `#fff`. Easier on the eyes.
-- **Warm neutral grays** — every gray has a brownish undertone, not the cool blue-gray that most dark themes use. This is what gives it warmth.
-- **Geist font** — weight 400 (light!) for headings with tight letter-spacing (`-2px`). The signature move. Big type at thin weight reads elegant, not heavy.
+- **Warm neutral grays** — brownish undertones, not the cool blue-gray that most dark themes default to. This is what gives a dark UI warmth instead of sterility.
+- **Light-weight headings** — weight 400 with tight letter-spacing (`-2px`). Big type at thin weight reads elegant, not heavy. The opposite of what most developers reach for.
 - **No shadows. No gradients. No glow.** — The layout and typography *are* the design. Whitespace does the heavy lifting.
-- **Orange accent** — `#ef6f2e`. One color. Used surgically: section indicator dots, active tabs, badges. Never splashed around.
+- **One accent color, used surgically** — section indicator dots, active tabs, badges. Never splashed around.
 
-I adapted about 90% of it. Kept their warm neutrals, their typography philosophy, their "less is more" component patterns. Added our own orange/amber accent palette and teal for success states. Called it "Factory-Inspired" and baked it into the `/visualize` command spec.
+These weren't radical discoveries — they were confirmations. Our existing design principles already pointed here. What I didn't have was the specifics: exact hex values, font stacks, component patterns, spacing tokens.
 
-Every HTML visualization I generate now automatically follows this language. The command file has the complete token system — every CSS variable, every component pattern, every layout rule — so any future session produces consistent output without me explaining the design again.
+I formalized everything into a design system with our own orange/amber accent palette and teal for success states. Warm neutrals across the board. Geist for typography. Every decision codified as CSS custom properties and baked directly into the `/visualize` command spec.
+
+Now every HTML visualization I generate automatically follows this language. The command file has the complete token system — every CSS variable, every component pattern, every layout rule — so any future session produces consistent output without me explaining the design again.
 
 ---
 
@@ -225,4 +227,4 @@ The input infrastructure is built. The visual language is defined. Now it compou
 
 ---
 
-*Credit to Shah for the FaceTime conversation that started all this, and to the factory.ai team for the design language that made it beautiful.*
+*Credit to Shah for the FaceTime conversation that started all this.*
