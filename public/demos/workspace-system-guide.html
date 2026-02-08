@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace Organization System — id8Labs</title>
+<style>
+  /* ═══════════════════════════════════════════════════
+     id8Labs Design System — Factory-Inspired
+     Near-black + warm neutrals + surgical orange accent
+     ═══════════════════════════════════════════════════ */
+
+  :root {
+    --base-primary:   #020202;
+    --base-secondary: #101010;
+    --base-card:      #1f1d1c;
+    --text-primary:   #eeeeee;
+    --text-secondary: #a49d9a;
+    --text-muted:     #5c5855;
+    --border-subtle:  #2e2c2b;
+    --border-visible: #3d3a39;
+    --accent:         #ef6f2e;
+    --accent-hover:   #ee6018;
+    --accent-active:  #d15010;
+    --amber:          #f59e0b;
+    --teal:           #4ecdc4;
+    --neutral-400:    #a49d9a;
+    --neutral-600:    #5c5855;
+    --neutral-800:    #3d3a39;
+    --neutral-900:    #2e2c2b;
+    --neutral-1000:   #1f1d1c;
+    --radius:         10px;
+    --radius-sm:      4px;
+    --font-sans:      'Geist', -apple-system, 'Segoe UI', system-ui, sans-serif;
+    --font-mono:      'Geist Mono', 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-mono);
+    background: var(--base-primary);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 80px 36px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .section-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+  }
+
+  .header h1 {
+    font-family: var(--font-sans);
+    font-size: 52px;
+    font-weight: 400;
+    letter-spacing: -2.5px;
+    line-height: 1.0;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+  }
+
+  .header .subtitle {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  .header .subtitle .hl {
+    color: var(--accent);
+  }
+
+  /* ── Stats Bar ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--border-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
+    max-width: 1100px;
+    margin: 0 auto 0;
+    padding: 0 0;
+  }
+
+  .stat {
+    background: var(--base-secondary);
+    padding: 24px 28px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: var(--font-sans);
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -1.5px;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .stat-num.orange { color: var(--accent); }
+  .stat-num.amber { color: var(--amber); }
+  .stat-num.teal { color: var(--teal); }
+
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* ── Nav Tabs ── */
+  .nav {
+    display: flex;
+    gap: 4px;
+    padding: 20px 36px;
+    max-width: 1100px;
+    margin: 32px auto 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--base-primary);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .nav-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.15s ease;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-visible);
+  }
+
+  .nav-btn.active {
+    background: var(--accent);
+    color: var(--base-primary);
+    border-color: var(--accent);
+  }
+
+  /* ── Content ── */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 36px 120px;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── Architecture View ── */
+  .architecture {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 0;
+    align-items: start;
+    margin-top: 8px;
+  }
+
+  .layer {
+    background: var(--base-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .layer:hover {
+    border-color: var(--border-visible);
+  }
+
+  .layer-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .layer-title {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .layer-path {
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0.9;
+  }
+
+  .layer-section { margin-bottom: 24px; }
+  .layer-section:last-child { margin-bottom: 0; }
+
+  .layer-section-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .count {
+    background: rgba(239, 111, 46, 0.12);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+  }
+
+  .layer-section-title.amber { color: var(--amber); }
+  .layer-section-title.amber .count { background: rgba(245, 158, 11, 0.12); color: var(--amber); }
+  .layer-section-title.teal { color: var(--teal); }
+  .layer-section-title.teal .count { background: rgba(78, 205, 196, 0.12); color: var(--teal); }
+
+  .file-list { list-style: none; font-size: 12px; }
+
+  .file-list li {
+    padding: 5px 0;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid rgba(46, 44, 43, 0.5);
+  }
+
+  .file-list li:last-child { border-bottom: none; }
+  .file-list li .fname { color: var(--text-primary); min-width: 180px; }
+  .file-list li .fdesc { color: var(--text-muted); }
+
+  /* ── Flow Connector (SVG animated) ── */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+    position: relative;
+  }
+
+  .connector svg {
+    overflow: visible;
+  }
+
+  .connector .conn-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    fill: var(--text-muted);
+  }
+
+  /* Flowing dashes animation */
+  .flow-path {
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 6 10;
+    animation: flowDash 1.8s linear infinite;
+  }
+
+  @keyframes flowDash {
+    to { stroke-dashoffset: -32; }
+  }
+
+  /* Base path (muted, always visible) */
+  .base-path {
+    stroke: var(--border-subtle);
+    stroke-width: 1.5;
+    fill: none;
+  }
+
+  /* Glow filter for traveling dot */
+  .conn-glow-dot {
+    fill: var(--accent);
+    filter: url(#connGlow);
+  }
+
+  /* ── Flow View ── */
+  .flow-scenario {
+    background: var(--base-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .flow-scenario:hover { border-color: var(--border-visible); }
+  .flow-scenario.open { border-color: var(--accent); }
+
+  .flow-scenario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .flow-scenario-title {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+  }
+
+  .flow-scenario-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-feature  { background: rgba(239, 111, 46, 0.12); color: var(--accent); }
+  .tag-research { background: rgba(245, 158, 11, 0.12); color: var(--amber); }
+  .tag-complete { background: rgba(78, 205, 196, 0.12); color: var(--teal); }
+  .tag-decision { background: rgba(245, 158, 11, 0.12); color: var(--amber); }
+  .tag-bug      { background: rgba(239, 111, 46, 0.2); color: var(--accent); }
+
+  .flow-detail { display: none; margin-top: 24px; }
+  .flow-scenario.open .flow-detail { display: block; }
+
+  .flow-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .flow-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 40px;
+    width: 1px;
+    height: calc(100% - 8px);
+    background: var(--border-subtle);
+  }
+
+  /* Pulsing flow line between steps */
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 40px;
+    width: 3px;
+    height: calc(100% - 8px);
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(239, 111, 46, 0.4),
+      transparent
+    );
+    background-size: 3px 30px;
+    animation: flowDown 1.5s linear infinite;
+    border-radius: 2px;
+  }
+
+  @keyframes flowDown {
+    0% { background-position: 0 -30px; }
+    100% { background-position: 0 30px; }
+  }
+
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 400;
+    flex-shrink: 0;
+  }
+
+  .step-num.orange { background: rgba(239, 111, 46, 0.12); color: var(--accent); }
+  .step-num.amber  { background: rgba(245, 158, 11, 0.12); color: var(--amber); }
+  .step-num.teal   { background: rgba(78, 205, 196, 0.12); color: var(--teal); }
+
+  .step-content h4 {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .step-content p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .step-content code {
+    font-family: var(--font-mono);
+    background: var(--base-secondary);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    color: var(--accent);
+    border: 1px solid var(--border-subtle);
+  }
+
+  /* ── File Explorer ── */
+  .tree { font-size: 13px; }
+
+  .tree-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(46, 44, 43, 0.3);
+  }
+
+  .tree-indent { color: var(--text-muted); min-width: 16px; user-select: none; }
+  .tree-icon { min-width: 16px; }
+  .tree-icon.dir { color: var(--accent); }
+  .tree-icon.file { color: var(--text-muted); }
+  .tree-name { color: var(--text-primary); }
+  .tree-name.dir { color: var(--accent); }
+  .tree-desc { color: var(--text-muted); font-size: 11px; margin-left: auto; text-align: right; }
+
+  /* ── Cheatsheet ── */
+  .cheat-section {
+    margin-bottom: 32px;
+  }
+
+  .cheat-title {
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .cheat-item {
+    background: var(--base-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    transition: border-color 0.15s ease;
+  }
+
+  .cheat-item:hover { border-color: var(--border-visible); }
+
+  .cheat-cmd {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .cheat-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  /* ── Superpowers View ── */
+  .power-card {
+    background: var(--base-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 12px;
+    transition: border-color 0.15s ease;
+  }
+
+  .power-card:hover { border-color: var(--border-visible); }
+
+  .power-title {
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .power-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .power-example {
+    background: var(--base-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-size: 12px;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  .power-example .prompt {
+    color: var(--accent);
+  }
+
+  .power-example .response {
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+
+  /* ── Animations ── */
+
+  /* Keyframes */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes drawLine {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 111, 46, 0); }
+    50%      { opacity: 0.85; box-shadow: 0 0 0 6px rgba(239, 111, 46, 0.15); }
+  }
+
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes borderGlow {
+    0%, 100% { border-color: var(--accent); }
+    50%      { border-color: var(--accent-hover); }
+  }
+
+  /* Section dot pulse — subtle breathing */
+  .section-dot {
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+
+  /* Header entrance */
+  .header .section-indicator { animation: fadeIn 0.6s ease both; }
+  .header h1 { animation: fadeSlideUp 0.7s ease both 0.15s; }
+  .header .subtitle { animation: fadeSlideUp 0.7s ease both 0.3s; }
+
+  /* Stats bar entrance */
+  .stats-bar .stat { animation: fadeSlideUp 0.5s ease both; }
+  .stats-bar .stat:nth-child(1) { animation-delay: 0.4s; }
+  .stats-bar .stat:nth-child(2) { animation-delay: 0.5s; }
+  .stats-bar .stat:nth-child(3) { animation-delay: 0.6s; }
+  .stats-bar .stat:nth-child(4) { animation-delay: 0.7s; }
+  .stats-bar .stat:nth-child(5) { animation-delay: 0.8s; }
+  .stats-bar .stat:nth-child(6) { animation-delay: 0.9s; }
+
+  /* Staggered view entrance — applied via JS */
+  .animate-in {
+    animation: fadeSlideUp 0.4s ease both;
+  }
+
+  /* SVG connector entrance */
+  .connector svg {
+    animation: fadeIn 0.6s ease both 0.4s;
+  }
+
+  /* Architecture layer entrance */
+  .architecture .layer:first-child { animation: fadeSlideUp 0.5s ease both 0.1s; }
+  .architecture .layer:last-child { animation: fadeSlideUp 0.5s ease both 0.3s; }
+
+  /* Flow step cascade — applied via JS when scenario opens */
+  .flow-step.step-visible {
+    animation: fadeSlideUp 0.35s ease both;
+  }
+
+  .flow-step {
+    opacity: 0;
+  }
+
+  /* Card hover lift — subtle */
+  .layer,
+  .flow-scenario,
+  .cheat-item,
+  .power-card {
+    transition: border-color 0.15s ease, transform 0.2s ease;
+  }
+
+  .flow-scenario:hover,
+  .cheat-item:hover,
+  .power-card:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Active tab border glow */
+  .flow-scenario.open {
+    animation: borderGlow 2s ease-in-out infinite;
+  }
+
+  /* File list stagger — applied via JS */
+  .tree-item.tree-visible {
+    animation: fadeSlideUp 0.25s ease both;
+  }
+
+  .tree-item {
+    opacity: 0;
+  }
+
+  /* Cheat grid stagger */
+  .cheat-item.cheat-visible {
+    animation: fadeSlideUp 0.3s ease both;
+  }
+
+  #cheatsheet .cheat-item,
+  #superpowers .power-card {
+    opacity: 0;
+  }
+
+  .power-card.power-visible {
+    animation: fadeSlideUp 0.4s ease both;
+  }
+
+  /* Stat number animation */
+  .stat-num {
+    opacity: 0;
+  }
+
+  .stat-num.counted {
+    animation: countUp 0.4s ease both;
+  }
+
+  /* Override for always-visible elements in the default active view */
+  #overview .layer,
+  #overview .connector * {
+    /* handled by their own animations above */
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .header { padding: 48px 20px 32px; }
+    .header h1 { font-size: 36px; letter-spacing: -1.5px; }
+    .nav { padding: 16px 20px; flex-wrap: wrap; }
+    .content { padding: 24px 20px 80px; }
+    .architecture { grid-template-columns: 1fr; }
+    .connector { display: none; }
+    .cheat-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<div class="header">
+  <div class="section-indicator">
+    <div class="section-dot"></div>
+    <span class="section-label">id8Labs Workspace System</span>
+  </div>
+  <h1>Template-Driven<br>Workspace Organization</h1>
+  <p class="subtitle">
+    Two-level system: <span class="hl">global templates</span> shared across all projects +
+    <span class="hl">per-project workspaces</span> for tasks, research, decisions, and scratch work.
+    File-based. Git-tracked. Zero database.
+  </p>
+</div>
+
+<!-- ═══════ STATS BAR ═══════ -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num orange" data-target="14">0</div>
+    <div class="stat-label">Doc Templates</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num orange" data-target="7">0</div>
+    <div class="stat-label">Prep Templates</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num amber" data-target="10">0</div>
+    <div class="stat-label">Prompts</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num amber" data-target="8">0</div>
+    <div class="stat-label">Generators</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num teal" data-target="4">0</div>
+    <div class="stat-label">Commands</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-target="3">0</div>
+    <div class="stat-label">Projects</div>
+  </div>
+</div>
+
+<!-- ═══════ NAV ═══════ -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showView('overview')">Overview</button>
+  <button class="nav-btn" onclick="showView('flows')">How It Works</button>
+  <button class="nav-btn" onclick="showView('explorer')">File Explorer</button>
+  <button class="nav-btn" onclick="showView('cheatsheet')">Cheatsheet</button>
+  <button class="nav-btn" onclick="showView('superpowers')">Superpowers</button>
+</div>
+
+<!-- ═══════ CONTENT ═══════ -->
+<div class="content">
+
+  <!-- ─── OVERVIEW ─── -->
+  <div id="overview" class="view active">
+    <div class="section-indicator" style="margin-bottom: 24px;">
+      <div class="section-dot"></div>
+      <span class="section-label">Architecture</span>
+    </div>
+
+    <div class="architecture">
+      <!-- Global Layer -->
+      <div class="layer">
+        <div class="layer-label">Global Layer</div>
+        <div class="layer-title">Shared Templates</div>
+        <div class="layer-path">~/.claude/</div>
+
+        <div class="layer-section">
+          <div class="layer-section-title">doc-templates/ <span class="count">14</span></div>
+          <ul class="file-list">
+            <li><span class="fname">feature-spec.md</span><span class="fdesc">Feature specification</span></li>
+            <li><span class="fname">bug-investigation.md</span><span class="fdesc">Bug triage + root cause</span></li>
+            <li><span class="fname">implementation-plan.md</span><span class="fdesc">Step-by-step build plan</span></li>
+            <li><span class="fname">api-endpoint-design.md</span><span class="fdesc">REST/API route design</span></li>
+            <li><span class="fname">database-migration.md</span><span class="fdesc">Schema change + rollback</span></li>
+            <li><span class="fname">adr.md</span><span class="fdesc">Architecture Decision Record</span></li>
+            <li><span class="fname">+ 8 more...</span><span class="fdesc">UI, deploy, PR, retro, etc.</span></li>
+          </ul>
+        </div>
+
+        <div class="layer-section">
+          <div class="layer-section-title amber">prep-templates/ <span class="count">7</span></div>
+          <ul class="file-list">
+            <li><span class="fname">architecture-research.md</span><span class="fdesc">System design exploration</span></li>
+            <li><span class="fname">api-evaluation.md</span><span class="fdesc">Service/API evaluation</span></li>
+            <li><span class="fname">tech-stack-evaluation.md</span><span class="fdesc">Technology comparison</span></li>
+            <li><span class="fname">cost-analysis.md</span><span class="fdesc">Infrastructure cost modeling</span></li>
+            <li><span class="fname">+ 3 more...</span><span class="fdesc">Competitor, security</span></li>
+          </ul>
+        </div>
+
+        <div class="layer-section">
+          <div class="layer-section-title teal">generators/ <span class="count">8</span></div>
+          <ul class="file-list">
+            <li><span class="fname">new-task.sh</span><span class="fdesc">Create task file</span></li>
+            <li><span class="fname">new-feature.sh</span><span class="fdesc">Feature spec + branch</span></li>
+            <li><span class="fname">new-bug.sh</span><span class="fdesc">Bug investigation</span></li>
+            <li><span class="fname">new-prep.sh</span><span class="fdesc">Research document</span></li>
+            <li><span class="fname">new-adr.sh</span><span class="fdesc">Architecture decision</span></li>
+            <li><span class="fname">done-task.sh</span><span class="fdesc">Archive to .done/</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Animated Flow Connector -->
+      <div class="connector">
+        <svg width="60" height="220" viewBox="0 0 60 220">
+          <defs>
+            <filter id="connGlow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <!-- Base path (muted, always visible) -->
+          <path id="connPath" d="M30,10 L30,210" class="base-path"/>
+          <!-- Flowing dashes overlay -->
+          <path d="M30,10 L30,210" class="flow-path"/>
+          <!-- Traveling pulse dot -->
+          <circle r="4" class="conn-glow-dot">
+            <animateMotion dur="2.2s" repeatCount="indefinite">
+              <mpath href="#connPath"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" dur="2.2s" repeatCount="indefinite"/>
+            <animate attributeName="r" values="2;4;4;2" dur="2.2s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Arrowhead -->
+          <polygon points="24,200 30,212 36,200" fill="#ef6f2e" opacity="0.7"/>
+          <!-- Label -->
+          <text x="30" y="115" class="conn-label" text-anchor="middle" transform="rotate(-90, 30, 115)">generates</text>
+        </svg>
+      </div>
+
+      <!-- Per-Project Layer -->
+      <div class="layer">
+        <div class="layer-label">Per-Project Layer</div>
+        <div class="layer-title">Project Workspace</div>
+        <div class="layer-path">&lt;project&gt;/workspace/</div>
+
+        <div class="layer-section">
+          <div class="layer-section-title">tasks/ <span class="count">active work</span></div>
+          <ul class="file-list">
+            <li><span class="fname">2026-02-08-add-email.md</span><span class="fdesc">Active task</span></li>
+            <li><span class="fname">.done/</span><span class="fdesc">Completed archive</span></li>
+          </ul>
+        </div>
+
+        <div class="layer-section">
+          <div class="layer-section-title amber">prep/ <span class="count">research</span></div>
+          <ul class="file-list">
+            <li><span class="fname">2026-02-08-tech-stack-*.md</span><span class="fdesc">Investigation docs</span></li>
+          </ul>
+        </div>
+
+        <div class="layer-section">
+          <div class="layer-section-title teal">decisions/ <span class="count">ADRs</span></div>
+          <ul class="file-list">
+            <li><span class="fname">0001-use-supabase-rls.md</span><span class="fdesc">Auto-numbered</span></li>
+          </ul>
+        </div>
+
+        <div class="layer-section">
+          <div class="layer-section-title">Other directories</div>
+          <ul class="file-list">
+            <li><span class="fname">scratch/</span><span class="fdesc">Experiments (gitignored)</span></li>
+            <li><span class="fname">ideas/</span><span class="fdesc">Future concepts</span></li>
+          </ul>
+        </div>
+
+        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+          <div class="layer-label">Initialized Projects</div>
+          <ul class="file-list">
+            <li><span class="fname">Homer</span><span class="fdesc">~/Development/Homer/workspace/</span></li>
+            <li><span class="fname">Pause</span><span class="fdesc">~/Development/id8/products/pause/workspace/</span></li>
+            <li><span class="fname">DeepStack</span><span class="fdesc">~/Development/id8/products/deepstack/workspace/</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── HOW IT WORKS ─── -->
+  <div id="flows" class="view">
+    <div class="section-indicator" style="margin-bottom: 24px;">
+      <div class="section-dot"></div>
+      <span class="section-label">Workflows</span>
+    </div>
+
+    <div class="flow-scenario" onclick="toggleFlow(this)">
+      <div class="flow-scenario-header">
+        <div class="flow-scenario-title">New Feature</div>
+        <span class="flow-scenario-tag tag-feature">feature</span>
+      </div>
+      <div class="flow-detail">
+        <div class="flow-step">
+          <div class="step-num orange">01</div>
+          <div class="step-content">
+            <h4>Tell Claude what you want</h4>
+            <p>Say <code>/task Add email notifications for Homer</code></p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num orange">02</div>
+          <div class="step-content">
+            <h4>Claude interviews you</h4>
+            <p>Asks priority, type, acceptance criteria. You answer by voice or text. No brackets to fill in.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num amber">03</div>
+          <div class="step-content">
+            <h4>Generator creates the file</h4>
+            <p><code>new-task.sh</code> creates <code>workspace/tasks/2026-02-08-add-email-notifications.md</code></p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num amber">04</div>
+          <div class="step-content">
+            <h4>Claude fills in your answers</h4>
+            <p>All sections populated from the conversation. Ready to reference while building.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num teal">05</div>
+          <div class="step-content">
+            <h4>When done, archive it</h4>
+            <p><code>done-task.sh</code> moves to <code>.done/</code> with completion date in metadata.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-scenario" onclick="toggleFlow(this)">
+      <div class="flow-scenario-header">
+        <div class="flow-scenario-title">Research / Prep</div>
+        <span class="flow-scenario-tag tag-research">research</span>
+      </div>
+      <div class="flow-detail">
+        <div class="flow-step">
+          <div class="step-num orange">01</div>
+          <div class="step-content">
+            <h4>Start a research doc</h4>
+            <p>Say <code>/prep Evaluate PartyKit vs Liveblocks for real-time</code></p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num orange">02</div>
+          <div class="step-content">
+            <h4>Claude asks what matters</h4>
+            <p>Type of research, evaluation criteria, what you already know. Different questions per type.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num amber">03</div>
+          <div class="step-content">
+            <h4>Pre-filled document created</h4>
+            <p>Context filled in, criteria set, [TODO: Research needed] markers for actual investigation.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num teal">04</div>
+          <div class="step-content">
+            <h4>Research and fill</h4>
+            <p>Work through the TODOs. The structure guides your investigation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-scenario" onclick="toggleFlow(this)">
+      <div class="flow-scenario-header">
+        <div class="flow-scenario-title">Architecture Decision</div>
+        <span class="flow-scenario-tag tag-decision">ADR</span>
+      </div>
+      <div class="flow-detail">
+        <div class="flow-step">
+          <div class="step-num orange">01</div>
+          <div class="step-content">
+            <h4>Record a decision</h4>
+            <p>Say <code>/adr Use Supabase RLS instead of API middleware</code></p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num orange">02</div>
+          <div class="step-content">
+            <h4>Claude walks through the "why"</h4>
+            <p>Context, decision, alternatives considered, consequences. The most valuable part: rejected alternatives.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num amber">03</div>
+          <div class="step-content">
+            <h4>Auto-numbered ADR created</h4>
+            <p><code>workspace/decisions/0002-use-supabase-rls.md</code> — permanent record.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-scenario" onclick="toggleFlow(this)">
+      <div class="flow-scenario-header">
+        <div class="flow-scenario-title">Bug Investigation</div>
+        <span class="flow-scenario-tag tag-bug">bug</span>
+      </div>
+      <div class="flow-detail">
+        <div class="flow-step">
+          <div class="step-num orange">01</div>
+          <div class="step-content">
+            <h4>Log the bug</h4>
+            <p>Run <code>new-bug.sh "IDOR vulnerability in amendments API" --severity critical</code></p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num orange">02</div>
+          <div class="step-content">
+            <h4>Structured investigation template</h4>
+            <p>Steps to reproduce, expected vs actual, root cause analysis, fix plan, verification steps.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num teal">03</div>
+          <div class="step-content">
+            <h4>Fix and archive</h4>
+            <p><code>done-task.sh</code> moves to <code>.done/</code> — bug history preserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-scenario" onclick="toggleFlow(this)">
+      <div class="flow-scenario-header">
+        <div class="flow-scenario-title">Visualize Anything</div>
+        <span class="flow-scenario-tag tag-feature">visual</span>
+      </div>
+      <div class="flow-detail">
+        <div class="flow-step">
+          <div class="step-num orange">01</div>
+          <div class="step-content">
+            <h4>Ask to see it visually</h4>
+            <p>Say <code>/visualize Homer architecture</code> or just ask "can you show me how X works?"</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num orange">02</div>
+          <div class="step-content">
+            <h4>Claude builds an interactive HTML page</h4>
+            <p>Factory-inspired design. Dark theme, warm neutrals, orange accents. Tabs, expandable sections, real data.</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num teal">03</div>
+          <div class="step-content">
+            <h4>Opens in your browser</h4>
+            <p>Like this page you're looking at right now.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FILE EXPLORER ─── -->
+  <div id="explorer" class="view">
+    <div class="section-indicator" style="margin-bottom: 24px;">
+      <div class="section-dot"></div>
+      <span class="section-label">File System</span>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="layer-title" style="margin-bottom: 16px;">Global Layer: ~/.claude/</div>
+      <div class="tree">
+        <div class="tree-item"><span class="tree-icon dir">/</span><span class="tree-name dir">doc-templates/</span><span class="tree-desc">14 work templates</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">README.md</span><span class="tree-desc">Index: when to use each</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">feature-spec.md</span><span class="tree-desc">Feature specification</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">bug-investigation.md</span><span class="tree-desc">Bug triage + root cause</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">implementation-plan.md</span><span class="tree-desc">Step-by-step build plan</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">api-endpoint-design.md</span><span class="tree-desc">REST/API route design</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">database-migration.md</span><span class="tree-desc">Schema change + rollback</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">ui-component-spec.md</span><span class="tree-desc">Component design</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">deployment-checklist.md</span><span class="tree-desc">Deploy verification</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">pr-review-checklist.md</span><span class="tree-desc">Structured PR review</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">adr.md</span><span class="tree-desc">Architecture Decision Record</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">integration-plan.md</span><span class="tree-desc">Third-party integration</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">post-mortem.md</span><span class="tree-desc">Incident analysis</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">daily-plan.md</span><span class="tree-desc">Daily session plan</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">weekly-retro.md</span><span class="tree-desc">Weekly retrospective</span></div>
+
+        <div class="tree-item" style="margin-top: 8px;"><span class="tree-icon dir">/</span><span class="tree-name dir">prep-templates/</span><span class="tree-desc">7 research templates</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">architecture-research.md</span><span class="tree-desc">System design exploration</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">api-evaluation.md</span><span class="tree-desc">Service/API evaluation</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">competitor-analysis.md</span><span class="tree-desc">Competition landscape</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">tech-stack-evaluation.md</span><span class="tree-desc">Technology comparison</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">cost-analysis.md</span><span class="tree-desc">Cost modeling</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">security-review.md</span><span class="tree-desc">Security posture</span></div>
+
+        <div class="tree-item" style="margin-top: 8px;"><span class="tree-icon dir">/</span><span class="tree-name dir">prompts/</span><span class="tree-desc">10 thinking frameworks</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">code-review.md</span><span class="tree-desc">Review framework</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">debug-systematic.md</span><span class="tree-desc">Systematic debugging</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">refactor-plan.md</span><span class="tree-desc">Refactoring strategy</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">+ 7 more...</span><span class="tree-desc">Performance, migration, test, etc.</span></div>
+
+        <div class="tree-item" style="margin-top: 8px;"><span class="tree-icon dir">/</span><span class="tree-name dir">generators/</span><span class="tree-desc">8 bash scripts</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">_workspace-utils.sh</span><span class="tree-desc">Shared utilities</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">new-project-workspace.sh</span><span class="tree-desc">Init workspace dirs</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">new-task.sh</span><span class="tree-desc">Create task</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">new-feature.sh</span><span class="tree-desc">Feature spec + branch</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">new-bug.sh</span><span class="tree-desc">Bug investigation</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">new-prep.sh</span><span class="tree-desc">Research doc</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">new-adr.sh</span><span class="tree-desc">Architecture decision</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">done-task.sh</span><span class="tree-desc">Archive completed</span></div>
+
+        <div class="tree-item" style="margin-top: 8px;"><span class="tree-icon dir">/</span><span class="tree-name dir">commands/</span><span class="tree-desc">Slash commands</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">task.md</span><span class="tree-desc">/task — conversational task creation</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">prep.md</span><span class="tree-desc">/prep — research doc creation</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">adr.md</span><span class="tree-desc">/adr — architecture decision</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">visualize.md</span><span class="tree-desc">/visualize — interactive HTML visuals</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="layer-title" style="margin-bottom: 16px;">Per-Project: &lt;project&gt;/workspace/</div>
+      <div class="tree">
+        <div class="tree-item"><span class="tree-icon dir">/</span><span class="tree-name dir">workspace/</span><span class="tree-desc">Project workspace root</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon file">-</span><span class="tree-name">README.md</span><span class="tree-desc">How to use this workspace</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon dir">/</span><span class="tree-name dir">tasks/</span><span class="tree-desc">Active task files</span></div>
+        <div class="tree-item"><span class="tree-indent">    </span><span class="tree-icon dir">/</span><span class="tree-name dir">.done/</span><span class="tree-desc">Completed archive</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon dir">/</span><span class="tree-name dir">prep/</span><span class="tree-desc">Research + investigation docs</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon dir">/</span><span class="tree-name dir">scratch/</span><span class="tree-desc">Quick experiments (gitignored)</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon dir">/</span><span class="tree-name dir">ideas/</span><span class="tree-desc">Future concepts</span></div>
+        <div class="tree-item"><span class="tree-indent">  </span><span class="tree-icon dir">/</span><span class="tree-name dir">decisions/</span><span class="tree-desc">Architecture Decision Records</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CHEATSHEET ─── -->
+  <div id="cheatsheet" class="view">
+    <div class="section-indicator" style="margin-bottom: 24px;">
+      <div class="section-dot"></div>
+      <span class="section-label">Quick Reference</span>
+    </div>
+
+    <div class="cheat-section">
+      <div class="cheat-title">Slash Commands (Conversational)</div>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <div class="cheat-cmd">/task "Add email alerts"</div>
+          <div class="cheat-desc">Claude interviews you, fills the template, creates task file</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">/prep "Evaluate PartyKit"</div>
+          <div class="cheat-desc">Research doc with type-specific questions</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">/adr "Use RLS over middleware"</div>
+          <div class="cheat-desc">Architecture decision with alternatives + consequences</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">/visualize Homer architecture</div>
+          <div class="cheat-desc">Interactive HTML visualization in the browser</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cheat-section">
+      <div class="cheat-title">Generator Scripts (Direct CLI)</div>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <div class="cheat-cmd">new-task.sh "Title" --priority high</div>
+          <div class="cheat-desc">Creates workspace/tasks/YYYY-MM-DD-slug.md</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">new-feature.sh "Name" --branch</div>
+          <div class="cheat-desc">Feature spec + optionally creates git branch</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">new-bug.sh "Desc" --severity critical</div>
+          <div class="cheat-desc">Bug investigation with severity levels</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">new-prep.sh "Topic" --type tech-stack</div>
+          <div class="cheat-desc">Research doc (6 types available)</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">new-adr.sh "Decision title"</div>
+          <div class="cheat-desc">Auto-incrementing NNNN-slug.md</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">done-task.sh &lt;task-file&gt;</div>
+          <div class="cheat-desc">Moves to .done/ with completion date</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">new-project-workspace.sh --project homer</div>
+          <div class="cheat-desc">Creates full workspace/ directory structure</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">proj homer workspace</div>
+          <div class="cheat-desc">Show workspace status (tasks, prep, ADRs)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cheat-section">
+      <div class="cheat-title">Prep Types</div>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <div class="cheat-cmd">architecture</div>
+          <div class="cheat-desc">System architecture exploration</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">api</div>
+          <div class="cheat-desc">API or service evaluation</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">competitor</div>
+          <div class="cheat-desc">Competitive landscape analysis</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">tech-stack</div>
+          <div class="cheat-desc">Technology comparison matrix</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">cost</div>
+          <div class="cheat-desc">Infrastructure cost modeling</div>
+        </div>
+        <div class="cheat-item">
+          <div class="cheat-cmd">security</div>
+          <div class="cheat-desc">Security posture assessment</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SUPERPOWERS ─── -->
+  <div id="superpowers" class="view">
+    <div class="section-indicator" style="margin-bottom: 24px;">
+      <div class="section-dot"></div>
+      <span class="section-label">Capabilities</span>
+    </div>
+
+    <div class="power-card">
+      <div class="power-title">Conversational Templates</div>
+      <div class="power-desc">
+        No more filling in bracket placeholders. Claude asks you questions by voice or text,
+        then fills in the entire template from your answers. Just talk naturally.
+      </div>
+      <div class="power-example">
+        <div class="prompt">You: /task Add email notifications for Homer</div>
+        <div class="response">Claude: Got it. How urgent is this? [High / Medium / Low]</div>
+        <div class="response">You: High priority, it's a feature</div>
+        <div class="response">Claude: What should "done" look like?</div>
+        <div class="response">You: Agents get emailed when a lead comes in</div>
+        <div class="response">Claude: [Creates and fills the entire task file]</div>
+      </div>
+    </div>
+
+    <div class="power-card">
+      <div class="power-title">Interactive Visualizations</div>
+      <div class="power-desc">
+        Complex topics explained through interactive HTML pages instead of walls of text.
+        Factory-inspired design language. Tabs, expandable sections, real codebase data.
+        This page is an example.
+      </div>
+      <div class="power-example">
+        <div class="prompt">You: /visualize HYDRA job structure</div>
+        <div class="response">Claude builds a dark-themed interactive HTML page with tabbed views showing all 23 launchd jobs, their dependencies, costs, and scheduling. Opens in your browser.</div>
+      </div>
+    </div>
+
+    <div class="power-card">
+      <div class="power-title">Task Lifecycle</div>
+      <div class="power-desc">
+        File-based task management with no database. Create tasks, track priority,
+        archive when complete. Everything is git-tracked (except scratch/).
+      </div>
+      <div class="power-example">
+        <div class="prompt">Create: new-task.sh "Fix IDOR bug" --priority critical</div>
+        <div class="response">Work: Reference the task file while building the fix</div>
+        <div class="prompt" style="margin-top: 8px;">Archive: done-task.sh workspace/tasks/2026-02-08-fix-idor-bug.md</div>
+        <div class="response">Moved to .done/ with completion date in metadata</div>
+      </div>
+    </div>
+
+    <div class="power-card">
+      <div class="power-title">Architecture Decision Records</div>
+      <div class="power-desc">
+        Capture the WHY behind technical choices so future-you understands the reasoning.
+        Auto-numbered. Permanent records. The most valuable part: rejected alternatives.
+      </div>
+      <div class="power-example">
+        <div class="prompt">You: /adr Use Supabase RLS instead of API middleware</div>
+        <div class="response">Claude: What led to this? What was the alternative?</div>
+        <div class="response">You: We kept missing auth checks. Middleware works but RLS is at the database level, so even if we forget in the API, data is protected.</div>
+        <div class="response">Claude: [Creates 0002-use-supabase-rls.md with full context, decision, alternatives, and trade-offs]</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// Animation Engine — purposeful, subtle motion
+// ═══════════════════════════════════════════
+
+// ── Stat counter animation ──
+function animateCounters() {
+  document.querySelectorAll('.stat-num[data-target]').forEach((el, i) => {
+    const target = parseInt(el.dataset.target);
+    el.textContent = '0';
+
+    setTimeout(() => {
+      el.classList.add('counted');
+      const duration = 600;
+      const start = performance.now();
+
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }, 500 + i * 120);
+  });
+}
+
+// ── Staggered reveal for child elements ──
+function staggerReveal(container, selector, className, baseDelay, stagger) {
+  const items = container.querySelectorAll(selector);
+  items.forEach((item, i) => {
+    item.classList.remove(className);
+    item.style.animationDelay = (baseDelay + i * stagger) + 'ms';
+    // Force reflow then add class
+    void item.offsetWidth;
+    item.classList.add(className);
+  });
+}
+
+// ── View switching with animations ──
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  const view = document.getElementById(id);
+  view.classList.add('active');
+  event.target.classList.add('active');
+
+  // Animate content based on view type
+  if (id === 'explorer') {
+    staggerReveal(view, '.tree-item', 'tree-visible', 50, 30);
+  } else if (id === 'cheatsheet') {
+    staggerReveal(view, '.cheat-item', 'cheat-visible', 50, 60);
+  } else if (id === 'superpowers') {
+    staggerReveal(view, '.power-card', 'power-visible', 50, 120);
+  } else if (id === 'flows') {
+    staggerReveal(view, '.flow-scenario', 'animate-in', 50, 100);
+  } else if (id === 'overview') {
+    // Re-trigger architecture animations
+    const layers = view.querySelectorAll('.layer');
+    layers.forEach((l, i) => {
+      l.style.animation = 'none';
+      void l.offsetWidth;
+      l.style.animation = 'fadeSlideUp 0.5s ease both ' + (0.1 + i * 0.2) + 's';
+    });
+  }
+}
+
+// ── Flow scenario toggle with step cascade ──
+function toggleFlow(el) {
+  const wasOpen = el.classList.contains('open');
+  el.classList.toggle('open');
+
+  if (!wasOpen) {
+    // Cascade the steps in
+    const steps = el.querySelectorAll('.flow-step');
+    steps.forEach((step, i) => {
+      step.classList.remove('step-visible');
+      step.style.animationDelay = (100 + i * 150) + 'ms';
+      void step.offsetWidth;
+      step.classList.add('step-visible');
+    });
+  }
+}
+
+// ── Initial page load animations ──
+document.addEventListener('DOMContentLoaded', () => {
+  // Count up stats
+  animateCounters();
+
+  // Reveal overview tree items if visible
+  const overview = document.getElementById('overview');
+  if (overview) {
+    const layers = overview.querySelectorAll('.layer');
+    layers.forEach((layer) => {
+      const items = layer.querySelectorAll('.file-list li');
+      items.forEach((item, i) => {
+        item.style.opacity = '0';
+        item.style.animation = 'fadeSlideUp 0.3s ease both ' + (0.6 + i * 0.05) + 's';
+      });
+    });
+  }
+
+  // Make flow scenarios visible (but steps hidden until opened)
+  document.querySelectorAll('.flow-scenario').forEach(s => {
+    s.style.opacity = '1';
+  });
+});
+</script>
+
+</body>
+</html>
