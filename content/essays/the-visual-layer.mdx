@@ -1,0 +1,223 @@
+---
+title: "The Visual Layer: How I Made My Terminal Workspace Something I Can Actually See"
+subtitle: "I built all this code and realized I had no idea what it looked like. So I created a command that turns codebases into interactive visual documents — with a built-in senior dev review."
+date: "2026-02-08"
+category: "essay"
+readTime: "11 min read"
+excerpt: "I've been shipping code for months — real estate platforms, trading bots, an entire AI operating system — and I couldn't tell you what any of it looked like. Not the UI. The architecture. So I built a command that generates interactive HTML visualizations from the terminal, complete with a senior dev assessment and copy-paste prompts to fix every issue it finds."
+tags: ["Claude Code", "visualization", "developer-tools", "design-systems", "productivity"]
+featured: true
+---
+
+## I Built It But I Couldn't See It
+
+Here's a confession that probably applies to more builders than will admit it: I've been shipping code for months — real estate platforms, trading bots, an entire AI operating system — and I couldn't tell you what any of it *looked like*.
+
+Not the UI. The *architecture*. The folder structure. The data flow. How the pieces connected.
+
+I live in the terminal. Claude Code is my primary development environment. I type commands, read files, edit code, push branches. The terminal is incredibly powerful, but it has a fundamental limitation: it's one-dimensional. You see what's on screen. You scroll up to see what was on screen. That's it.
+
+I'm a visual learner. I think spatially. When someone explains an architecture to me in a wall of monospace text, some of it sticks. But when I see it as a diagram with color-coded layers and animated flow lines — I *get it*. Immediately. Permanently.
+
+The problem is that terminal-based development doesn't have a visual layer. Until you build one.
+
+---
+
+## The Spark: Anthropic's /insights
+
+The idea didn't come from nowhere. Anthropic ships a feature with Claude Code called `/insights` — it generates a document about your codebase activity, patterns, what you've been working on. It's useful, but what struck me wasn't the content. It was the *weight* of it.
+
+Here was a document that was generated from my terminal activity — but it wasn't just text. It had structure. Visual hierarchy. It was *actionable*. You could look at it and know what to do next.
+
+That's when the thought clicked: **if a terminal tool can generate a structured, visual document about what happened, why can't it generate one about what *exists*?**
+
+Not a log. A map.
+
+---
+
+## Building /visualize
+
+The concept was simple: a slash command that takes a topic — a system, an architecture, a workflow — and generates a self-contained HTML file that visually explains it. One file. Zero dependencies. Open it in a browser. See your entire system at a glance.
+
+The first version was rough. Dark background, some boxes connected by arrows, basic tab navigation. But the moment I opened that HTML file and saw my Homer real estate platform laid out as an interactive architecture diagram with clickable layers — something shifted.
+
+I wasn't reading about my system anymore. I was *looking at* my system.
+
+### The Design Language
+
+Every visualization needed to feel like it came from the same place. I didn't want random-looking HTML pages. I wanted a design language — something consistent, professional, something that felt like opening a document from a serious tool.
+
+I landed on what I call the "Factory-Inspired" system, adapted from factory.ai's aesthetic:
+
+- Near-black background (`#020202`) — not pure black, it's warmer
+- Near-white text (`#eeeeee`) — not pure white, easier on the eyes
+- Warm neutral grays with brownish undertones — never cool or blue
+- One accent color: orange (`#ef6f2e`) for emphasis
+- Geist Mono font — monospace that actually looks good
+- Section indicators: a small pulsing orange dot next to an uppercase label
+- No shadows. No gradients. No glow effects. Typography and whitespace *are* the design.
+
+Every visualization follows this system. When I open any artifact from any project, it looks like it belongs. That consistency matters more than I expected — it means I can focus on the content instead of adjusting to a new visual language every time.
+
+### Animation That Teaches
+
+Static diagrams are fine. Animated diagrams are better. But only if the animation *teaches something*.
+
+The rule I set: every animation must answer "what should I look at next?"
+
+- **Staggered fade-in:** Cards appear one after another, guiding your eye through the content in order
+- **Stat counters:** Numbers count up from zero to their final value — makes you actually notice the metrics
+- **Pulsing section dots:** The orange dot next to each section header gently breathes, creating a living feel without distracting
+- **Flow line dashes:** SVG paths with animated dashes that flow in the direction data moves — you *see* the data pipeline
+
+No bouncy springs. No scroll-triggered reveals. Nothing longer than 0.8 seconds. Subtle, purposeful motion that makes the document feel alive without feeling like a PowerPoint presentation.
+
+---
+
+## The Artifacts System
+
+After building a few visualizations, I had a new problem: where do they live?
+
+The first ones landed in `~/Development/scratch/` — a throwaway experiment directory. But these weren't throwaway. These were reference documents I'd want to open months later to remember how a system worked.
+
+So I built an artifacts system:
+
+```
+~/Development/artifacts/
+  homer/          -- Homer real estate platform
+  deepstack/      -- DeepStack/Kalshi trading bot
+  hydra/          -- HYDRA automation system
+  pause/          -- Pause conflict translation
+  id8labs/        -- id8labs.app site
+  _general/       -- Cross-project artifacts
+```
+
+Every project gets its own folder. The `/visualize` command automatically routes to the right one. The skill file explicitly says "NEVER save to scratch/" three different ways — in the command itself, in CLAUDE.md, and in MEMORY.md.
+
+Redundant enforcement at three levels. Same principle as validating on client, API, and database. Any one layer catches a mistake.
+
+---
+
+## The Real Unlock: Making Documents Actionable
+
+Here's where it got interesting.
+
+The visualizations were educational. Great. I could see my architecture, understand my data flow, explore my strategy configurations. But I'd look at a diagram, notice something was wrong, and think "okay, now what?"
+
+I'd have to switch context. Open Claude Code. Describe the problem. Hope I remembered the specific file and line number I just saw.
+
+That's friction. And friction kills action.
+
+So I added something that changed the entire purpose of these documents: **a Senior Dev Assessment tab**.
+
+Every visualization now includes a mandatory final tab called "Assessment" — a senior developer code review of the system being visualized. It has four sections:
+
+**1. What We Did Right** — Green cards listing architectural wins. Specific. References actual files. This isn't flattery — it's reinforcing patterns worth repeating.
+
+**2. What Needs Fixing** — Amber and red cards listing issues, each with a severity badge (CRITICAL / HIGH / MEDIUM / LOW). But here's the key part: every issue includes a **ready-to-paste Claude Code prompt** to fix it.
+
+Not "you should add validation here." Instead:
+
+```
+In the DeepStack dashboard at ~/clawd/projects/kalshi-trading/dashboard/,
+add server-side min/max validation to the PATCH handler in
+app/api/strategies/[name]/config/route.ts. For each field in the
+overrides object, check the value against the corresponding configSchema
+entry's min and max. Return 400 with { error: "field_name out of range" }
+if validation fails. Run npm run build to verify after changes.
+```
+
+Copy button. One click. Paste into Claude Code. The fix starts.
+
+**3. High-Impact Next Steps** — The top 3-5 things that would move the needle most. Each with a prompt.
+
+**4. Prompts Summary** — Every prompt from the assessment, numbered, labeled, with copy buttons. This is the action sheet. Work through it top to bottom.
+
+The visualization went from "here's what your system looks like" to "here's what your system looks like, here's what's wrong, and here are the exact commands to fix it."
+
+That's the difference between a retrospective and a sprint backlog.
+
+---
+
+## What This Means for Builders
+
+If you're a visual person working in a predominantly terminal-based workflow, you already know the gap. You're building complex systems but processing information in a format that doesn't match how you think.
+
+HTML is the bridge.
+
+It's the one output format that:
+- Runs everywhere (every machine has a browser)
+- Supports interactivity (tabs, clicks, hover states)
+- Handles visual hierarchy (color, layout, animation)
+- Requires zero infrastructure (one file, no server)
+- Can be as beautiful or as utilitarian as you need
+
+And here's what excites me beyond my own workflow: **this pattern isn't personal. It scales.**
+
+If you're a company, you can create your own design language and generate these documents for your team. Onboarding a new engineer? Generate a visualization of your architecture. Showing a client how their system works? Hand them an interactive artifact. Reviewing a sprint? Generate an assessment with actionable prompts.
+
+These documents could be made for your team, for your clients, for your partners. The possibilities are genuinely endless once you realize that **your terminal tool can generate visual documents as easily as it generates code**.
+
+---
+
+## The Stack
+
+The whole thing is laughably simple:
+
+- **Slash command:** A markdown file (`~/.claude/commands/visualize.md`) that tells Claude Code how to build visualizations
+- **Design system:** CSS variables and component patterns defined in the command file itself
+- **Output:** A single self-contained HTML file. No CDN. No external CSS/JS. Everything inline.
+- **Storage:** `~/Development/artifacts/<project>/` — organized by project, persisted across sessions
+- **Assessment:** A mandatory tab with copy-to-clipboard prompts baked into the template spec
+
+No build step. No framework. No npm install. Just a well-written prompt that generates a well-structured HTML file.
+
+The design system lives in the command file — roughly 300 lines of CSS tokens, component patterns, animation specs, and layout rules. Claude reads these instructions and generates HTML that follows them. Every time. Consistently.
+
+---
+
+## What I Learned
+
+### 1. The Medium Shapes the Message
+
+The same information — "your API route doesn't validate number ranges" — hits differently as a text comment versus a red-bordered card with a severity badge and a copy-paste fix prompt. The visual treatment isn't decoration. It's signal priority. Your brain processes visual weight before it reads words.
+
+### 2. Actionable Beats Educational
+
+Educational documents get bookmarked and forgotten. Actionable documents get used. The moment I added copy-paste prompts to every issue, the visualizations stopped being reference material and became work queues.
+
+### 3. Design Systems Compound
+
+The first visualization was custom CSS. The second reused some of it. By the fifth, the design system was so well-defined that every new visualization automatically looked professional. The investment in design tokens and component patterns pays dividends on every artifact.
+
+### 4. Consistency Creates Trust
+
+When every artifact looks like it came from the same system, you trust the output faster. You stop evaluating the presentation and start evaluating the content. That's the same reason companies invest in brand design — consistency is a shortcut to trust.
+
+### 5. The Terminal Is a Launchpad, Not a Prison
+
+The terminal is where work happens. But it doesn't have to be where understanding happens. A one-line command that opens an interactive visual document is the best of both worlds — the speed of the terminal, the comprehension of a visual interface.
+
+---
+
+## What's Next
+
+This is just the beginning. The `/visualize` command is a foundation. Here's where I'm taking it:
+
+- **Project-wide health dashboards** — One artifact that shows the state of every project, updated on each session
+- **Diff visualizations** — Before/after architecture diagrams when making big changes
+- **Client-facing artifacts** — Generate visual architecture docs that non-technical stakeholders can explore
+- **Team onboarding** — New contributor joins a project? Generate a codebase atlas with the full architecture, file map, and actionable first tasks
+
+The concept keeps expanding because HTML keeps being the most versatile output format we have. Zero infrastructure, infinite flexibility, universal access.
+
+If you're a builder working in Claude Code — or any terminal-based AI tool — and you've never thought about generating visual artifacts from your workflow: try it. Write a prompt that generates an HTML file explaining your architecture. Open it in a browser. See your system for the first time.
+
+You might realize, like I did, that you've been building something you couldn't see. Until now.
+
+---
+
+*Eddie Belaval / [@eddiebe](https://twitter.com/eddiebe) / [id8Labs](https://id8labs.app)*
+*February 2026*
+
+*Built with [Claude Code](https://claude.ai/claude-code) and the `/visualize` command described in this article*
