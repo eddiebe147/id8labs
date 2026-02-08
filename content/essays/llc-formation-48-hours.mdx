@@ -387,7 +387,7 @@ During the push to GitHub:
 User: "is this git private?"
 
 # Investigation
-gh repo view eddiebe147/llc-ops --json visibility,isPrivate
+gh repo view eddiebelaval/llc-ops --json visibility,isPrivate
 
 # Output
 {
@@ -416,12 +416,12 @@ The public repository contained:
 
 ```bash
 # Make repository private
-gh repo edit eddiebe147/llc-ops \
+gh repo edit eddiebelaval/llc-ops \
   --visibility private \
   --accept-visibility-change-consequences
 
 # Verify
-gh repo view eddiebe147/llc-ops --json visibility,isPrivate
+gh repo view eddiebelaval/llc-ops --json visibility,isPrivate
 
 # Output
 {
@@ -441,7 +441,7 @@ git push origin main
 
 # Error
 ! [rejected]        main -> main (non-fast-forward)
-error: failed to push some refs to 'github.com:eddiebe147/llc-ops.git'
+error: failed to push some refs to 'github.com:eddiebelaval/llc-ops.git'
 hint: Updates were rejected because the tip of your current branch is behind
 ```
 

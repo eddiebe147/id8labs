@@ -10,7 +10,7 @@ The site is configured for **automatic deployment** to GitHub Pages when changes
 
 ### 1. Create & Merge Pull Request
 
-**PR URL:** https://github.com/eddiebe147/id8labs/pull/new/claude/id8labs-website-build-011CUxk3c5ry2v3w81mh5L3M
+**PR URL:** https://github.com/eddiebelaval/id8labs/pull/new/claude/id8labs-website-build-011CUxk3c5ry2v3w81mh5L3M
 
 1. Create the PR using the link above
 2. Copy the PR description from earlier in the chat
@@ -31,7 +31,7 @@ After merging to main, configure GitHub Pages:
 - Install dependencies
 - Build the static site (`npm run build`)
 - Deploy to GitHub Pages
-- Site will be available at: `https://eddiebe147.github.io/id8labs`
+- Site will be available at: `https://eddiebelaval.github.io/id8labs`
 
 ---
 
@@ -69,7 +69,7 @@ Value: 185.199.111.153
 ```
 Type: CNAME
 Name: www
-Value: eddiebe147.github.io
+Value: eddiebelaval.github.io
 ```
 
 **After DNS propagates (can take up to 48 hours):**
@@ -139,7 +139,7 @@ The static export creates:
 ## 🌐 URLs After Deployment
 
 - **Primary:** https://id8labs.app (custom domain)
-- **GitHub Pages:** https://eddiebe147.github.io/id8labs (fallback)
+- **GitHub Pages:** https://eddiebelaval.github.io/id8labs (fallback)
 
 ---
 

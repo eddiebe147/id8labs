@@ -66,7 +66,7 @@ Fetch agent details with full content for CLI installation.
   "featured": true,
   "author": "ID8Labs",
   "license": "MIT",
-  "repository": "https://github.com/eddiebe147/claude-settings",
+  "repository": "https://github.com/eddiebelaval/claude-settings",
   "repository_path": "agents/nextjs-senior-dev.md",
   "downloads": 3420,
   "rating": 4.8,
