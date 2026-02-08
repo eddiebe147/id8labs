@@ -1,0 +1,187 @@
+---
+title: "Plans Should Be Artifacts, Not Conversations"
+subtitle: "I built a command that turns a conversation about what to build into a persistent, interactive HTML document — with checkboxes, parallel batches, and copy-paste prompts for every task."
+date: "2026-02-09"
+category: "essay"
+readTime: "11 min read"
+excerpt: "Here's how planning works in most AI-assisted development sessions: you describe what you want to build, the AI lists some steps, you start coding, and somewhere around step 3 the context window fills up and your plan evaporates. I built a command that fixes this."
+tags: ["Claude Code", "planning", "developer-tools", "productivity", "AI"]
+featured: true
+---
+
+## The Problem With Plans
+
+Here's how planning works in most AI-assisted development sessions:
+
+You open a terminal. You describe what you want to build. The AI thinks for a moment and says "here's a plan." It lists some steps. You say "looks good." You start coding. Somewhere around step 3, the context window fills up, the session compresses, and your plan evaporates. You start a new session. You re-describe the project. The AI generates a slightly different plan. You start coding again. Rinse, repeat.
+
+The plan was never a plan. It was a *conversation*. And conversations are ephemeral by design.
+
+This is the quiet failure mode of building with AI tools. Not the dramatic failures — the API errors, the hallucinated imports, the code that doesn't compile. Those are loud and obvious. The quiet failure is that your strategic thinking disappears the moment your session ends.
+
+I've been building software with Claude Code for months. Real estate platforms, trading bots, an entire AI operating system. I've shipped more code in the last few weeks than I did in previous months. But every time I started a major feature, I'd feel this friction — the feeling that I'd planned this before, in a session that no longer exists, with context that's gone forever.
+
+Plans should survive their sessions. They should live on disk. They should be something you can open next week and pick up exactly where you left off.
+
+---
+
+## The Spark: What If Plans Were Visual?
+
+I'd already solved a version of this problem for *understanding*. I built a command called `/visualize` that generates self-contained HTML documents explaining codebases, architectures, and workflows. One file. Zero dependencies. Dark theme. Interactive tabs. Open it in a browser and see your system at a glance.
+
+Those artifacts changed how I work. Instead of scrolling through terminal output trying to remember how a system is connected, I open a visual document and see it immediately. They persist across sessions. They live in an organized artifacts folder. They compound.
+
+One day, I was reading through one of these visualizations — an architecture diagram of the exact feature I was about to build — and the thought clicked:
+
+**If I can generate a visual document that explains what *exists*, why can't I generate one that explains what to *build*?**
+
+Not a retrospective. A roadmap. Not "here's what your system looks like" but "here's the 28 tasks to build this feature, organized by phase, parallelizable, with a copy-paste prompt for each one."
+
+That's the gap between `/visualize` and `/blueprint`.
+
+---
+
+## What /blueprint Actually Does
+
+The concept is simple: a slash command that generates an interactive HTML build plan through a structured conversation.
+
+But the execution is specific enough to be useful. Here's the flow.
+
+### The Interview
+
+You don't just type `/blueprint build me a thing` and get a plan. That would produce the same generic, shallow plans that die in sessions. Instead, `/blueprint` runs a 6-round structured interview before generating anything.
+
+**Round 1: Scope and Vision.** What are we building? New project or new feature? What's the scale — a day, a week, a month? Who's the audience?
+
+**Round 2: Architecture Decisions.** What tech stack? What data model? What integrations? But here's the key — the command *explores the codebase between questions*. It reads files, checks existing patterns, looks at your database schema. Then it presents what it found: "I see you're already using X for Y — should we extend that pattern or go a different direction?" The interview is grounded in reality, not assumptions.
+
+**Round 3: Phase Breakdown.** Proposed phases, one line each. Does this order make sense? What's the definition of done for each phase? Where's the critical path?
+
+**Round 4: Parallel Opportunities.** This is the one that changes the game. For each phase: "These tasks look independent — can they run in parallel?" How many agents can work simultaneously? Do you want batch prompts for distributing across sessions?
+
+**Round 5: Risks and Priorities.** What's the riskiest part? What's essential versus nice-to-have? Any hard deadlines?
+
+**Round 6: Confirmation.** Full summary. Everything captured. Ready to generate?
+
+Only after all six rounds does the command produce HTML.
+
+The interview matters more than the output. Most plans fail not because the format is wrong but because the thinking was shallow. The questions force you to make decisions you'd normally defer. "Can Phase 4 and Phase 6 run in parallel?" is a question most developers never explicitly answer — they just find out the hard way when two agents conflict on the same file.
+
+### Natural Language Is the Interface
+
+Something I didn't expect: the interview process is *fast*. Faster than writing a plan manually. Faster than filling out a project template.
+
+You speak naturally. "I'm building real-time conflict translation for a hackathon. Two people, one device, AI mediates." The AI follows up with structured questions. In about ten minutes, you've captured more planning detail than most teams produce in a two-hour sprint planning session.
+
+Natural language as a planning interface feels obvious in retrospect. The bottleneck in planning was never thinking — it was *transcribing thoughts into structure*. When AI handles the structure, you just think out loud.
+
+---
+
+## The Artifact
+
+The HTML file that comes out is a five-tab interactive document.
+
+**Overview** — Project name, progress bar, stats grid. The progress bar reads from localStorage — check off a task, refresh the page, it remembers. This is the "how far along are we?" tab.
+
+**Architecture** — Component diagrams, data flow, file map organized by phase, key decisions (why we chose X over Y). This is the "how does it all fit together?" tab.
+
+**Phases** — The core. Each phase is a card with checkboxes that persist to localStorage. Completed tasks get struck through and faded. Every task has a prompt block — a ready-to-paste Claude Code prompt that includes the full project path, file references, and verification steps. Parallel tasks are organized into color-coded batch columns. Between parallel groups, sync points: "Wait for all batches to complete before Phase N+1."
+
+**Parallel Map** — An SVG dependency graph showing the entire build timeline. Which phases can run simultaneously? Where's the critical path? Where can you throw more agents at it? This is the "what's the fastest path to done?" tab.
+
+**Assessment** — A senior developer review of the *plan itself*. What's smart about this approach. What could go wrong, with severity badges and mitigation prompts. High-impact optimizations. Every risk comes with a fix prompt.
+
+The whole thing is one self-contained HTML file. No CDN. No external dependencies. Open it in any browser.
+
+---
+
+## What Makes This Different
+
+### Plans as Artifacts, Not Conversations
+
+A plan in a chat session has a lifespan measured in context tokens. A plan as an HTML file on disk has a lifespan measured in however long your hard drive lasts.
+
+I built a blueprint for an upcoming hackathon — Pause Sync, a real-time conflict translation feature. Seven phases, 28 tasks, parallel batches for 4-5 agent sessions. If my terminal crashes, if Claude Code updates, if I close my laptop and come back in three days — the blueprint is still there. Open the file. Look at the first unchecked task. Copy the prompt. Keep building.
+
+This is the same principle behind why code lives in files and not in chat windows. The medium determines the longevity.
+
+### Actionable Beats Aspirational
+
+The single most important design decision: **every task has a copy-paste prompt.**
+
+Not "implement the animation system." That's aspirational. Instead:
+
+```
+In the Pause project at ~/Development/id8/products/pause,
+create src/components/sync/MeltBubble.tsx. This is the core
+animation component. A message bubble that transforms in place
+using Framer Motion. Props: { rawText: string; translation:
+SyncTranslationResult; phase: 'raw' | 'hold' | 'signal' |
+'melt' | 'crystallize' | 'reflect'; onPhaseComplete: ... }
+```
+
+That's actionable. Copy it. Paste it into a fresh Claude Code session. The session has everything it needs — project path, file location, types, behavior spec, verification step. Zero context required from the planning session.
+
+The difference between an aspirational plan and an actionable plan is whether you can execute a step without *interpreting* it first. If every step requires context that only exists in someone's head, you don't have a plan. You have a set of reminders that depend on memory.
+
+### Parallel by Default
+
+Most plans are lists. Step 1, step 2, step 3. Sequential. One thing at a time.
+
+But software development isn't sequential. Half of those steps don't actually depend on each other. The database migration doesn't block the animation prototype. The safety overlay doesn't block the voice input component.
+
+The blueprint's parallel batch system makes this explicit. Tasks with no dependencies go side-by-side in columns. Each column is a batch you can hand to a separate agent or work through in a separate session. A batch prompt at the bottom of each column kicks off the entire batch in one paste.
+
+For the Pause Sync blueprint, the parallelization analysis found that roughly 60% of the work can run concurrently. That's close to halving the calendar time if you have the agents to throw at it.
+
+### The Interview Forces Clarity
+
+Round 4 of the interview — parallel opportunities — consistently surfaces the most valuable insights. Not because parallelism is the most important thing, but because thinking about dependencies forces you to *actually understand* the relationships between components.
+
+"Can the Melt animation and the safety overlay run in parallel?" requires you to answer: "Do they share files? Do they share state? Does one need the other's output?" Those are questions that, unasked, become runtime bugs. Asked upfront, they become architecture decisions.
+
+The same thing happens in Round 5 — risks. "What's the riskiest part?" with specific options based on what the AI found in the codebase. Not a generic risk assessment. "The Melt animation is a 4-phase Framer Motion orchestration you need to build in 2 days — that's your biggest risk." Specific. Actionable. Comes with a mitigation prompt.
+
+---
+
+## What I Learned
+
+### The Medium Shapes the Thinking
+
+Writing a plan in a chat window produces chat-shaped plans — linear, ephemeral, shallow. Building a plan as a structured HTML document produces document-shaped plans — organized, persistent, deep.
+
+The format isn't just presentation. It changes what you think about. When the format has parallel batch columns, you think about parallelism. When the format has checkboxes, you think about granularity. When the format requires a prompt for every task, you think about self-containedness.
+
+### Speed Comes From Preparation, Not Velocity
+
+The fastest build sessions I've had weren't the ones where I typed the fastest. They were the ones where I spent 15 minutes on the blueprint interview, then executed for hours without stopping to re-plan.
+
+The blueprint trades 15 minutes of structured conversation for hours of uninterrupted execution. That's an asymmetric investment.
+
+### The Compound Effect
+
+Every blueprint builds on the last one. The design system is reused. The interview questions get sharper. The prompt patterns get more specific. The parallel analysis gets more accurate.
+
+The first blueprint took two hours to design and implement the command. The Pause Sync blueprint took about ten minutes of interview and was generated immediately. The infrastructure compounds.
+
+---
+
+## What's Next
+
+The blueprint command is live and working, but it's just the foundation. Here's where it's headed:
+
+- **Update flow** — Run `/blueprint --update` to re-read the HTML, preserve completed checkboxes, add new phases from recent work, recalculate progress.
+- **Team distribution** — Batch prompts designed for multi-agent swarms. Paste a batch into each agent, let them work in parallel, sync at phase boundaries.
+- **Cross-project blueprints** — A meta-blueprint that coordinates across multiple repositories. "Homer needs this API before Pause can integrate it."
+- **Client-facing plans** — Strip the technical prompts, keep the phase structure and progress tracking, hand it to a non-technical stakeholder. "Here's where we are. Here's what's left."
+
+The concept keeps expanding because the underlying insight keeps proving true: **plans are more useful when they're artifacts you can see, touch, and execute — not conversations you try to remember.**
+
+If you're building with AI tools and you haven't thought about making your plans persistent, try it. Generate an HTML file with your build phases, add checkboxes, save it to disk. See your plan for the first time. You might realize, like I did, that you've been planning things you couldn't see.
+
+---
+
+*Eddie Belaval / [@eddiebe](https://twitter.com/eddiebe) / [id8Labs](https://id8labs.app)*
+*February 2026*
+
+*Built with [Claude Code](https://claude.ai/claude-code) and the `/blueprint` command described in this article.*
